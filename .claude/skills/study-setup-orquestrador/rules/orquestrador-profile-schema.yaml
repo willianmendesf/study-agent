@@ -1,0 +1,220 @@
+# Orquestrador Global Profile — Schema YAML
+
+# Template de estrutura para .claude/orquestrador-global-profile.yaml
+# Fonte de verdade para validação e geração
+
+orquestrador_global_profile:
+  # Metadados
+  version: "1.0"                    # versão do schema
+  created_at: "ISO-datetime"        # quando foi criado
+  last_updated: "ISO-datetime"      # última modificação
+
+  # Domínio Macro
+  dominio: "string"                 # Medicina, Programação, Psicologia, etc.
+  objetivo: "string"                # objetivo principal (formação, especialização, etc.)
+  contexto: "string"                # contexto (acadêmico, profissional, autodidata)
+  descricao: "string (opcional)"    # descrição do perfil (nota do usuário)
+
+  # Personas Especializadas para o Domínio
+  personas:
+    primária: "string"              # persona principal (Professor, Tutor, Coach, etc.)
+    secundária: "string (opcional)" # persona alternativa
+    validação: "string (opcional)"  # persona para validação/testes (Expert, Quizzer)
+    tone_geral: "string"            # tom geral ("técnico", "didático", etc.)
+
+  # Bibliotecas Base do Domínio (Referências)
+  bibliotecas_base:
+    - name: "string"                # nome da biblioteca/livro
+      autores: "string (opcional)"  # autor(es)
+      scope: "global"               # escopo (sempre global para base)
+      status: "adicionada|a-adicionar|em-progresso"
+      path: "string (opcional)"     # path local (data/biblioteca/global/...)
+      url: "string (opcional)"      # URL se remota
+      indexed: "boolean"            # já foi indexada com book-to-skill?
+      indexed_at: "ISO-datetime (opcional)"
+      concepts_count: "integer (opcional)"
+      chapters_count: "integer (opcional)"
+      tags: "[array de strings]"    # categorias (anatomia, fisiologia, etc.)
+      added_at: "ISO-datetime"
+      notes: "string (opcional)"    # notas do usuário sobre o livro
+
+  # Matérias/Disciplinas sub-domínio
+  materias:
+    - name: "string"                # Anatomia, Fisiologia, etc.
+      descricao: "string (opcional)"# breve descrição
+      bibliotecas_relacionadas: "[array de bibliotecas_base.name]"  # quais bibliotecas cobrem essa matéria
+      profundidade_meta: "Básico|Intermediário|Avançado|Expert"
+      status: "não-iniciada|em-andamento|dominada"
+      iniciado_em: "ISO-datetime (opcional)"
+      progresso: "percentage (opcional)"
+      estágio_atual: "01-descobrir|02-organizar|...|06-dominio"
+
+  # Tone e Estilo de Comunicação do Orquestrador
+  tone:
+    - "Técnico"                     # usa termos especializados
+    - "Didático"                    # explica passo-a-passo
+    - "Prático"                     # exemplos do mundo real
+    # pode incluir: Formal, Conversacional, Reflexivo, etc.
+
+  # Preferências de Aprendizado
+  preferences:
+    pace: "Rápido|Médio|Lento|Adaptativo"  # velocidade de progressão
+    profundidade_padrão: "Básico|Intermediário|Avançado|Expert"
+    feedback_imediato: "boolean"   # feedback em tempo real?
+    celebrar_progresso: "boolean"  # marcar marcos com celebração?
+    sugerir_bibliotecas: "boolean" # Orquestrador sugere bibliotecas durante sessão?
+    intervalo_revisão: "string"    # ex: "7 dias" (repetição espaçada)
+    modo_interação: "chat|estruturado|híbrido"  # como interagir
+
+  # Histórico de Edições (append-only)
+  historico:
+    - event: "perfil_criado|campo_editado|biblioteca_adicionada|materia_adicionada|etc"
+      timestamp: "ISO-datetime"
+      campo: "string (opcional)"    # qual campo foi editado
+      valor_anterior: "any (opcional)"
+      valor_novo: "any (opcional)"
+      usuario_confirmou: "boolean"
+      notas: "string (opcional)"
+
+  # Metadados de Sessão (preenchido dinamicamente)
+  session_metadata:
+    ultima_sessao: "ISO-datetime (opcional)"
+    total_sessoes: "integer (opcional)"
+    materia_ultima_sessao: "string (opcional)"
+    persona_ultima_sessao: "string (opcional)"
+    tempo_total_aprendizado: "ISO-duration (opcional)"
+
+---
+
+# Validação de Domínios Pré-definidos
+
+dominios_conhecidos:
+  Medicina:
+    materias_sugeridas:
+      - Anatomia
+      - Fisiologia
+      - Farmacologia
+      - Patologia
+      - Clínica
+      - Cirurgia
+      - Pediatria
+    bibliotecas_sugeridas:
+      - Gray's Anatomy
+      - Guyton Fisiologia
+      - Robbins Patologia
+      - Pharmacology (Rang & Dale)
+    tone_padrão: ["Técnico", "Didático", "Reflexivo"]
+    profundidade_padrão: "Intermediário"
+
+  Programação:
+    materias_sugeridas:
+      - Fundamentos
+      - Web
+      - Mobile
+      - DevOps
+      - Arquitetura
+      - Database
+      - Security
+    bibliotecas_sugeridas:
+      - Clean Code
+      - Design Patterns
+      - Algoritmos (CLRS)
+      - DevOps Handbook
+    tone_padrão: ["Prático", "Didático", "Técnico"]
+    profundidade_padrão: "Intermediário"
+
+  Psicologia:
+    materias_sugeridas:
+      - Psicologia Geral
+      - Psicopatologia
+      - Avaliação Psicológica
+      - Intervenção
+      - Neuropsicologia
+      - Ética
+    bibliotecas_sugeridas:
+      - DSM-5
+      - Manual de Terapias
+      - Neurocognição
+    tone_padrão: ["Reflexivo", "Didático", "Empático"]
+    profundidade_padrão: "Intermediário"
+
+  Administração:
+    materias_sugeridas:
+      - Gestão Geral
+      - Recursos Humanos
+      - Finanças
+      - Marketing
+      - Operações
+      - Liderança
+    bibliotecas_sugeridas:
+      - Good to Great
+      - Start with Why
+      - The Lean Startup
+    tone_padrão: ["Prático", "Conversacional", "Estratégico"]
+    profundidade_padrão: "Intermediário"
+
+---
+
+# Regras de Validação
+
+validação:
+  dominio:
+    obrigatório: true
+    tipo: "string"
+    comprimento_min: 3
+    comprimento_max: 50
+    padrão: "deve ser um domínio conhecido ou Custom"
+
+  objetivo:
+    obrigatório: true
+    tipo: "string"
+    comprimento_min: 10
+    comprimento_max: 200
+
+  personas:
+    primária:
+      obrigatório: true
+      valores_válidos: ["Professor", "Tutor", "Coach", "Mentor", "Quizzer", "Expert"]
+
+    secundária:
+      obrigatório: false
+      valores_válidos: ["Professor", "Tutor", "Coach", "Mentor", "Quizzer", "Expert"]
+
+  bibliotecas_base:
+    obrigatório: true
+    mínimo: 1
+    máximo: 10
+    validação_name: "string não-vazio, comprimento 3-100"
+
+  materias:
+    obrigatório: true
+    mínimo: 1
+    máximo: 10
+    validação_name: "string não-vazio, comprimento 3-50"
+
+  tone:
+    obrigatório: true
+    mínimo: 1
+    máximo: 5
+    valores_válidos: ["Técnico", "Didático", "Prático", "Formal", "Conversacional", "Reflexivo", "Empático", "Estratégico"]
+
+  profundidade_padrão:
+    obrigatório: true
+    valores_válidos: ["Básico", "Intermediário", "Avançado", "Expert"]
+
+  pace:
+    obrigatório: true
+    valores_válidos: ["Rápido", "Médio", "Lento", "Adaptativo"]
+
+---
+
+# Migração e Backward Compatibility
+
+migração:
+  versão_1_0:
+    data: "2026-09-07"
+    mudanças:
+      - "adiciona campo 'dominio' como macro"
+      - "reorganiza bibliotecas em 'bibliotecas_base'"
+      - "agrupa personas com tone_geral"
+      - "adiciona histórico append-only"

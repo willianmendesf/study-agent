@@ -1,0 +1,248 @@
+# Intent Routing — Mapeamento de Intenção → Skill + Persona
+
+---
+
+## Intent Detection Patterns
+
+patterns:
+  # DESCOBRIR (New Topic, Setup)
+  descobrir:
+    keywords: ["quero aprender", "novo tópico", "comece", "começar", "setup", "primeira vez"]
+    skill: "estudo-fluxo-01-descobrir"
+    default_persona: "Tutor"
+    description: "Usuário inicia novo tópico ou domínio"
+
+    logic:
+      - if primeira_vez_topico: estágio 01
+      - if retornando_mesmo_topico: ofereça continuar vs recomeçar
+      - if pré_requisitos_faltam: avise antes
+
+  # ORGANIZAR (Setup Biblioteca)
+  organizar:
+    keywords: ["adiciona", "carrega", "arquivo", "pdf", "livro", "biblioteca", "upload"]
+    skill: "study-gerenciar-bibliotecas"
+    default_persona: "Professor"
+    description: "Usuário fornece material/livro para indexar"
+
+    logic:
+      - if arquivo_detectado: dispara book-to-skill
+      - if biblioteca_já_existe: oferça atualizar vs nova
+
+  # APRENDER (Teach Me)
+  aprender:
+    keywords: ["explica", "como funciona", "qual é", "me ensina", "defina", "o que é", "diga", "conta"]
+    skill: "estudo-fluxo-03-aprender"
+    default_persona: "Professor"
+    description: "Usuário quer entender um conceito"
+
+    logic:
+      - if conceito_novo: comece do zero
+      - if conceito_revisão: ofereça "rápido" vs "detalhado"
+      - if relacionado_anterior: mencione conexão
+
+  # PRATICAR (Hands-On)
+  praticar:
+    keywords: ["exercício", "prática", "treinar", "fazer", "resolver", "problema", "tarefa"]
+    skill: "estudo-fluxo-04-praticar"
+    default_persona: "Coach"
+    description: "Usuário quer praticar (não testar)"
+
+    logic:
+      - if não_aprendeu_ainda: sugira aprender primeiro
+      - if weak_point_detectado: foco em weak points
+      - if high_confidence: aumente dificuldade
+
+  # TESTAR (Assessment)
+  testar:
+    keywords: ["prova", "teste", "quiz", "avaliar", "verificar meu conhecimento", "exame"]
+    skill: "estudo-fluxo-05-testar"
+    default_persona: "Quizzer"
+    description: "Usuário quer avaliação formal"
+
+    logic:
+      - if não_praticou: sugira praticar antes
+      - if retenção_baixa: ofereça revisar antes
+      - if pronto: dispara Assessment Validator (duplo)
+
+  # DOMINAR (Mastery Validation)
+  dominar:
+    keywords: ["dominei", "aprendi tudo", "próximo", "avançar", "sou expert", "o que vem agora"]
+    skill: "estudo-fluxo-06-dominio"
+    default_persona: "Expert"
+    description: "Usuário reclama domínio, quer validação"
+
+    logic:
+      - if learning_outcomes_100%: valide via Knowledge Graph
+      - if faltam_conceitos: mostre o que falta
+      - if completo: celebre + recomende próximo tópico
+
+  # QUESTÃO RÁPIDA (Ask Question)
+  questao_rapida:
+    keywords: ["como", "quando", "por que", "qual", "diferença", "?"]
+    skill: "study-fazer-pergunta"  # skill de suporte
+    default_persona: "Professor"
+    description: "Pergunta pontual sem mudança de estágio"
+
+    logic:
+      - if pergunta_conceitual: use RAG + contexto
+      - if pergunta_meta: responda sobre progresso/próximos passos
+      - if pergunta_técnica: responda sobre Study-Agent
+
+---
+
+## Persona Selection Logic
+
+persona_rules:
+  # Rule 1: Intenção → Persona padrão
+  by_intent:
+    descobrir: Tutor           # Socrático, questiona
+    organizar: Professor       # Estrutura, organiza
+    aprender: Professor        # Ensina com exemplos
+    praticar: Coach            # Motiva, celebra
+    testar: Quizzer           # Riguroso, objetivo
+    dominar: Expert           # Valida, aprofunda
+
+  # Rule 2: Efetividade histórica
+  by_effectiveness:
+    if persona_anterior_retenção_alta:
+      - "Você aprendeu bem com Professor. Quer continuar?"
+    if persona_anterior_retenção_baixa:
+      - "Tentemos uma abordagem diferente. Coach pode ajudar?"
+
+  # Rule 3: Contexto do momento
+  by_context:
+    if primeira_sessão:
+      - Comece com Tutor (socrático, entendem necessidades)
+    if está_frustrado (retry count > 2):
+      - Ofereça Mentor (perspectiva holística) ou Coach (motivação)
+    if tempo_disponível_curto:
+      - Coach (feedback rápido) ou Quizzer (puro teste)
+    if tempo_abundante:
+      - Mentor (reflexão profunda) ou Expert (rigor técnico)
+
+  # Rule 4: Retenção baixa
+  if retenção < 0.70:
+    - Sugestão: Coach (prática) em vez de Professor (teoria)
+    - Mensagem: "Seus weak points sugerem praticar mais"
+
+  # Rule 5: Retenção alta
+  if retenção >= 0.90:
+    - Sugestão: Expert (aprofundamento)
+    - Mensagem: "Você domina bem. Vamos explorar sutilezas?"
+
+---
+
+## State-Based Routing
+
+state_checks:
+  # Check 1: Estágio atual
+  estágio_atual:
+    if 01 ou 02:
+      - Sugestão: avanço natural para 03
+      - Validação: tem tudo indexado?
+
+    if 03:
+      - Sugestão: praticar antes de testar
+      - Validação: retenção >= 80%?
+
+    if 04:
+      - Sugestão: teste quando pronto
+      - Validação: weak points < 3?
+
+    if 05:
+      - Sugestão: domínio e próximo tópico
+      - Validação: 100% dos LOs dominados?
+
+  # Check 2: Primeiro acesso?
+  if primeira_vez_topico_e_usuario_quer_testar:
+    - Orquestrador: "Você não completou os estágios 02-03-04.
+               Quer: (A) Pular direto para teste? (arriscado)
+                     (B) Fazer rapidão 02-03-04? (recomendado)
+                     (C) Voltar para 01-descobrir?"
+
+  # Check 3: Retornando
+  if última_sessão_estava_em_estágio_X:
+    - Orquestrador: "Bem-vindo de volta! Continuamos de onde paramos (estágio X)
+               ou começamos de novo?"
+
+---
+
+## Knowledge Graph Validation
+
+graph_checks:
+  # Check 1: Pré-requisitos
+  if usuario_quer_tópico_Y_mas_pré_req_X_não_dominado:
+    recomendação:
+      forte: "X é pré-requisito essencial para Y. Fazer X primeiro? (2 dias)"
+      suave: "X faz parte, mas você pode assumir conhecimento e pular"
+      ignorar: "Opcional. Seu conhecimento geral cobre."
+
+  # Check 2: Conceitos similares
+  if conceito_novo_similar_a_conceito_anterior:
+    recomendação: "Você já aprendeu algo similar: [conceito anterior]
+                   Isso deve ser mais fácil."
+
+  # Check 3: Caminho ótimo
+  if múltiplos_caminhos_para_conceito:
+    recomendação: "3 caminhos possíveis:
+                   (A) Fundamentos → Aplicação (recomendado)
+                   (B) Prático → Teoria (rápido)
+                   (C) Histórico → Conceitual (reflexivo)"
+
+---
+
+## Próximo Passo Sugerido
+
+next_step_logic:
+  # Após 01-descobrir
+  after_01:
+    next: "02-organizar"
+    message: "Agora vamos indexar seus materiais"
+    question: "Você tem livros/PDFs? Ou quer começar com recursos padrão?"
+
+  # Após 02-organizar
+  after_02:
+    next: "03-aprender"
+    message: "Materiais prontos. Vamos começar a aprender!"
+    question: "Qual tópico quer explorar primeiro?"
+
+  # Após 03-aprender (90%+)
+  after_03:
+    if retenção >= 85%:
+      next: "04-praticar"
+      message: "Você entendeu bem. Vamos praticar?"
+    else:
+      next: "revisão de 03-aprender"
+      message: "Vamos revisar os tópicos que ficaram confusos"
+
+  # Após 04-praticar (7/10+)
+  after_04:
+    if acertos >= 70%:
+      next: "05-testar"
+      message: "Pronto para a prova?"
+    else:
+      next: "mais prática 04"
+      message: "Vamos fazer mais exercícios destes tópicos"
+
+  # Após 05-testar (5/5 ou 4/5)
+  after_05:
+    if acertos >= 80%:
+      next: "06-dominio"
+      message: "Excelente! Vamos validar seu domínio"
+    else:
+      next: "revisão + 04-praticar"
+      message: "Revisamos os erros e praticamos de novo"
+
+  # Após 06-dominio
+  after_06:
+    if 100% learning_outcomes:
+      next: "novo tópico"
+      message: "Parabéns! O que quer aprender a seguir?
+               Opções:
+               (A) Tópico relacionado [recomendado]
+               (B) Aprofundamento neste [Expert level]
+               (C) Domínio completamente novo"
+    else:
+      next: "voltar ao tópico faltante"
+      message: "Faltaram alguns conceitos: [lista]
+               Quer revisar antes de encerrar?"

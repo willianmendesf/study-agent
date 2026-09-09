@@ -1,0 +1,55 @@
+# Meta de Aprendizado — Sessão de Estudo
+
+usuario_id: <ID>
+materia: <ex: Anatomia, Fisioterapia, História, Programação>
+topico: <ex: Ossos do Esqueleto, Estruturas Articulares>
+
+# Estado do aprendizado
+fase_atual: <01-descobrir|02-organizar|03-aprender|04-praticar|05-testar|06-dominio>
+fases:
+  01-descobrir:
+    status: <pending|in_progress|done>
+    objetivo: <descrição do objetivo final>
+    completado_em: <ISO timestamp>
+
+  02-organizar:
+    status: <pending|in_progress|done>
+    materiais_processados: <número>
+    completado_em: <ISO timestamp>
+
+  03-aprender:
+    status: <pending|in_progress|done>
+    perguntas_feitas: <número>
+    conceitos_cobertos: <lista>
+    completado_em: <ISO timestamp>
+
+  04-praticar:
+    status: <pending|in_progress|done>
+    exercicios_resolvidos: <número>
+    taxa_acerto: <percentual>
+    completado_em: <ISO timestamp>
+
+  05-testar:
+    status: <pending|in_progress|done>
+    provas_realizadas: <número>
+    melhor_score: <percentual>
+    completado_em: <ISO timestamp>
+
+  06-dominio:
+    status: <pending|in_progress|done>
+    dominio_alcancado: <true|false>
+    recomendacao: <próximo tópico|revisar X|avançar>
+    completado_em: <ISO timestamp>
+
+# Contexto de sessão
+personas_usadas: [Professor, Tutor, Coach, ...]
+materiais_indexados: <número>
+progresso_geral: <percentual 0-100>
+pontos_fracos: [conceito1, conceito2, ...]
+
+# Histórico
+atualizado_em: <ISO timestamp>
+historico:
+  - fase: <etapa>
+    acao: <o que foi feito>
+    timestamp: <ISO>

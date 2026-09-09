@@ -1,0 +1,606 @@
+# Study-Agent Framework Configuration
+# Intelligent Learning Orchestration System
+# © 2026 — Pedagogical Framework, v0.2.0
+
+framework:
+  name: study-agent
+  version: 0.2.0
+  type: pedagogical
+  language: Portuguese
+  timezone: America/Sao_Paulo
+  description: |
+    Framework de orquestração inteligente de aprendizado com 6 estágios progressivos,
+    6 personas de IA customizáveis e aprendizagem baseada em repetição espaçada e feedback imediato.
+    Sistema ÚNICO de propósito pedagógico — SEM plugins, SEM multi-projeto.
+
+# Princípios Pedagógicos Imutáveis
+pedagogical_principles:
+  - "Progressão: estruturar aprendizado em camadas crescentes de complexidade"
+  - "Repetição Espaçada: revisar conceitos em intervalos ótimos para retenção"
+  - "Aprender Fazendo: prática ativa com exercícios contextualizados"
+  - "Feedback Imediato: corrigir e orientar no ato, não ao final"
+  - "Conexão com Realidade: ancorar conceitos em exemplos reais do domínio"
+  - "Validação de Compreensão: testar entendimento regularmente antes de avançar"
+  - "Autonomia Crescente: progresso de guia-direto para auto-dirigido"
+  - "Celebração de Progresso: reforçar cada marco alcançado"
+
+# 6 Estágios Progressivos de Aprendizado
+learning_stages:
+  01-descobrir:
+    name: Descobrir
+    objective: Mapear o tópico, identificar conceitos principais e estabelecer objetivos de aprendizado
+    default_persona: Tutor
+    skill: estudo-fluxo-01-descobrir
+    activities: [mapa-conceitual, definição-de-metas, recursos-iniciais]
+
+  02-organizar:
+    name: Organizar
+    objective: Indexar materiais, estruturar fontes e preparar base de conhecimento semântica
+    default_persona: Professor
+    skill: estudo-fluxo-02-organizar
+    activities: [indexação-de-materiais, extração-de-conceitos, mapeamento-semântico]
+
+  03-aprender:
+    name: Aprender
+    objective: Ensinar progressivamente, responder dúvidas, aprofundar conceitos com exemplos
+    default_persona: Professor
+    skill: estudo-fluxo-03-aprender
+    activities: [explicação-progressiva, resposta-a-dúvidas, exemplos-do-domínio, citações-de-fonte]
+
+  04-praticar:
+    name: Praticar
+    objective: Gerar exercícios contextualizados, receber soluções, oferecer feedback imediato
+    default_persona: Coach
+    skill: estudo-fluxo-04-praticar
+    activities: [geração-de-exercícios, feedback-imediato, identificação-de-lacunas, motivação]
+
+  05-testar:
+    name: Testar
+    objective: Avaliar conhecimento com provas/simulados, classificar erros, recomendar revisão
+    default_persona: Quizzer
+    skill: estudo-fluxo-05-testar
+    activities: [geração-de-provas, correção-automática, análise-de-erros, histórico-de-testes]
+
+  06-dominio:
+    name: Domínio
+    objective: Validar mastery, celebrar progresso, definir próximos passos ou consolidação
+    default_persona: Expert
+    secondary_persona: Coach
+    skill: estudo-fluxo-06-dominio
+    activities: [validação-de-domínio, análise-de-progresso, certificado-de-aprendizado, recomendações]
+
+# 6 Personas de IA Customizáveis
+personas:
+  Professor:
+    role: "Explica conceitos de forma clara, estruturada e com exemplos"
+    characteristics: [didático, preciso, progressivo, cita-fontes]
+    default_stages: [01-descobrir, 02-organizar, 03-aprender]
+    tone: formal e acessível
+
+  Tutor:
+    role: "Questiona para entender lacunas e guia descoberta ativa"
+    characteristics: [socrático, paciente, adaptativo, personalizado]
+    default_stages: [01-descobrir]
+    tone: conversacional e investigativo
+
+  Coach:
+    role: "Motiva, celebra progresso, guia correções com gentileza"
+    characteristics: [encorajador, celebratório, construtivo, empático]
+    default_stages: [04-praticar, 06-dominio]
+    tone: positivo e energético
+
+  Mentor:
+    role: "Oferece perspectiva holística, relaciona conceitos ao futuro do aprendiz"
+    characteristics: [visionário, conecta-padrões, estratégico, inspirador]
+    default_stages: [01-descobrir, 06-dominio]
+    tone: reflexivo e inspirador
+
+  Quizzer:
+    role: "Cria questões diversificadas, corrige com rigor, oferece feedback pedagógico"
+    characteristics: [rigoroso, variado, específico, orientado-a-erro]
+    default_stages: [05-testar]
+    tone: objetivo e construtivo
+
+  Expert:
+    role: "Valida rigor técnico, identifica subtilezas, oferece profundidade"
+    characteristics: [rigoroso, técnico, aprofundado, validador]
+    default_stages: [06-dominio]
+    tone: técnico e preciso
+
+# Orquestrador — Roteador Central
+orquestrador:
+  enabled: true
+  always_on: true  # ✅ Ativa interceptação automática
+  role: "Mapeador intent → skill + persona. Resolve contexto de sessão, sugere próximo estágio"
+
+  interceptation:
+    enabled: true
+    # NÃO é um hook técnico (settings.json UserPromptSubmit não invoca skills — limitação
+    # do Claude Code). É uma regra de comportamento sempre carregada no contexto:
+    rule: "CLAUDE.md (Regra 1)"
+    reference: ".claude/hooks/study-agent-intercept.md"  # detalhamento técnico/pseudocódigo
+    shows_routing: true  # Mostra ao usuário qual skill/persona foi acionada
+    auto_execute: true  # A IA executa a skill mapeada sem esperar confirmação (exceto intent ambíguo)
+
+  routing:
+    intent: "o que o aprendiz quer (analisado via LLM leve + patterns)"
+    state: "em qual estágio está (do meta.yaml)"
+    recommendation: "próximo estágio ou persona alternativa"
+    fallback_to_menu: true  # Se intenção ambígua, oferece menu
+
+  persistence: "SessionContext via data/perfil/aprendizado-meta.yaml"
+
+  performance:
+    intent_detection_timeout_ms: 1000
+    kg_query_timeout_ms: 500
+    fallback_on_timeout: true  # Se lento, continua sem KG check
+
+# KnowledgeBase — Base de Conhecimento Semântica
+knowledge_base:
+  enabled: true
+  type: "semantic-indexed"
+  features: [embeddings-based, traceable-sources, linked-concepts]
+  sources:
+    - PDFs indexados (OCR + embedding)
+    - Documentos markdown do repositório
+    - Conteúdo web citado
+    - Recursos fornecidos pelo usuário
+  metadata: "timestamps, autoria, relevância por tópico"
+
+# SessionContext — Persistência Cross-Session
+session_context:
+  schema: ".claude/templates/aprendizado-meta.yaml"
+  fields:
+    - usuario_id
+    - materia (subject)
+    - topico (topic)
+    - fase_atual (current_stage)
+    - fases (all stages + status)
+    - personas_usadas (history)
+    - materiais_indexados (count)
+    - progresso_geral (percentage)
+    - pontos_fracos (concepts to review)
+    - historico (append-only log)
+  persistence: "arquivo YAML em data/perfil/aprendizado-meta.yaml (raiz do repo pessoal do usuário — ver CLAUDE.md Regra 3/7)"
+
+# Matérias (Subjects) — Catálogo de Domínios de Aprendizado
+materias:
+  Anatomia:
+    description: "Estrutura e sistemas do corpo humano"
+    tópicos: [Esqueleto, Músculos, Órgãos, Sistemas]
+
+  Fisiologia:
+    description: "Funcionamento dos sistemas biológicos"
+    tópicos: [Cardiovascular, Respiratório, Digestivo, Nervoso]
+
+  Historia:
+    description: "Eventos históricos, períodos e contextos"
+    tópicos: [Antiga, Medieval, Moderna, Contemporânea]
+
+  Programacao:
+    description: "Linguagens, paradigmas e desenvolvimento de software"
+    tópicos: [Fundamentos, OOP, Web, Mobile, DevOps]
+
+  Custom:
+    description: "Matérias definidas pelo usuário"
+    tópicos: [dinâmicos, conforme necessário]
+
+# Libraries — Catálogo de Bases de Conhecimento
+libraries:
+  # Bibliotecas globais — compartilhadas em todo o framework
+  global: []
+
+  # Bibliotecas vinculadas a skills específicas (gatekeep: pergunta ao criar)
+  skill_specific:
+    estudo-fluxo-01-descobrir: []
+    estudo-fluxo-02-organizar: []
+    estudo-fluxo-03-aprender: []
+    estudo-fluxo-04-praticar: []
+    estudo-fluxo-05-testar: []
+    estudo-fluxo-06-dominio: []
+
+  # Bibliotecas vinculadas a personas (gatekeep: pergunta ao criar)
+  persona_specific:
+    Professor: []
+    Tutor: []
+    Coach: []
+    Mentor: []
+    Quizzer: []
+    Expert: []
+
+  # Bibliotecas vinculadas a matérias (gatekeep: pergunta ao criar)
+  materia_specific:
+    Anatomia: []
+    Fisiologia: []
+    Historia: []
+    Programacao: []
+    Custom: []
+
+# Schema de Biblioteca (template para criar nova)
+library_schema:
+  name: "string (obrigatório)"
+  scope: "global | skill | persona | materia"
+  scope_ref: "nome da skill/persona/materia (se não-global)"
+  description: "string (breve descrição da biblioteca)"
+  sources:
+    - type: "pdf | markdown | url | dataset"
+      path_or_url: "string"
+      indexed: "boolean (já foi indexada semanticamente?)"
+      last_updated: "ISO-datetime"
+  tags: "array de strings (categorias)"
+  created_at: "ISO-datetime"
+  created_by: "skill | persona | usuario"
+  metadata:
+    embeddings_count: "número de embeddings gerados (KnowledgeBase)"
+    concepts_extracted: "número de conceitos linkados"
+    linked_to_stages: "array de estágios que usam"
+
+# System Configuration
+system:
+  standalone: true
+  auto_save: true
+  session_timeout: 3600  # segundos
+  language: pt-BR
+  features:
+    - spaced-repetition
+    - immediate-feedback
+    - progress-tracking
+    - weak-point-identification
+    - next-step-recommendation
+  libraries:
+    gate_on_create: true  # gatekeep: perguntar ao criar biblioteca
+    prompt_style: "interactive"  # usar AskUserQuestion para criar
+
+# Skills Registry — APENAS Estágios de Aprendizado
+skills:
+  estudo-fluxo-01-descobrir:
+    enabled: true
+    type: internal
+    path: .claude/skills/estudo-fluxo-01-descobrir/
+    stage: 01-descobrir
+    description: "Etapa 1 — Descobrir e mapear o tópico, definir metas"
+
+  estudo-fluxo-02-organizar:
+    enabled: true
+    type: internal
+    path: .claude/skills/estudo-fluxo-02-organizar/
+    stage: 02-organizar
+    description: "Etapa 2 — Indexar materiais, extrair conceitos, preparar KnowledgeBase"
+
+  estudo-fluxo-03-aprender:
+    enabled: true
+    type: internal
+    path: .claude/skills/estudo-fluxo-03-aprender/
+    stage: 03-aprender
+    default_persona: Professor
+    description: "Etapa 3 — Ensinar progressivamente, responder dúvidas, oferecer exemplos"
+
+  estudo-fluxo-04-praticar:
+    enabled: true
+    type: internal
+    path: .claude/skills/estudo-fluxo-04-praticar/
+    stage: 04-praticar
+    default_persona: Coach
+    description: "Etapa 4 — Gerar exercícios, feedback imediato, identificar lacunas"
+
+  estudo-fluxo-05-testar:
+    enabled: true
+    type: internal
+    path: .claude/skills/estudo-fluxo-05-testar/
+    stage: 05-testar
+    default_persona: Quizzer
+    description: "Etapa 5 — Avaliar conhecimento com provas/simulados, análise de erros"
+
+  estudo-fluxo-06-dominio:
+    enabled: true
+    type: internal
+    path: .claude/skills/estudo-fluxo-06-dominio/
+    stage: 06-dominio
+    default_persona: Expert
+    secondary_persona: Coach
+    description: "Etapa 6 — Validar mastery, celebrar progresso, próximos passos"
+
+  book-to-skill:
+    enabled: true
+    type: internal
+    path: .claude/skills/book-to-skill/
+    description: "Converter documentos (PDF, EPUB, DOCX, Markdown, etc) em skills pedagógicas estruturadas"
+    integration: "study-gerenciar-bibliotecas"  # disparado ao indexar biblioteca
+
+  study-gerenciar-bibliotecas:
+    enabled: true
+    type: internal
+    path: .claude/skills/study-gerenciar-bibliotecas/
+    description: "Gerenciar bibliotecas de conhecimento com gate interativo"
+    depends_on: book-to-skill
+
+  study-setup-orquestrador:
+    enabled: true
+    type: setup
+    path: .claude/skills/study-setup-orquestrador/
+    trigger: "primeiro-uso"
+    description: "Configurar Orquestrador Global Profile (domínio, personas, bibliotecas base)"
+    auto_detect: true
+
+  study-audio-capture:
+    enabled: true
+    type: input
+    path: .claude/skills/study-audio-capture/
+    description: "Transcreve áudio/vídeo (Whisper local) e gera 2 versões: verbatim + limpa (study-ready)"
+    dependencies:
+      - faster-whisper
+      - ffmpeg
+    storage: "data/estudos/aulas/ (versões verbatim/limpa); data/estudos/.transcricoes-raw/ (saída crua intermediária)"
+
+  study-rag-local:
+    enabled: true
+    type: knowledge
+    path: .claude/skills/study-rag-local/
+    description: "Indexação local com ChromaDB — busca semântica em bibliotecas"
+    dependencies:
+      - chromadb
+      - sentence-transformers
+    storage: data/rag/
+
+  study-spaced-repetition-fsrs:
+    enabled: true
+    type: optimization
+    path: .claude/skills/study-spaced-repetition-fsrs/
+    description: "FSRS: Algoritmo de repetição espaçada otimizado (20-30% menos revisões)"
+    dependencies:
+      - fsrs-py
+    storage: data/rag/fsrs-model.pkl
+    integration: "estudo-fluxo-05-testar"  # integra no estágio de testes
+
+  study-concept-mapping:
+    enabled: true
+    type: visualization
+    path: .claude/skills/study-concept-mapping/
+    description: "Mapeamento conceitual automático com Neo4j + Gephi"
+    dependencies:
+      - neo4j
+      - networkx
+    storage: data/concept-maps/
+    integration: "estudo-fluxo-01-descobrir,estudo-fluxo-02-organizar"
+
+  study-analytics-dashboard:
+    enabled: true
+    type: tracking
+    path: .claude/skills/study-analytics-dashboard/
+    description: "Dashboard de progresso com métricas de retenção e weak points"
+    storage: data/analytics/
+    integration: "all-stages"  # rastreia todas as etapas
+
+  study-knowledge-graph:
+    enabled: true
+    type: reasoning
+    path: .claude/skills/study-knowledge-graph/
+    description: "Ontologia pedagógica com inferência (pré-requisitos, regras)"
+    dependencies:
+      - neo4j
+    storage: data/knowledge-graphs/
+    integration: "book-to-skill,study-concept-mapping"
+
+  study-assessment-validator:
+    enabled: true
+    type: quality-assurance
+    path: .claude/skills/study-assessment-validator/
+    description: "Validação dupla de questões (a mesma IA em 2 passagens: gera → valida)"
+    integration: "estudo-fluxo-05-testar,study-gerar-provas-simulados"
+
+  study-gerar-provas-simulados:
+    enabled: true
+    type: assessment
+    path: .claude/skills/study-gerar-provas-simulados/
+    description: "Provas/simulados sérios (Modo Prova) ou gamificados (Modo Jogo: quiz cronometrado, streak, flashcard battle)"
+    depends_on: [study-assessment-validator, study-spaced-repetition-fsrs]
+    integration: "estudo-fluxo-05-testar"  # evolução do estágio de testes
+
+  study-exportar-documento:
+    enabled: true
+    type: output
+    path: .claude/skills/study-exportar-documento/
+    description: "Converte markdown já produzido em .docx/.pdf (trabalhos, provas para imprimir) — via skill docx do host ou pandoc"
+    dependencies:
+      - pandoc
+    storage: data/estudos/trabalhos/
+
+  study-orquestrador:
+    enabled: true
+    type: orchestration
+    path: .claude/skills/study-orquestrador/
+    description: "Roteador central inteligente — mapeia intenção → skill + persona"
+    dependencies: []
+    integration: "intercepta TODAS as interações do usuário"
+    persistence: "data/perfil/aprendizado-meta.yaml"
+
+# User Commands — Aliases em Português Natural
+user_commands:
+  # Entrada principal
+  começar-novo-estudo:
+    name: "Começar um Novo Estudo"
+    description: "Iniciar um novo tópico de aprendizado"
+    maps_to: "study-orquestrador"
+    default_persona: "Tutor"
+    stage: "01-descobrir"
+
+  continuar-estudando:
+    name: "Continuar Estudando"
+    description: "Retomar de onde você parou na última sessão"
+    maps_to: "study-orquestrador"
+    action: "resume_session"
+
+  # Organizar Material
+  adicionar-material:
+    name: "Adicionar Material"
+    description: "Carregar livro, PDF, vídeo ou anotações para sua biblioteca"
+    maps_to: "study-gerenciar-bibliotecas"
+    action: "criar"
+
+  minhas-bibliotecas:
+    name: "Minhas Bibliotecas"
+    description: "Ver todos os materiais que você adicionou"
+    maps_to: "study-gerenciar-bibliotecas"
+    action: "listar"
+
+  # Aprender e Praticar
+  aprender:
+    name: "Aprender"
+    description: "Professor explica um conceito em profundidade"
+    maps_to: "estudo-fluxo-03-aprender"
+    default_persona: "Professor"
+
+  exercício:
+    name: "Exercício"
+    description: "Coach propõe um exercício prático com feedback imediato"
+    maps_to: "estudo-fluxo-04-praticar"
+    default_persona: "Coach"
+
+  fazer-prova:
+    name: "Fazer Prova"
+    description: "Quizzer simula uma prova com questões personalizadas"
+    maps_to: "estudo-fluxo-05-testar"
+    default_persona: "Quizzer"
+
+  # Acompanhar Progresso
+  ver-progresso:
+    name: "Ver Progresso"
+    description: "Dashboard completo com todas as suas métricas de aprendizado"
+    maps_to: "study-analytics-dashboard"
+
+  revisar-pontos-fracos:
+    name: "Revisar Pontos Fracos"
+    description: "Focar em conceitos onde você tem mais dificuldade"
+    maps_to: "study-analytics-dashboard"
+    filter: "weak_points"
+
+  estatísticas:
+    name: "Estatísticas"
+    description: "Retenção, engajamento, horas de estudo e histórico"
+    maps_to: "study-analytics-dashboard"
+    view: "detailed"
+
+  # Informações
+  ajuda:
+    name: "Ajuda"
+    description: "Menu de comandos e como usar Study-Agent"
+    maps_to: "study-help"
+
+  sobre:
+    name: "Sobre Study-Agent"
+    description: "Entender como o sistema funciona e seus princípios"
+    maps_to: "study-about"
+
+# Skills Externas (catálogo aitmpl.com/claude-code-templates)
+# Instaladas via: npx claude-code-templates@latest --skill <categoria>/<nome> -d . -y
+# NÃO são roteadas automaticamente pelo Orquestrador (Regra 1) — o usuário/IA as invoca quando o caso pedir.
+external_skills:
+  padrao:  # sempre disponíveis, sem gate, sem dependência pesada
+    markitdown:
+      path: .claude/skills/markitdown/
+      description: "Converte PDF/DOCX/PPTX/XLSX/imagem/áudio/HTML/YouTube → Markdown"
+      wired_into: [estudo-fluxo-02-organizar, "CLAUDE.md Regra 2"]
+    scientific-brainstorming:
+      path: .claude/skills/scientific-brainstorming/
+      description: "Parceira de ideação — hipóteses, conexões interdisciplinares, SCAMPER, Six Thinking Hats"
+      wired_into: [estudo-fluxo-01-descobrir]
+    mermaid-diagrams:
+      path: .claude/skills/mermaid-diagrams/
+      description: "Diagramas em texto puro (flowchart, ER, sequência, estado, Gantt) — sem dependência, renderiza nativo em markdown"
+      wired_into: [estudo-fluxo-01-descobrir, estudo-fluxo-03-aprender, study-concept-mapping]
+      nota: "alternativa leve a study-concept-mapping quando Neo4j/Gephi não estão instalados"
+
+  opcional:  # disponíveis, mas não fazem parte do fluxo básico — usuário pede explicitamente
+    scientific-critical-thinking:
+      path: .claude/skills/scientific-critical-thinking/
+      description: "Avalia rigor científico (metodologia, viés, GRADE/Cochrane) — para quem estuda pesquisa/evidência"
+    literature-review:
+      path: .claude/skills/literature-review/
+      description: "Revisão sistemática de literatura (PICO, PubMed/arXiv, PRISMA)"
+      depends_on: [pandoc, texlive-xetex]
+    statistical-analysis:
+      path: .claude/skills/statistical-analysis/
+      description: "Testes de hipótese, regressão, bayesiano, relatório em formato APA"
+      depends_on: [scipy, statsmodels, pingouin, pymc]
+    scientific-writing:
+      path: .claude/skills/scientific-writing/
+      description: "Redige manuscrito acadêmico em IMRAD, prosa fluida (sem bullet points na versão final)"
+    plotly:
+      path: .claude/skills/plotly/
+      description: "Gráficos interativos (40+ tipos) — útil também pra enriquecer study-analytics-dashboard"
+    citation-management:
+      path: .claude/skills/citation-management/
+      description: "Busca/valida citações (Google Scholar, PubMed, CrossRef, arXiv) → BibTeX"
+    file-organizer:
+      path: .claude/skills/file-organizer/
+      description: "Organiza pasta bagunçada (duplicatas por MD5, proposta de estrutura, executa só com confirmação)"
+      wired_into: [estudo-fluxo-02-organizar]
+
+    scientific-slides:
+      path: .claude/skills/scientific-slides/
+      description: "Gera slides de apresentação (PDF/PPTX/LaTeX Beamer) com imagens por IA"
+      gate:
+        type: api_key_required
+        env_var: OPENROUTER_API_KEY
+        get_key_at: "https://openrouter.ai/keys"
+        rule: "NUNCA acionar sem confirmar que OPENROUTER_API_KEY está configurada. Se ausente, informar
+               o usuário como obter a chave e não tentar rodar sem ela (evita erro confuso de API)."
+
+    transcribe:
+      path: .claude/skills/transcribe/
+      description: "Transcrição via API OpenAI com diarização nativa (identifica quem falou) — alternativa ao Whisper local"
+      gate:
+        type: api_key_required
+        env_var: OPENAI_API_KEY
+        rule: "Usar só quando o usuário escolher 'externo' no gate de study-audio-capture (máquina sem
+               capacidade pra Whisper local, ou precisa de diarização). Nunca substituir o padrão local
+               sem essa escolha explícita — custo e privacidade são diferentes."
+      wired_into: [study-audio-capture]
+
+    speech:
+      path: .claude/skills/speech/
+      description: "Texto → áudio falado (narração de resumo/aula) — útil pra quem aprende melhor ouvindo"
+      gate:
+        type: api_key_required
+        env_var: OPENAI_API_KEY
+        rule: "NUNCA acionar sem confirmar OPENAI_API_KEY (ou ATLASCLOUD_API_KEY) configurada."
+      wired_into: [estudo-fluxo-03-aprender]
+
+    docx:
+      path: .claude/skills/docx/
+      description: "Cria/edita/lê .docx de verdade (tabelas, imagens, comentários, tracked changes) — método PRINCIPAL de study-exportar-documento"
+      wired_into: [study-exportar-documento]
+    pptx:
+      path: .claude/skills/pptx/
+      description: "Cria/edita .pptx (apresentações), gratuito e local — preferir a scientific-slides quando não há OPENROUTER_API_KEY"
+      wired_into: [study-exportar-documento]
+    pdf-processing-pro:
+      path: .claude/skills/pdf-processing-pro/
+      description: "PDF com OCR (tesseract), extração de tabela/formulário — para PDF escaneado/prova em papel fotografada"
+      depends_on: [pdfplumber, pypdf, pillow, pytesseract, pandas, tesseract-ocr]
+      wired_into: [estudo-fluxo-02-organizar]
+
+    humanizer:
+      path: .claude/skills/humanizer/
+      description: "Remove padrões de escrita de IA, deixa o texto mais natural"
+      gate:
+        type: explicit_opt_in
+        rule: "NUNCA acionar automaticamente. Só usar se o usuário pedir explicitamente ('deixa esse texto
+               mais natural', 'humaniza isso'). Antes de aplicar, avisar: não usar para disfarçar autoria
+               de trabalho acadêmico que deveria ser produzido pelo próprio aluno — uso ético é melhorar
+               tom/naturalidade do que É seu, não fraudar entrega de terceiros."
+
+  bastidor:  # ferramentas de manutenção do próprio study-agent, não fazem parte do estudo do aluno
+    skill-creator:
+      path: .claude/skills/skill-creator/
+      description: "Cria/edita/testa skills novas — usar quando o ALUNO pede uma skill específica que
+                     falta (ex.: 'crie uma skill só pra revisar química orgânica do meu jeito')"
+      user_facing_command: "criar skill: <descrição do que o aluno precisa>"
+
+# ⚠️ NOTA IMPORTANTE
+# Study-Agent é um framework de propósito pedagógico. NÃO é multi-projeto de desenvolvimento de
+# software (as skills externas acima são ferramentas de apoio ao ESTUDO — pesquisa, dados, organização
+# — nunca viram o foco do repositório em ferramenta de dev/consultoria genérica).
+#
+# Study-Orquestrador é o coração: entende intenção, consulta estado, mapeia skill + persona, coordena as
+# ferramentas de suporte, e oferece próximo passo. Completamente transparente ao usuário.

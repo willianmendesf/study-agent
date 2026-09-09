@@ -1,0 +1,44 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+.venv
+venv/
+ENV/
+env/
+.env
+.DS_Store
+*.swp
+*.swo
+*~
+.idea/
+.vscode/
+
+# ── Dados pessoais do usuário — NUNCA no repositório do framework ──
+# Ver CLAUDE.md "Regra 3" (o que vive em data/) e "Regra 7" (repositório separado).
+# TUDO que é do usuário mora dentro de data/ — materiais, perfil, progresso,
+# biblioteca, analytics. O usuário faz `git init` DENTRO de data/, como um
+# repositório próprio e independente deste. `git pull` aqui nunca toca em data/.
+data/
+
+# resíduo de execução de skill que não deve ir pro framework nem pro repo pessoal
+.claude/skills/study-audio-capture/.tmp-transcricao/
