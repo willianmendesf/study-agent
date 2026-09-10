@@ -22,10 +22,14 @@ if [[ -d "$BIB" ]]; then
     [[ -n "$tagline" ]] && ctx+="   (${tagline})"
     ctx+="\n"
   done < <(find "$BIB" -type f \( -name '*.md' -o -name '*.yaml' -o -name '*.txt' \) ! -name '*.disabled' 2>/dev/null | sort)
-  ctx+="\nANTES de responder qualquer coisa de conteúdo de estudo: abra (Read/Grep) os arquivos acima que"
-  ctx+=" tocam o assunto. Se um especialista está ativo, filtre pelas tags dele. Se NADA na lista for"
-  ctx+=" relevante, diga isso explicitamente ('nao ha material sobre X na sua biblioteca') antes de usar"
-  ctx+=" conhecimento geral. Nunca responda de cabeca fingindo que veio do acervo.\n"
+  ctx+="\nEsta e a lista COMPLETA do pool. O escopo que voce PODE usar neste turno depende do especialista:\n"
+  ctx+="  - Nenhum especialista chamado neste turno  -> pode usar qualquer arquivo da lista.\n"
+  ctx+="  - Um especialista foi chamado (nome/apelido/'modo X'/tema)  -> use SOMENTE os arquivos cujas\n"
+  ctx+="    tags cruzam com 'tags_do_dominio' do .yaml desse especialista. Os demais ficam FORA deste turno.\n"
+  ctx+="ANTES de responder conteudo de estudo: abra (Read/Grep) os arquivos do escopo que tocam o assunto,\n"
+  ctx+="ancore a resposta neles e cite a fonte. Se NADA no escopo for relevante, diga isso explicitamente\n"
+  ctx+="('nao ha material sobre X na sua biblioteca') antes de usar conhecimento geral. Nunca responda de\n"
+  ctx+="cabeca fingindo que veio do acervo.\n"
 else
   ctx+="=== data/biblioteca/ ainda nao existe — rode o setup (CLAUDE.md Regra 7) para criar o repositorio pessoal ===\n"
 fi
