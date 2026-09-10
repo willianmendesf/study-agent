@@ -1,167 +1,67 @@
 ---
 name: study-gerenciar-bibliotecas
-description: "Cria, edita, lista e organiza bibliotecas de conhecimento (materiais indexados) com gate interativo. Use quando o usuário quer adicionar, listar, ou indexar material de estudo recorrente."
+description: "Adiciona, organiza, lista e etiqueta materiais no pool de biblioteca (data/biblioteca/). Não registra nada em lugar nenhum — só converte, salva na pasta e põe as tags. Use quando o usuário quer adicionar material de estudo, ver o que já tem na biblioteca, ou ajustar tags/especialistas."
 ---
 
-# Skill: Gerenciar Bibliotecas
+# Gerenciar Biblioteca
 
-**Tipo:** utility  
-**Escopo:** framework  
-**Persona recomendada:** Mentor  
+**Tipo:** utility
+**Modo padrão:** Mentor
+**Fonte de verdade do modelo:** `CLAUDE.md` Regra 8 + `config.yaml → biblioteca / especialistas`
 
-## Objetivo
+## O que é a biblioteca (releia se estiver confuso)
 
-Criar, editar, listar e organizar **bibliotecas de conhecimento** com gatekeeping interativo. Cada biblioteca pode ser:
-- **Global** — compartilhada em todo o framework
-- **Skill-específica** — vinculada a uma etapa (estudo-fluxo-NN)
-- **Persona-específica** — vinculada a uma persona (Professor, Tutor, etc.)
-- **Materia-específica** — vinculada a um domínio (Anatomia, Programação, etc.)
+- **Um pool único:** `data/biblioteca/`. Tudo que está aqui (`.md`/`.yaml`/`.txt`, recursivo) É a biblioteca.
+- **Sem catálogo, sem registro, sem IDs.** Não existe `libraries:` no `config.yaml` pra manter.
+- Cada arquivo declara `tags: [...]` no topo. Isso — e só isso — define quais **especialistas** o enxergam
+  (especialista X vê o arquivo se `tags` do arquivo ∩ `tags_do_dominio` de X ≠ ∅). Sem especialista ativo,
+  o orquestrador vê o pool inteiro.
+- **Opt-out** de um item: `disabled: true` no topo do `.yaml`, ou um arquivo `<nome>.disabled` ao lado.
 
 ## Ações
 
-### 1. Criar Biblioteca
-**Comando:** `/study-gerenciar-bibliotecas criar`
+### 1. Adicionar material
+1. **Converter** o material bruto pra `.md` primeiro (Regra 2 do `CLAUDE.md`):
+   - PDF/DOCX/PPTX/imagem → `markitdown` (ou `book-to-skill` se for livro denso, ou `pdf-processing-pro` se escaneado)
+   - áudio/vídeo → `study-audio-capture` / `study-processar-video`
+2. **Decidir as tags** (2-6, minúsculas, sem acento, do domínio — ex.: `[exegese, grego, lexico]`). Se o
+   usuário não disser, sugerir com base no conteúdo e confirmar.
+3. **Salvar** em `data/biblioteca/<nome>.md` com o cabeçalho:
+   ```yaml
+   ---
+   titulo: "Léxico de Grego do NT"
+   tags: [grego, exegese, lexico]
+   ---
+   ```
+   (ou, se for `.yaml` de KB, um `tags: [...]` como chave top-level no topo do arquivo)
+4. Pronto. Disponível no próximo turno. **Não** editar `config.yaml`, **não** criar "entrada" nenhuma.
 
-**Gate interativo:**
-1. Pergunta: "Qual o **nome** da nova biblioteca?"
-2. Pergunta: "Qual o **escopo**?"
-   - [1] Global
-   - [2] Skill-específica
-   - [3] Persona-específica
-   - [4] Materia-específica
+### 2. Listar o que tem
+Varrer `data/biblioteca/` e mostrar tabela: arquivo · título · tags · `disabled?`. Sem especialista → é
+tudo isso que o orquestrador usa. Com especialista X → destacar quais casam com `tags_do_dominio` de X.
 
-3. Conforme a escolha:
-   - Se Skill: "Qual skill?"
-   - Se Persona: "Qual persona?"
-   - Se Materia: "Qual materia?"
+### 3. Ajustar tags de um item
+Editar o `tags: [...]` no topo do arquivo. Se o usuário quer que a KB apareça pro especialista X, garantir
+que ela tem pelo menos uma tag que está no `tags_do_dominio` de X (ou adicionar essa tag ao especialista).
 
-4. Pergunta: "**Descrição** (breve)?"
-5. Pergunta: "Adicionar **fontes**?" (PDF, Markdown, URL, Dataset)
-   - Se sim: repetir até que o usuário diga "não"
-   - Cada fonte: tipo + path/url + já indexada?
+### 4. Desabilitar / reabilitar um item
+`disabled: true`/`false` no topo, ou criar/remover `<nome>.disabled`. Nunca apagar o arquivo (o usuário
+decide isso).
 
-6. Pergunta: "**Tags** (categorias, separadas por vírgula)?"
-7. **Resultado:** 
-   - Cria entrada em `.claude/config.yaml` (seção `libraries.<escopo>.<ref>`)
-   - Retorna confirmação com ID da biblioteca
+### 5. Criar um especialista
+1. Perguntar: nome (slug), título, domínio, como o usuário vai chamá-lo (`quando_ativar`), e as
+   `tags_do_dominio` (as tags de biblioteca que ele cobre).
+2. Escrever `data/perfil/especialistas/<nome>.yaml` com o schema de `config.yaml → especialistas.schema`.
+3. Não precisa mexer em biblioteca nenhuma — as KBs que já têm tag casando já aparecem pra ele.
 
-### 2. Listar Bibliotecas
-**Comando:** `/study-gerenciar-bibliotecas listar [escopo] [ref]`
+## O que esta skill NUNCA faz
+- Registrar biblioteca em `config.yaml`
+- Criar IDs de biblioteca
+- Manter whitelist de KB por especialista
+- Pedir pro usuário "indexar" como passo obrigatório (a indexação semântica via `study-rag-local` é
+  opcional e separada)
 
-**Exemplos:**
-- `/study-gerenciar-bibliotecas listar` — todas as bibliotecas
-- `/study-gerenciar-bibliotecas listar global` — só globais
-- `/study-gerenciar-bibliotecas listar skill estudo-fluxo-03-aprender` — só da skill de aprender
-- `/study-gerenciar-bibliotecas listar persona Professor` — só do Professor
-- `/study-gerenciar-bibliotecas listar materia Anatomia` — só de Anatomia
-
-**Resultado:** tabela com nome, escopo, # de fontes, data de criação
-
-### 3. Adicionar Fonte a Biblioteca Existente
-**Comando:** `/study-gerenciar-bibliotecas adicionar-fonte <biblioteca-id>`
-
-**Gate:** perguntar tipo de fonte, path/url, se já foi indexada
-
-### 4. Indexar Biblioteca (semântica)
-**Comando:** `/study-gerenciar-bibliotecas indexar <biblioteca-id>`
-
-**Ação:** disparar KnowledgeBase para gerar embeddings, extrair conceitos, ligar a estágios/personas
-
-### 5. Editar Biblioteca
-**Comando:** `/study-gerenciar-bibliotecas editar <biblioteca-id>`
-
-**Gate:** listar campos (nome, descrição, tags, scope_ref) e perguntar qual mudar
-
-### 6. Deletar Biblioteca
-**Comando:** `/study-gerenciar-bibliotecas deletar <biblioteca-id>`
-
-**Confirmação:** perguntar certeza antes de remover
-
----
-
-## Integração com KnowledgeBase
-
-Após criar/adicionar fonte, sugerir:
-- "Deseja **indexar** esta biblioteca agora?" (gerar embeddings, extrair conceitos)
-
-Indexação escreve em:
-- `.claude/rules/knowledge-base/<biblioteca-id>/`
-  - `embeddings.json` (estrutura semântica)
-  - `concepts.json` (conceitos extraídos)
-  - `links.json` (relações com estágios/personas/materias)
-
----
-
-## Integração com Sessão
-
-Se o aprendiz está em uma materia/skill/persona, sugerir:
-- "📚 Você tem {N} bibliotecas disponíveis para {contexto}. Deseja usá-las agora?"
-
----
-
-## Arquivo de Saída
-
-Alterações salvas em:
-- `.claude/config.yaml` (seção `libraries`)
-- `.claude/rules/knowledge-base/<biblioteca-id>/` (se indexada)
-
----
-
-## Exemplo de Fluxo
-
-```
-usuário: /study-gerenciar-bibliotecas criar
-
-IA: Qual o nome da nova biblioteca?
-usuário: Anatomia Humana — Estrutura Óssea
-
-IA: Qual o escopo?
-   [1] Global
-   [2] Skill-específica
-   [3] Persona-específica
-   [4] Materia-específica
-usuário: 4
-
-IA: Qual materia?
-   - Anatomia
-   - Fisiologia
-   - Historia
-   - Programacao
-   - Custom
-usuário: Anatomia
-
-IA: Descrição (breve)?
-usuário: Referências técnicas sobre o sistema esquelético humano
-
-IA: Adicionar fontes?
-usuário: Sim
-
-IA: Tipo de fonte?
-   [1] PDF
-   [2] Markdown
-   [3] URL
-   [4] Dataset
-usuário: 1
-
-IA: Path do PDF?
-usuário: ~/docs/anatomia-ossos.pdf
-
-IA: Já foi indexada semanticamente?
-usuário: Não
-
-IA: Adicionar outra fonte?
-usuário: Sim
-
-[repete...]
-
-IA: Tags (categorias, separadas por vírgula)?
-usuário: esqueleto, osteologia, estrutura, básico
-
-✅ Biblioteca criada: "Anatomia Humana — Estrutura Óssea"
-   ID: anat-estr-ossea-001
-   Escopo: materia/Anatomia
-   Fontes: 3
-   Tags: esqueleto, osteologia, estrutura, básico
-   
-🔍 Deseja indexar esta biblioteca agora? (vai gerar embeddings + extrair conceitos)
-```
+## Referências
+- `CLAUDE.md` Regra 8 — o modelo completo
+- `study-rag-local/SKILL.md` — indexação semântica (opcional) do pool
+- `config.yaml → especialistas` — schema do arquivo de especialista

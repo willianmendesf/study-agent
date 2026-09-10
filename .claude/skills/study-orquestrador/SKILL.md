@@ -5,9 +5,24 @@ description: "Roteador central do Study-Agent: detecta a intenção da mensagem 
 
 # Study-Orquestrador — Roteador Central Inteligente
 
-**Tipo:** camada central de orquestração (não é skill)  
-**Escopo:** Study-Agent (integrado em TODAS as interações)  
-**Transparência:** Completamente invisível — usuário nunca vê a lógica
+**Escopo:** Study-Agent (roda no início de TODA interação)
+**Fonte de verdade:** `CLAUDE.md` Regra 1 (fluxo) + Regra 8 (biblioteca). Onde este arquivo divergir
+delas, **valem elas** — este SKILL.md é detalhamento/pseudocódigo, pode ter partes de modelos antigos.
+
+## Resumo do que resolver a cada turno
+
+1. **Intenção** → skill (`estudo-fluxo-NN` ou `study-*`).
+2. **Especialista ativo?** O usuário chamou um especialista (nome / apelido / "modo X" / tema declarado
+   em `quando_ativar`)? Especialistas vivem em `data/perfil/especialistas/<nome>.yaml`.
+3. **Biblioteca** (auto-descoberta por tag — NUNCA whitelist manual):
+   - Sem especialista → o pool inteiro `data/biblioteca/` (menos os `disabled`).
+   - Especialista X → só os arquivos cujas `tags` cruzam com `tags_do_dominio` de X.
+4. **Modo de estudo** (Professor/Tutor/Coach/Mentor/Quizzer/Expert) — só o TOM/método da resposta,
+   **nunca** muda a biblioteca. É ortogonal ao especialista.
+5. **Lente de domínio**: se `data/perfil/orquestrador-global-profile.yaml → lente_de_dominio.ativa`,
+   aplicar esse enquadramento em toda resposta do modo padrão.
+
+Mostrar o roteamento antes de responder: `🎓 <Modo> → <skill> (intent: <X> · biblioteca: <escopo>)`.
 
 ---
 
