@@ -2,19 +2,32 @@
 
 Workspace de estudo inteligente. Framework ÚNICO de propósito pedagógico — sem plugins, sem multi-projeto, sem ferramentas externas de dev. Vale para qualquer IA que rode aqui (Claude ou outra), não só Claude Code.
 
+## Conceitos: Modo de Estudo × Especialista (não confundir)
+
+- **Modo de estudo** = COMO a IA ensina (Professor, Tutor, Coach, Mentor, Quizzer, Expert). São 6,
+  fixos, do framework. Mudam só o tom/método/rigor da resposta — **nunca** o conteúdo disponível.
+- **Especialista** = um expert de domínio que o USUÁRIO cria (ex.: "Hermes exegeta", "Professora de
+  Português"). Vive em `data/perfil/especialistas/<nome>.yaml` e tem uma pasta de conteúdo própria
+  (`data/biblioteca/especialistas/<nome>/`). Só é ativado quando o usuário o chama explicitamente
+  (pelo nome/apelido/"modo X"/tema declarado em `quando_ativar`).
+
 ## Regra 1 — Orquestrador SEMPRE roteia primeiro
 
 Antes de responder qualquer mensagem do usuário, aplique `.claude/skills/study-orquestrador/SKILL.md`:
 
-1. **Detecte a intenção** da mensagem (descobrir, aprender, praticar, testar, validar domínio, gerenciar biblioteca, ajuda).
-2. **Consulte o estado** — se existir, leia `data/perfil/aprendizado-meta.yaml` (SessionContext: estágio atual, personas usadas, pontos fracos, materia/tópico).
-3. **Mapeie** intenção → skill (`estudo-fluxo-NN-*` ou `study-*`) → persona (Professor, Tutor, Coach, Mentor, Quizzer, Expert) usando a tabela de `config.yaml → orquestrador` e `.claude/skills/study-orquestrador/SKILL.md`.
-4. **Mostre o roteamento ao usuário** antes de responder, formato curto:
+1. **Detecte a intenção** da mensagem (descobrir, aprender, praticar, testar, validar domínio, gerenciar biblioteca, processar áudio/vídeo, ajuda).
+2. **Consulte o estado** — se existir, leia `data/perfil/aprendizado-meta.yaml` (SessionContext: estágio atual, modos usados, pontos fracos, materia/tópico).
+3. **Resolva especialista + biblioteca** (ver Regra 8):
+   - Usuário chamou um especialista? → biblioteca = `data/biblioteca/especialistas/<X>/`
+   - Não? → biblioteca = `data/biblioteca/global/` inteira
+4. **Mapeie** intenção → skill (`estudo-fluxo-NN-*` ou `study-*`) → **modo de estudo** (Professor, Tutor, Coach, Mentor, Quizzer, Expert) usando `config.yaml → orquestrador` e `.claude/skills/study-orquestrador/SKILL.md`.
+5. **Mostre o roteamento ao usuário** antes de responder, formato curto:
    ```
-   🎓 Professor vai te ajudar → estudo-fluxo-03-aprender (intent: aprender)
+   🎓 Professor → estudo-fluxo-03-aprender (intent: aprender · biblioteca: global)
    ```
-5. **Execute a skill mapeada** com a persona escolhida — sem esperar confirmação, a menos que a intenção seja ambígua (nesse caso ofereça 2-3 opções via pergunta curta).
-6. Ao final, **atualize `data/perfil/aprendizado-meta.yaml`** (crie se não existir, usando `.claude/templates/aprendizado-meta.yaml` como schema) e **sugira o próximo passo**.
+   (se um especialista estiver ativo: `🎓 Hermes (exegeta) · modo Professor → ... (biblioteca: especialistas/hermes)`)
+6. **Execute a skill mapeada** com o modo escolhido — sem esperar confirmação, a menos que a intenção seja ambígua (nesse caso ofereça 2-3 opções via pergunta curta).
+7. Ao final, **atualize `data/perfil/aprendizado-meta.yaml`** (crie se não existir, usando `.claude/templates/aprendizado-meta.yaml` como schema) e **sugira o próximo passo**.
 
 Isto substitui qualquer tentativa de hook JSON em `.claude/settings.json` — hooks `UserPromptSubmit` não conseguem invocar skills automaticamente (limitação do Claude Code), então o roteamento é uma regra de contexto, não um hook técnico.
 
@@ -137,6 +150,26 @@ nunca aparece no `git status` do study-agent.
 **Perfis de domínio personalizados** (ex.: teologia, medicina) não precisam de branch nem de fork —
 crie o arquivo `data/perfil/orquestrador-<seu-dominio>.yaml` via `study-setup-orquestrador`, e ele já
 nasce dentro do seu repo de `data/`.
+
+## Regra 8 — Biblioteca é auto-descoberta (nunca registrar arquivo por arquivo)
+
+Não existe catálogo de bibliotecas. **O que está fisicamente nas pastas É a biblioteca.**
+
+- `data/biblioteca/global/` — usada quando **nenhum especialista** está ativo (o caso comum). O
+  orquestrador enxerga **todo** `.md`/`.yaml`/subpasta ali, sem exceção e sem passo de registro.
+- `data/biblioteca/especialistas/<nome>/` — usada só quando o especialista `<nome>` está ativo. Mesmo
+  princípio: tudo na pasta é usado. Se o perfil do especialista tiver `herda_biblioteca_global: true`,
+  ele também vê a global.
+- **Adicionar material** = converter pra `.md` (Regra 2) e salvar na pasta certa. Fim. Fica disponível
+  no turno seguinte. **Nunca** peça pro usuário "registrar" uma biblioteca nem edite `config.yaml` pra
+  isso.
+- **Desligar um item** sem apagar: `disabled: true` no topo do `.yaml`, ou um arquivo `<nome>.disabled`
+  ao lado.
+- `study-gerenciar-bibliotecas` só ajuda a **organizar/converter/listar** o que está nas pastas — não
+  mantém nenhum registro.
+
+**A cada turno**, antes de responder: resolva o escopo (especialista ativo? → pasta dele; senão →
+global), varra a pasta resolvida, e responda usando só o que está nesse escopo.
 
 ## Arquitetura (fonte de verdade)
 

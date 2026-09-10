@@ -10,7 +10,7 @@ framework:
   timezone: America/Sao_Paulo
   description: |
     Framework de orquestração inteligente de aprendizado com 6 estágios progressivos,
-    6 personas de IA customizáveis e aprendizagem baseada em repetição espaçada e feedback imediato.
+    6 modos de estudo e aprendizagem baseada em repetição espaçada e feedback imediato.
     Sistema ÚNICO de propósito pedagógico — SEM plugins, SEM multi-projeto.
 
 # Princípios Pedagógicos Imutáveis
@@ -29,48 +29,65 @@ learning_stages:
   01-descobrir:
     name: Descobrir
     objective: Mapear o tópico, identificar conceitos principais e estabelecer objetivos de aprendizado
-    default_persona: Tutor
+    modo_padrao: Tutor
     skill: estudo-fluxo-01-descobrir
     activities: [mapa-conceitual, definição-de-metas, recursos-iniciais]
 
   02-organizar:
     name: Organizar
     objective: Indexar materiais, estruturar fontes e preparar base de conhecimento semântica
-    default_persona: Professor
+    modo_padrao: Professor
     skill: estudo-fluxo-02-organizar
     activities: [indexação-de-materiais, extração-de-conceitos, mapeamento-semântico]
 
   03-aprender:
     name: Aprender
     objective: Ensinar progressivamente, responder dúvidas, aprofundar conceitos com exemplos
-    default_persona: Professor
+    modo_padrao: Professor
     skill: estudo-fluxo-03-aprender
     activities: [explicação-progressiva, resposta-a-dúvidas, exemplos-do-domínio, citações-de-fonte]
 
   04-praticar:
     name: Praticar
     objective: Gerar exercícios contextualizados, receber soluções, oferecer feedback imediato
-    default_persona: Coach
+    modo_padrao: Coach
     skill: estudo-fluxo-04-praticar
     activities: [geração-de-exercícios, feedback-imediato, identificação-de-lacunas, motivação]
 
   05-testar:
     name: Testar
     objective: Avaliar conhecimento com provas/simulados, classificar erros, recomendar revisão
-    default_persona: Quizzer
+    modo_padrao: Quizzer
     skill: estudo-fluxo-05-testar
     activities: [geração-de-provas, correção-automática, análise-de-erros, histórico-de-testes]
 
   06-dominio:
     name: Domínio
     objective: Validar mastery, celebrar progresso, definir próximos passos ou consolidação
-    default_persona: Expert
-    secondary_persona: Coach
+    modo_padrao: Expert
+    modo_secundario: Coach
     skill: estudo-fluxo-06-dominio
     activities: [validação-de-domínio, análise-de-progresso, certificado-de-aprendizado, recomendações]
 
-# 6 Personas de IA Customizáveis
-personas:
+# ─────────────────────────────────────────────────────────────────────────────
+# DOIS CONCEITOS DISTINTOS — não confundir:
+#
+#   MODO DE ESTUDO  = COMO a IA ensina (tom, método, rigor). São 6, fixos, do
+#                     framework. Professor, Tutor, Coach, Mentor, Quizzer, Expert.
+#                     NÃO têm relação com conteúdo — só mudam a entrega.
+#
+#   ESPECIALISTA    = um expert de domínio que o USUÁRIO cria (ex.: "Hermes
+#                     exegeta", "Professora de Português"). Tem um escopo de
+#                     conteúdo próprio (sua pasta de biblioteca). Vive em
+#                     data/perfil/especialistas/<nome>.yaml.
+#
+# Sem especialista ativo no turno  → biblioteca = data/biblioteca/global/ inteira.
+# Especialista X ativo             → biblioteca = data/biblioteca/especialistas/<X>/ inteira.
+# O modo de estudo é ortogonal: nunca muda QUAL conteúdo está disponível, só COMO a resposta é dada.
+# ─────────────────────────────────────────────────────────────────────────────
+
+# 6 Modos de Estudo (ênfases pedagógicas — COMO ensinar, não personas de domínio)
+modos_de_estudo:
   Professor:
     role: "Explica conceitos de forma clara, estruturada e com exemplos"
     characteristics: [didático, preciso, progressivo, cita-fontes]
@@ -107,26 +124,45 @@ personas:
     default_stages: [06-dominio]
     tone: técnico e preciso
 
+# Especialistas — criados pelo usuário, um arquivo por especialista (SEM registro aqui)
+especialistas:
+  path: "data/perfil/especialistas/"                        # <nome>.yaml por especialista
+  biblioteca_path: "data/biblioteca/especialistas/<nome>/"  # pasta de conteúdo do especialista
+  schema:
+    nome: "string (slug — bate com o nome do arquivo .yaml e da pasta de biblioteca)"
+    titulo: "string (ex.: 'Hermes — Exegeta Bíblico')"
+    dominio: "string (ex.: 'Exegese e Hermenêutica')"
+    quando_ativar: "string — como o usuário chama esse especialista (nome, apelido, 'modo exegeta', tema)"
+    herda_biblioteca_global: "boolean (default false — se true, além da pasta própria também vê a global)"
+    instrucoes: "string (como esse especialista pensa, o que prioriza, o que evita)"
+  registro: "NENHUM — criar o arquivo .yaml + a pasta de biblioteca já basta (auto-descoberta)"
+
 # Orquestrador — Roteador Central
 orquestrador:
   enabled: true
-  always_on: true  # ✅ Ativa interceptação automática
-  role: "Mapeador intent → skill + persona. Resolve contexto de sessão, sugere próximo estágio"
+  always_on: true
+  role: "Mapeador intent → skill + modo de estudo. Resolve especialista/biblioteca do turno, contexto de sessão, próximo estágio"
 
   interceptation:
     enabled: true
-    # NÃO é um hook técnico (settings.json UserPromptSubmit não invoca skills — limitação
-    # do Claude Code). É uma regra de comportamento sempre carregada no contexto:
     rule: "CLAUDE.md (Regra 1)"
-    reference: ".claude/hooks/study-agent-intercept.md"  # detalhamento técnico/pseudocódigo
-    shows_routing: true  # Mostra ao usuário qual skill/persona foi acionada
-    auto_execute: true  # A IA executa a skill mapeada sem esperar confirmação (exceto intent ambíguo)
+    reference: ".claude/hooks/study-agent-intercept.md"
+    shows_routing: true
+    auto_execute: true
+
+  # Resolução de biblioteca a cada turno — AUTO-DESCOBERTA, sem registro de arquivo por arquivo
+  resolucao_biblioteca:
+    sem_especialista: "usa TUDO em data/biblioteca/global/ (todo .md/.yaml/subpasta, exceto marcados disabled)"
+    com_especialista_X: "usa TUDO em data/biblioteca/especialistas/<X>/ (+ global se herda_biblioteca_global: true)"
+    opt_out: "arquivo com `disabled: true` no topo (YAML) ou um arquivo `.disabled` ao lado é ignorado"
+    novo_material: "colocar o arquivo na pasta certa já basta — visível no próximo turno, sem editar config"
 
   routing:
     intent: "o que o aprendiz quer (analisado via LLM leve + patterns)"
+    especialista: "o usuário chamou algum especialista? (nome/apelido/'modo X'/tema) — senão, biblioteca global"
+    modo: "qual modo de estudo encaixa (Professor/Tutor/Coach/Mentor/Quizzer/Expert) — ortogonal ao conteúdo"
     state: "em qual estágio está (do meta.yaml)"
-    recommendation: "próximo estágio ou persona alternativa"
-    fallback_to_menu: true  # Se intenção ambígua, oferece menu
+    fallback_to_menu: true
 
   persistence: "SessionContext via data/perfil/aprendizado-meta.yaml"
 
@@ -185,55 +221,23 @@ materias:
     description: "Matérias definidas pelo usuário"
     tópicos: [dinâmicos, conforme necessário]
 
-# Libraries — Catálogo de Bases de Conhecimento
-libraries:
-  # Bibliotecas globais — compartilhadas em todo o framework
-  global: []
-
-  # Bibliotecas vinculadas a skills específicas (gatekeep: pergunta ao criar)
-  skill_specific:
-    estudo-fluxo-01-descobrir: []
-    estudo-fluxo-02-organizar: []
-    estudo-fluxo-03-aprender: []
-    estudo-fluxo-04-praticar: []
-    estudo-fluxo-05-testar: []
-    estudo-fluxo-06-dominio: []
-
-  # Bibliotecas vinculadas a personas (gatekeep: pergunta ao criar)
-  persona_specific:
-    Professor: []
-    Tutor: []
-    Coach: []
-    Mentor: []
-    Quizzer: []
-    Expert: []
-
-  # Bibliotecas vinculadas a matérias (gatekeep: pergunta ao criar)
-  materia_specific:
-    Anatomia: []
-    Fisiologia: []
-    Historia: []
-    Programacao: []
-    Custom: []
-
-# Schema de Biblioteca (template para criar nova)
-library_schema:
-  name: "string (obrigatório)"
-  scope: "global | skill | persona | materia"
-  scope_ref: "nome da skill/persona/materia (se não-global)"
-  description: "string (breve descrição da biblioteca)"
-  sources:
-    - type: "pdf | markdown | url | dataset"
-      path_or_url: "string"
-      indexed: "boolean (já foi indexada semanticamente?)"
-      last_updated: "ISO-datetime"
-  tags: "array de strings (categorias)"
-  created_at: "ISO-datetime"
-  created_by: "skill | persona | usuario"
-  metadata:
-    embeddings_count: "número de embeddings gerados (KnowledgeBase)"
-    concepts_extracted: "número de conceitos linkados"
-    linked_to_stages: "array de estágios que usam"
+# Biblioteca — AUTO-DESCOBERTA (sem catálogo, sem registro de arquivo por arquivo)
+biblioteca:
+  # NÃO existe lista de bibliotecas registradas. O que existe fisicamente nas pastas abaixo
+  # É a biblioteca. Colocou um .md/.yaml/subpasta lá → o orquestrador usa no próximo turno.
+  global:
+    path: "data/biblioteca/global/"
+    usada_quando: "nenhum especialista está ativo no turno (o caso mais comum)"
+  especialista:
+    path: "data/biblioteca/especialistas/<nome>/"
+    usada_quando: "o especialista <nome> está ativo no turno"
+    herda_global: "só se o perfil do especialista tiver herda_biblioteca_global: true"
+  formatos_aceitos: [".md", ".yaml", ".txt", "subpastas (recursivo)"]
+  opt_out_de_um_item: "`disabled: true` no topo do .yaml, OU um arquivo `<nome>.disabled` ao lado"
+  como_adicionar: >
+    Material bruto (PDF, áudio, vídeo, DOCX) → converter para .md primeiro (Regra 2 do CLAUDE.md)
+    e salvar em data/biblioteca/global/ (ou na pasta do especialista). É isso. Sem passo de registro.
+  skill_de_apoio: "study-gerenciar-bibliotecas (só ORGANIZA/converte/lista o que está nas pastas — não registra nada)"
 
 # System Configuration
 system:
@@ -272,7 +276,7 @@ skills:
     type: internal
     path: .claude/skills/estudo-fluxo-03-aprender/
     stage: 03-aprender
-    default_persona: Professor
+    modo_padrao: Professor
     description: "Etapa 3 — Ensinar progressivamente, responder dúvidas, oferecer exemplos"
 
   estudo-fluxo-04-praticar:
@@ -280,7 +284,7 @@ skills:
     type: internal
     path: .claude/skills/estudo-fluxo-04-praticar/
     stage: 04-praticar
-    default_persona: Coach
+    modo_padrao: Coach
     description: "Etapa 4 — Gerar exercícios, feedback imediato, identificar lacunas"
 
   estudo-fluxo-05-testar:
@@ -288,7 +292,7 @@ skills:
     type: internal
     path: .claude/skills/estudo-fluxo-05-testar/
     stage: 05-testar
-    default_persona: Quizzer
+    modo_padrao: Quizzer
     description: "Etapa 5 — Avaliar conhecimento com provas/simulados, análise de erros"
 
   estudo-fluxo-06-dominio:
@@ -296,8 +300,8 @@ skills:
     type: internal
     path: .claude/skills/estudo-fluxo-06-dominio/
     stage: 06-dominio
-    default_persona: Expert
-    secondary_persona: Coach
+    modo_padrao: Expert
+    modo_secundario: Coach
     description: "Etapa 6 — Validar mastery, celebrar progresso, próximos passos"
 
   book-to-skill:
@@ -319,7 +323,7 @@ skills:
     type: setup
     path: .claude/skills/study-setup-orquestrador/
     trigger: "primeiro-uso"
-    description: "Configurar Orquestrador Global Profile (domínio, personas, bibliotecas base)"
+    description: "Configurar Orquestrador Global Profile (domínio, modos favoritos, especialistas)"
     auto_detect: true
 
   study-audio-capture:
@@ -331,6 +335,16 @@ skills:
       - faster-whisper
       - ffmpeg
     storage: "data/estudos/aulas/ (versões verbatim/limpa); data/estudos/.transcricoes-raw/ (saída crua intermediária)"
+
+  study-processar-video:
+    enabled: true
+    type: input
+    path: .claude/skills/study-processar-video/
+    description: "Vídeo (arquivo ou URL) → transcrição limpa + resumo + mapa de pontos com timestamps + conversar com o conteúdo"
+    dependencies:
+      - ffmpeg
+      - yt-dlp
+    depends_on: [study-audio-capture, study-rag-local]
 
   study-rag-local:
     enabled: true
@@ -409,7 +423,7 @@ skills:
     enabled: true
     type: orchestration
     path: .claude/skills/study-orquestrador/
-    description: "Roteador central inteligente — mapeia intenção → skill + persona"
+    description: "Roteador central inteligente — mapeia intenção → skill + modo + especialista"
     dependencies: []
     integration: "intercepta TODAS as interações do usuário"
     persistence: "data/perfil/aprendizado-meta.yaml"
@@ -421,7 +435,7 @@ user_commands:
     name: "Começar um Novo Estudo"
     description: "Iniciar um novo tópico de aprendizado"
     maps_to: "study-orquestrador"
-    default_persona: "Tutor"
+    modo_padrao: "Tutor"
     stage: "01-descobrir"
 
   continuar-estudando:
@@ -448,19 +462,19 @@ user_commands:
     name: "Aprender"
     description: "Professor explica um conceito em profundidade"
     maps_to: "estudo-fluxo-03-aprender"
-    default_persona: "Professor"
+    modo_padrao: "Professor"
 
   exercício:
     name: "Exercício"
     description: "Coach propõe um exercício prático com feedback imediato"
     maps_to: "estudo-fluxo-04-praticar"
-    default_persona: "Coach"
+    modo_padrao: "Coach"
 
   fazer-prova:
     name: "Fazer Prova"
     description: "Quizzer simula uma prova com questões personalizadas"
     maps_to: "estudo-fluxo-05-testar"
-    default_persona: "Quizzer"
+    modo_padrao: "Quizzer"
 
   # Acompanhar Progresso
   ver-progresso:
