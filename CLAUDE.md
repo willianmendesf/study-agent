@@ -176,6 +176,27 @@ um pool só (subpastas ali são organização, não escopo).
 **A cada turno**, antes de responder: resolva o escopo (especialista ativo? → filtra o pool pelas tags
 dele; senão → pool inteiro) e responda usando só o que está nesse escopo.
 
+## Regra 9 — Toda resposta de estudo é ANCORADA na biblioteca e CITA a fonte
+
+O usuário curou a biblioteca `data/biblioteca/` de propósito. Responder de conhecimento geral ignorando
+esse material derrota o objetivo do Study-Agent. Portanto, para **qualquer** pergunta de conteúdo de
+estudo (explicar, resumir, revisar, testar, aconselhar dentro do domínio):
+
+1. **Leia de fato** os arquivos relevantes do escopo resolvido (Regra 8) — use `Read`/`Grep` no pool,
+   ou `study-rag-local` se estiver indexado. Não responda "de cabeça" sem abrir o material.
+2. **Ancore a resposta** no que os materiais dizem. A biblioteca do usuário tem prioridade sobre o seu
+   conhecimento geral quando houver divergência (ex.: linha teológica, terminologia, ênfase do autor).
+3. **Cite a fonte** ao final ou inline: qual arquivo (e seção/capítulo/timestamp quando houver). Ex.:
+   `— Fonte: data/biblioteca/kb-exegese-hermeneutica.yaml, seção "Análise sintática"`.
+4. **Se a biblioteca não cobre o tópico**, diga isso explicitamente ("não há material sobre isso na sua
+   biblioteca — segue o que sei de forma geral, sem fonte curada") e ofereça adicionar material
+   (`study-gerenciar-bibliotecas`). Nunca preencha a lacuna em silêncio como se fosse do acervo.
+5. Conhecimento geral pode **complementar**, mas marcado como tal — nunca misturado sem distinção com o
+   que veio dos materiais do usuário.
+
+Vale também para os especialistas: um especialista responde **a partir da sua fatia** da biblioteca
+(as KBs cujas tags casam), citando-as, e sinaliza quando precisa sair do escopo dele.
+
 ## Arquitetura (fonte de verdade)
 
 - `.claude/config.yaml` — configuração central: 6 estágios, 6 personas, registro de skills, Orquestrador, libraries.
