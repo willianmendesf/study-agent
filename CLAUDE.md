@@ -46,9 +46,10 @@ Quando o usuário anexa ou referencia um arquivo PDF, DOCX, EPUB, RTF ou similar
 
 **Por quê:** ler PDF diretamente é caro em tokens a cada vez que o material é referenciado. Markdown é reindexável, buscável, versionável e muito mais barato de reler.
 
-Áudio (MP3, WAV, etc.) segue o mesmo princípio: transcreva primeiro (`study-audio-capture`), que gera
-**duas** versões (verbatim + limpa) — trabalhe sobre a versão **limpa** em `.md`, nunca reprocesse o
-áudio bruto a cada pergunta.
+Áudio (MP3, WAV, etc.) segue o mesmo princípio: transcreva primeiro (`study-audio-capture`) — o cru vai
+pra `data/audios/aulas/...` (bruto) e os elaborados (transcrição limpa, resumo, pontos, perguntas) pra
+`data/estudos/aulas/...`. Trabalhe sempre sobre o elaborado em `.md`, nunca reprocesse o áudio bruto a
+cada pergunta.
 
 ## Regra 3 — Estado sempre no disco, TUDO dentro de `data/`
 
@@ -66,6 +67,23 @@ repositório pessoal dele (Regra 7):
 | RAG local (embeddings) | `data/rag/` | ~~`.claude/rag/`~~ |
 | Mapas conceituais / grafos de conhecimento | `data/concept-maps/`, `data/knowledge-graphs/` | ~~`.claude/concept-maps/`, `.claude/knowledge-graphs/`~~ |
 | Materiais (PDF→MD, transcrições) | `data/estudos/aulas\|livros\|notas\|papers\|exercicios/trabalhos/` | (sem mudança de nome, só de raiz) |
+| Transcrições de áudio (bruto) | `data/audios/aulas/<materia>/<unidade>/parteN.txt` | (novo — bruto separado dos elaborados em `data/estudos/aulas/`) |
+
+Convenção de subpasta dentro de `data/estudos/` (especialmente `notas/`):
+- **Pasta = navegação por texto (livro → capítulo)**: `notas/evangelho-joao/4/`, `notas/assunto/12/`.
+- **Contexto de uso = frontmatter no arquivo**, não pasta: `tipo` (devocional/exegese/aula/nota),
+  `publico` (pessoal/pais/grupo-pequeno), `serie`, `passagem`. Ex. no README de `data/estudos/`.
+- Material de livro inteiro vai na raiz do livro; material que atravessa capítulos vai em
+  `_serie-<slug>/` dentro do livro. Não usar nomes ad-hoc tipo `joao-4-e-5/` ou `assunto-sala-4/`
+  (misturam dois eixos: texto × contexto).
+
+Convenção de áudio (`study-audio-capture`), mesma lógica de navegação por texto:
+- **Bruto** (transcrição crua, reproduzível): `data/audios/aulas/<materia>/<unidade>/parteN.txt`
+  (mais `.segments.json`/`-timestamps.md` só no modo timestamps). Staging em `data/audios/.work/`.
+- **Elaborado** (gerado pela IA, insumo de estudo): `data/estudos/aulas/<materia>/<unidade>/parteN/`
+  com `parteN-transcricao.md`, `parteN-resumo.md`, `parteN-pontos.md`, `parteN-conversa.md`.
+- `<unidade>` = capítulo (`4`), aula (`aula-1`), módulo, ou data (`10-09-2026`) — o que for a divisão
+  natural da matéria. A IA resolve no gate de contexto; se ambíguo, pergunta antes de transcrever.
 
 Skills mais antigas que ainda mencionem os caminhos "antes" (coluna da direita) ou `estudos/` solto na
 raiz devem ser lidas como apontando pro caminho novo — **este arquivo é a fonte de verdade**, não o

@@ -19,7 +19,7 @@ Processa e indexa os materiais de estudo (MP3, PDF, DOCX, TXT) numa base de conh
    por tipo/tema e remove duplicata (por hash), sempre com confirmação antes de mover/apagar
 1. Detecta tipos de arquivo
 2. Processa cada tipo — **regra obrigatória: nunca ler o arquivo original diretamente** (ver `CLAUDE.md` Regra 2):
-   - MP3/WAV → `study-audio-capture` transcreve + timestamps → salva `.md` (verbatim + limpa)
+   - MP3/WAV → `study-audio-capture` transcreve → bruto em `data/audios/aulas/<materia>/<unidade>/parteN.txt` → elaborados (transcrição, resumo, pontos, perguntas) em `data/estudos/aulas/<materia>/<unidade>/parteN/`
    - PDF/EPUB/DOCX/RTF (material de referência/livro) → skill `book-to-skill` extrai estrutura → gera skill/`.md`
    - PDF/DOCX/PPTX/XLSX simples (ex.: plano de aula, nota curta, slide, planilha) → skill `markitdown` converte direto para `.md`, salvo em `data/estudos/notas/<tema>/`
    - PDF **escaneado** (foto de prova, formulário) → skill `pdf-processing-pro` (OCR) antes de markitdown

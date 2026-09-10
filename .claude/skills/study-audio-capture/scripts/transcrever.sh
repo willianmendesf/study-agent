@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 # transcrever.sh — transcrição via Whisper local (faster-whisper)
-# Saída: texto CRU (sem pontuação/formatação) — a IA formata e limpa depois
-# (ver SKILL.md, passos 2 e 3), sem depender de nenhum serviço LLM externo.
+# Saída: texto CRU (sem pontuação/formatação) em data/audios/.raw/ — a IA elabora
+# depois (ver SKILL.md, Etapa 5) e move o cru pra data/audios/aulas/... na Etapa 4.
+# Sem dependência de serviço LLM externo.
 #
 # Uso:
 #   ./transcrever.sh <arquivo-audio-ou-video> [idioma]
@@ -13,11 +14,10 @@ IDIOMA="${2:-pt}"
 
 SKILL_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 # Saída vai para data/ (dado pessoal do usuário), NUNCA para dentro de .claude/skills/
-# (isso é pasta do FRAMEWORK — ver CLAUDE.md Regra 3/7). Raiz do study-agent = 2 níveis
+# (isso é pasta do FRAMEWORK — ver CLAUDE.md Regra 3/7). Raiz do study-agent = 3 níveis
 # acima de .claude/skills/study-audio-capture/scripts/.
 STUDY_AGENT_ROOT="$(cd "$SKILL_DIR/../../.." && pwd)"
-SAIDA_DIR="$STUDY_AGENT_ROOT/data/estudos/.transcricoes-raw"
-WORK="$STUDY_AGENT_ROOT/data/.tmp-transcricao"
+SAIDA_DIR="$STUDY_AGENT_ROOT/data/audios/.raw"
 
 if [[ -z "$ARQUIVO" ]]; then
   echo "Uso: $0 <arquivo> [idioma]" >&2
@@ -32,9 +32,11 @@ python3 -c "import faster_whisper" 2>/dev/null || {
   exit 1
 }
 
-mkdir -p "$SAIDA_DIR" "$WORK"
 BASE=$(basename "$ARQUIVO")
 STEM="${BASE%.*}"
+WORK="$STUDY_AGENT_ROOT/data/audios/.work/local-$STEM-$(date +%H%M%S)"
+mkdir -p "$SAIDA_DIR" "$WORK"
+trap 'rm -rf "$WORK"' EXIT   # WAV de trabalho sempre limpo
 
 echo "→ [1/2] Convertendo para WAV 16kHz mono..."
 ffmpeg -y -i "$ARQUIVO" -ar 16000 -ac 1 "$WORK/$STEM.wav" 2>/dev/null || {
@@ -84,6 +86,6 @@ echo "✓ Transcrição crua salva: $SAIDA_DIR/$STEM-raw.txt"
 echo ""
 echo "Próximo passo (a IA faz, não este script):"
 echo "  1. Ler $SAIDA_DIR/$STEM-raw.txt"
-echo "  2. Gerar versão verbatim formatada (pontuação/parágrafos, 100% das palavras)"
-echo "  3. Gerar versão limpa (study-ready, remove disfluências)"
-echo "  Ver: SKILL.md, passos 2 e 3."
+echo "  2. Elaborar as 4 saídas em data/estudos/aulas/<materia>/<unidade>/parteN/"
+echo "  3. Mover o cru pra data/audios/aulas/<materia>/<unidade>/parteN.txt"
+echo "  Ver: SKILL.md, Etapas 4 e 5."

@@ -16,12 +16,12 @@ description: "Processa um vídeo (arquivo local ou URL como YouTube) em 4 saída
 
 | # | Saída | Arquivo |
 |---|---|---|
-| 1 | **Transcrição limpa** (verbatim + limpa, como `study-audio-capture`) | `<video>-transcricao.md` |
+| 1 | **Transcrição limpa** (como `study-audio-capture`) | `<video>-transcricao.md` |
 | 2 | **Resumo** — a mensagem central + estrutura do vídeo em ~1 página | `<video>-resumo.md` |
 | 3 | **Mapa de pontos** — TODOS os pontos abordados, em ordem, com timestamp | `<video>-pontos.md` |
 | 4 | **Conversar com o conteúdo** — indexado para perguntas com citação de trecho/timestamp | (indexado via `study-rag-local`) |
 
-Tudo salvo em `data/estudos/aulas/<tema>/`.
+Elaborados salvos em `data/estudos/aulas/<materia>/<unidade>/` (mesma convenção de `study-audio-capture`); a transcrição crua, quando derivada de áudio, vai pro bruto em `data/audios/aulas/<materia>/<unidade>/`.
 
 ---
 
@@ -43,7 +43,7 @@ Reusa o pipeline de `study-audio-capture` (mesmo gate local-vs-externo):
 - Transcreve com Whisper local (`study-audio-capture/scripts/transcrever.sh`) **ou** a skill `transcribe` (API, se o usuário escolheu externo / precisa de diarização) — ver §Gate em `study-audio-capture/SKILL.md`.
 - **Preservar timestamps** — o Whisper e a API entregam segmentos com tempo; guardar `[hh:mm:ss]` a cada mudança de tópico/parágrafo. Os timestamps são o que torna as saídas 3 e 4 úteis.
 
-Gera as duas versões (verbatim + limpa) como `study-audio-capture` faz. A **limpa** com timestamps é a base das próximas saídas.
+Gera a transcrição limpa seguindo o pipeline de `study-audio-capture` (bruto em `data/audios/aulas/...` quando derivado de áudio). A **limpa** com timestamps é a base das próximas saídas.
 
 ### 3. Resumo (saída 2)
 

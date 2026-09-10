@@ -18,7 +18,7 @@ DEFAULT_CHUNKING_STRATEGY = "auto"
 MAX_AUDIO_BYTES = 25 * 1024 * 1024
 MAX_KNOWN_SPEAKERS = 4
 
-ALLOWED_RESPONSE_FORMATS = {"text", "json", "diarized_json"}
+ALLOWED_RESPONSE_FORMATS = {"text", "json", "diarized_json", "verbose_json"}
 
 
 def _die(message: str, code: int = 1) -> None:
@@ -160,8 +160,10 @@ def _build_payload(
     payload: Dict[str, Any] = {
         "model": args.model,
         "response_format": args.response_format,
-        "chunking_strategy": args.chunking_strategy,
     }
+    # whisper-1 não aceita chunking_strategy (só os modelos gpt-4o-transcribe*)
+    if args.chunking_strategy and args.model != "whisper-1":
+        payload["chunking_strategy"] = args.chunking_strategy
     if args.language:
         payload["language"] = args.language
     if args.prompt:
@@ -199,7 +201,7 @@ def main() -> None:
     parser.add_argument(
         "--response-format",
         default=DEFAULT_RESPONSE_FORMAT,
-        help="Response format: text, json, or diarized_json",
+        help="Response format: text, json, diarized_json, or verbose_json (with timestamps)",
     )
     parser.add_argument(
         "--chunking-strategy",
@@ -242,6 +244,8 @@ def main() -> None:
         _die("prompt is not supported with gpt-4o-transcribe-diarize")
     if args.response_format == "diarized_json" and "transcribe-diarize" not in args.model:
         _die("diarized_json requires gpt-4o-transcribe-diarize")
+    if args.response_format == "verbose_json" and args.model != "whisper-1":
+        _die("verbose_json (timestamps) requires --model whisper-1")
 
     _ensure_api_key(args.dry_run)
 
