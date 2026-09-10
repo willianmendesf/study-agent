@@ -1,0 +1,15 @@
+{
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash .claude/hooks/inventario-biblioteca.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ]
+  }
+}

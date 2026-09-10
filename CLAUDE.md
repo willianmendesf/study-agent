@@ -179,8 +179,16 @@ dele; senão → pool inteiro) e responda usando só o que está nesse escopo.
 ## Regra 9 — Toda resposta de estudo é ANCORADA na biblioteca e CITA a fonte
 
 O usuário curou a biblioteca `data/biblioteca/` de propósito. Responder de conhecimento geral ignorando
-esse material derrota o objetivo do Study-Agent. Portanto, para **qualquer** pergunta de conteúdo de
-estudo (explicar, resumir, revisar, testar, aconselhar dentro do domínio):
+esse material derrota o objetivo do Study-Agent.
+
+> **Reforço automático:** o hook `UserPromptSubmit` (`.claude/settings.json` →
+> `.claude/hooks/inventario-biblioteca.sh`) injeta em **toda mensagem** o inventário atual de
+> `data/biblioteca/` + perfil + especialistas. Você vê essa lista fresca a cada turno — não há desculpa
+> de "não sabia o que tinha". Se o hook não estiver ativo (sessão antiga, `data/` ausente), esta regra
+> continua valendo — leia `data/biblioteca/` você mesmo.
+
+Para **qualquer** pergunta de conteúdo de estudo (explicar, resumir, revisar, testar, aconselhar dentro
+do domínio):
 
 1. **Leia de fato** os arquivos relevantes do escopo resolvido (Regra 8) — use `Read`/`Grep` no pool,
    ou `study-rag-local` se estiver indexado. Não responda "de cabeça" sem abrir o material.
