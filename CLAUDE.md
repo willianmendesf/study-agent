@@ -7,9 +7,10 @@ Workspace de estudo inteligente. Framework ÚNICO de propósito pedagógico — 
 - **Modo de estudo** = COMO a IA ensina (Professor, Tutor, Coach, Mentor, Quizzer, Expert). São 6,
   fixos, do framework. Mudam só o tom/método/rigor da resposta — **nunca** o conteúdo disponível.
 - **Especialista** = um expert de domínio que o USUÁRIO cria (ex.: "Hermes exegeta", "Professora de
-  Português"). Vive em `data/perfil/especialistas/<nome>.yaml` e tem uma pasta de conteúdo própria
-  (`data/biblioteca/especialistas/<nome>/`). Só é ativado quando o usuário o chama explicitamente
-  (pelo nome/apelido/"modo X"/tema declarado em `quando_ativar`).
+  Português"). Vive em `data/perfil/especialistas/<nome>.yaml`. **NÃO tem biblioteca própria** — vê um
+  subconjunto do pool único (`data/biblioteca/`), definido por tag: as bibliotecas cujas `tags` cruzam
+  com `tags_do_dominio` do especialista. Só é ativado quando o usuário o chama explicitamente (nome,
+  apelido, "modo X", ou tema declarado em `quando_ativar`).
 
 ## Regra 1 — Orquestrador SEMPRE roteia primeiro
 
@@ -18,8 +19,8 @@ Antes de responder qualquer mensagem do usuário, aplique `.claude/skills/study-
 1. **Detecte a intenção** da mensagem (descobrir, aprender, praticar, testar, validar domínio, gerenciar biblioteca, processar áudio/vídeo, ajuda).
 2. **Consulte o estado** — se existir, leia `data/perfil/aprendizado-meta.yaml` (SessionContext: estágio atual, modos usados, pontos fracos, materia/tópico).
 3. **Resolva especialista + biblioteca** (ver Regra 8):
-   - Usuário chamou um especialista? → biblioteca = `data/biblioteca/especialistas/<X>/`
-   - Não? → biblioteca = `data/biblioteca/global/` inteira
+   - Usuário chamou um especialista X? → biblioteca = arquivos de `data/biblioteca/` cujas `tags` cruzam com `tags_do_dominio` de X
+   - Não? → biblioteca = pool inteiro (`data/biblioteca/`, menos os `disabled`)
 4. **Mapeie** intenção → skill (`estudo-fluxo-NN-*` ou `study-*`) → **modo de estudo** (Professor, Tutor, Coach, Mentor, Quizzer, Expert) usando `config.yaml → orquestrador` e `.claude/skills/study-orquestrador/SKILL.md`.
 5. **Mostre o roteamento ao usuário** antes de responder, formato curto:
    ```
@@ -151,25 +152,29 @@ nunca aparece no `git status` do study-agent.
 crie o arquivo `data/perfil/orquestrador-<seu-dominio>.yaml` via `study-setup-orquestrador`, e ele já
 nasce dentro do seu repo de `data/`.
 
-## Regra 8 — Biblioteca é auto-descoberta (nunca registrar arquivo por arquivo)
+## Regra 8 — Biblioteca: pool único, vínculo por tag (nunca registrar arquivo por arquivo)
 
-Não existe catálogo de bibliotecas. **O que está fisicamente nas pastas É a biblioteca.**
+Não existe catálogo de bibliotecas. **O que está fisicamente em `data/biblioteca/` É a biblioteca** —
+um pool só (subpastas ali são organização, não escopo).
 
-- `data/biblioteca/global/` — usada quando **nenhum especialista** está ativo (o caso comum). O
-  orquestrador enxerga **todo** `.md`/`.yaml`/subpasta ali, sem exceção e sem passo de registro.
-- `data/biblioteca/especialistas/<nome>/` — usada só quando o especialista `<nome>` está ativo. Mesmo
-  princípio: tudo na pasta é usado. Se o perfil do especialista tiver `herda_biblioteca_global: true`,
-  ele também vê a global.
-- **Adicionar material** = converter pra `.md` (Regra 2) e salvar na pasta certa. Fim. Fica disponível
-  no turno seguinte. **Nunca** peça pro usuário "registrar" uma biblioteca nem edite `config.yaml` pra
-  isso.
+- Cada arquivo de biblioteca declara `tags: [...]` no topo (frontmatter YAML). Ex.: um léxico de grego
+  → `tags: [grego, exegese, lexico]`.
+- Cada especialista declara `tags_do_dominio: [...]` no seu `.yaml`. Ex.: Hermes exegeta →
+  `tags_do_dominio: [exegese, hermeneutica, grego, hebraico]`.
+- **Resolução por turno:**
+  - Sem especialista ativo → orquestrador vê o **pool inteiro** (menos os `disabled`).
+  - Especialista X ativo → vê só os arquivos cujas `tags` **cruzam** com `tags_do_dominio` de X.
+  - Arquivo sem `tags` → só aparece quando não há especialista ativo.
+- **Crescimento automático nos dois sentidos:** biblioteca nova com tag que casa → o especialista já
+  enxerga, sem editar o especialista. Especialista novo → declara as tags dele e já pega todas as
+  bibliotecas que casam. **Nunca** peça pro usuário "registrar" biblioteca nem edite `config.yaml`.
 - **Desligar um item** sem apagar: `disabled: true` no topo do `.yaml`, ou um arquivo `<nome>.disabled`
   ao lado.
-- `study-gerenciar-bibliotecas` só ajuda a **organizar/converter/listar** o que está nas pastas — não
-  mantém nenhum registro.
+- `study-gerenciar-bibliotecas` só ajuda a **converter / organizar / listar / taguear** o que está no
+  pool — não mantém nenhum registro.
 
-**A cada turno**, antes de responder: resolva o escopo (especialista ativo? → pasta dele; senão →
-global), varra a pasta resolvida, e responda usando só o que está nesse escopo.
+**A cada turno**, antes de responder: resolva o escopo (especialista ativo? → filtra o pool pelas tags
+dele; senão → pool inteiro) e responda usando só o que está nesse escopo.
 
 ## Arquitetura (fonte de verdade)
 

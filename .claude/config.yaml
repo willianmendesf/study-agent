@@ -77,12 +77,13 @@ learning_stages:
 #                     NÃO têm relação com conteúdo — só mudam a entrega.
 #
 #   ESPECIALISTA    = um expert de domínio que o USUÁRIO cria (ex.: "Hermes
-#                     exegeta", "Professora de Português"). Tem um escopo de
-#                     conteúdo próprio (sua pasta de biblioteca). Vive em
-#                     data/perfil/especialistas/<nome>.yaml.
+#                     exegeta", "Professora de Português"). Vive em
+#                     data/perfil/especialistas/<nome>.yaml. NÃO tem biblioteca
+#                     própria — vê um subconjunto do pool único, por tag.
 #
-# Sem especialista ativo no turno  → biblioteca = data/biblioteca/global/ inteira.
-# Especialista X ativo             → biblioteca = data/biblioteca/especialistas/<X>/ inteira.
+# Existe UM pool de bibliotecas: data/biblioteca/. Cada arquivo tem `tags: [...]`.
+# Sem especialista ativo no turno  → orquestrador vê o pool INTEIRO.
+# Especialista X ativo             → vê só as bibliotecas cujas tags cruzam com as tags_do_dominio de X.
 # O modo de estudo é ortogonal: nunca muda QUAL conteúdo está disponível, só COMO a resposta é dada.
 # ─────────────────────────────────────────────────────────────────────────────
 
@@ -125,17 +126,24 @@ modos_de_estudo:
     tone: técnico e preciso
 
 # Especialistas — criados pelo usuário, um arquivo por especialista (SEM registro aqui)
+# O especialista NÃO tem biblioteca própria. Existe UM pool único de bibliotecas
+# (data/biblioteca/). O especialista enxerga o SUBCONJUNTO desse pool que casa com o
+# domínio dele — o vínculo é por TAG, resolvido automaticamente:
+#   - cada arquivo de biblioteca tem `tags: [...]` no topo
+#   - o especialista declara `tags_do_dominio: [...]`
+#   - biblioteca visível ao especialista X = tags da biblioteca ∩ tags_do_dominio de X ≠ ∅
+# Assim: biblioteca nova com tag que casa → aparece pro especialista sozinha.
+# Especialista novo → declara as tags dele e já pega todas as bibliotecas que casam.
 especialistas:
-  path: "data/perfil/especialistas/"                        # <nome>.yaml por especialista
-  biblioteca_path: "data/biblioteca/especialistas/<nome>/"  # pasta de conteúdo do especialista
+  path: "data/perfil/especialistas/"     # <nome>.yaml por especialista
   schema:
-    nome: "string (slug — bate com o nome do arquivo .yaml e da pasta de biblioteca)"
+    nome: "string (slug — bate com o nome do arquivo .yaml)"
     titulo: "string (ex.: 'Hermes — Exegeta Bíblico')"
     dominio: "string (ex.: 'Exegese e Hermenêutica')"
     quando_ativar: "string — como o usuário chama esse especialista (nome, apelido, 'modo exegeta', tema)"
-    herda_biblioteca_global: "boolean (default false — se true, além da pasta própria também vê a global)"
+    tags_do_dominio: "[array] — as tags de biblioteca que este especialista cobre (ex.: [exegese, hermeneutica, grego, hebraico])"
     instrucoes: "string (como esse especialista pensa, o que prioriza, o que evita)"
-  registro: "NENHUM — criar o arquivo .yaml + a pasta de biblioteca já basta (auto-descoberta)"
+  registro: "NENHUM — criar o arquivo .yaml já basta. O vínculo com bibliotecas é por tag, automático."
 
 # Orquestrador — Roteador Central
 orquestrador:
@@ -150,16 +158,18 @@ orquestrador:
     shows_routing: true
     auto_execute: true
 
-  # Resolução de biblioteca a cada turno — AUTO-DESCOBERTA, sem registro de arquivo por arquivo
+  # Resolução de biblioteca a cada turno — pool ÚNICO, vínculo por tag (sem registro por arquivo)
   resolucao_biblioteca:
-    sem_especialista: "usa TUDO em data/biblioteca/global/ (todo .md/.yaml/subpasta, exceto marcados disabled)"
-    com_especialista_X: "usa TUDO em data/biblioteca/especialistas/<X>/ (+ global se herda_biblioteca_global: true)"
+    pool: "data/biblioteca/ — TODOS os .md/.yaml/subpastas (exceto marcados disabled)"
+    sem_especialista: "orquestrador vê o pool INTEIRO"
+    com_especialista_X: "orquestrador vê só as bibliotecas cujas `tags` cruzam com `tags_do_dominio` de X"
     opt_out: "arquivo com `disabled: true` no topo (YAML) ou um arquivo `.disabled` ao lado é ignorado"
-    novo_material: "colocar o arquivo na pasta certa já basta — visível no próximo turno, sem editar config"
+    novo_material: "salvar o .md em data/biblioteca/ com as `tags` certas já basta — sem editar config nem o especialista"
+    biblioteca_sem_tags: "visível só sem especialista ativo (não casa com ninguém)"
 
   routing:
     intent: "o que o aprendiz quer (analisado via LLM leve + patterns)"
-    especialista: "o usuário chamou algum especialista? (nome/apelido/'modo X'/tema) — senão, biblioteca global"
+    especialista: "o usuário chamou algum especialista? (nome/apelido/'modo X'/tema) — senão, pool inteiro"
     modo: "qual modo de estudo encaixa (Professor/Tutor/Coach/Mentor/Quizzer/Expert) — ortogonal ao conteúdo"
     state: "em qual estágio está (do meta.yaml)"
     fallback_to_menu: true
@@ -221,23 +231,29 @@ materias:
     description: "Matérias definidas pelo usuário"
     tópicos: [dinâmicos, conforme necessário]
 
-# Biblioteca — AUTO-DESCOBERTA (sem catálogo, sem registro de arquivo por arquivo)
+# Biblioteca — POOL ÚNICO, auto-descoberta, vínculo com especialista por tag
 biblioteca:
-  # NÃO existe lista de bibliotecas registradas. O que existe fisicamente nas pastas abaixo
-  # É a biblioteca. Colocou um .md/.yaml/subpasta lá → o orquestrador usa no próximo turno.
-  global:
-    path: "data/biblioteca/global/"
-    usada_quando: "nenhum especialista está ativo no turno (o caso mais comum)"
-  especialista:
-    path: "data/biblioteca/especialistas/<nome>/"
-    usada_quando: "o especialista <nome> está ativo no turno"
-    herda_global: "só se o perfil do especialista tiver herda_biblioteca_global: true"
+  # NÃO existe lista/catálogo de bibliotecas. O que está fisicamente em data/biblioteca/ É a biblioteca.
+  pool_path: "data/biblioteca/"          # um pool só; subpastas são organização, não escopo
   formatos_aceitos: [".md", ".yaml", ".txt", "subpastas (recursivo)"]
-  opt_out_de_um_item: "`disabled: true` no topo do .yaml, OU um arquivo `<nome>.disabled` ao lado"
+  # Cada arquivo de biblioteca declara suas tags no topo (frontmatter YAML ou bloco `---`):
+  #   ---
+  #   titulo: "Léxico de Grego Bíblico"
+  #   tags: [grego, exegese, lexico]
+  #   disabled: false        # opcional
+  #   ---
+  metadados_do_arquivo:
+    titulo: "string (opcional — senão usa o nome do arquivo)"
+    tags: "[array] — usado pra casar com especialistas. Sem tags = visível só quando não há especialista ativo."
+    disabled: "boolean (opcional) — true tira do pool. Alternativa: arquivo `<nome>.disabled` ao lado."
+  visibilidade:
+    sem_especialista: "pool inteiro (menos os disabled)"
+    com_especialista_X: "arquivos cujas tags ∩ tags_do_dominio(X) ≠ ∅"
   como_adicionar: >
-    Material bruto (PDF, áudio, vídeo, DOCX) → converter para .md primeiro (Regra 2 do CLAUDE.md)
-    e salvar em data/biblioteca/global/ (ou na pasta do especialista). É isso. Sem passo de registro.
-  skill_de_apoio: "study-gerenciar-bibliotecas (só ORGANIZA/converte/lista o que está nas pastas — não registra nada)"
+    Material bruto (PDF, áudio, vídeo, DOCX) → converter para .md primeiro (Regra 2 do CLAUDE.md),
+    pôr as tags certas no topo, salvar em data/biblioteca/. Fim. Sem passo de registro, sem editar
+    config, sem editar o especialista — se a tag casa, o especialista já enxerga.
+  skill_de_apoio: "study-gerenciar-bibliotecas (converte/organiza/lista/ajuda a taguear o que está no pool — não registra nada)"
 
 # System Configuration
 system:

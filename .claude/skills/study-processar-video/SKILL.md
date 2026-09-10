@@ -68,10 +68,10 @@ Regras: um ponto por ideia distinta; timestamp de onde começa; nunca resumir a 
 
 ### 5. Conversar com o conteúdo (saída 4)
 
-- Indexar a transcrição limpa (com timestamps) via `study-rag-local`, na biblioteca resolvida do turno
-  (global, ou pasta do especialista ativo — ver `CLAUDE.md` Regra 8).
+- Indexar a transcrição limpa (com timestamps) via `study-rag-local`, no pool de biblioteca (data/biblioteca/), com as tags certas
+  .
 - A partir daí, perguntas do usuário sobre o vídeo são respondidas citando o trecho + `[timestamp]`.
-- Registrar o vídeo como material em `data/biblioteca/global/` (ou pasta do especialista) — é só salvar
+- Registrar o vídeo como material em `data/biblioteca/` (com `tags:` no topo) — é só salvar
   o `.md`, sem passo de registro (Regra 8).
 
 ---
