@@ -12,6 +12,22 @@ description: "Gera provas sérias (Modo Prova, fiel a um exame real) ou gamifica
 
 ---
 
+## Fronteira com o fluxo 04 (praticar)
+
+Esta skill cobre **avaliações com várias questões de uma vez** (prova, simulado, quiz
+gamificado de várias rodadas). Para **prática 1-pergunta-por-turno em conversa** —
+com feedback imediato e ajuste de dificuldade turno a turno — use
+`estudo-fluxo-04-praticar`, que tem o ciclo conversacional (pergunta → tentativa →
+correção → variação).
+
+Resumo:
+- **Fluxo 04 — `estudo-fluxo-04-praticar`**: 1 questão por turno, feedback imediato,
+  adapta a próxima pelo erro. Modo Coach.
+- **Fluxo 05 — esta skill**: N questões em sequência, correção no final (ou relatório
+  agregado no modo-jogo). Modo Quizzer.
+
+---
+
 ## Objetivo
 
 Gerar avaliações a partir do material indexado, em dois registros:
