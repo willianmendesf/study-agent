@@ -129,11 +129,30 @@ todo update futuro.
 mkdir -p data/perfil data/biblioteca data/estudos
 cd data
 git init -q
+# sem assinatura de IA nos commits (ver abaixo)
+cp ../.claude/hooks/prepare-commit-msg "$(git rev-parse --git-path hooks)/"
 git add -A && git commit -q -m "data: início"
 # opcional — repo privado seu (GitHub, GitLab, ou só local):
 git remote add origin <seu-repo-privado-de-dados>
 git push -u origin master
 ```
+
+**Atribuição de IA nos commits (zero).** Nenhum commit — do framework (`master`) ou do seu repo de
+`data/` — leva assinatura/trailer de IA: `Co-authored-by: Claude`, `Co-Authored-By`,
+`noreply@anthropic.com` ou `🤖 Generated with [Claude Code]`. A mensagem termina no corpo.
+
+- O hook `.claude/hooks/prepare-commit-msg` remove esses trailers automaticamente. Instale-o no repo
+  que vai commitar, se ainda não houver um:
+  ```bash
+  cp .claude/hooks/prepare-commit-msg "$(git rev-parse --git-path hooks)/"            # framework
+  cp .claude/hooks/prepare-commit-msg "$(git -C data rev-parse --git-path hooks)/"    # data/
+  ```
+- A atribuição automática do Claude Code também está desligada em `.claude/settings.json`
+  (`attribution.commit`/`pr` vazios + `includeCoAuthoredBy: false`).
+- Exceção única: co-autoria decidida explicitamente pelo usuário →
+  `ALLOW_AI_ATTRIBUTION=1 git commit …` (o hook preserva os trailers).
+- Não sobrescreva um `prepare-commit-msg` já existente sem revisar; se o repo tiver um, garanta que
+  ele não anexe atribuição de IA.
 
 Por que funciona sem conflito: `data/` está no `.gitignore` do study-agent, então o git do study-agent
 **nem enxerga** que ali dentro existe outro `.git` — são dois repositórios totalmente independentes,

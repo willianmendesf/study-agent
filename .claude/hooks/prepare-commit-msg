@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# prepare-commit-msg — remove atribuição automática de IA (Claude/Anthropic) da mensagem.
+#
+# Regra do workspace: NÃO anexar assinatura de IA nos commits (nada de
+# `Co-authored-by: Claude`, `Co-Authored-By: Claude`, `noreply@anthropic.com` ou
+# `🤖 Generated with [Claude Code]`).
+#
+# Exceção: co-autoria decidida explicitamente pelo humano → rode o commit com
+#   ALLOW_AI_ATTRIBUTION=1 git commit ...
+#
+# Uso: copie (ou referencie) este arquivo como `<hooks-dir>/prepare-commit-msg` no repo
+# do projeto — `hooks-dir` = `git rev-parse --git-path hooks`. Não sobrescreva um hook
+# existente sem revisar.
+
+COMMIT_MSG_FILE="$1"
+
+[ -n "$ALLOW_AI_ATTRIBUTION" ] && exit 0
+[ -f "$COMMIT_MSG_FILE" ] || exit 0
+
+# Trailers de co-autoria da IA (qualquer capitalização de Co-Authored-By)
+sed -i -E '/^[Cc]o-[Aa]uthored-[Bb]y:.*([Cc]laude|noreply@anthropic\.com)/d' "$COMMIT_MSG_FILE"
+
+# Linha "Generated with [Claude Code]" (com ou sem o emoji 🤖)
+sed -i -E '/Generated with \[Claude Code\]/d' "$COMMIT_MSG_FILE"
+
+# Normaliza a mensagem (remove linhas em branco sobrando no fim)
+printf '%s\n' "$(cat "$COMMIT_MSG_FILE")" > "$COMMIT_MSG_FILE"
+
+exit 0

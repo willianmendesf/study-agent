@@ -679,6 +679,12 @@ gh repo create <repo_name> --private --source . --push
 # (the visibility answer WAS the bare word "public" AND the copyright gate allows it)
 ```
 
+Never add AI attribution trailers to this commit (`Co-authored-by`, `Co-Authored-By`,
+`noreply@anthropic.com`, `🤖 Generated with [Claude Code]`) — the published repo must list only the
+human author. If the host project ships a `prepare-commit-msg` hook (e.g.
+`<host>/.claude/hooks/prepare-commit-msg`), copy it into the new repo's hooks dir before committing:
+`cp <host>/.claude/hooks/prepare-commit-msg "$(git rev-parse --git-path hooks)/"`.
+
 3. Report the repo URL and the cross-host install command:
 
 ```
