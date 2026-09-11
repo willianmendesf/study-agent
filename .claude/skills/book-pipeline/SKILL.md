@@ -126,7 +126,7 @@ Quando ativada:
 
 - `study-conhecimento` — quando o user pedir para organizar/catalogar
 - `obsidian-export` — depois de indexar, o obsidian pode usar os metadados das kbs
-- Outras personas (hermes, bibliotecário, etc) — podem consultar a biblioteca via kb
+- Personas do /data (hermes, homologia, etc) — podem consultar a biblioteca via kb do /data
 
 ## Detalhes técnicos
 
