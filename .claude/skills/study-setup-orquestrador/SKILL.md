@@ -135,11 +135,19 @@ inicial):
    usuário (e, se fizer sentido, sugerir ao Bibliotecário registrar a lacuna na lista de aquisição).
 3. **Se `tipo: sistema`:** `tags_do_dominio` fica vazio; não há nada do pool pra conectar.
 4. Escrever `data/perfil/especialistas/<nome>.yaml` com o schema de `config.yaml → especialistas.schema`.
-5. Se fizer sentido colaboração com outro especialista já existente, sugerir uma entrada em
+5. **Se `tipo: conteudo`:** logo em seguida, aciona `study-gerenciar-bibliotecas` (ação 7.2 —
+   recomendação proativa) para mostrar ao usuário, **sem ele pedir**: (a) o que o pool já cobre pra esse
+   especialista ("você já tem: X, Y, Z"), e (b) obras de referência do domínio que **faltam**, propostas
+   com base no domínio **e na ênfase que o usuário acabou de declarar** (`titulo`/`instrucoes` do
+   especialista) — não só o domínio genérico. Apresentar essa recomendação junto com a confirmação de
+   que o especialista está pronto pra uso; registrar na lista de aquisição só os títulos que o usuário
+   confirmar.
+6. Se fizer sentido colaboração com outro especialista já existente, sugerir uma entrada em
    `data/perfil/relacionamentos.yaml` (criar o arquivo se ainda não existir).
 
-O Bibliotecário **nunca cria especialista** — ele só cataloga a biblioteca e, quando consultado,
-informa quais tags existem. Quem decide, pergunta ao usuário e escreve o arquivo é o Orquestrador.
+O Bibliotecário **nunca cria especialista** — ele só cataloga a biblioteca, recomenda obras (inclusive
+proativamente, assim que um especialista novo é salvo) e, quando consultado, informa quais tags
+existem. Quem decide, pergunta ao usuário e escreve o arquivo é o Orquestrador.
 
 ---
 

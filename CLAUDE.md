@@ -245,6 +245,9 @@ um pool só (subpastas ali são organização, não escopo).
   consulta o pool (pode pedir pro bibliotecário listar tags existentes) e propõe `tags_do_dominio` com
   base no que já existe, sinalizando lacunas na lista de aquisição se for o caso. Isso substitui
   qualquer ideia de "biblioteca do especialista" — a única origem de livros é sempre `data/biblioteca/`.
+  **Logo após salvar o especialista**, o bibliotecário recomenda PROATIVAMENTE (sem o usuário pedir) o
+  que o pool já cobre e quais obras faltam, considerando a ênfase declarada — ver
+  `study-gerenciar-bibliotecas/SKILL.md` ação 7.2.
 - **Dois tipos de especialista** (`config.yaml → especialistas.tipos_de_especialista`):
   - `conteudo` (padrão) — vinculado à biblioteca por tag, como descrito acima.
   - `sistema` — administra uma ferramenta/rotina externa do usuário (agenda, gestor de tarefas); não

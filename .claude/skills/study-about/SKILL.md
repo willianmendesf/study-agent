@@ -49,8 +49,10 @@ modo de estudo ativo) e **não cria especialista** — só organiza o material.
 
 Peça "cria um especialista de [assunto]" a qualquer momento (não precisa ser no setup inicial). Você
 escolhe nome, título e domínio; a IA consulta o que já existe na biblioteca sobre aquele tema e propõe
-as tags que o especialista vai enxergar. Depois é só chamar pelo nome ("fala com o Professor de Banco
-de Dados sobre X") pra ativar. Sem especialista ativo, a IA usa a biblioteca inteira.
+as tags que o especialista vai enxergar. Assim que ele é criado, o Bibliotecário já mostra — sem você
+precisar pedir — o que você tem sobre o tema e sugere obras de referência que faltam, com base na
+ênfase que você descreveu. Depois é só chamar pelo nome ("fala com o Professor de Banco de Dados sobre
+X") pra ativar. Sem especialista ativo, a IA usa a biblioteca inteira.
 
 ## 4. Transcrever aulas e vídeos
 

@@ -15,9 +15,14 @@ biblioteca** (`data/biblioteca/`) e os livros processados (`data/estudos/livros/
 - Detectar lacunas (temas mal cobertos) e manter a lista de aquisição opcional
   (`data/biblioteca/lista-aquisicao.md`).
 - Organizar o resultado de ingestões em massa (`book-pipeline`) que chegam sem tag.
+- **Recomendar PROATIVAMENTE** — sem o usuário pedir — assim que um especialista novo é criado: o que
+  o pool já cobre pra aquele domínio, e quais obras de referência faltam, considerando a ênfase que o
+  usuário declarou (não só o domínio genérico). Ver `SKILL.md` ação 7.2.
 
 Ele é consultado — nunca é quem decide sozinho — sempre que **outra parte do sistema** precisa saber
-"o que existe na biblioteca sobre X".
+"o que existe na biblioteca sobre X". A única exceção proativa é a recomendação pós-criação de
+especialista (acima) — ali ele fala antes de ser perguntado, porque é o momento certo pra fechar a
+lacuna.
 
 ## O que NUNCA é seu papel
 
@@ -49,6 +54,7 @@ usuário novo, no fim deste arquivo).
 | "Temos livro sobre X?" | Bibliotecário |
 | "O que a Bíblia/anatomia/lei diz sobre X?" | O especialista do domínio (não o Bibliotecário) |
 | "Cria um especialista de X" | Orquestrador (`study-setup-orquestrador`) — pode consultar o Bibliotecário sobre tags existentes |
+| (logo após um especialista ser criado, sem pedido) | Bibliotecário recomenda proativamente o que já tem + o que falta pra aquele especialista |
 | "O que falta na biblioteca sobre X?" | Bibliotecário |
 | "Adiciona esse PDF" | Bibliotecário (converte, tagueia, cataloga) |
 | Escolher `tags_do_dominio` pra um especialista novo | Orquestrador decide com o usuário, usando a informação que o Bibliotecário fornece sobre o pool |
