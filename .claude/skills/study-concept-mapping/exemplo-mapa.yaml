@@ -1,0 +1,18 @@
+# Exemplo de mapa conceitual (formato real, consumido por concept_map_cli.py). Fictício,
+# não é dado do usuário — mapas reais vivem em data/concept-maps/<materia>.yaml.
+topico: "Sistema Cardiovascular (exemplo)"
+
+conceitos:
+  Sistema Circulatorio: { dominio: Anatomia, dificuldade: 4 }
+  Coracao: { dominio: Anatomia, dificuldade: 5 }
+  Bomba Mecanica: { dominio: Fisica, dificuldade: 3 }
+  Cardiologia: { dominio: Clinica, dificuldade: 8 }
+  Cirurgia Cardiaca: { dominio: Clinica, dificuldade: 9 }
+  Infarto: { dominio: Patologia, dificuldade: 7 }
+
+relacionamentos:
+  - { de: Sistema Circulatorio, para: Coracao, tipo: prerequisito }
+  - { de: Coracao, para: Cardiologia, tipo: aplicacao }
+  - { de: Coracao, para: Cirurgia Cardiaca, tipo: aplicacao }
+  - { de: Coracao, para: Bomba Mecanica, tipo: similaridade }
+  - { de: Cardiologia, para: Infarto, tipo: causa_efeito }

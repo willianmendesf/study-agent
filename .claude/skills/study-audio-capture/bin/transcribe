@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# transcribe — wrapper portátil para skill transcribe
+# Funciona em: Linux, macOS, WSL, Git Bash, MSYS2, Cygwin
+#
+# Detecta:
+#   - Raiz do projeto a partir de $BASH_SOURCE (sem caminho hard-coded)
+#   - Caminho do Python no venv segundo o OS (bin/python ou Scripts/python.exe)
+#   - HOME portable para carregar ~/.openai_env
+
+set -euo pipefail
+
+# 1. resolve a própria localização e a raiz do projeto
+SELF="${BASH_SOURCE[0]}"
+case "$SELF" in
+  /*|[A-Za-z]:[\\/]*) ;;                              # já é absoluto
+  *) SELF="$PWD/$SELF" ;;                              # relativo → absoluto
+esac
+BIN_DIR="$(cd "$(dirname "$SELF")" && pwd -P)"
+PROJECT_ROOT="$(cd "$BIN_DIR/../../../../" && pwd -P)"
+
+# 2. carrega a chave OpenAI (HOME é setado em Git Bash / WSL / MSYS / nativo via $USERPROFILE)
+USERPROFILE="${USERPROFILE:-}"   # garante var definida em shells não-Windows
+for env_file in "$HOME/.openai_env" "$USERPROFILE/.openai_env"; do
+  if [[ -n "${env_file:-}" && -f "$env_file" ]]; then
+    # shellcheck disable=SC1090
+    source "$env_file"
+    break
+  fi
+done
+
+# 3. escolhe Python do venv segundo o OS
+uname_s="$(uname -s 2>/dev/null || echo "")"
+case "$uname_s" in
+  MINGW*|CYGWIN*|MSYS*|Windows*)
+    PY="$PROJECT_ROOT/.venv-transcribe/Scripts/python.exe"
+    ;;
+  *)
+    PY="$PROJECT_ROOT/.venv-transcribe/bin/python"
+    ;;
+esac
+
+if [[ ! -x "$PY" ]]; then
+  echo "ERRO: venv não encontrado. Esperado: $PY" >&2
+  echo "      Crie com (Linux/macOS/Git Bash):" >&2
+  echo "        uv venv .venv-transcribe --python 3.12" >&2
+  echo "        uv pip install --python .venv-transcribe/bin/python openai" >&2
+  echo "      Windows (PowerShell):" >&2
+  echo "        uv venv .venv-transcribe --python 3.12" >&2
+  echo "        uv pip install --python .venv-transcribe/Scripts/python.exe openai" >&2
+  exit 1
+fi
+
+# 4. exec no CLI da skill transcribe (passa todos os args do usuário)
+exec "$PY" "$PROJECT_ROOT/.claude/skills/transcribe/scripts/transcribe_diarize.py" "$@"

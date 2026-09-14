@@ -1,0 +1,6 @@
+# Project-local RTK filters — versionado com o study-agent (github.com/rtk-ai/rtk).
+# Filtros aqui têm prioridade sobre os globais/embutidos do usuário.
+# Inerte se rtk não estiver instalado — não afeta ninguém que não usa a ferramenta.
+# Docs: https://github.com/rtk-ai/rtk#custom-filters
+# Mantido por: .claude/skills/study-token-economy/SKILL.md
+schema_version = 1

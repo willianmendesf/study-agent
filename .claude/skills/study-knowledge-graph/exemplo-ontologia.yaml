@@ -1,0 +1,46 @@
+# Exemplo de ontologia (formato real, consumido por query.py). Não é dado do usuário —
+# só ilustra o schema. Ontologias reais do usuário vivem em data/knowledge-graphs/<materia>.yaml
+# (Regra 7 — nunca no template).
+materia: "Cardiologia (exemplo)"
+
+conceitos:
+  Histologia:
+    dificuldade: 3
+    tempo_estudo: 180
+
+  Embriologia:
+    dificuldade: 4
+    tempo_estudo: 180
+
+  Bioquimica:
+    dificuldade: 5
+    tempo_estudo: 240
+
+  Anatomia Cardiaca:
+    dificuldade: 5
+    tempo_estudo: 300
+    prerequisitos: [Histologia, Embriologia]
+
+  Eletrofisiologia:
+    dificuldade: 7
+    tempo_estudo: 240
+    prerequisitos: [Bioquimica]
+
+  Fisiologia Cardiovascular:
+    dificuldade: 6
+    tempo_estudo: 300
+    prerequisitos: [Anatomia Cardiaca, Eletrofisiologia]
+    similar_a: [Fisiologia Respiratoria]
+
+  Fisiologia Respiratoria:
+    dificuldade: 6
+    tempo_estudo: 240
+    prerequisitos: [Bioquimica]
+
+  Cardiologia:
+    dificuldade: 8
+    tempo_estudo: 420
+    prerequisitos: [Fisiologia Cardiovascular]
+
+progresso:
+  aprendidos: [Histologia, Embriologia, Bioquimica, Fisiologia Respiratoria]
