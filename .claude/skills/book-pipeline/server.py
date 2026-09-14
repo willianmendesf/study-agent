@@ -13,7 +13,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from datetime import datetime
 
 SKILL_DIR = Path(__file__).resolve().parent
-STUDY_AGENT_ROOT = SKILL_DIR.parents[2]  # .claude/skills/book-pipeline -> raiz do study-agent
+# Path fixo do study-agent (configurável via env se necessário)
+STUDY_AGENT_ROOT = Path('/dados/study-agent')
 
 CRED = Path.home() / '.config' / 'gdrive-mcp' / 'gdrive-credentials.json'
 KEYS = Path.home() / '.config' / 'gdrive-mcp' / 'gcp-oauth.keys.json'
