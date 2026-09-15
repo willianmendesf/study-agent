@@ -89,7 +89,7 @@ intent_patterns:
   
   testar:
     pattern: "prova|teste|quiz|avaliar"
-    skill: estudo-fluxo-05-testar
+    skill: estudo-fluxo-05-testar  # sempre delega a geração real pra study-gerar-provas-simulados (Modo Prova/Jogo + pergunta texto×H5P)
     persona: Quizzer
   
   validar_dominio:

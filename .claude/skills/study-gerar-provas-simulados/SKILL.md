@@ -1,6 +1,6 @@
 ---
 name: study-gerar-provas-simulados
-description: "Gera provas sérias (Modo Prova, fiel a um exame real) ou gamificadas (Modo Jogo: quiz cronometrado, streak, flashcard battle). Use quando o usuário quer fazer prova, simulado, ou revisar de forma lúdica."
+description: "Gera provas sérias (Modo Prova, fiel a um exame real) ou gamificadas (Modo Jogo: quiz cronometrado, streak, flashcard battle). Por padrão PERGUNTA se o usuário quer responder em texto (chat) ou de forma clicável/visual no navegador (H5P) — não espera o usuário lembrar de pedir. Use quando o usuário quer fazer prova, simulado, ou revisar de forma lúdica."
 ---
 
 # Gerar Provas e Simulados — Modo Prova + Modo Jogo
@@ -44,7 +44,27 @@ Gerar avaliações a partir do material indexado, em dois registros:
 - Materiais indexados (via `estudo-fluxo-02-organizar`) ou tópicos explícitos
 - Formato de prova (se o usuário tem um exame-alvo: número de questões, tipo, tempo — replicar)
 - Modo desejado (perguntar se não estiver claro — ver §Seleção de modo)
+- **Interface** — texto (chat) ou H5P (clicável no navegador) — perguntar **sempre**, ver §Interface
 - Nível de dificuldade / estágio do aluno (consultar `data/perfil/aprendizado-meta.yaml` se existir)
+
+---
+
+## Interface: texto (chat) ou H5P (clicável no navegador) — pergunte por padrão
+
+Vale pros dois modos (Prova e Jogo), não só o Jogo. Antes de gerar a prova/exercício, pergunte (junto
+com a pergunta de modo, numa só rodada, via `AskUserQuestion` ou direto no texto): **"prefere responder
+aqui no chat (texto) ou de forma clicável no navegador (H5P — arrastar, marcar, flashcard de
+verdade)?"**
+
+- **Não force nenhum dos dois** — é uma escolha do usuário, feita a cada vez (ele pode preferir texto
+  hoje e H5P amanhã).
+- **Default se o usuário não responder/não tiver preferência clara:** texto/chat — é mais simples, não
+  exige abrir servidor local (`study-h5p/SKILL.md → serve.py`).
+- O rigor da questão **não muda** com a interface escolhida — a mesma questão validada por
+  `study-assessment-validator` só troca de forma de apresentação. Ver mapeamento de biblioteca H5P por
+  tipo de questão em `study-h5p/SKILL.md`.
+- Isso substitui o comportamento anterior de só oferecer H5P quando o usuário lembrava de pedir algo
+  "clicável" — agora a opção é sempre apresentada, cedo, antes de gerar.
 
 ---
 
@@ -83,10 +103,8 @@ Todo modo-jogo roda **na conversa**: a IA apresenta uma questão por vez, aplica
 narrado, contagem de streak, pontuação visível), e ao final resume o placar — sem precisar de app
 externo. Se o usuário tem `study-analytics-dashboard`, registra o resultado lá também.
 
-**Alternativa clicável/visual:** quando o usuário prefere responder clicando em vez de digitar (ex.:
-arrastar termos, marcar palavras, flashcards de verdade), a mesma questão validada pode virar um
-exercício H5P rodando localmente no navegador — ver `study-h5p/SKILL.md`. O rigor da questão não muda
-(ainda passa por `study-assessment-validator`); só a interface passa de texto pra interativa.
+**Alternativa clicável/visual (H5P):** ver §Interface acima — a pergunta texto×H5P já é feita por
+padrão antes de gerar, não só quando o usuário lembra de pedir algo clicável.
 
 ---
 
@@ -94,9 +112,10 @@ exercício H5P rodando localmente no navegador — ver `study-h5p/SKILL.md`. O r
 
 Se o usuário só disse "me testa" ou "quero praticar", pergunte com `AskUserQuestion` (ou direto no
 texto, se contexto já sugerir): "Simulado sério (como a prova real) ou modo jogo (mais leve, com
-pontuação/streak)?" — default para **Modo Prova** se for a primeira vez com o tópico (é o que
-`estudo-fluxo-05-testar` já fazia); default para **Modo Jogo** se for revisão de algo já estudado
-(baixo risco, foco em retenção).
+pontuação/streak)? E prefere responder aqui no chat ou de forma clicável no navegador (H5P)?" — as duas
+perguntas (modo + interface) numa só rodada. Default de **modo**: **Modo Prova** se for a primeira vez
+com o tópico (é o que `estudo-fluxo-05-testar` já fazia); **Modo Jogo** se for revisão de algo já
+estudado (baixo risco, foco em retenção). Default de **interface** (se o usuário não responder): texto.
 
 ---
 
