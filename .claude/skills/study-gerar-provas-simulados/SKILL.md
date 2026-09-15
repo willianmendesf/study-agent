@@ -49,22 +49,35 @@ Gerar avaliações a partir do material indexado, em dois registros:
 
 ---
 
-## Interface: texto (chat) ou H5P (clicável no navegador) — pergunte por padrão
+## Interface: texto (chat) ou clicável no navegador — pergunte por padrão
 
 Vale pros dois modos (Prova e Jogo), não só o Jogo. Antes de gerar a prova/exercício, pergunte (junto
 com a pergunta de modo, numa só rodada, via `AskUserQuestion` ou direto no texto): **"prefere responder
-aqui no chat (texto) ou de forma clicável no navegador (H5P — arrastar, marcar, flashcard de
-verdade)?"**
+aqui no chat (texto) ou de forma clicável no navegador?"**
 
 - **Não force nenhum dos dois** — é uma escolha do usuário, feita a cada vez (ele pode preferir texto
-  hoje e H5P amanhã).
+  hoje e clicável amanhã).
 - **Default se o usuário não responder/não tiver preferência clara:** texto/chat — é mais simples, não
-  exige abrir servidor local (`study-h5p/SKILL.md → serve.py`).
+  exige abrir servidor local.
 - O rigor da questão **não muda** com a interface escolhida — a mesma questão validada por
-  `study-assessment-validator` só troca de forma de apresentação. Ver mapeamento de biblioteca H5P por
-  tipo de questão em `study-h5p/SKILL.md`.
-- Isso substitui o comportamento anterior de só oferecer H5P quando o usuário lembrava de pedir algo
-  "clicável" — agora a opção é sempre apresentada, cedo, antes de gerar.
+  `study-assessment-validator` só troca de forma de apresentação.
+- Isso substitui o comportamento anterior de só oferecer interface clicável quando o usuário lembrava de
+  pedir algo "clicável" — agora a opção é sempre apresentada, cedo, antes de gerar.
+
+### Quando a resposta é "clicável": qual motor usar
+
+**Duas engines diferentes, escolha pelo tipo de avaliação — nunca H5P.QuestionSet pra prova/simulado
+com nota:**
+
+| Situação | Motor | Por quê |
+|---|---|---|
+| **Modo Prova** ou **Modo Jogo com nota/score real** (qualquer coisa que vai virar `simulado-<data>.md`/`jogo-<mecanica>-<data>.md` com resultado pontuado) | **`study-quiz-serio`** | Não mostra certo/errado por questão, não deixa voltar/tentar de novo, não revela a resposta certa — só o que reler. Evita o falso-positivo de "tentar até acertar" e guarda tempo+acerto/erro de cada questão para os analytics. |
+| Mecânica de **revisão solta** sem nota formal — flashcard battle, drag-and-drop de associação, marcar palavras — onde feedback imediato e "tentar de novo" são parte do valor pedagógico | **`study-h5p`** (H5P.MultiChoice, Dialogcards, DragText, etc.) | Feedback por item é o ponto dessas mecânicas — não é avaliação com nota real, então não há falso-positivo a evitar. |
+
+Na dúvida (o usuário só disse "modo jogo" sem detalhar), pergunte se é revisão informal (H5P) ou algo
+com nota pra valer (study-quiz-serio) — ou infira pelo Default de modo (§Seleção de modo): Modo Prova
+sempre usa `study-quiz-serio`; Modo Jogo usa `study-quiz-serio` quando tem placar/score real e
+`study-h5p` quando é só uma mecânica de revisão sem nota.
 
 ---
 
@@ -72,8 +85,12 @@ verdade)?"**
 
 1. Gera questões via `study-assessment-validator` (Bloom, learning outcomes, score ≥92)
 2. Replica o formato do exame-alvo se o usuário descreveu um (nº de questões, tempo, peso, tipo de item)
-3. Aplica: aluno responde tudo, só vê resultado ao final (simula condição real de prova)
-4. Corrige, gera relatório por conceito (não só nota geral — mapeia **onde** errou)
+3. Aplica: aluno responde tudo, só vê resultado ao final (simula condição real de prova) — em texto,
+   isso é natural (a IA só corrige depois de todas as respostas); em interface clicável, é
+   **`study-quiz-serio`** que garante isso (nunca `study-h5p`/H5P.QuestionSet, que revela certo/errado
+   por questão) — ver §Interface acima
+4. Corrige, gera relatório por conceito (não só nota geral — mapeia **onde** errou, e o que reler, nunca
+   a resposta certa em si)
 5. Passa erros para `study-spaced-repetition-fsrs` (agenda a revisão dos pontos fracos)
 
 Saída: `data/estudos/exercicios/<tema>/simulado-<data>.md` com gabarito comentado + análise de lacunas.
@@ -103,8 +120,9 @@ Todo modo-jogo roda **na conversa**: a IA apresenta uma questão por vez, aplica
 narrado, contagem de streak, pontuação visível), e ao final resume o placar — sem precisar de app
 externo. Se o usuário tem `study-analytics-dashboard`, registra o resultado lá também.
 
-**Alternativa clicável/visual (H5P):** ver §Interface acima — a pergunta texto×H5P já é feita por
-padrão antes de gerar, não só quando o usuário lembra de pedir algo clicável.
+**Alternativa clicável/visual:** ver §Interface acima — a pergunta texto×clicável já é feita por padrão
+antes de gerar, não só quando o usuário lembra de pedir algo clicável. Se o modo-jogo tem placar/nota
+real, o clicável é `study-quiz-serio`; se é revisão informal sem nota, é `study-h5p`.
 
 ---
 
@@ -122,8 +140,11 @@ estudado (baixo risco, foco em retenção). Default de **interface** (se o usuá
 ## Integração
 
 - **Geração de questão** → `study-assessment-validator` (sempre, nos dois modos)
+- **Interface clicável com nota real** → `study-quiz-serio` (não `study-h5p`/H5P.QuestionSet — ver
+  §Interface)
+- **Interface clicável de revisão informal sem nota** → `study-h5p`
 - **Agenda de revisão pós-erro** → `study-spaced-repetition-fsrs`
-- **Registro de progresso** → `study-analytics-dashboard`
+- **Registro de progresso, inclusive visão unificada entre matérias** → `study-analytics-dashboard`
 - **Exportar simulado para imprimir/entregar** → `study-exportar-documento` (`.docx`/`.pdf`)
 
 ## Saída

@@ -24,7 +24,12 @@ vendorizado (`h5p-standalone` + bibliotecas H5P oficiais, todas MIT), serve só 
   colar a resposta de volta no chat).
 
 **Quando NÃO ativar:** prática conversacional 1-pergunta-por-turno (isso é `estudo-fluxo-04-praticar`,
-que já funciona bem só em texto) ou quando o usuário não tem/quer abrir o navegador.
+que já funciona bem só em texto), quando o usuário não tem/quer abrir o navegador, ou **quando a
+avaliação tem nota/score real** (Modo Prova, Modo Jogo pontuado) — nesse caso o motor certo é
+`study-quiz-serio` (`.claude/skills/study-quiz-serio/SKILL.md`), não `H5P.QuestionSet`: H5P revela
+certo/errado por questão e permite tentar de novo/voltar, o que gera falso-positivo numa avaliação que
+deveria medir aprendizado real. `study-h5p` continua sendo o motor certo pra revisão informal sem nota
+(flashcard, drag-drop, vídeo interativo).
 
 ---
 
@@ -146,8 +151,9 @@ o resultado de um simulado em texto.
 - **`study-gerar-provas-simulados`** (Modo Jogo) — mecânica alternativa quando o usuário quer clicar em
   vez de responder em texto. A geração da questão em si continua passando por
   `study-assessment-validator` antes de virar `content.json` (rigor não muda, só a interface).
-- **`estudo-fluxo-05-testar`** — pode usar `H5P.QuestionSet` para um simulado completo com nota final
-  calculada pelo próprio player.
+- **`estudo-fluxo-05-testar`** — delega a avaliação de fato para `study-gerar-provas-simulados`, que
+  roteia pra `study-quiz-serio` (não `H5P.QuestionSet`) quando a interface escolhida é clicável e há
+  nota real em jogo — ver `study-quiz-serio/SKILL.md → §Por que este motor existe`.
 - **`study-processar-video`** — vídeo já transcrito/indexado pode virar `H5P.InteractiveVideo` (perguntas
   sobre o vídeo, com timestamp).
 - **`study-spaced-repetition-fsrs`** — erros registrados em `resultado.json` alimentam a agenda de revisão.

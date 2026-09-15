@@ -211,6 +211,55 @@ anatomia:
 
 ---
 
+## Visão unificada — todas as matérias, sempre atualizada
+
+Além do dashboard **por matéria** (`data/analytics/<materia>.yaml`, seção anterior), existe uma visão
+**agregada entre todas as matérias** — não é um arquivo separado que pode desatualizar: é **calculada
+na hora**, lendo todos os `data/analytics/*.yaml` que existirem, toda vez que o usuário pede progresso
+geral ("como estou indo?", "meu progresso", "dashboard geral"). Isso garante que ela nunca fica velha —
+não há sincronização a manter.
+
+### Quando atualizar a base (por matéria)
+
+Sempre que uma avaliação termina — inclusive as rodadas por `study-quiz-serio` (`resultado.json` +
+`relatorio.md` na pasta do exercício) — a IA lê o resultado e faz **append** no
+`data/analytics/<materia>.yaml` daquela matéria:
+- `historico` ganha uma entrada (data, matéria, tema, nota, duração, pontos fracos daquela tentativa)
+- `weak_points` é recalculado a partir do histórico recente
+- `mastery_timeline` marca o tópico quando ele passa a ter ≥90% de acerto nas últimas tentativas
+
+Isso é o mesmo fluxo que já existia (`study-h5p`/texto), só que agora `study-quiz-serio` também
+alimenta — nenhum caminho de avaliação fica de fora do dashboard.
+
+### Como montar a visão agregada (quando o usuário pede)
+
+1. `Glob` em `data/analytics/*.yaml` — cada arquivo é uma matéria.
+2. Pra cada matéria, ler `historico` (todas as tentativas) e `weak_points` atuais.
+3. Montar uma tabela única, ordenada por matéria e depois por data, com: matéria, tema/tópico, data,
+   nota (score_pct), duração, tendência (comparando as últimas 3 tentativas daquela matéria/tema).
+4. Calcular um resumo geral: nº de matérias ativas, retenção média ponderada, matéria com melhor/pior
+   tendência recente, tempo total de estudo (soma de todas as durações).
+5. Renderizar como o dashboard resumido já existente (§Visualizações), mas com uma seção extra "🌐 Visão
+   geral — todas as matérias" no topo, antes do detalhe por matéria.
+
+```
+🌐 VISÃO GERAL — todas as matérias
+═══════════════════════════════════════════════════════
+ Matérias ativas: 3  |  Tempo total de estudo: 12h40  |  Tentativas: 27
+
+ Matéria              Última nota   Tendência          Retenção
+ Teologia Sistemática   80%          ▲ subindo          82%
+ Anatomia               62%          ▬ estável          70%
+ Programação            45%          ▼ caindo — revisar 55%
+
+ ⚠️ Prioridade de revisão (pior tendência primeiro): Programação
+```
+
+- Isso é uma **leitura sob demanda**, não um arquivo mantido à parte — sempre reflete o estado atual dos
+  `data/analytics/*.yaml`, porque é recalculada a cada vez.
+- Fonte de cada nota/duração: `historico[].nota`/`historico[].duração`, vindos de `resultado.json` de
+  `study-quiz-serio` (avaliação pontuada) ou dos registros equivalentes de outras skills.
+
 ## Referências
 
 - [Learning Analytics Review - Heliyon](https://www.cell.com/heliyon/fulltext/S2405-8440(24)01414-2)
