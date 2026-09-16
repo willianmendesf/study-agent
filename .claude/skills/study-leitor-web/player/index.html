@@ -103,8 +103,10 @@
     <div class="meta" id="meta"></div>
   </div>
   <div style="display:flex; align-items:center; gap:10px;">
+    <span id="fila-pill" hidden></span>
     <span id="progresso-pill">0%</span>
     <button class="secundaria" id="btn-notas">Notas</button>
+    <button class="acao" id="btn-avancar" hidden>Avançar →</button>
     <button class="acao" id="btn-encerrar">Terminar sessão</button>
   </div>
 </div>
@@ -139,6 +141,7 @@
 (function () {
   var conteudo = null;
   var formato = "markdown";
+  var filaInfo = null; // manifesto de fila.json quando a sessão encadeia vários materiais
   var toastTimer = null;
   var heartbeatTimer = null;
   var idContador = 0;
@@ -483,7 +486,54 @@
     document.getElementById("painel-notas").classList.toggle("aberto");
   });
 
+  // --- modo fila: "Avançar" entre os materiais de um módulo --------------
+  function atualizarFilaPill() {
+    if (!filaInfo) return;
+    document.getElementById("fila-pill").hidden = false;
+    document.getElementById("fila-pill").textContent =
+      "Sessão " + (filaInfo.item_atual + 1) + " de " + filaInfo.itens.length;
+  }
+
+  function mostrarConclusaoDaFila(aoFinal) {
+    document.getElementById("btn-avancar").hidden = true;
+    var titulo = (aoFinal && aoFinal.titulo) || "Quiz do módulo";
+    document.getElementById("conteudo-markdown").innerHTML =
+      "<h1>Módulo concluído 🎉</h1><p>Quando voltar ao chat, peça: <strong>\"" +
+      escapeHtml(titulo) + "\"</strong> — a IA já vai saber que este módulo terminou.</p>";
+    document.getElementById("progresso-pill").textContent = "100%";
+  }
+
+  document.getElementById("btn-avancar").addEventListener("click", function () {
+    var btn = document.getElementById("btn-avancar");
+    btn.disabled = true;
+    fetch("/avancar", { method: "POST" }).then(function (r) { return r.json(); }).then(function (resp) {
+      btn.disabled = false;
+      if (resp.fim_da_fila) {
+        mostrarConclusaoDaFila(resp.ao_final);
+        return;
+      }
+      conteudo = resp.conteudo;
+      filaInfo.item_atual += 1;
+      formato = conteudo.formato || "markdown";
+      document.getElementById("titulo").textContent = conteudo.titulo || "Leitura";
+      document.title = conteudo.titulo || "study-leitor-web";
+      document.getElementById("meta").textContent =
+        (conteudo.materia ? conteudo.materia + " · " : "") + (conteudo.tema || "");
+      document.getElementById("progresso-pill").textContent = "0%";
+      atualizarFilaPill();
+      if (formato === "markdown") renderMarkdown();
+      window.scrollTo(0, 0);
+    });
+  });
+
   // --- boot -----------------------------------------------------------
+  fetch("/fila.json").then(function (r) { return r.ok ? r.json() : null; }).then(function (data) {
+    if (!data) return;
+    filaInfo = data;
+    document.getElementById("btn-avancar").hidden = false;
+    atualizarFilaPill();
+  }).catch(function () {});
+
   fetch("/conteudo.json").then(function (r) { return r.json(); }).then(function (data) {
     conteudo = data;
     formato = conteudo.formato || "markdown";

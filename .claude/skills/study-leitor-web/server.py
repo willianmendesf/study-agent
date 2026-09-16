@@ -54,8 +54,8 @@ def _stamp():
     return datetime.datetime.now(datetime.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
 
 
-def _progresso_inicial(conteudo):
-    return {
+def _progresso_inicial(conteudo, fila=False):
+    prog = {
         "atualizado_em": _stamp(),
         "titulo": conteudo.get("titulo"),
         "materia": conteudo.get("materia"),
@@ -67,11 +67,23 @@ def _progresso_inicial(conteudo):
         "notas": [],
         "pedidos_pendentes": [],
     }
+    if fila:
+        prog["fila"] = True
+        prog["item_atual"] = 0
+    return prog
+
+
+def _carregar_item_da_fila(session_dir, fila, indice):
+    item = fila["itens"][indice]
+    path = os.path.join(session_dir, item["conteudo"])
+    with open(path, "r", encoding="utf-8") as fh:
+        return json.load(fh)
 
 
 class Handler(BaseHTTPRequestHandler):
     session_dir = None  # set in main()
-    conteudo = None  # conteudo de conteudo.json, carregado uma vez em main()
+    conteudo = None  # conteudo do item atual (modo single: fixo; modo fila: reatribuido em /avancar)
+    fila = None  # manifesto de fila.json, ou None em modo single
     idle_seg = 600
     httpd = None  # set in main(), usado pro self-shutdown
 
@@ -124,6 +136,13 @@ class Handler(BaseHTTPRequestHandler):
 
         if path == "/conteudo.json":
             self._send_json(200, self.conteudo)
+            return
+
+        if path == "/fila.json":
+            if self.fila is None:
+                self.send_error(404, "esta sessao nao esta em modo fila")
+                return
+            self._send_json(200, dict(self.fila, item_atual=self.progresso.get("item_atual", 0)))
             return
 
         if path == "/arquivo":
@@ -180,6 +199,40 @@ class Handler(BaseHTTPRequestHandler):
             self._aplicar_evento(evento)
             self._gravar_progresso()
             self._send_json(200, {"ok": True, "progresso": self.progresso})
+            return
+
+        if path == "/avancar":
+            if self.fila is None:
+                self.send_error(404, "esta sessao nao esta em modo fila")
+                return
+            self._touch()
+            indice_atual = self.progresso.get("item_atual", 0)
+            proximo = indice_atual + 1
+            self._append_evento({"ts": _stamp(), "tipo": "avancar_item", "de": indice_atual, "para": proximo})
+
+            if proximo < len(self.fila["itens"]):
+                Handler.conteudo = _carregar_item_da_fila(self.session_dir, self.fila, proximo)
+                self.progresso["item_atual"] = proximo
+                self.progresso["local_atual"] = None
+                self.progresso["percentual_lido"] = 0.0
+                self.progresso["titulo"] = Handler.conteudo.get("titulo")
+                self.progresso["atualizado_em"] = _stamp()
+                self._gravar_progresso()
+                self._send_json(200, {"fim_da_fila": False, "conteudo": Handler.conteudo})
+                return
+
+            ao_final = self.fila.get("ao_final") or {}
+            self._append_evento({"ts": _stamp(), "tipo": "fila_concluida", "ao_final": ao_final})
+            if ao_final.get("tipo") == "quiz":
+                self.progresso["pedidos_pendentes"].append({
+                    "tipo": "quiz_pendente",
+                    "quiz_dir": ao_final.get("quiz_dir"),
+                    "titulo": ao_final.get("titulo"),
+                    "ts": _stamp(),
+                })
+            self.progresso["atualizado_em"] = _stamp()
+            self._gravar_progresso()
+            self._send_json(200, {"fim_da_fila": True, "ao_final": ao_final})
             return
 
         if path == "/encerrar":
@@ -279,11 +332,30 @@ def main(argv=None):
     args = ap.parse_args(argv)
 
     sess = os.path.abspath(args.session_dir)
+    fila_path = os.path.join(sess, "fila.json")
     conteudo_path = os.path.join(sess, "conteudo.json")
-    if not os.path.isfile(conteudo_path):
-        sys.exit("erro: %s nao contem conteudo.json — gere a sessao primeiro (ver SKILL.md)" % sess)
-    with open(conteudo_path, "r", encoding="utf-8") as fh:
-        conteudo = json.load(fh)
+
+    fila = None
+    if os.path.isfile(fila_path):
+        with open(fila_path, "r", encoding="utf-8") as fh:
+            fila = json.load(fh)
+        if not fila.get("itens"):
+            sys.exit("erro: fila.json precisa de pelo menos 1 item em 'itens'")
+    elif os.path.isfile(conteudo_path):
+        with open(conteudo_path, "r", encoding="utf-8") as fh:
+            conteudo = json.load(fh)
+    else:
+        sys.exit("erro: %s nao contem conteudo.json nem fila.json — gere a sessao primeiro (ver SKILL.md)" % sess)
+
+    progresso_path = os.path.join(sess, "progresso.json")
+    progresso_existente = None
+    if os.path.isfile(progresso_path):
+        with open(progresso_path, "r", encoding="utf-8") as fh:
+            progresso_existente = json.load(fh)
+
+    if fila is not None:
+        indice = progresso_existente.get("item_atual", 0) if progresso_existente else 0
+        conteudo = _carregar_item_da_fila(sess, fila, indice)
 
     formato = conteudo.get("formato", "markdown")
     if formato == "markdown":
@@ -297,16 +369,15 @@ def main(argv=None):
     else:
         sys.exit("erro: conteudo.json 'formato' deve ser markdown, epub ou pdf")
 
-    progresso_path = os.path.join(sess, "progresso.json")
-    if os.path.isfile(progresso_path):
-        with open(progresso_path, "r", encoding="utf-8") as fh:
-            progresso = json.load(fh)
+    if progresso_existente is not None:
+        progresso = progresso_existente
         print("  retomando sessao existente (progresso.json ja tinha destaques/notas).")
     else:
-        progresso = _progresso_inicial(conteudo)
+        progresso = _progresso_inicial(conteudo, fila=fila is not None)
 
     Handler.session_dir = sess
     Handler.conteudo = conteudo
+    Handler.fila = fila
     Handler.idle_seg = args.idle
     Handler.progresso = progresso
     Handler.last_activity_ts = time.time()

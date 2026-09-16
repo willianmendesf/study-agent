@@ -113,6 +113,45 @@ Regras:
 
 ---
 
+## Modo fila — encadear várias sessões de um módulo
+
+Por padrão a pasta da sessão tem só `conteudo.json` (um material). Quando o usuário quer estudar um
+**módulo inteiro** (ex.: M1 — Língua Portuguesa) e não um capítulo avulso, monte em vez disso um
+`fila.json` na raiz da pasta:
+
+```json
+{
+  "titulo_modulo": "M1 — Língua Portuguesa",
+  "materia": "IPB — Processo de Admissão aos Seminários",
+  "itens": [
+    { "id": "m1-1", "titulo": "M1.1 — Ortografia (I)", "conteudo": "itens/m1-1/conteudo.json" },
+    { "id": "m1-2", "titulo": "M1.2 — Ortografia (II)", "conteudo": "itens/m1-2/conteudo.json" }
+  ],
+  "ao_final": {
+    "tipo": "quiz",
+    "quiz_dir": "data/estudos/exercicios/<tema>/quiz-m1/",
+    "titulo": "Quiz M1 — Língua Portuguesa"
+  }
+}
+```
+
+- Cada `itens[].conteudo` é um caminho **relativo à pasta da sessão** apontando pra um
+  `conteudo.json` normal (mesmo schema de sempre — markdown/epub/pdf). Monte um item por sessão do
+  roadmap do usuário (ex.: `02-roadmap-dia-a-dia.md`), reaproveitando `reflowMarkdown`/slugify já
+  usados no modo single quando a fonte for um livro extraído sem estrutura.
+- **Autoria é manual, feita pela IA** — não existe parser automático de roadmap (formatos variam
+  demais entre usuários/matérias; Regra 4 do `CLAUDE.md`). Ler o roadmap, resolver a fonte de cada
+  sessão, gerar os `conteudo.json` dos itens, depois o `fila.json`.
+- `ao_final` aponta pra onde a IA deve gerar/rodar o quiz do módulo (`study-quiz-serio`) quando a fila
+  terminar — **o player nunca lança um segundo servidor sozinho**; ele só grava um pedido pendente
+  (ver §Handoff abaixo).
+- Sem `fila.json`, tudo continua exatamente como antes — modo fila é opt-in.
+- `POST /avancar` troca pro próximo item (reseta `local_atual`/`percentual_lido`, mantém
+  `destaques[]`/`notas[]` acumulados do módulo inteiro); no fim da fila, responde `fim_da_fila: true`
+  e o player mostra uma tela de conclusão com o botão "Terminar sessão".
+
+---
+
 ## Processo
 
 1. Gerar `conteudo.json` na pasta da sessão (sugestão: `data/estudos/<materia>/<...>/leitura-<slug>/`,
@@ -134,6 +173,10 @@ Regras:
    pedido ainda não tratado (explicar o trecho via `estudo-fluxo-03-aprender`, ou oferecer prática via
    `estudo-fluxo-04-praticar`/`study-quiz-serio`). É assim que navegador e IA se conectam — eventos
    estruturados lidos ao retomar a conversa, não "vigiar a tela".
+   - Em **modo fila**, o mesmo array ganha um tipo a mais: `{"tipo":"quiz_pendente","quiz_dir":...,
+     "titulo":...}`, gravado quando o aluno termina o último item da fila. Ao ver esse pedido, a IA
+     gera (se ainda não existir) o `quiz.json` do módulo via `study-gerar-provas-simulados` (passando
+     por `study-assessment-validator`) e roda `study-quiz-serio/server.py` apontando pra `quiz_dir`.
 
 ---
 
