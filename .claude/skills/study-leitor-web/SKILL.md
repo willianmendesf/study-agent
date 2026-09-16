@@ -130,25 +130,40 @@ Por padrão a pasta da sessão tem só `conteudo.json` (um material). Quando o u
   "ao_final": {
     "tipo": "quiz",
     "quiz_dir": "data/estudos/exercicios/<tema>/quiz-m1/",
+    "flashcards_dir": "data/estudos/exercicios/<tema>/flashcards-m1/",
     "titulo": "Quiz M1 — Língua Portuguesa"
   }
 }
 ```
 
 - Cada `itens[].conteudo` é um caminho **relativo à pasta da sessão** apontando pra um
-  `conteudo.json` normal (mesmo schema de sempre — markdown/epub/pdf). Monte um item por sessão do
-  roadmap do usuário (ex.: `02-roadmap-dia-a-dia.md`), reaproveitando `reflowMarkdown`/slugify já
-  usados no modo single quando a fonte for um livro extraído sem estrutura.
+  `conteudo.json` normal (mesmo schema de sempre — markdown/epub/pdf). Monte **um item por FONTE de
+  cada sessão do roadmap** (fonte primária e, quando existir, fonte de apoio — ex. `02-roadmap-dia-a-
+  dia.md` tem as duas colunas por sessão), na ordem em que aparecem na tabela — não só a primária.
+  Reaproveite `reflowMarkdown`/slugify já usados no modo single quando a fonte for um livro extraído
+  sem estrutura.
 - **Autoria é manual, feita pela IA** — não existe parser automático de roadmap (formatos variam
-  demais entre usuários/matérias; Regra 4 do `CLAUDE.md`). Ler o roadmap, resolver a fonte de cada
+  demais entre usuários/matérias; Regra 4 do `CLAUDE.md`). Ler o roadmap, resolver as fontes de cada
   sessão, gerar os `conteudo.json` dos itens, depois o `fila.json`.
-- `ao_final` aponta pra onde a IA deve gerar/rodar o quiz do módulo (`study-quiz-serio`) quando a fila
-  terminar — **o player nunca lança um segundo servidor sozinho**; ele só grava um pedido pendente
-  (ver §Handoff abaixo).
+- `ao_final.flashcards_dir` (opcional) e `ao_final.quiz_dir` apontam pra onde ficam a prática de
+  flashcards (`study-flashcards`) e o quiz do módulo (`study-quiz-serio`), nessa ordem. **Fluxo
+  contínuo (v2):** ao fim da fila, o próprio `server.py` resolve o que já existe em disco e sobe o
+  próximo app sozinho, numa porta livre (subprocesso independente):
+  1. Se `flashcards_dir/flashcards.json` existe → sobe `study-flashcards` (que, por sua vez, se
+     `quiz_dir/quiz.json` também já existir, encadeia direto pro quiz ao finalizar — ver
+     `study-flashcards/SKILL.md → §Fluxo contínuo`).
+  2. Senão, se só `quiz_dir/quiz.json` existe → sobe `study-quiz-serio` direto (comportamento sem
+     flashcards).
+  3. Senão → cai no fallback: grava um pedido pendente (`flashcards_pendente` ou `quiz_pendente`,
+     conforme o que falta gerar) e o aluno precisa voltar ao chat (ver §Handoff abaixo).
+  Em qualquer um dos três casos o `POST /avancar` responde com `proximo_url` (casos 1-2) e o player
+  redireciona o navegador na hora, sem passar pelo chat. Ou seja: **gere `flashcards.json` e
+  `quiz.json` do módulo ANTES de abrir a fila de leitura** sempre que possível — é o que garante o fim
+  contínuo.
 - Sem `fila.json`, tudo continua exatamente como antes — modo fila é opt-in.
 - `POST /avancar` troca pro próximo item (reseta `local_atual`/`percentual_lido`, mantém
   `destaques[]`/`notas[]` acumulados do módulo inteiro); no fim da fila, responde `fim_da_fila: true`
-  e o player mostra uma tela de conclusão com o botão "Terminar sessão".
+  e, sem `proximo_url`, o player mostra uma tela de conclusão com o botão "Terminar sessão".
 
 ---
 
@@ -173,10 +188,14 @@ Por padrão a pasta da sessão tem só `conteudo.json` (um material). Quando o u
    pedido ainda não tratado (explicar o trecho via `estudo-fluxo-03-aprender`, ou oferecer prática via
    `estudo-fluxo-04-praticar`/`study-quiz-serio`). É assim que navegador e IA se conectam — eventos
    estruturados lidos ao retomar a conversa, não "vigiar a tela".
-   - Em **modo fila**, o mesmo array ganha um tipo a mais: `{"tipo":"quiz_pendente","quiz_dir":...,
-     "titulo":...}`, gravado quando o aluno termina o último item da fila. Ao ver esse pedido, a IA
-     gera (se ainda não existir) o `quiz.json` do módulo via `study-gerar-provas-simulados` (passando
-     por `study-assessment-validator`) e roda `study-quiz-serio/server.py` apontando pra `quiz_dir`.
+   - Em **modo fila**, o mesmo array ganha até dois tipos a mais, gravados quando o aluno termina o
+     último item da fila e o fluxo contínuo não pôde auto-iniciar (ver §Modo fila): `{"tipo":
+     "flashcards_pendente","flashcards_dir":...,"titulo":...}` quando `flashcards_dir` estava
+     configurado mas sem `flashcards.json`; ou `{"tipo":"quiz_pendente","quiz_dir":...,"titulo":...}`
+     quando não havia `flashcards_dir` e o `quiz.json` também não existia ainda. Ao ver um desses
+     pedidos, a IA gera o material que falta (flashcards a partir do que foi lido; quiz via
+     `study-gerar-provas-simulados` + `study-assessment-validator`) e roda o `server.py` da skill
+     correspondente apontando pra pasta certa.
 
 ---
 

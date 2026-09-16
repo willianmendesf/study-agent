@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>study-flashcards</title>
+<style>
+  :root { color-scheme: light dark; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+         background: #f6f7f9; color: #1a1a1a; }
+  @media (prefers-color-scheme: dark) { body { background: #16181c; color: #e7e7e7; } }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 24px 20px 48px; }
+  .bar { display: flex; align-items: baseline; justify-content: space-between; gap: 12px;
+         margin-bottom: 18px; flex-wrap: wrap; }
+  .bar h1 { font-size: 16px; margin: 0; font-weight: 600; }
+  .card { background: #fff; border-radius: 14px; padding: 24px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  @media (prefers-color-scheme: dark) { .card { background: #1f2228; box-shadow: none; } }
+  .progress { display: flex; gap: 6px; margin-bottom: 18px; }
+  .progress .dot { flex: 1; height: 4px; border-radius: 2px; background: rgba(127,127,127,.25); }
+  .progress .dot.done { background: #4a7ddb; }
+  .progress .dot.current { background: #4a7ddb; opacity: .5; }
+  .meta { font-size: 13px; opacity: .7; margin-bottom: 8px; }
+  .frente, .verso { font-size: 19px; margin: 0 0 20px; min-height: 60px; }
+  .verso { border-top: 1px solid rgba(127,127,127,.25); padding-top: 16px; }
+  .acoes { display: flex; justify-content: flex-end; gap: 10px; margin-top: 20px; }
+  button.primaria { background: #4a7ddb; color: #fff; border: none; border-radius: 10px;
+                     padding: 12px 22px; font: inherit; font-weight: 600; cursor: pointer; }
+  button.primaria:disabled { opacity: .4; cursor: not-allowed; }
+  button.primaria:not(:disabled):hover { background: #3a6bc4; }
+  button.lembrou { background: #2f9e5f; }
+  button.lembrou:hover { background: #257e4b; }
+  button.nao-lembrou { background: #d34a28; }
+  button.nao-lembrou:hover { background: #b53c1e; }
+  .intro h2, .fim h2 { margin-top: 0; }
+  .fim .score { font-size: 40px; font-weight: 800; margin: 4px 0; }
+  .fim .score-sub { opacity: .7; margin-bottom: 20px; }
+  .fim .bloco { margin-top: 22px; }
+  .fim .bloco h3 { font-size: 14px; text-transform: uppercase; letter-spacing: .04em; opacity: .65;
+                    margin-bottom: 10px; }
+  .topico { border-left: 2px solid #d34a28; padding: 4px 0 4px 12px; margin-bottom: 14px; }
+  .topico.dominado { border-left-color: #2f9e5f; }
+  .topico .nome { font-weight: 600; }
+  .topico .taxa { opacity: .7; font-size: 13px; }
+  .rodape { margin-top: 28px; font-size: 13px; opacity: .65; text-align: center; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="bar">
+    <h1 id="titulo">Flashcards</h1>
+  </div>
+
+  <div class="card intro" id="tela-intro">
+    <h2 id="intro-titulo">Carregando…</h2>
+    <p id="intro-desc"></p>
+    <p class="meta" id="intro-meta"></p>
+    <p class="meta">Leia a frente, tente lembrar a resposta, depois clique "Virar" e avalie
+       honestamente se lembrou. Sequencial — sem voltar.</p>
+    <div class="acoes"><button class="primaria" id="btn-comecar">Começar</button></div>
+  </div>
+
+  <div class="card" id="tela-card" hidden>
+    <div class="progress" id="progress"></div>
+    <p class="meta" id="card-contador"></p>
+    <div class="frente" id="card-frente"></div>
+    <div class="verso" id="card-verso" hidden></div>
+    <div class="acoes">
+      <button class="primaria" id="btn-virar">Virar</button>
+      <button class="primaria nao-lembrou" id="btn-nao-lembrou" hidden>Não lembrei ❌</button>
+      <button class="primaria lembrou" id="btn-lembrou" hidden>Lembrei ✅</button>
+    </div>
+  </div>
+
+  <div class="card fim" id="tela-fim" hidden>
+    <h2>Resultado</h2>
+    <div class="score" id="fim-score"></div>
+    <div class="score-sub" id="fim-sub"></div>
+
+    <div class="bloco" id="bloco-fracos" hidden>
+      <h3>Cards a revisar</h3>
+      <div id="lista-fracos"></div>
+    </div>
+    <div class="bloco" id="bloco-dominados" hidden>
+      <h3>Dominado</h3>
+      <div id="lista-dominados"></div>
+    </div>
+
+    <p class="rodape" id="rodape-status">salvando resultado…</p>
+  </div>
+</div>
+
+<script>
+(function () {
+  var telaIntro = document.getElementById('tela-intro');
+  var telaCard = document.getElementById('tela-card');
+  var telaFim = document.getElementById('tela-fim');
+  var tituloEl = document.getElementById('titulo');
+
+  var flashcards = null;
+  var idx = -1;
+  var respostas = [];
+  var iniciadoEm = null;
+  var cardMostradoEm = null;
+
+  fetch('flashcards.json').then(function (r) { return r.json(); }).then(function (data) {
+    flashcards = data;
+    tituloEl.textContent = flashcards.titulo || 'Flashcards';
+    document.title = flashcards.titulo || 'study-flashcards';
+    document.getElementById('intro-titulo').textContent = flashcards.titulo || 'Flashcards';
+    document.getElementById('intro-desc').textContent =
+      (flashcards.materia ? flashcards.materia + ' · ' : '') + (flashcards.tema || '');
+    document.getElementById('intro-meta').textContent = flashcards.cards.length + ' card(s)';
+  }).catch(function (err) {
+    document.getElementById('intro-desc').textContent = 'erro ao carregar flashcards.json: ' + err;
+  });
+
+  document.getElementById('btn-comecar').addEventListener('click', function () {
+    iniciadoEm = Date.now();
+    telaIntro.hidden = true;
+    telaCard.hidden = false;
+    proximoCard();
+  });
+
+  function renderProgress() {
+    var el = document.getElementById('progress');
+    el.innerHTML = '';
+    flashcards.cards.forEach(function (_, i) {
+      var d = document.createElement('div');
+      d.className = 'dot' + (i < idx ? ' done' : i === idx ? ' current' : '');
+      el.appendChild(d);
+    });
+  }
+
+  function proximoCard() {
+    idx += 1;
+    cardMostradoEm = Date.now();
+    renderProgress();
+    var c = flashcards.cards[idx];
+    document.getElementById('card-contador').textContent =
+      'Card ' + (idx + 1) + ' de ' + flashcards.cards.length;
+    document.getElementById('card-frente').innerHTML = c.frente;
+    var versoEl = document.getElementById('card-verso');
+    versoEl.innerHTML = c.verso;
+    versoEl.hidden = true;
+    document.getElementById('btn-virar').hidden = false;
+    document.getElementById('btn-lembrou').hidden = true;
+    document.getElementById('btn-nao-lembrou').hidden = true;
+  }
+
+  document.getElementById('btn-virar').addEventListener('click', function () {
+    document.getElementById('card-verso').hidden = false;
+    document.getElementById('btn-virar').hidden = true;
+    document.getElementById('btn-lembrou').hidden = false;
+    document.getElementById('btn-nao-lembrou').hidden = false;
+  });
+
+  function responder(lembrou) {
+    var c = flashcards.cards[idx];
+    var tempoSeg = Math.round((Date.now() - cardMostradoEm) / 1000);
+    respostas.push({
+      id: c.id,
+      topico: c.topico || 'Geral',
+      lembrou: lembrou,
+      tempo_seg: tempoSeg
+    });
+    if (idx === flashcards.cards.length - 1) {
+      finalizar();
+    } else {
+      proximoCard();
+    }
+  }
+
+  document.getElementById('btn-lembrou').addEventListener('click', function () { responder(true); });
+  document.getElementById('btn-nao-lembrou').addEventListener('click', function () { responder(false); });
+
+  function finalizar() {
+    var duracaoTotalSeg = Math.round((Date.now() - iniciadoEm) / 1000);
+    var finalizadoEm = new Date().toISOString();
+
+    telaCard.hidden = true;
+    telaFim.hidden = false;
+
+    var lembrados = respostas.filter(function (r) { return r.lembrou; }).length;
+    var total = respostas.length;
+    document.getElementById('fim-score').textContent = lembrados + '/' + total;
+    document.getElementById('fim-sub').textContent = 'Cards lembrados nesta rodada';
+
+    var porTopico = {};
+    respostas.forEach(function (r) {
+      var t = r.topico || 'Geral';
+      if (!porTopico[t]) porTopico[t] = { erros: 0, total: 0 };
+      porTopico[t].total += 1;
+      if (!r.lembrou) porTopico[t].erros += 1;
+    });
+
+    var listaFracos = document.getElementById('lista-fracos');
+    var blocoFracos = document.getElementById('bloco-fracos');
+    var listaDominados = document.getElementById('lista-dominados');
+    var blocoDominados = document.getElementById('bloco-dominados');
+    var temFraco = false, temDominado = false;
+
+    Object.keys(porTopico).sort(function (a, b) {
+      return (porTopico[b].erros / porTopico[b].total) - (porTopico[a].erros / porTopico[a].total);
+    }).forEach(function (t) {
+      var s = porTopico[t];
+      if (s.erros > 0) {
+        temFraco = true;
+        var div = document.createElement('div');
+        div.className = 'topico';
+        div.innerHTML = '<div class="nome">' + t + '</div>' +
+          '<div class="taxa">' + s.erros + '/' + s.total + ' não lembrados</div>';
+        listaFracos.appendChild(div);
+      } else {
+        temDominado = true;
+        var d2 = document.createElement('div');
+        d2.className = 'topico dominado';
+        d2.innerHTML = '<div class="nome">' + t + '</div>';
+        listaDominados.appendChild(d2);
+      }
+    });
+    blocoFracos.hidden = !temFraco;
+    blocoDominados.hidden = !temDominado;
+
+    var payload = {
+      iniciado_em: new Date(iniciadoEm).toISOString(),
+      finalizado_em: finalizadoEm,
+      duracao_total_seg: duracaoTotalSeg,
+      respostas: respostas
+    };
+
+    var status = document.getElementById('rodape-status');
+    fetch('finalizar', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    }).then(function (r) { return r.json(); }).then(function (resp) {
+      if (resp.proximo_url) {
+        status.textContent = 'Resultado salvo. Abrindo o quiz…';
+        window.location.href = resp.proximo_url;
+        return;
+      }
+      var graceSeg = resp.encerra_em_seg || 0;
+      if (!graceSeg) { status.textContent = 'Resultado salvo.'; return; }
+      var restante = graceSeg;
+      status.textContent = 'Resultado e relatório salvos. Pode fechar esta aba — o servidor local encerra em ' + restante + 's.';
+      var h = setInterval(function () {
+        restante -= 1;
+        if (restante <= 0) {
+          status.textContent = 'Servidor encerrado. Pode fechar esta aba.';
+          clearInterval(h);
+          return;
+        }
+        status.textContent = 'Resultado e relatório salvos. Pode fechar esta aba — o servidor local encerra em ' + restante + 's.';
+      }, 1000);
+    }).catch(function () {
+      status.textContent = 'Não consegui confirmar o salvamento com o servidor local — verifique se ele ainda está rodando.';
+    });
+  }
+})();
+</script>
+</body>
+</html>

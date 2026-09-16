@@ -509,6 +509,12 @@
     fetch("/avancar", { method: "POST" }).then(function (r) { return r.json(); }).then(function (resp) {
       btn.disabled = false;
       if (resp.fim_da_fila) {
+        if (resp.proximo_url) {
+          document.getElementById("btn-avancar").hidden = true;
+          document.getElementById("conteudo-markdown").innerHTML = "<h1>Módulo concluído 🎉</h1><p>Abrindo a próxima etapa…</p>";
+          window.location.href = resp.proximo_url;
+          return;
+        }
         mostrarConclusaoDaFila(resp.ao_final);
         return;
       }

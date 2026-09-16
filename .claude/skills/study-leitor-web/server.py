@@ -28,6 +28,8 @@ import argparse
 import datetime
 import json
 import os
+import socket
+import subprocess
 import sys
 import threading
 import time
@@ -36,6 +38,12 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 SKILL_DIR = os.path.dirname(os.path.abspath(__file__))
 PLAYER_HTML = os.path.join(SKILL_DIR, "player", "index.html")
 VENDOR_DIR = os.path.join(SKILL_DIR, "vendor")
+QUIZ_SERIO_SERVER = os.path.normpath(
+    os.path.join(SKILL_DIR, "..", "study-quiz-serio", "server.py")
+)
+FLASHCARDS_SERVER = os.path.normpath(
+    os.path.join(SKILL_DIR, "..", "study-flashcards", "server.py")
+)
 
 MIME_BY_EXT = {
     ".js": "application/javascript; charset=utf-8",
@@ -78,6 +86,61 @@ def _carregar_item_da_fila(session_dir, fila, indice):
     path = os.path.join(session_dir, item["conteudo"])
     with open(path, "r", encoding="utf-8") as fh:
         return json.load(fh)
+
+
+def _porta_livre():
+    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    s.bind(("127.0.0.1", 0))
+    port = s.getsockname()[1]
+    s.close()
+    return port
+
+
+def _aguardar_porta_aberta(host, port, tentativas=20, intervalo=0.1):
+    for _ in range(tentativas):
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.settimeout(intervalo)
+        try:
+            s.connect((host, port))
+            return True
+        except OSError:
+            time.sleep(intervalo)
+        finally:
+            s.close()
+    return False
+
+
+def _iniciar_quiz_auto(quiz_dir_abs):
+    """Sobe o study-quiz-serio numa porta livre, sem bloquear o processo atual.
+
+    Fluxo contínuo pedido pelo usuário: ao terminar a fila, o proximo app ja abre sozinho —
+    sem passar por um "peça no chat" intermediário (ver SKILL.md).
+    """
+    porta = _porta_livre()
+    subprocess.Popen(
+        [sys.executable, QUIZ_SERIO_SERVER, quiz_dir_abs, "--port", str(porta), "--grace", "90"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL,
+        start_new_session=True,
+    )
+    _aguardar_porta_aberta("127.0.0.1", porta)
+    return "http://127.0.0.1:%d/" % porta
+
+
+def _iniciar_flashcards_auto(flashcards_dir_abs, quiz_dir_abs, quiz_titulo):
+    """Sobe o study-flashcards numa porta livre; encadeia pro quiz se ele ja existir.
+
+    Mesmo racional do _iniciar_quiz_auto: fluxo continuo, sem handoff via chat.
+    """
+    porta = _porta_livre()
+    cmd = [sys.executable, FLASHCARDS_SERVER, flashcards_dir_abs, "--port", str(porta), "--grace", "90"]
+    if quiz_dir_abs and os.path.isfile(os.path.join(quiz_dir_abs, "quiz.json")):
+        cmd += ["--proximo-tipo", "quiz", "--proximo-dir", quiz_dir_abs]
+        if quiz_titulo:
+            cmd += ["--proximo-titulo", quiz_titulo]
+    subprocess.Popen(cmd, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, start_new_session=True)
+    _aguardar_porta_aberta("127.0.0.1", porta)
+    return "http://127.0.0.1:%d/" % porta
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -223,16 +286,50 @@ class Handler(BaseHTTPRequestHandler):
 
             ao_final = self.fila.get("ao_final") or {}
             self._append_evento({"ts": _stamp(), "tipo": "fila_concluida", "ao_final": ao_final})
+            resposta = {"fim_da_fila": True, "ao_final": ao_final}
             if ao_final.get("tipo") == "quiz":
-                self.progresso["pedidos_pendentes"].append({
-                    "tipo": "quiz_pendente",
-                    "quiz_dir": ao_final.get("quiz_dir"),
-                    "titulo": ao_final.get("titulo"),
-                    "ts": _stamp(),
-                })
+                def _abs(rel):
+                    return rel if os.path.isabs(rel) else os.path.join(os.getcwd(), rel)
+
+                quiz_dir = ao_final.get("quiz_dir") or ""
+                quiz_dir_abs = _abs(quiz_dir) if quiz_dir else None
+                tem_quiz = bool(quiz_dir_abs) and os.path.isfile(os.path.join(quiz_dir_abs, "quiz.json"))
+
+                flashcards_dir = ao_final.get("flashcards_dir") or ""
+                flashcards_dir_abs = _abs(flashcards_dir) if flashcards_dir else None
+                tem_flashcards = bool(flashcards_dir_abs) and os.path.isfile(
+                    os.path.join(flashcards_dir_abs, "flashcards.json")
+                )
+
+                if tem_flashcards:
+                    resposta["proximo_url"] = _iniciar_flashcards_auto(
+                        flashcards_dir_abs, quiz_dir_abs if tem_quiz else None, ao_final.get("titulo")
+                    )
+                    self._append_evento({
+                        "ts": _stamp(), "tipo": "flashcards_auto_iniciado", "proximo_url": resposta["proximo_url"],
+                    })
+                elif tem_quiz:
+                    resposta["proximo_url"] = _iniciar_quiz_auto(quiz_dir_abs)
+                    self._append_evento({
+                        "ts": _stamp(), "tipo": "quiz_auto_iniciado", "proximo_url": resposta["proximo_url"],
+                    })
+                elif flashcards_dir:
+                    self.progresso["pedidos_pendentes"].append({
+                        "tipo": "flashcards_pendente",
+                        "flashcards_dir": ao_final.get("flashcards_dir"),
+                        "titulo": ao_final.get("titulo"),
+                        "ts": _stamp(),
+                    })
+                else:
+                    self.progresso["pedidos_pendentes"].append({
+                        "tipo": "quiz_pendente",
+                        "quiz_dir": ao_final.get("quiz_dir"),
+                        "titulo": ao_final.get("titulo"),
+                        "ts": _stamp(),
+                    })
             self.progresso["atualizado_em"] = _stamp()
             self._gravar_progresso()
-            self._send_json(200, {"fim_da_fila": True, "ao_final": ao_final})
+            self._send_json(200, resposta)
             return
 
         if path == "/encerrar":
