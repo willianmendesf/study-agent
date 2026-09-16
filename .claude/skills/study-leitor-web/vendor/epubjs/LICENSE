@@ -1,0 +1,5 @@
+epub.js (futurepress/epub.js) — License: BSD-2-Clause
+
+This vendored copy (dist/epub.min.js, v0.3.93) does not ship a standalone LICENSE
+file in the upstream repository; the license is declared in the project's
+package.json ("license": "BSD-2-Clause"). Source: https://github.com/futurepress/epub.js

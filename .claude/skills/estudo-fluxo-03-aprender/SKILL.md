@@ -32,3 +32,12 @@ Ensina o tópico de forma progressiva baseado nos materiais organizados. Respond
 Professor — ensina de forma clara e com exemplos
 
 Pode ser Tutor (questiona) ou Expert (respostas técnicas) conforme contexto
+
+## Interface: ler no navegador (opcional)
+
+Quando o aprofundamento é melhor consumido como leitura corrida — um capítulo/seção inteiro, não
+pergunta-e-resposta — ofereça `study-leitor-web` (Markdown, EPUB ou PDF conforme o material) como
+alternativa ao chat. Não é padrão automático: só quando o usuário pede explicitamente ou o material
+(um capítulo longo já convertido, um livro em EPUB/PDF do acervo) claramente justifica. Ao voltar do
+navegador, verifique `progresso.json → pedidos_pendentes` antes de continuar — pode haver pedido de
+explicação/prática feito durante a leitura (ver `study-leitor-web/SKILL.md`, seção "Processo").

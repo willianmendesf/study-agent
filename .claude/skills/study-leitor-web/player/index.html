@@ -1,0 +1,466 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>study-leitor-web</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --bg: #f6f7f9;
+    --fg: #1a1a1a;
+    --fg-muted: #5a5f68;
+    --card: #ffffff;
+    --border: rgba(127,127,127,.22);
+    --accent: #4a7ddb;
+    --accent-soft: rgba(74,125,219,.12);
+    --code-bg: rgba(127,127,127,.12);
+    --mark-bg: rgba(240,196,54,.45);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root { --bg: #16181c; --fg: #e7e7e7; --fg-muted: #9aa0aa; --card: #1f2228; --code-bg: rgba(255,255,255,.08); }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.5 system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+         background: var(--bg); color: var(--fg); }
+  .bar { position: sticky; top: 0; z-index: 5; display: flex; align-items: center; gap: 12px;
+         justify-content: space-between; padding: 10px 20px; background: var(--card);
+         border-bottom: 1px solid var(--border); flex-wrap: wrap; }
+  .bar h1 { font-size: 15px; margin: 0; font-weight: 600; }
+  .bar .meta { font-size: 12px; color: var(--fg-muted); }
+  #progresso-pill { font-variant-numeric: tabular-nums; font-weight: 700; font-size: 13px;
+           padding: 3px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  button.acao { background: var(--accent); color: #fff; border: none; border-radius: 8px;
+                padding: 8px 14px; font: inherit; font-weight: 600; cursor: pointer; font-size: 13px; }
+  button.acao:hover { opacity: .9; }
+  button.secundaria { background: transparent; color: var(--fg); border: 1px solid var(--border);
+                      border-radius: 8px; padding: 8px 12px; font: inherit; cursor: pointer; font-size: 13px; }
+
+  .wrap { max-width: 700px; margin: 0 auto; padding: 32px 20px 64px; }
+
+  /* --- Tipografia de leitura (o coração do modo markdown) ------------ */
+  .leitura { font-size: 17px; line-height: 1.7; }
+  .leitura h1, .leitura h2, .leitura h3 { font-weight: 700; line-height: 1.25; scroll-margin-top: 70px; }
+  .leitura h1 { font-size: 28px; margin: 0 0 20px; }
+  .leitura h2 { font-size: 22px; margin: 40px 0 16px; }
+  .leitura h3 { font-size: 18px; margin: 32px 0 12px; }
+  .leitura p { margin: 0 0 18px; }
+  .leitura ul, .leitura ol { margin: 0 0 18px; padding-left: 26px; }
+  .leitura li { margin-bottom: 8px; }
+  .leitura blockquote { margin: 0 0 18px; padding: 4px 0 4px 16px; border-left: 3px solid var(--accent);
+                         font-style: italic; color: var(--fg-muted); }
+  .leitura code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: .9em;
+                   background: var(--code-bg); padding: 2px 5px; border-radius: 4px; }
+  .leitura pre { background: var(--code-bg); border-radius: 8px; padding: 14px 16px; overflow-x: auto;
+                 margin: 0 0 18px; }
+  .leitura pre code { background: none; padding: 0; }
+  .leitura table { border-collapse: collapse; margin: 0 0 18px; width: 100%; font-size: .95em; }
+  .leitura th, .leitura td { border: 1px solid var(--border); padding: 8px 10px; text-align: left; }
+  .leitura a { color: var(--accent); }
+  .leitura mark.destaque { background: var(--mark-bg); border-radius: 2px; padding: 0 1px; }
+
+  #conteudo-epub { height: calc(100vh - 130px); background: var(--card); border-radius: 10px; }
+  #conteudo-pdf .pagina { position: relative; margin: 0 auto 18px; background: var(--card);
+                          box-shadow: 0 1px 3px rgba(0,0,0,.12); }
+  #conteudo-pdf .pagina canvas { display: block; }
+  #conteudo-pdf .textLayer { position: absolute; inset: 0; overflow: hidden; opacity: .01;
+                             line-height: 1; }
+  #conteudo-pdf .textLayer span { position: absolute; color: transparent; cursor: text;
+                                   transform-origin: 0 0; white-space: pre; }
+  #conteudo-pdf .textLayer ::selection { background: var(--mark-bg); }
+
+  /* --- Toolbar flutuante de seleção ----------------------------------- */
+  #toolbar-selecao { position: absolute; display: none; gap: 4px; background: var(--card);
+                     border: 1px solid var(--border); border-radius: 8px; padding: 5px;
+                     box-shadow: 0 4px 14px rgba(0,0,0,.18); z-index: 20; }
+  #toolbar-selecao button { background: transparent; border: none; color: var(--fg); font: inherit;
+                            font-size: 12px; padding: 6px 9px; border-radius: 6px; cursor: pointer;
+                            white-space: nowrap; }
+  #toolbar-selecao button:hover { background: var(--accent-soft); color: var(--accent); }
+
+  /* --- Painel de notas -------------------------------------------------- */
+  #painel-notas { position: fixed; top: 52px; right: 0; width: 300px; max-height: calc(100vh - 60px);
+                  overflow-y: auto; background: var(--card); border-left: 1px solid var(--border);
+                  border-bottom-left-radius: 10px; padding: 16px; transform: translateX(100%);
+                  transition: transform .2s; z-index: 10; }
+  #painel-notas.aberto { transform: translateX(0); }
+  #painel-notas h2 { font-size: 13px; text-transform: uppercase; letter-spacing: .04em; margin: 0 0 12px;
+                     color: var(--fg-muted); }
+  .nota-item { border-bottom: 1px solid var(--border); padding: 10px 0; font-size: 13px; }
+  .nota-item .anota { opacity: .7; font-style: italic; margin-bottom: 4px; }
+
+  #toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
+           background: var(--fg); color: var(--bg); padding: 10px 18px; border-radius: 8px;
+           font-size: 13px; opacity: 0; pointer-events: none; transition: opacity .25s; z-index: 30; }
+  #toast.visivel { opacity: .95; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<div class="bar">
+  <div>
+    <h1 id="titulo">Carregando…</h1>
+    <div class="meta" id="meta"></div>
+  </div>
+  <div style="display:flex; align-items:center; gap:10px;">
+    <span id="progresso-pill">0%</span>
+    <button class="secundaria" id="btn-notas">Notas</button>
+    <button class="acao" id="btn-encerrar">Terminar sessão</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="leitura" id="conteudo-markdown"></div>
+  <div id="conteudo-epub" hidden></div>
+  <div id="conteudo-pdf" hidden></div>
+</div>
+
+<div id="painel-notas">
+  <h2>Notas desta sessão</h2>
+  <div id="lista-notas"><p style="opacity:.6; font-size:13px;">Nenhuma nota ainda — selecione um trecho para anotar.</p></div>
+</div>
+
+<div id="toolbar-selecao">
+  <button data-acao="destaque">Destacar</button>
+  <button data-acao="nota">Anotar</button>
+  <button data-acao="pedido_explicacao">Pedir explicação</button>
+  <button data-acao="pedido_pratica">Praticar</button>
+</div>
+
+<div id="toast"></div>
+
+<!-- vendorizados, servidos pelo próprio servidor local (nunca CDN) -->
+<script src="/vendor/marked/marked.min.js"></script>
+<script src="/vendor/epubjs/jszip.min.js"></script>
+<script src="/vendor/epubjs/epub.min.js"></script>
+<script src="/vendor/pdfjs/pdf.min.js"></script>
+
+<script>
+(function () {
+  var conteudo = null;
+  var formato = "markdown";
+  var toastTimer = null;
+  var heartbeatTimer = null;
+  var idContador = 0;
+
+  function proximoId(prefixo) { idContador += 1; return prefixo + "-" + idContador; }
+
+  function mostrarToast(msg) {
+    var el = document.getElementById("toast");
+    el.textContent = msg;
+    el.classList.add("visivel");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(function () { el.classList.remove("visivel"); }, 2600);
+  }
+
+  function postEvento(tipo, campos) {
+    var body = Object.assign({ tipo: tipo }, campos || {});
+    return fetch("/evento", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    }).then(function (r) { return r.json(); }).then(function (resp) {
+      if (resp && resp.progresso) atualizarProgressoUI(resp.progresso);
+      return resp;
+    }).catch(function () { /* offline momentâneo — evento fica só local, sem travar a leitura */ });
+  }
+
+  function atualizarProgressoUI(progresso) {
+    var pill = document.getElementById("progresso-pill");
+    pill.textContent = Math.round(progresso.percentual_lido || 0) + "% lido";
+    var lista = document.getElementById("lista-notas");
+    if (progresso.notas && progresso.notas.length) {
+      lista.innerHTML = progresso.notas.map(function (n) {
+        return '<div class="nota-item">' +
+          (n.texto_ancora ? '<div class="anota">"' + escapeHtml(n.texto_ancora) + '"</div>' : "") +
+          '<div>' + escapeHtml(n.conteudo || "") + '</div></div>';
+      }).join("");
+    }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  function slugify(texto) {
+    return String(texto).toLowerCase().trim()
+      .normalize("NFD").replace(/[̀-ͯ]/g, "")
+      .replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
+  }
+
+  // --- heartbeat: só enquanto a aba está visível ------------------------
+  function iniciarHeartbeat() {
+    function bater() {
+      if (document.visibilityState === "visible") {
+        fetch("/heartbeat", { method: "POST" }).catch(function () {});
+      }
+    }
+    bater();
+    heartbeatTimer = setInterval(bater, 25000);
+    document.addEventListener("visibilitychange", function () {
+      if (document.visibilityState === "visible") bater();
+    });
+  }
+
+  // --- toolbar de seleção (markdown e pdf; epub usa evento próprio) ----
+  var toolbar = document.getElementById("toolbar-selecao");
+  var secaoAtualParaSelecao = null;
+
+  function localDaSelecaoAtual() {
+    return secaoAtualParaSelecao;
+  }
+
+  function mostrarToolbarEm(rect) {
+    toolbar.style.display = "flex";
+    toolbar.style.top = (rect.top + window.scrollY - 42) + "px";
+    toolbar.style.left = Math.max(8, rect.left + window.scrollX) + "px";
+  }
+
+  function esconderToolbar() { toolbar.style.display = "none"; }
+
+  function ligarSelecaoNativa(container, localResolver) {
+    container.addEventListener("mouseup", function () {
+      var sel = window.getSelection();
+      var texto = sel && sel.toString().trim();
+      if (!texto) { esconderToolbar(); return; }
+      var range = sel.getRangeAt(0);
+      var rect = range.getBoundingClientRect();
+      if (!rect || (rect.width === 0 && rect.height === 0)) { esconderToolbar(); return; }
+      secaoAtualParaSelecao = localResolver ? localResolver(range) : null;
+      toolbar.dataset.texto = texto;
+      mostrarToolbarEm(rect);
+    });
+  }
+
+  document.addEventListener("mousedown", function (ev) {
+    if (!toolbar.contains(ev.target)) esconderToolbar();
+  });
+
+  toolbar.addEventListener("click", function (ev) {
+    var btn = ev.target.closest("button[data-acao]");
+    if (!btn) return;
+    var acao = btn.dataset.acao;
+    var texto = toolbar.dataset.texto || "";
+    var local = localDaSelecaoAtual();
+    esconderToolbar();
+
+    if (acao === "destaque") {
+      var idd = proximoId("hl");
+      envolverSelecaoComMark();
+      postEvento("destaque", { id: idd, local: local, texto: texto, cor: "amarelo" });
+      mostrarToast("Destacado.");
+    } else if (acao === "nota") {
+      var conteudoNota = window.prompt("Sua nota sobre este trecho:", "");
+      if (conteudoNota === null) return;
+      postEvento("nota", { id: proximoId("nota"), local: local, texto_ancora: texto, conteudo: conteudoNota });
+      mostrarToast("Nota salva.");
+    } else if (acao === "pedido_explicacao" || acao === "pedido_pratica") {
+      postEvento(acao, { local: local, texto_selecionado: texto });
+      mostrarToast("Anotado — quando você voltar ao chat, a IA vai ver este pedido.");
+    }
+  });
+
+  function envolverSelecaoComMark() {
+    var sel = window.getSelection();
+    if (!sel.rangeCount) return;
+    var range = sel.getRangeAt(0);
+    var mark = document.createElement("mark");
+    mark.className = "destaque";
+    try {
+      range.surroundContents(mark);
+    } catch (e) { /* seleção cruza múltiplos elementos — deixa sem <mark> visual, evento já foi salvo */ }
+    sel.removeAllRanges();
+  }
+
+  // --- modo Markdown ------------------------------------------------------
+  function renderMarkdown() {
+    var el = document.getElementById("conteudo-markdown");
+    marked.setOptions({ gfm: true, breaks: false });
+    el.innerHTML = marked.parse(conteudo.corpo_markdown || "");
+
+    // tageia headings com data-secao-id casando com secoes[].anchor
+    var secoesPorAnchor = {};
+    (conteudo.secoes || []).forEach(function (s) { secoesPorAnchor[s.anchor] = s.id; });
+    el.querySelectorAll("h1, h2, h3, h4").forEach(function (h) {
+      var slug = slugify(h.textContent);
+      h.id = slug;
+      h.dataset.secaoId = secoesPorAnchor[slug] || slug;
+    });
+
+    ligarSelecaoNativa(el, function (range) {
+      var node = range.startContainer;
+      var elAncestor = node.nodeType === 3 ? node.parentElement : node;
+      var maisProximo = elAncestor ? elAncestor.closest("[data-secao-id]") : null;
+      if (maisProximo) return maisProximo.dataset.secaoId;
+      // sem heading ancestral direto: pega o último heading marcado antes da seleção no documento
+      var headings = Array.prototype.slice.call(el.querySelectorAll("[data-secao-id]"));
+      var alvo = null;
+      for (var i = 0; i < headings.length; i++) {
+        if (headings[i].compareDocumentPosition(elAncestor) & Node.DOCUMENT_POSITION_FOLLOWING) alvo = headings[i];
+      }
+      return alvo ? alvo.dataset.secaoId : null;
+    });
+
+    var headings = el.querySelectorAll("[data-secao-id]");
+    if (headings.length) {
+      var debounce = null;
+      var observer = new IntersectionObserver(function (entries) {
+        var visiveis = entries.filter(function (e) { return e.isIntersecting; });
+        if (!visiveis.length) return;
+        var secaoId = visiveis[0].target.dataset.secaoId;
+        clearTimeout(debounce);
+        debounce = setTimeout(function () {
+          var pct = calcularPercentualScroll();
+          postEvento("progresso", { local: secaoId, percentual_lido: pct });
+        }, 3500);
+      }, { rootMargin: "-10% 0px -70% 0px" });
+      headings.forEach(function (h) { observer.observe(h); });
+    } else {
+      var debounce2 = null;
+      window.addEventListener("scroll", function () {
+        clearTimeout(debounce2);
+        debounce2 = setTimeout(function () {
+          postEvento("progresso", { local: null, percentual_lido: calcularPercentualScroll() });
+        }, 3500);
+      });
+    }
+  }
+
+  function calcularPercentualScroll() {
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    if (max <= 0) return 100;
+    return Math.min(100, Math.round((window.scrollY / max) * 1000) / 10);
+  }
+
+  // --- modo EPUB ------------------------------------------------------
+  function renderEpub() {
+    document.getElementById("conteudo-epub").hidden = false;
+    var book = ePub("/arquivo");
+    var rendition = book.renderTo("conteudo-epub", { width: "100%", height: "100%" });
+    rendition.display();
+
+    rendition.on("relocated", function (location) {
+      var pct = Math.round((location.start.percentage || 0) * 1000) / 10;
+      postEvento("progresso", { local: location.start.cfi, percentual_lido: pct });
+    });
+
+    rendition.on("selected", function (cfiRange, contents) {
+      book.getRange(cfiRange).then(function (range) {
+        var texto = range.toString().trim();
+        if (!texto) return;
+        var rect = range.getBoundingClientRect();
+        var iframeEl = contents.window.frameElement;
+        var offset = iframeEl ? iframeEl.getBoundingClientRect() : { top: 0, left: 0 };
+        secaoAtualParaSelecao = cfiRange;
+        toolbar.dataset.texto = texto;
+        toolbar.dataset.epubHighlightRendition = "1";
+        mostrarToolbarEm({ top: offset.top + rect.top, left: offset.left + rect.left, width: rect.width, height: rect.height });
+      });
+    });
+
+    var origEnvolver = envolverSelecaoComMark;
+    envolverSelecaoComMark = function () {
+      if (toolbar.dataset.epubHighlightRendition && secaoAtualParaSelecao) {
+        rendition.annotations.highlight(secaoAtualParaSelecao, {}, function () {}, "destaque-epub",
+          { fill: "rgba(240,196,54,.45)" });
+      } else {
+        origEnvolver();
+      }
+    };
+  }
+
+  // --- modo PDF ------------------------------------------------------
+  function renderPdf() {
+    document.getElementById("conteudo-pdf").hidden = false;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/vendor/pdfjs/pdf.worker.min.js";
+    var container = document.getElementById("conteudo-pdf");
+
+    pdfjsLib.getDocument("/arquivo").promise.then(function (pdf) {
+      var totalPaginas = pdf.numPages;
+      var observer = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) {
+            var pagina = parseInt(e.target.dataset.pagina, 10);
+            var pct = Math.round((pagina / totalPaginas) * 1000) / 10;
+            postEvento("progresso", { local: "pagina-" + pagina, percentual_lido: pct });
+          }
+        });
+      }, { threshold: 0.5 });
+
+      for (var i = 1; i <= totalPaginas; i++) {
+        (function (numPagina) {
+          pdf.getPage(numPagina).then(function (page) {
+            var viewport = page.getViewport({ scale: 1.3 });
+            var div = document.createElement("div");
+            div.className = "pagina";
+            div.dataset.pagina = numPagina;
+            div.style.width = viewport.width + "px";
+            div.style.height = viewport.height + "px";
+
+            var canvas = document.createElement("canvas");
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            div.appendChild(canvas);
+
+            var textLayerDiv = document.createElement("div");
+            textLayerDiv.className = "textLayer";
+            div.appendChild(textLayerDiv);
+
+            container.appendChild(div);
+            observer.observe(div);
+
+            page.render({ canvasContext: canvas.getContext("2d"), viewport: viewport });
+            page.getTextContent().then(function (textContent) {
+              pdfjsLib.renderTextLayer({
+                textContentSource: textContent, container: textLayerDiv, viewport: viewport,
+              });
+            });
+
+            ligarSelecaoNativa(textLayerDiv, function () { return "pagina-" + numPagina; });
+          });
+        })(i);
+      }
+    });
+  }
+
+  // --- botão "Terminar sessão" ------------------------------------------
+  document.getElementById("btn-encerrar").addEventListener("click", function () {
+    fetch("/encerrar", { method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ motivo: "usuario_clicou" }) })
+      .then(function () {
+        clearInterval(heartbeatTimer);
+        mostrarToast("Sessão encerrada. Pode fechar esta aba.");
+        document.getElementById("btn-encerrar").disabled = true;
+      });
+  });
+
+  document.getElementById("btn-notas").addEventListener("click", function () {
+    document.getElementById("painel-notas").classList.toggle("aberto");
+  });
+
+  // --- boot -----------------------------------------------------------
+  fetch("/conteudo.json").then(function (r) { return r.json(); }).then(function (data) {
+    conteudo = data;
+    formato = conteudo.formato || "markdown";
+    document.getElementById("titulo").textContent = conteudo.titulo || "Leitura";
+    document.title = conteudo.titulo || "study-leitor-web";
+    document.getElementById("meta").textContent =
+      (conteudo.materia ? conteudo.materia + " · " : "") + (conteudo.tema || "");
+
+    if (formato === "markdown") renderMarkdown();
+    else if (formato === "epub") renderEpub();
+    else if (formato === "pdf") renderPdf();
+
+    iniciarHeartbeat();
+    postEvento("sessao_iniciada", {});
+  }).catch(function (err) {
+    document.getElementById("titulo").textContent = "Erro ao carregar";
+    document.getElementById("meta").textContent = String(err);
+  });
+})();
+</script>
+</body>
+</html>

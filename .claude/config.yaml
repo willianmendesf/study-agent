@@ -485,6 +485,24 @@ skills:
     storage: "data/estudos/exercicios/<tema>/h5p-<slug>/ (h5p.json + content/ + resultado.json/.jsonl)"
     integration: "study-gerar-provas-simulados (Modo Jogo), estudo-fluxo-05-testar, study-processar-video"
 
+  study-leitor-web:
+    enabled: true
+    type: interactive
+    path: .claude/skills/study-leitor-web/
+    description: "Sessão de leitura no navegador — Markdown (parser+tipografia própria), EPUB (epub.js)
+                  ou PDF (PDF.js) conforme o material, um capítulo/seção por vez, com progresso/
+                  destaques/notas salvos incrementalmente e self-shutdown por IDLE (sem heartbeat do
+                  navegador por N min)"
+    dependencies:
+      - python3
+    gate:
+      type: optional_tool
+      rule: "Só ativar quando o usuário quer ler no navegador em vez de no chat. server.py escuta só
+             127.0.0.1. Ao fim do capítulo, o handoff de comprehension-check vai para
+             estudo-fluxo-04-praticar (padrão) ou study-quiz-serio (nota real) — nunca gera pergunta."
+    storage: "data/estudos/<materia>/.../leitura-<slug>/ (conteudo.json + eventos.jsonl + progresso.json)"
+    integration: "estudo-fluxo-03-aprender (chamador), estudo-fluxo-04-praticar / study-quiz-serio (handoff)"
+
   study-exportar-documento:
     enabled: true
     type: output
