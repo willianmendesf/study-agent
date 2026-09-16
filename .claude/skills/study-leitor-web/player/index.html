@@ -190,6 +190,46 @@
       .replace(/[^a-z0-9\s-]/g, "").replace(/\s+/g, "-").replace(/-+/g, "-");
   }
 
+  // Rejunta texto extraído de PDF onde cada linha de largura de página virou
+  // um "parágrafo" separado por linha em branco (artefato comum de conversão
+  // book-to-skill/markitdown sem reflow). Só roda quando conteudo.precisa_reflow
+  // é true — nunca em markdown já bem formatado (headings/listas/tabelas reais).
+  function reflowMarkdown(bruto) {
+    var linhas = String(bruto).split(/\r?\n/);
+    var ehInicioDeBloco = function (l) {
+      return /^\s*(#{1,6}\s|[-*+]\s|\d+\.\s|>\s|```|\|.*\|\s*$|-{3,}\s*$)/.test(l);
+    };
+    var termina = function (l) { return /[.!?:;"'”’)\]]\s*$/.test(l.trim()); };
+
+    var tamanhos = linhas
+      .filter(function (l) { return l.trim() && !ehInicioDeBloco(l); })
+      .map(function (l) { return l.trim().length; })
+      .sort(function (a, b) { return a - b; });
+    var larguraTipica = tamanhos.length ? tamanhos[Math.floor(tamanhos.length * 0.85)] : 80;
+
+    var saida = [];
+    var buffer = "";
+    var flush = function () {
+      if (buffer.trim()) saida.push(buffer.trim());
+      buffer = "";
+    };
+
+    linhas.forEach(function (linha) {
+      var trimmed = linha.trim();
+      if (!trimmed) return; // descarta as linhas em branco artificiais
+      if (ehInicioDeBloco(linha)) {
+        flush();
+        saida.push(linha);
+        return;
+      }
+      buffer = buffer ? buffer + " " + trimmed : trimmed;
+      var linhaCurta = trimmed.length < larguraTipica * 0.62;
+      if (termina(trimmed) && linhaCurta) flush();
+    });
+    flush();
+    return saida.join("\n\n");
+  }
+
   // --- heartbeat: só enquanto a aba está visível ------------------------
   function iniciarHeartbeat() {
     function bater() {
@@ -278,7 +318,9 @@
   function renderMarkdown() {
     var el = document.getElementById("conteudo-markdown");
     marked.setOptions({ gfm: true, breaks: false });
-    el.innerHTML = marked.parse(conteudo.corpo_markdown || "");
+    var corpo = conteudo.corpo_markdown || "";
+    if (conteudo.precisa_reflow) corpo = reflowMarkdown(corpo);
+    el.innerHTML = marked.parse(corpo);
 
     // tageia headings com data-secao-id casando com secoes[].anchor
     var secoesPorAnchor = {};

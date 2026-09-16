@@ -101,6 +101,15 @@ Regras:
   removido, espaços viram hífen) — senão o tracking de progresso por seção não casa com os headings
   renderizados. Sem `secoes`, o progresso cai pra % de scroll só (ainda funcional).
 - `titulo`/`materia`/`tema` alimentam o header do player e o `progresso.json`.
+- **`precisa_reflow`** (boolean, opcional, default `false`) — marque `true` quando `corpo_markdown` vem
+  de um livro extraído de PDF sem reflow (cada linha de largura de página virou um "parágrafo" separado
+  por linha em branco — artefato comum de `book-to-skill`/`markitdown` sobre PDFs não estruturados). O
+  player então rejunta essas linhas em parágrafos de verdade antes de renderizar (heurística: linha sem
+  pontuação final sempre continua a próxima; linha com pontuação final E curta encerra o parágrafo).
+  **Nunca** marque `true` num Markdown já bem formatado (headings/listas/tabelas reais, um parágrafo por
+  bloco) — a heurística pode juntar blocos que já estavam corretos. É um remendo no **componente de
+  exibição**, não uma correção na fonte; a correção definitiva é a conversão (`book-to-skill`/
+  `markitdown`) já entregar prosa bem fluida — considerar isso ao evoluir aquelas skills.
 
 ---
 
