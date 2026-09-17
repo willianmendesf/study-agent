@@ -144,6 +144,11 @@ inicial):
    confirmar.
 6. Se fizer sentido colaboração com outro especialista já existente, sugerir uma entrada em
    `data/perfil/relacionamentos.yaml` (criar o arquivo se ainda não existir).
+7. **Atualizar `data/perfil/perfis.md`** (índice humano de auditoria — ver CLAUDE.md Regra 8): adicionar/
+   editar/remover a entrada do especialista (nome, título, domínio, tags_do_dominio, como ativar,
+   objetivo) no mesmo turno. Vale também fora deste fluxo: qualquer edição direta a um `.yaml` de
+   especialista (ex.: adicionar tag, mudar `quando_ativar`, mudar `status`) exige a mesma atualização em
+   `perfis.md` antes de encerrar o turno — nunca deixar o índice defasado.
 
 O Bibliotecário **nunca cria especialista** — ele só cataloga a biblioteca, recomenda obras (inclusive
 proativamente, assim que um especialista novo é salvo) e, quando consultado, informa quais tags

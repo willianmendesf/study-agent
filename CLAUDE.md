@@ -256,6 +256,13 @@ um pool só (subpastas ali são organização, não escopo).
   quem dentro da mesma conversa (ex.: um especialista de conteúdo pergunta ao bibliotecário "temos livro
   sobre X?"; o bibliotecário redireciona pergunta de CONTEÚDO de volta pro especialista do domínio). Sem
   o arquivo, cada especialista responde isolado (comportamento padrão, sem mudança).
+- **`data/perfil/perfis.md` é o índice humano de todos os especialistas** (nome, título, domínio, tags,
+  como ativar, objetivo) — feito pra consulta/auditoria rápida do usuário, sem precisar abrir cada
+  `.yaml`. **Toda vez que qualquer coisa referente a especialistas mudar** (criação, remoção, ou edição de
+  `tags_do_dominio`/`titulo`/`dominio`/`quando_ativar`/`status` em um `data/perfil/especialistas/*.yaml`),
+  regenere a entrada correspondente em `perfis.md` **no mesmo turno** — nunca deixe para depois. Isso vale
+  pra qualquer IA que edite um especialista, não só pelo fluxo de criação do Orquestrador (ver
+  `study-setup-orquestrador/SKILL.md` → "Criar um especialista", passo 7).
 
 **A cada turno**, antes de responder: resolva o escopo (especialista ativo? → filtra o pool pelas tags
 dele; senão → pool inteiro) e responda usando só o que está nesse escopo.

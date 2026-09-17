@@ -13,7 +13,20 @@ if [[ -d "$BIB" ]]; then
   ctx+="BIBLIOTECA (data/biblioteca/ — Regra 9: abra os arquivos do escopo, ancore, cite a fonte):\n"
   while IFS= read -r f; do
     name="$(basename "$f")"
-    tags="$(grep -m1 -oE 'tags:\s*\[[^]]*\]' "$f" 2>/dev/null | sed 's/tags:\s*//' || true)"
+    # Suporta tanto "tags: [a, b, c]" (flow) quanto "tags:\n- a\n- b" (block YAML) —
+    # o segundo formato antes ficava invisível aqui (grep só pegava flow-style),
+    # fazendo o lembrete da Regra 9 mentir que o KB não tinha tags quando tinha.
+    tags="$(awk '
+      /^tags:[[:space:]]*\[/ { sub(/^tags:[[:space:]]*/, ""); print; exit }
+      /^tags:[[:space:]]*$/ { collecting=1; items=""; next }
+      collecting && /^-[[:space:]]/ {
+        item=$0; sub(/^-[[:space:]]*/, "", item)
+        items = items (items=="" ? "" : ", ") item
+        next
+      }
+      collecting && !/^-[[:space:]]/ { print "[" items "]"; collecting=0; exit }
+      END { if (collecting) print "[" items "]" }
+    ' "$f" 2>/dev/null || true)"
     ctx+="  ${name} ${tags}\n"
   done < <(find "$BIB" -type f \( -name '*.md' -o -name '*.yaml' -o -name '*.txt' \) ! -name '*.disabled' 2>/dev/null | sort)
   ctx+="Escopo do turno: SEM especialista chamado -> qualquer arquivo. COM especialista (nome/apelido/'modo X'/tema)\n"
