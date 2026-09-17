@@ -4,7 +4,7 @@ Servidor HTTP que processa 1 livro do Drive por clique.
 Com botão "Trazer Todos" — processa sequencialmente em background.
 
 Config obrigatória (nada de pessoal fica no template — ver SKILL.md):
-  data/perfil/book-pipeline-config.json — drive_root_folder_id, mapeamento e categorias_ignoradas
+  data/perfil/bibliotecario/book-pipeline-config.json — drive_root_folder_id, mapeamento e categorias_ignoradas
   (caminho alternativo via env BOOK_PIPELINE_CONFIG, se precisar)
 """
 import json, urllib.request, urllib.parse, time, os, subprocess, signal, sys, traceback, threading, logging
@@ -20,14 +20,14 @@ CRED = Path.home() / '.config' / 'gdrive-mcp' / 'gdrive-credentials.json'
 KEYS = Path.home() / '.config' / 'gdrive-mcp' / 'gcp-oauth.keys.json'
 DATA = STUDY_AGENT_ROOT / 'data'
 LIVROS = DATA / 'estudos' / 'livros'
-STATE = DATA / 'perfil' / 'book-pipeline-state.json'
-LOG_FILE = DATA / 'perfil' / 'book-pipeline.log'
+STATE = DATA / 'perfil' / 'bibliotecario' / 'book-pipeline-state.json'
+LOG_FILE = DATA / 'perfil' / 'bibliotecario' / 'book-pipeline.log'
 TMP = DATA / 'estudos' / 'livros' / '_staging'  # download temporário de 1 item por vez, apagado logo em seguida — nunca guarda progresso aqui; dentro de data/ (Regra 3), não em /tmp
 PORT = int(os.environ.get('PORT', '8765'))
 OCR_SCRIPT = SKILL_DIR / 'ocr-pdf.py'
 
 CONFIG_PATH = Path(os.environ.get(
-    'BOOK_PIPELINE_CONFIG', str(DATA / 'perfil' / 'book-pipeline-config.json')
+    'BOOK_PIPELINE_CONFIG', str(DATA / 'perfil' / 'bibliotecario' / 'book-pipeline-config.json')
 ))
 
 logging.basicConfig(
@@ -41,7 +41,7 @@ def carregar_config():
     """Tudo que é específico do usuário mora em data/perfil/ (Regra 7 do CLAUDE.md) — nada
     de pasta do Drive, categoria ou prefixo pessoal fica hardcoded no template.
 
-    Formato de data/perfil/book-pipeline-config.json:
+    Formato de data/perfil/bibliotecario/book-pipeline-config.json:
       {
         "drive_root_folder_id": "<ID da pasta raiz do Drive>",
         "mapeamento": {"Nome da categoria no Drive": ["subpasta-slug", "PR-"], ...},

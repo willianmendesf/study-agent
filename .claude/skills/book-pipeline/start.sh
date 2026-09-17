@@ -55,7 +55,7 @@ if curl -s --max-time 3 http://localhost:$PORT/health >/dev/null 2>&1; then
   echo "   2. Clique em 'TRAZER TODOS' (1 por 1, do menor pro maior)"
   echo "   3. A página recarrega sozinha a cada 5s"
   echo ""
-  echo "💡 Dica: sem data/perfil/book-pipeline-config.json ainda, tudo cai em _to_organize/"
+  echo "💡 Dica: sem data/perfil/bibliotecario/book-pipeline-config.json ainda, tudo cai em _to_organize/"
 else
   echo "⚠️  Servidor não respondeu no health check. Veja os logs:"
   echo "  tail \"$LOG\""

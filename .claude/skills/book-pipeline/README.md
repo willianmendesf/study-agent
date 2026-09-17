@@ -6,7 +6,7 @@ Skill para automatizar o pipeline de trazer livros do Google Drive (ou local) pa
 
 ```bash
 # 0. Configurar (uma vez, por usuário — ver SKILL.md "Configuração obrigatória")
-#    cria data/perfil/book-pipeline-config.json com o ID da pasta do Drive + mapeamento
+#    cria data/perfil/bibliotecario/book-pipeline-config.json com o ID da pasta do Drive + mapeamento
 
 # 1. Setup de dependências/OAuth (uma vez)
 bash .claude/skills/book-pipeline/setup.sh
@@ -52,7 +52,7 @@ book-pipeline/
 ```
 
 Config específica do usuário (fora deste diretório, dentro de `data/`, nunca no template):
-`data/perfil/book-pipeline-config.json` (drive_root_folder_id, mapeamento, categorias_ignoradas).
+`data/perfil/bibliotecario/book-pipeline-config.json` (drive_root_folder_id, mapeamento, categorias_ignoradas).
 
 ## Monitoramento
 

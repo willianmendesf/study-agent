@@ -5,7 +5,7 @@
 echo "🛑 Parando book-pipeline..."
 
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
-STATE="$(cd "$SKILL_DIR/../../.." && pwd)/data/perfil/book-pipeline-state.json"
+STATE="$(cd "$SKILL_DIR/../../.." && pwd)/data/perfil/bibliotecario/book-pipeline-state.json"
 
 # Mata o servidor
 pkill -f "book-pipeline/server.py" 2>/dev/null && echo "   ✅ servidor parado" || echo "   ⚠️  servidor não estava rodando"

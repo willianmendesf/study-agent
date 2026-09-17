@@ -219,6 +219,15 @@ nunca aparece no `git status` do study-agent.
 crie o arquivo `data/perfil/orquestrador-<seu-dominio>.yaml` via `study-setup-orquestrador`, e ele já
 nasce dentro do seu repo de `data/`.
 
+**Arquivos próprios de um especialista** (config, regras, checklists, skills de apoio — não a
+definição de persona em si, que fica em `perfil/especialistas/<nome>.yaml`) vivem em
+`data/perfil/<especialista>/`, nunca soltos na raiz de `perfil/`. Ao criar o primeiro arquivo próprio
+de um especialista novo (ex.: um novo `especialistas/<nome>.yaml` que passa a precisar de config
+própria), a IA cria a pasta `data/perfil/<nome>/` e coloca ali — preservando subestrutura interna se
+houver (ex.: uma subpasta `skills/`). Só arquivos genuinamente **globais** (índice `perfis.md`,
+`relacionamentos.yaml`, `aprendizado-meta.yaml`, perfis de domínio do Orquestrador) ficam na raiz de
+`perfil/`.
+
 ## Regra 8 — Biblioteca: pool único, vínculo por tag (nunca registrar arquivo por arquivo)
 
 Não existe catálogo de bibliotecas. **O que está fisicamente em `data/biblioteca/` É a biblioteca** —

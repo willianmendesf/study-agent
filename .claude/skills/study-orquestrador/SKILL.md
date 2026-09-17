@@ -23,14 +23,14 @@ delas, **valem elas** — este SKILL.md é detalhamento/pseudocódigo, pode ter 
    aplicar esse enquadramento em toda resposta do modo padrão.
 6. **Manutenção periódica do bibliotecário** (checagem barata, TODO turno, mesmo sem o usuário chamar
    o bibliotecário): ler o frontmatter `ultima_autorrevisao` de
-   `data/perfil/bibliotecario-autoaperfeicoamento.md`. Se o arquivo não existir OU a data for ≥7 dias
+   `data/perfil/bibliotecario/bibliotecario-autoaperfeicoamento.md`. Se o arquivo não existir OU a data for ≥7 dias
    atrás, rodar o ciclo do bibliotecário (`autoaperfeicoamento_semanal` +
    `revisao_continua_especialistas`, ambos em `data/perfil/especialistas/bibliotecario.yaml`) como um
    passo silencioso DEPOIS de resolver o pedido do usuário — nunca atrasando/desviando a resposta ao
    usuário. Motivo: o bibliotecário só ativa quando chamado por nome/tema (Regra 1.2), mas o
    Orquestrador roda em toda mensagem — é ele quem garante que o ciclo periódico realmente aconteça,
    já que ninguém necessariamente vai "chamar o bibliotecário" na semana certa. Registrar sempre em
-   `data/perfil/bibliotecario-log.md` (ver `log_de_acoes_permanente` no perfil dele).
+   `data/perfil/bibliotecario/bibliotecario-log.md` (ver `log_de_acoes_permanente` no perfil dele).
 
 Mostrar o roteamento antes de responder: `🎓 <Modo> → <skill> (intent: <X> · biblioteca: <escopo>)`.
 

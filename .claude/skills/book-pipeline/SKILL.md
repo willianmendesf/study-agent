@@ -37,7 +37,7 @@ Tudo persistido em state — sobrevive a crashes, restart do terminal, reinício
 
 **Trigger 3 — Repetição:**
 - Já usou este fluxo antes na sessão
-- Re-processamento de categoria após atualizar `data/perfil/book-pipeline-config.json`
+- Re-processamento de categoria após atualizar `data/perfil/bibliotecario/book-pipeline-config.json`
 
 **Frases que ativam:**
 - "traz os livros do Drive"
@@ -58,17 +58,17 @@ Tudo persistido em state — sobrevive a crashes, restart do terminal, reinício
 - **Servidor HTTP:** `.claude/skills/book-pipeline/server.py` (porta 8765)
 - **Supervisor imortal:** `.claude/skills/book-pipeline/start.sh` (loop de restart)
 - **OCR helper:** `.claude/skills/book-pipeline/ocr-pdf.py`
-- **State:** `data/perfil/book-pipeline-state.json` (Regra 3 — nunca em `/tmp`, que é apagado a cada
-  reboot; sobrevive restart **e** reboot)
-- **Log:** `data/perfil/book-pipeline.log`
+- **State:** `data/perfil/bibliotecario/book-pipeline-state.json` (Regra 3 — nunca em `/tmp`, que é
+  apagado a cada reboot; sobrevive restart **e** reboot)
+- **Log:** `data/perfil/bibliotecario/book-pipeline.log`
 - **Download temporário (1 item por vez, apagado logo em seguida):** `/tmp/drive-one/` — só isso é
   seguro deixar em `/tmp`, nunca progresso/histórico
 - **Config OAuth:** `~/.config/gdrive-mcp/gcp-oauth.keys.json` + `gdrive-credentials.json`
-- **Config do usuário (Regra 7 — nada disso fica no template):** `data/perfil/book-pipeline-config.json`
+- **Config do usuário (Regra 7 — nada disso fica no template):** `data/perfil/bibliotecario/book-pipeline-config.json`
 
 ## Configuração obrigatória (por usuário, fica em `data/`)
 
-Antes da primeira execução, `data/perfil/book-pipeline-config.json` precisa existir com:
+Antes da primeira execução, `data/perfil/bibliotecario/book-pipeline-config.json` precisa existir com:
 
 ```json
 {
@@ -90,7 +90,7 @@ tudo que chegar cai em `_to_organize/` (nunca perde material, só não fica pré
 Quando ativada:
 
 1. **Verificar dependências** (`uvx`, `python3`, `curl`, `lsof`)
-2. **Verificar `data/perfil/book-pipeline-config.json`** — se não existir, criar com o usuário (ver acima)
+2. **Verificar `data/perfil/bibliotecario/book-pipeline-config.json`** — se não existir, criar com o usuário (ver acima)
 3. **Verificar OAuth do Drive:**
    - Se `~/.config/gdrive-mcp/` não existe OU credenciais expiradas:
      - Rodar `./setup.sh` que cria o config e abre browser para login
@@ -108,7 +108,7 @@ Quando ativada:
 
 ## Comandos disponíveis após ativar
 
-- `tail -f data/perfil/book-pipeline.log` — log em tempo real
+- `tail -f data/perfil/bibliotecario/book-pipeline.log` — log em tempo real
 - `curl -s http://localhost:8765/worker-status` — status do worker
 - `curl -s http://localhost:8765/` — lista de pendentes (atualiza a cada 5s)
 - `pkill -f server-livros.py` — parar tudo
@@ -145,7 +145,7 @@ Quando ativada:
    - Mostra erros quando ocorrem
 
 🛠️ Comandos úteis:
-   tail -f data/perfil/book-pipeline.log    # log ao vivo
+   tail -f data/perfil/bibliotecario/book-pipeline.log    # log ao vivo
    curl -s http://localhost:8765/worker-status
 
 ⏱️  Estimativa: ~1-3 horas para terminar (depende dos PDFs escaneados)
