@@ -58,8 +58,11 @@ Tudo persistido em state — sobrevive a crashes, restart do terminal, reinício
 - **Servidor HTTP:** `.claude/skills/book-pipeline/server.py` (porta 8765)
 - **Supervisor imortal:** `.claude/skills/book-pipeline/start.sh` (loop de restart)
 - **OCR helper:** `.claude/skills/book-pipeline/ocr-pdf.py`
-- **State:** `/tmp/server-livros-state.json` (sobrevive restart)
-- **Log:** `/tmp/server-livros.log`
+- **State:** `data/perfil/book-pipeline-state.json` (Regra 3 — nunca em `/tmp`, que é apagado a cada
+  reboot; sobrevive restart **e** reboot)
+- **Log:** `data/perfil/book-pipeline.log`
+- **Download temporário (1 item por vez, apagado logo em seguida):** `/tmp/drive-one/` — só isso é
+  seguro deixar em `/tmp`, nunca progresso/histórico
 - **Config OAuth:** `~/.config/gdrive-mcp/gcp-oauth.keys.json` + `gdrive-credentials.json`
 - **Config do usuário (Regra 7 — nada disso fica no template):** `data/perfil/book-pipeline-config.json`
 
@@ -105,7 +108,7 @@ Quando ativada:
 
 ## Comandos disponíveis após ativar
 
-- `tail -f /tmp/server-livros.log` — log em tempo real
+- `tail -f data/perfil/book-pipeline.log` — log em tempo real
 - `curl -s http://localhost:8765/worker-status` — status do worker
 - `curl -s http://localhost:8765/` — lista de pendentes (atualiza a cada 5s)
 - `pkill -f server-livros.py` — parar tudo
@@ -142,7 +145,7 @@ Quando ativada:
    - Mostra erros quando ocorrem
 
 🛠️ Comandos úteis:
-   tail -f /tmp/server-livros.log    # log ao vivo
+   tail -f data/perfil/book-pipeline.log    # log ao vivo
    curl -s http://localhost:8765/worker-status
 
 ⏱️  Estimativa: ~1-3 horas para terminar (depende dos PDFs escaneados)

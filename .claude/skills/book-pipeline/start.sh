@@ -5,20 +5,22 @@
 
 SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
 SERVER="$SKILL_DIR/server.py"
-LOG="/tmp/server-livros.log"
-SUPERVISOR="/tmp/supervisor-livros.sh"
+DATA_DIR="$(cd "$SKILL_DIR/../../.." && pwd)/data/perfil"
+mkdir -p "$DATA_DIR"
+LOG="$DATA_DIR/book-pipeline.log"
+SUPERVISOR="/tmp/supervisor-livros.sh"  # só o loop de controle — sem estado/progresso, ok ficar em /tmp
 PORT="${PORT:-8765}"
 
 # Cria supervisor script (loop imortal)
 cat > "$SUPERVISOR" <<EOF
 #!/bin/bash
 SCRIPT="$SERVER"
-SCRIPT_LOG="/tmp/server-livros.log"
+SCRIPT_LOG="$LOG"
 echo "\$(date) [supervisor] iniciando book-pipeline" >> "\$SCRIPT_LOG"
-pkill -f "server-livros.py" 2>/dev/null
+pkill -f "book-pipeline/server.py" 2>/dev/null
 sleep 1
 while true; do
-  echo "\$(date) [supervisor] iniciando server-livros.py" >> "\$SCRIPT_LOG"
+  echo "\$(date) [supervisor] iniciando server.py" >> "\$SCRIPT_LOG"
   PORT="$PORT" python3 "\$SCRIPT" >> "\$SCRIPT_LOG" 2>&1
   echo "\$(date) [supervisor] server morreu, reiniciando em 3s" >> "\$SCRIPT_LOG"
   sleep 3
@@ -28,7 +30,7 @@ chmod +x "$SUPERVISOR"
 
 # Mata instâncias anteriores
 pkill -f "supervisor-livros.sh" 2>/dev/null
-pkill -f "server-livros.py" 2>/dev/null
+pkill -f "book-pipeline/server.py" 2>/dev/null
 sleep 1
 
 # Sobe em background com setsid + nohup (imune a SIGHUP)
@@ -56,5 +58,5 @@ if curl -s --max-time 3 http://localhost:$PORT/health >/dev/null 2>&1; then
   echo "💡 Dica: sem data/perfil/book-pipeline-config.json ainda, tudo cai em _to_organize/"
 else
   echo "⚠️  Servidor não respondeu no health check. Veja os logs:"
-  echo "  tail $LOG"
+  echo "  tail \"$LOG\""
 fi

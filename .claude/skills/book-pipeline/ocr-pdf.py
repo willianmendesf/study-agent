@@ -6,13 +6,17 @@ import sys, subprocess, tempfile, os
 from pathlib import Path
 import easyocr
 
+STUDY_AGENT_ROOT = Path('/dados/study-agent')
+SCRATCH_ROOT = STUDY_AGENT_ROOT / 'data' / '.tmp' / 'ocr'  # dentro de data/ (Regra 3), nunca /tmp
+
 def main():
     pdf = Path(sys.argv[1])
     out = Path(sys.argv[2])
 
     print(f"📄 {pdf.name} ({pdf.stat().st_size//(1024*1024)} MB)", flush=True)
 
-    with tempfile.TemporaryDirectory(prefix='ocr-') as tmpdir:
+    SCRATCH_ROOT.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix='ocr-', dir=str(SCRATCH_ROOT)) as tmpdir:
         tmp = Path(tmpdir)
         print("  → pdftoppm 200dpi...", flush=True)
         subprocess.run(['pdftoppm', '-r', '200', '-png', str(pdf), str(tmp / 'page')],

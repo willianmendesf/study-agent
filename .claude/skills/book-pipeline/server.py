@@ -20,9 +20,9 @@ CRED = Path.home() / '.config' / 'gdrive-mcp' / 'gdrive-credentials.json'
 KEYS = Path.home() / '.config' / 'gdrive-mcp' / 'gcp-oauth.keys.json'
 DATA = STUDY_AGENT_ROOT / 'data'
 LIVROS = DATA / 'estudos' / 'livros'
-STATE = Path('/tmp/server-livros-state.json')
-LOG_FILE = Path('/tmp/server-livros.log')
-TMP = Path('/tmp/drive-one')
+STATE = DATA / 'perfil' / 'book-pipeline-state.json'
+LOG_FILE = DATA / 'perfil' / 'book-pipeline.log'
+TMP = DATA / 'estudos' / 'livros' / '_staging'  # download temporário de 1 item por vez, apagado logo em seguida — nunca guarda progresso aqui; dentro de data/ (Regra 3), não em /tmp
 PORT = int(os.environ.get('PORT', '8765'))
 OCR_SCRIPT = SKILL_DIR / 'ocr-pdf.py'
 
@@ -200,8 +200,12 @@ def baixar(file_id, dest):
         with open(dest, 'wb') as f:
             f.write(r.read())
 
-def converter(input_path, output_path, timeout_min=10):
-    """Pipeline: markitdown → mobi lib (se MOBI) → OCR (se escaneado) → none."""
+def converter(input_path, output_path, ext='', timeout_min=10):
+    """Pipeline: markitdown → mobi lib (se MOBI) → OCR (se escaneado) → none.
+    `ext` é a extensão original do arquivo no Drive — o arquivo baixado em si
+    (input_path) não tem extensão no nome, então não dá pra usar input_path.suffix
+    para decidir qual fallback tentar."""
+    ext = ext.lower().lstrip('.')
     # 1) markitdown (PDF/EPUB/DOCX)
     try:
         r = subprocess.run(
@@ -219,7 +223,7 @@ def converter(input_path, output_path, timeout_min=10):
         log.warning(f'   markitdown erro: {e}')
 
     # 2) MOBI fallback (se for .mobi)
-    if input_path.suffix.lower() == '.mobi':
+    if ext == 'mobi':
         try:
             r = subprocess.run(
                 ['uvx', '--from', 'mobi', 'python', '-c',
@@ -250,7 +254,7 @@ def converter(input_path, output_path, timeout_min=10):
             log.warning(f'   mobi erro: {e}')
 
     # 3) OCR via EasyOCR (só para PDFs)
-    if input_path.suffix.lower() == '.pdf':
+    if ext == 'pdf':
         log.info(f'   Iniciando OCR (EasyOCR, pode demorar 10-30 min para PDFs grandes)...')
         try:
             r = subprocess.run(
@@ -300,7 +304,7 @@ def processar_um(item, state):
         except Exception as e:
             return {'status': 'erro_download', 'erro': str(e)}
 
-        if converter(tmp, output):
+        if converter(tmp, output, ext=ext):
             try:
                 linhas = sum(1 for _ in open(output))
             except:

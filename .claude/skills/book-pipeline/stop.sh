@@ -4,16 +4,19 @@
 
 echo "🛑 Parando book-pipeline..."
 
+SKILL_DIR="$(cd "$(dirname "$0")" && pwd)"
+STATE="$(cd "$SKILL_DIR/../../.." && pwd)/data/perfil/book-pipeline-state.json"
+
 # Mata o servidor
-pkill -f "server-livros.py" 2>/dev/null && echo "   ✅ servidor parado" || echo "   ⚠️  servidor não estava rodando"
+pkill -f "book-pipeline/server.py" 2>/dev/null && echo "   ✅ servidor parado" || echo "   ⚠️  servidor não estava rodando"
 
 # Mata o supervisor
 pkill -f "supervisor-livros.sh" 2>/dev/null && echo "   ✅ supervisor parado" || echo "   ⚠️  supervisor não estava rodando"
 
-# NÃO deleta state (preserva progresso)
-# Para limpar tudo: rm /tmp/server-livros-state.json
+# NÃO deleta state (preserva progresso — vive em data/, sobrevive a reboot)
+# Para limpar tudo: rm "$STATE"
 
 echo ""
-echo "Estado preservado em /tmp/server-livros-state.json"
+echo "Estado preservado em $STATE"
 echo "Para reiniciar: bash \"$(dirname "$0")/start.sh\""
-echo "Para limpar tudo: rm /tmp/server-livros-state.json"
+echo "Para limpar tudo: rm \"$STATE\""
