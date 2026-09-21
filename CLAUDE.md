@@ -209,7 +209,11 @@ nunca aparece no `git status` do study-agent.
   daqui a 3 dias), e nunca toca em `data/` (só grava o marcador de "última tentativa" ali,
   `data/.study-agent-last-pull`, e o log em `data/.study-agent-pull.log`). Também dá pra forçar na hora:
   `git pull` na raiz do study-agent (sempre na `master`).
-- Salvar seu progresso/material/perfil: `git add -A && git commit -m "..."` dentro de `data/`
+- Salvar seu progresso/material/perfil: acontece **sozinho** — o `study-orquestrador` (`SKILL.md`,
+  passo 7) checa `data/` a cada turno e, se houver mudança, commita e dá `git push` pro seu repo,
+  como passo silencioso após responder você (falha em silêncio se estiver offline/houver conflito —
+  tenta de novo no turno seguinte). Continua valendo fazer manual quando quiser:
+  `git add -A && git commit -m "..."` dentro de `data/`.
 - **Todo material já processado** (livro extraído/OCR, transcrição, resumo) e **todo perfil/progresso**
   ficam versionados no SEU repo — nunca precisa reprocessar um PDF/áudio de novo, nem reconfigurar o
   Orquestrador do zero, só porque atualizou o framework ou trocou de máquina: é `git clone` do seu repo

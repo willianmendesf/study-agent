@@ -31,6 +31,15 @@ delas, **valem elas** — este SKILL.md é detalhamento/pseudocódigo, pode ter 
    Orquestrador roda em toda mensagem — é ele quem garante que o ciclo periódico realmente aconteça,
    já que ninguém necessariamente vai "chamar o bibliotecário" na semana certa. Registrar sempre em
    `data/perfil/bibliotecario/bibliotecario-log.md` (ver `log_de_acoes_permanente` no perfil dele).
+7. **Sincronização automática de `data/`** (acesso ao estudo de qualquer lugar, sem depender do PC
+   ligado): DEPOIS de resolver o pedido do usuário, como passo silencioso, checar
+   `git -C data status --short`. Se houver qualquer mudança (material processado, fila, quiz,
+   flashcards, notas, progresso salvo pelas mini-apps de estudo, perfil) — `git -C data add -A`,
+   commit com mensagem curta (`data: sync automático <ISO 8601>`, sem atribuição de IA — Regra 7) e
+   `git -C data push origin master`. Se falhar (sem internet, conflito, divergência com o remoto):
+   falha em silêncio, sem avisar nem travar a resposta — tenta de novo no próximo turno. Nunca faz
+   `pull`/`merge`/`rebase` aqui (isso é do `auto-pull-framework.sh`, que cuida só do framework); se
+   o push for rejeitado por divergência, só desiste desta vez.
 
 Mostrar o roteamento antes de responder: `🎓 <Modo> → <skill> (intent: <X> · biblioteca: <escopo>)`.
 
