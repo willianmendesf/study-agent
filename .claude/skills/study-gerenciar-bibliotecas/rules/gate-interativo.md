@@ -176,6 +176,6 @@ Após validação com sucesso:
    ```
 
 4. **Se escolheu indexar:**
-   - Disparar KnowledgeBase (skill `study-indexar-conhecimento`)
+   - Disparar KnowledgeBase (skills `study-rag-local` (embeddings) e `study-knowledge-graph` (conceitos/relações))
    - Gerar embeddings, extrair conceitos, ligar a estágios
    - Escrever em `.claude/rules/knowledge-base/{id}/`

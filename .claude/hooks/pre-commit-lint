@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# pre-commit — roda o study-lint e bloqueia commit com erro NOVO (Regra 10). Serve p/ o repo do framework e p/ data/.
+TOP="$(git rev-parse --show-toplevel)"
+if [ -d "$TOP/.claude/scripts" ]; then ROOT="$TOP"; else ROOT="$(dirname "$TOP")"; fi
+command -v python3 >/dev/null 2>&1 || { echo "study-lint: python3 ausente, verificação pulada" >&2; exit 0; }
+[ -f "$ROOT/.claude/scripts/study-lint.py" ] || exit 0
+python3 "$ROOT/.claude/scripts/study-lint.py" --root "$ROOT" || {
+  echo "" >&2; echo "study-lint bloqueou o commit: corrija os erros acima (não use --no-verify)." >&2; exit 1; }

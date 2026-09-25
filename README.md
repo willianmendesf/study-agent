@@ -163,7 +163,7 @@ Lista completa e critério de uso em `.claude/config.yaml → skills_complementa
 | Opcional | `scientific-critical-thinking`, `literature-review`, `statistical-analysis`, `scientific-writing`, `citation-management`, `plotly` | Pesquisa acadêmica/científica — só relevante se você estuda nessa linha |
 | Opcional (API key) | `scientific-slides` | Slides com imagem gerada por IA — requer `OPENROUTER_API_KEY` |
 | Opcional (gate ético) | `humanizer` | Deixa texto mais natural — nunca automático; não usar pra disfarçar autoria de trabalho |
-| Opcional (catálogo amplo) | **161 skills científicas** | Medicina, bioinformática, genômica, química, física, ML científico, estatística, laboratório etc. (MIT, `github.com/K-Dense-AI/scientific-agent-skills`). O catálogo inteiro fica disponível — o Orquestrador sugere ativar só as que casam com seu domínio/objetivo (nunca instala dependência pesada sem confirmar). Bom pra quem estuda medicina, fisioterapia, biologia, química, e áreas científicas em geral. |
+| Opcional (catálogo amplo) | **skills científicas (catálogo amplo)** | Medicina, bioinformática, genômica, química, física, ML científico, estatística, laboratório etc. (MIT, `github.com/K-Dense-AI/scientific-agent-skills`). O catálogo inteiro fica disponível — o Orquestrador sugere ativar só as que casam com seu domínio/objetivo (nunca instala dependência pesada sem confirmar). Bom pra quem estuda medicina, fisioterapia, biologia, química, e áreas científicas em geral. |
 | Bastidor | `skill-creator` | Peça "cria uma skill pra [sua necessidade específica]" e a IA gera uma skill nova sob medida |
 
 ---
@@ -215,7 +215,7 @@ Detalhes: `.claude/rules/pedagogical-principles/README.md`.
 
 **E se um especialista/skill tiver material em outro idioma?** Não importa — a IA sempre responde no
 idioma que você definiu no setup (`study-setup-orquestrador`), traduzindo o que for preciso. Isso vale
-até pras 161 skills científicas complementares, documentadas em inglês.
+até pras skills científicas complementares, documentadas em inglês.
 
 **Dados são seguros?** Sim — tudo local em `data/`. Zero upload externo.
 

@@ -1,6 +1,6 @@
 # Study-Orquestrador — Guia de Referência
 
-Orquestrador é o roteador central do Study-Agent: a cada mensagem, decide qual skill + persona deve responder. **Não é um hook técnico** — é uma regra de comportamento aplicada pela IA a cada turno, definida em [`CLAUDE.md`](./CLAUDE.md) (Regra 1) e detalhada em [`.claude/skills/study-orquestrador/SKILL.md`](./.claude/skills/study-orquestrador/SKILL.md).
+Orquestrador é o roteador central do Study-Agent: a cada mensagem, decide qual skill + modo de estudo deve responder. **Não é um hook técnico** — é uma regra de comportamento aplicada pela IA a cada turno, definida em [`CLAUDE.md`](./CLAUDE.md) (Regra 1) e detalhada em [`.claude/skills/study-orquestrador/SKILL.md`](./.claude/skills/study-orquestrador/SKILL.md).
 
 > Por que não é hook: `UserPromptSubmit` (o hook de interceptação do Claude Code) roda em um contexto isolado sem acesso à ferramenta `Skill` — não consegue invocar uma skill automaticamente. A abordagem que funciona de fato é uma regra em `CLAUDE.md`, que é sempre carregado no contexto principal da IA.
 
@@ -13,20 +13,20 @@ IA lê CLAUDE.md → aplica Regra 1 (Orquestrador roteia primeiro)
     ↓
 Detecta intent: "aprender" (revisar conteúdo educacional)
     ↓
-Consulta data/perfil/aprendizado-meta.yaml (se existir) — estágio atual, personas usadas
+Consulta data/perfil/aprendizado-meta.yaml (se existir) — estágio atual, modos usados
     ↓
-Mapeia: estudo-fluxo-03-aprender + persona Professor
+Mapeia: estudo-fluxo-03-aprender + modo Professor
     ↓
 Mostra: "🎓 Professor vai te ajudar → estudo-fluxo-03-aprender (intent: aprender)"
     ↓
-Executa a skill com a persona — SEM esperar confirmação
+Executa a skill com o modo — SEM esperar confirmação
     ↓
 Atualiza aprendizado-meta.yaml + sugere próximo passo
 ```
 
-## Mapeamento intent → skill → persona
+## Mapeamento intent → skill → modo de estudo
 
-| Intenção | Exemplo de mensagem | Skill | Persona |
+| Intenção | Exemplo de mensagem | Skill | Modo |
 |----------|---------------------|-------|---------|
 | `descobrir` | "quero aprender sobre célula" | `estudo-fluxo-01-descobrir` | Tutor |
 | `aprender` | "explique mitose" / "revise este plano" | `estudo-fluxo-03-aprender` | Professor |
@@ -38,11 +38,11 @@ Atualiza aprendizado-meta.yaml + sugere próximo passo
 | `entender-sistema` | "como você funciona?" | `study-about` | Mentor |
 | ambíguo | mensagem vaga | `estudo-fluxo-03-aprender` (fallback) | Professor |
 
-Tabela completa e exemplos de decisão contextual (pré-requisitos, retenção baixa, troca de persona): ver `.claude/skills/study-orquestrador/SKILL.md`.
+Tabela completa e exemplos de decisão contextual (pré-requisitos, retenção baixa, troca de modo): ver `.claude/skills/study-orquestrador/SKILL.md`.
 
-## 6 Personas
+## 6 Modos de estudo
 
-| Persona | Estilo | Estágios padrão |
+| Modo | Estilo | Estágios padrão |
 |---------|--------|------------------|
 | **Professor** | Explica com clareza, exemplos, cita fontes | 01, 02, 03 |
 | **Tutor** | Questiona, guia descoberta socrática | 01 |
@@ -64,11 +64,11 @@ Tabela completa e exemplos de decisão contextual (pré-requisitos, retenção b
 
 ## SessionContext (estado persistente)
 
-Arquivo: `data/perfil/aprendizado-meta.yaml` (schema em `.claude/templates/aprendizado-meta.yaml`). Guarda tópico atual, estágio, histórico de personas usadas, pontos fracos, progresso — para que Orquestrador tome decisões contextuais (ex.: "sua retenção caiu, quer revisar antes de avançar?").
+Arquivo: `data/perfil/aprendizado-meta.yaml` (schema em `.claude/templates/aprendizado-meta.yaml`). Guarda tópico atual, estágio, histórico de modos usados, pontos fracos, progresso — para que Orquestrador tome decisões contextuais (ex.: "sua retenção caiu, quer revisar antes de avançar?").
 
 ## Perfil Global (setup único)
 
-Primeira sessão real, se `.claude/orquestrador-global-profile.yaml` não existir: sugerir `study-setup-orquestrador` para definir domínio (Medicina, Programação...), personas primárias, bibliotecas base e tom de comunicação. Ver `.claude/skills/study-setup-orquestrador/SKILL.md`.
+Primeira sessão real, se `data/perfil/orquestrador-global-profile.yaml` não existir: sugerir `study-setup-orquestrador` para definir domínio (Medicina, Programação...), modos primários, bibliotecas base e tom de comunicação. Ver `.claude/skills/study-setup-orquestrador/SKILL.md`.
 
 ## Limitações conhecidas
 
@@ -80,6 +80,6 @@ Primeira sessão real, se `.claude/orquestrador-global-profile.yaml` não existi
 
 - [`CLAUDE.md`](./CLAUDE.md) — regras de projeto (sempre carregado)
 - `.claude/skills/study-orquestrador/SKILL.md` — lógica completa de roteamento
-- `.claude/config.yaml` — registro de skills, personas, estágios
+- `.claude/config.yaml` — registro de skills, modos de estudo, estágios
 - `.claude/skills/estudo-fluxo-*/` — as 6 skills de estágio
 - `.claude/templates/aprendizado-meta.yaml` — schema do SessionContext
