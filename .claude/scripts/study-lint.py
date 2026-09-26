@@ -82,6 +82,16 @@ for p in kbs:
         elif isinstance(o, list):
             for v in o: walk(v)
     for d in docs: walk(d)
+    titles = []
+    def collect(o):
+        if isinstance(o, dict):
+            if 'caminho_md' in o and o.get('titulo'): titles.append(str(o['caminho_md']).strip().lower())
+            for v in o.values(): collect(v)
+        elif isinstance(o, list):
+            for v in o: collect(v)
+    for d in docs: collect(d)
+    for t in sorted(set(x for x in titles if titles.count(x) > 1)):
+        err('duplicata:' + rel(p) + '::' + t[:80], 'mesmo caminho_md listado duas vezes na mesma KB')
 
 # ---------- especialistas ----------
 sp = {}
@@ -100,7 +110,11 @@ for p in sorted(glob.glob(os.path.join(D, 'perfil', 'especialistas', '*.yaml')))
     if n not in ('bibliotecario',) and tipo != 'sistema' and not tg: err(f'esp:{n}:tags', 'especialista de conteúdo sem tags_do_dominio')
     miss = [t for t in tg if str(t) not in pool]
     if miss and pool: warn(f'esp:{n}:tags-sem-kb', f'tags sem nenhuma KB no pool: {miss}')
-    g = ghost_skills(open(p, encoding='utf8').read())
+    txt_sp = open(p, encoding='utf8').read()
+    for cp in sorted(set(re.findall(r'data/[A-Za-z0-9_\-./]+\.(?:yaml|md|json|sh)', txt_sp))):
+        if '<' in cp or '*' in cp: continue
+        if not os.path.exists(os.path.join(ROOT, cp)): err(f'esp:{n}:path:{cp}', 'especialista cita arquivo inexistente')
+    g = ghost_skills(txt_sp)
     if g: err(f'esp:{n}:skills', f'referencia skills inexistentes: {g}')
 
 pm = os.path.join(D, 'perfil', 'perfis.md')
