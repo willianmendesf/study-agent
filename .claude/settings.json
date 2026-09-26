@@ -24,6 +24,34 @@
             "type": "command",
             "command": "bash .claude/hooks/auto-pull-framework.sh",
             "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "D=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja\"; [ -x \"$D\" ] || D=$(command -v deja); [ -n \"$D\" ] && \"$D\" hook-prompt || true",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja\"; [ -x \"$D\" ] || D=$(command -v deja); [ -n \"$D\" ] && \"$D\" hook-context || true",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "matcher": "manual|auto",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "D=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja\"; [ -x \"$D\" ] || D=$(command -v deja); [ -n \"$D\" ] && \"$D\" hook-precompact || true",
+            "timeout": 10
           }
         ]
       }

@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "deja": {
+      "command": "sh",
+      "args": ["-c", "D=./.claude/skills/deja-search/bin/deja; [ -x $D ] || D=deja; exec $D mcp"]
+    }
+  }
+}

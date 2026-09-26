@@ -1,0 +1,5 @@
+deja-vu v0.21.2 (linux_amd64)
+fonte: https://github.com/vshulcz/deja-vu/releases/tag/v0.21.2
+licenca: MIT (ver DEJA-LICENSE)
+sha256 do binario deja: 5f25f3c957ec0a07c716facf365b816c4514e822dd949f20a4fe1e497d8cdf80
+Outros SO/arquitetura: brew install deja-vu | scoop install deja-vu (os hooks caem no deja do PATH).
