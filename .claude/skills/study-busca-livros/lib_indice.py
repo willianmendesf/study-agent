@@ -20,6 +20,14 @@ DIRS_IGNORADOS = {'.git', '.processing', 'node_modules', '_tools', '__pycache__'
 ALVO_CHUNK = 1400   # caracteres: fecha o chunk na próxima quebra de parágrafo
 MAX_CHUNK = 2400    # teto duro: parte no limite de linha (ou de caractere, se a linha for gigante)
 RE_TITULO = re.compile(r'^\s{0,3}#{1,6}\s+(.*\S)\s*$')
+# OCR com letras espaçadas ("T E O L O G IA"): 3+ letras soltas seguidas de um fecho de 1-3 letras
+RE_LETRAS_ESPACADAS = re.compile(r'(?<!\S)(?:[^\W\d_] ){3,}[^\W\d_]{1,3}(?!\S)')
+NORM_VERSAO = '2'  # sobe quando a normalização do texto indexado muda (força reprocessar o que for afetado)
+
+
+def descolar_letras(texto):
+    """Junta letras espaçadas de OCR só no texto INDEXADO (não altera o arquivo nem a numeração de linhas)."""
+    return RE_LETRAS_ESPACADAS.sub(lambda m: m.group(0).replace(' ', ''), texto)
 
 
 def abrir_db(criar=False):
@@ -215,7 +223,7 @@ def _apagar_doc(con, arquivo):
 def indexar_arquivo(con, arquivo, caminho, tamanho, mtime_ns, kbs):
     """(Re)indexa um arquivo: apaga o intervalo de rowids anterior e insere o novo."""
     with open(caminho, encoding='utf-8', errors='replace') as fh:
-        texto = fh.read()
+        texto = descolar_letras(fh.read())
     _apagar_doc(con, arquivo)
     info = kbs.get(arquivo, {})
     tags = ' ' + ' '.join(sorted(info.get('tags', []))) + ' '
@@ -264,9 +272,24 @@ def atualizar_metadados(con, kbs):
     return alterados
 
 
-def sincronizar(con, progresso=None):
-    """Aplica as diferenças. Devolve (reindexados, removidos, chunks)."""
+def _precisa_normalizar(caminho):
+    with open(caminho, encoding='utf-8', errors='replace') as fh:
+        texto = fh.read()
+    return descolar_letras(texto) != texto
+
+
+def sincronizar(con, progresso=None, migrar_norm=False):
+    """Aplica as diferenças. Devolve (reindexados, removidos, chunks).
+
+    `migrar_norm=True` (só o indexar.py): se a versão da normalização do índice está velha, reprocessa
+    APENAS os livros que a nova normalização altera (lê todos, refatia só esses).
+    """
     mudou, removidos, kbs = diferencas(con)
+    if migrar_norm and dict(con.execute('SELECT k, v FROM meta')).get('norm') != NORM_VERSAO:
+        ja = {m[0] for m in mudou}
+        candidatos = [(a, c, t, m) for a, (c, t, m) in listar_arquivos().items() if a not in ja]
+        print(f'  verificando OCR em {len(candidatos)} arquivo(s)…', flush=True)
+        mudou += [x for x in candidatos if _precisa_normalizar(x[1])]
     meta_alterados = atualizar_metadados(con, kbs)
     if meta_alterados:
         print(f'  tags/títulos atualizados em {meta_alterados} documento(s) (sem reprocessar o texto)', flush=True)
@@ -280,6 +303,8 @@ def sincronizar(con, progresso=None):
             progresso(n, len(mudou), arq)
     con.execute("INSERT OR REPLACE INTO meta VALUES ('atualizado_em', datetime('now'))")
     con.execute("INSERT OR REPLACE INTO meta VALUES ('kbs_mtime_ns', ?)", (str(mtime_kbs()),))
+    if migrar_norm:
+        con.execute("INSERT OR REPLACE INTO meta VALUES ('norm', ?)", (NORM_VERSAO,))
     con.commit()
     return len(mudou), len(removidos), total_chunks
 

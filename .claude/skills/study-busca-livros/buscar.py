@@ -7,7 +7,8 @@
     python3 .claude/skills/study-busca-livros/buscar.py --verificar "a fé sem obras é morta" [--arquivo tiago]
     python3 .claude/skills/study-busca-livros/buscar.py --info
 
-Sem distinção de acento/caixa; AND entre termos (cai para OU se nada casar); `termo*` é prefixo.
+Sem distinção de acento/caixa; AND entre termos (cai para OU se nada casar); `termo*` é prefixo;
+termos são reduzidos ao radical (justificar → justific*) — `--exato` desliga.
 `--tags` aplica o escopo do especialista (Regra 8): só livros cujas tags cruzam. Sem `--tags`: pool inteiro.
 """
 import argparse
@@ -42,9 +43,31 @@ def termos(consulta, manter_stop=False):
     return uteis or brutos
 
 
-def montar_match(tokens, frase=False, ou=False):
+# sufixos (sem acento) do português, do mais longo ao mais curto: radical leve, sem dicionário
+SUFIXOS = sorted(
+    ['amentos', 'imentos', 'amento', 'imento', 'acoes', 'acao', 'ucoes', 'ucao', 'icoes', 'icao', 'mente',
+     'idades', 'idade', 'istas', 'ismo', 'ista', 'adores', 'adoras', 'ador', 'antes', 'ante', 'ados', 'adas',
+     'ado', 'ada', 'idos', 'idas', 'ido', 'ida', 'ando', 'endo', 'indo', 'aram', 'eram', 'iram', 'amos', 'emos',
+     'avam', 'iam', 'ava', 'ia', 'am', 'em', 'ar', 'er', 'ir', 'os', 'as', 'es', 'oes', 'ao', 's', 'o', 'a', 'e'],
+    key=len, reverse=True)
+RADICAL_MINIMO = 4  # nunca reduz abaixo disso (evita "deus" → "deu*")
+
+
+def radical(termo):
+    """Radical com prefixo para achar flexões (justificar → justific), ou None se não há o que reduzir."""
+    base = sem_acento(termo.lower())
+    for suf in SUFIXOS:
+        if base.endswith(suf) and len(base) - len(suf) >= RADICAL_MINIMO:
+            return base[:-len(suf)]
+    return None
+
+
+def montar_match(tokens, frase=False, ou=False, radicais=False):
     def um(t):
-        return f'"{t[:-1]}"*' if t.endswith('*') else f'"{t}"'
+        if t.endswith('*'):
+            return f'"{t[:-1]}"*'
+        r = radical(t) if radicais else None
+        return f'"{r}"*' if r else f'"{t}"'
     if frase:
         return '"' + ' '.join(t.rstrip('*') for t in tokens) + '"'
     return (' OR ' if ou else ' AND ').join(um(t) for t in tokens)
@@ -110,10 +133,12 @@ def cmd_buscar(args, con):
         return 2
     tags = [t.strip().lower() for t in (args.tags or '').split(',') if t.strip()]
     modo = 'frase' if args.frase else ('OU' if args.ou else 'E')
-    linhas = consultar(con, montar_match(tokens, args.frase, args.ou), tags, args.arquivo, args.top_k * 12)
+    rad = not (args.exato or args.frase)
+    expansoes = [f'{t}→{radical(t)}*' for t in tokens if rad and not t.endswith('*') and radical(t)]
+    linhas = consultar(con, montar_match(tokens, args.frase, args.ou, rad), tags, args.arquivo, args.top_k * 12)
     if not linhas and modo == 'E' and len(tokens) > 1:
         modo = 'OU (aproximado — nenhum trecho tem todos os termos)'
-        linhas = consultar(con, montar_match(tokens, ou=True), tags, args.arquivo, args.top_k * 12)
+        linhas = consultar(con, montar_match(tokens, ou=True, radicais=rad), tags, args.arquivo, args.top_k * 12)
     achados = diversificar(linhas, args.top_k, args.max_por_livro)
     if args.json:
         chaves = ('arquivo', 'titulo', 'tags', 'linha_inicio', 'linha_fim', 'secao', 'trecho', 'bm25', 'rowid')
@@ -125,7 +150,8 @@ def cmd_buscar(args, con):
               f'Se realmente não há material, diga isso ao usuário (Regra 9.4).')
         return 3
     print(f'Busca «{" ".join(tokens)}» · modo {modo} · {len(achados)} resultado(s)'
-          + (f' · escopo tags: {", ".join(tags)}' if tags else ' · pool inteiro'))
+          + (f' · escopo tags: {", ".join(tags)}' if tags else ' · pool inteiro')
+          + (f' · radicais: {", ".join(expansoes)}' if expansoes else ''))
     for n, (arq, tit, tg, ini, fim, secao, trecho, _r, _rid) in enumerate(achados, start=1):
         tit = tit if len(tit) <= 90 else tit[:87] + '…'  # títulos de Z-Library vêm enormes
         print(f'\n[{n}] {tit} — data/{arq}:{ini}-{fim}' + (f' · seção «{secao}»' if secao else '')
@@ -210,6 +236,7 @@ def main():
     ap.add_argument('--arquivo', help='restringe a arquivos cujo caminho contém este texto')
     ap.add_argument('--frase', action='store_true', help='frase exata (termos adjacentes, na ordem)')
     ap.add_argument('--ou', action='store_true', help='qualquer termo (em vez de todos)')
+    ap.add_argument('--exato', action='store_true', help='não reduz termos ao radical (justificar ≠ justificação)')
     ap.add_argument('--max-por-livro', type=int, default=2)
     ap.add_argument('--json', action='store_true')
     ap.add_argument('--verificar', metavar='FRASE', help='confirma se a citação literal existe no(s) livro(s)')

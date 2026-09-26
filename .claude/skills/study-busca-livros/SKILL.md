@@ -35,6 +35,7 @@ python3 .claude/skills/study-busca-livros/buscar.py graça obras --json
 |---|---|
 | _(padrão)_ | todos os termos (E); sem distinção de **acento/caixa**; stopwords (`de`, `pela`…) ignoradas; se nenhum trecho tiver todos os termos, cai para OU e avisa "aproximado" |
 | `termo*` | prefixo (`justific*` → justificação, justificado…) |
+| `--exato` | não reduz os termos ao radical (por padrão `justificar` já acha `justificação`) |
 | `--frase "…"` | frase exata (termos adjacentes, na ordem; mantém stopwords) |
 | `--ou` | qualquer termo |
 | `--tags a,b` | **escopo do especialista** (Regra 8): só livros cujas tags cruzam com `a` **ou** `b`. Passe as `tags_do_dominio` do especialista ativo. Sem `--tags` = pool inteiro (inclui livros sem tag) |
@@ -85,10 +86,16 @@ python3 .claude/skills/study-busca-livros/buscar.py --info      # estado do índ
 
 - Léxico, não semântico: acha as **palavras** (com acento/caixa/prefixo flexíveis), não o sentido.
   Para "trecho sobre X" com vocabulário diferente → `study-rag-local`.
-- Sem radical/stemming: `justificar` não acha `justificação` (use `justific*`).
+- Radical **leve, sem dicionário** (tira sufixos comuns do português): `justificar`, `justificado` e
+  `justificação` se encontram (`justific*`), e o cabeçalho mostra as expansões aplicadas. Pode trazer
+  parentes indesejados (`obras` → `obra*`); nesse caso use `--exato`. Termos curtos (radical < 4 letras,
+  como `deus`) e `--frase` nunca expandem.
 - Frase que atravessa o limite entre dois trechos pode não casar em `--frase`; use `--verificar`
   (lê o arquivo) ou busque os termos em modo E.
-- OCR ruim (letras espaçadas) não é encontrável por palavra inteira.
+- OCR com **letras espaçadas** (`T E O L O G IA`) é corrigido só no texto indexado (vira `TEOLOGIA`), sem
+  mexer no arquivo nem na numeração de linhas; o índice antigo é migrado pelo `indexar.py`, que reprocessa
+  apenas os livros afetados. OCR com outros defeitos (letras trocadas, palavras coladas) continua sem
+  correção; `--verificar` lê o arquivo original, então citações de trecho espaçado não casam.
 - **Desempenho medido** (acervo de ~1.000 arquivos / 540 mil trechos, VM com disco lento): indexação inicial
   ~36 min e ~1,8 GB (uma vez; depois é incremental); consulta ~1,5 s com cache quente e até ~9 s a frio, contra
   mais de 150 s de `grep -r` nos mesmos livros. Em disco SSD é bem mais rápido.

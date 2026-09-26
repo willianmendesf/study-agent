@@ -39,7 +39,7 @@ def main():
             print(f'  [{n}/{total}] {time.time() - inicio:5.0f}s  {arq[:90]}', flush=True)
 
     try:
-        reindexados, removidos, chunks = L.sincronizar(con, progresso)
+        reindexados, removidos, chunks = L.sincronizar(con, progresso, migrar_norm=True)
     except sqlite3.Error as exc:
         print(f'ERRO no índice: {exc}. Tente --refazer.', file=sys.stderr)
         return 1
