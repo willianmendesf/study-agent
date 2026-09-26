@@ -195,7 +195,7 @@ def cmd_verificar(args, con):
 def cmd_info(con):
     meta = dict(con.execute('SELECT k, v FROM meta'))
     docs = con.execute('SELECT COUNT(*) FROM docs').fetchone()[0]
-    chunks = con.execute('SELECT COUNT(*) FROM chunks').fetchone()[0]
+    chunks = L.contar_chunks(con)
     sem = con.execute("SELECT COUNT(*) FROM docs WHERE tags='  '").fetchone()[0]
     print(f'Índice: {L.DB_PATH}\n  {docs} documentos, {chunks} trechos, {os.path.getsize(L.DB_PATH) / 1048576:.0f} MB\n'
           f'  atualizado em (UTC): {meta.get("atualizado_em", "?")}\n  sem tag de KB: {sem}')

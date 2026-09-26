@@ -92,6 +92,8 @@ python3 .claude/skills/study-busca-livros/buscar.py --info      # estado do índ
 - **Desempenho medido** (acervo de ~1.000 arquivos / 540 mil trechos, VM com disco lento): indexação inicial
   ~36 min e ~1,8 GB (uma vez; depois é incremental); consulta ~1,5 s com cache quente e até ~9 s a frio, contra
   mais de 150 s de `grep -r` nos mesmos livros. Em disco SSD é bem mais rápido.
+- `--verificar` de uma citação **inexistente** é o caso lento (~30 s medidos): ele precisa ler os livros
+  candidatos inteiros para provar que o texto não está lá. Com `--arquivo <livro>` é imediato.
 - Livro que **nenhum `kb-*.yaml` lista** fica sem tag: acha-se sem `--tags`, mas o filtro por especialista o
   esconde. O bibliotecário deve catalogá-lo (Regra 8) — `study-lint` acusa "livros sem KB".
 

@@ -44,7 +44,7 @@ def main():
         print(f'ERRO no índice: {exc}. Tente --refazer.', file=sys.stderr)
         return 1
     total_docs = con.execute('SELECT COUNT(*) FROM docs').fetchone()[0]
-    total_chunks = con.execute('SELECT COUNT(*) FROM chunks').fetchone()[0]
+    total_chunks = L.contar_chunks(con)
     sem_tag = con.execute("SELECT COUNT(*) FROM docs WHERE tags='  '").fetchone()[0]
     con.close()
     tam_mb = os.path.getsize(L.DB_PATH) / 1048576

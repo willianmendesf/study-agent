@@ -57,6 +57,11 @@ def criar_esquema(con):
     con.commit()
 
 
+def contar_chunks(con):
+    """Nº de trechos sem varrer a tabela FTS (COUNT(*) nela é lento em centenas de milhares de linhas)."""
+    return con.execute('SELECT COALESCE(SUM(rowid_fim - rowid_ini + 1), 0) FROM docs WHERE rowid_ini IS NOT NULL').fetchone()[0]
+
+
 def rel_data(caminho):
     return os.path.relpath(caminho, DATA).replace(os.sep, '/')
 
