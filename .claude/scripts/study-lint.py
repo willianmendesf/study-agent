@@ -5,7 +5,7 @@ Uso:  python3 .claude/scripts/study-lint.py [--root DIR] [--strict] [--update-ba
 Saída: exit 1 se houver ERRO novo (fora do baseline). Só stdlib + PyYAML vendorizado.
 Baseline: data/perfil/bibliotecario/lint-baseline.txt  (problemas conhecidos, um por linha).
 """
-import argparse, glob, os, re, subprocess, sys
+import argparse, collections, glob, os, re, subprocess, sys
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), 'vendor'))
 import yaml
 
@@ -61,6 +61,8 @@ def resolve(p):
 
 pool = set()
 kbtags = set()
+kbmap = {}
+refpaths = []
 kbs = sorted(glob.glob(os.path.join(D, 'biblioteca', '**', '*.yaml'), recursive=True))
 for p in kbs:
     docs = load(p)
@@ -71,10 +73,12 @@ for p in kbs:
             tags = d.get('tags', tags); dis = d.get('disabled', dis)
     if not tags: err('kb-tags:' + rel(p), 'KB sem `tags` (ou tags vazia) — invisível para especialistas'); 
     elif not dis: pool.update(str(x) for x in tags); kbtags.update(str(x) for x in tags)
+    kbmap[os.path.basename(p)] = set(str(x) for x in (tags or [])) if not dis else set()
     def walk(o):
         if isinstance(o, dict):
             if 'caminho_md' in o and isinstance(o['caminho_md'], str):
                 tp = resolve(o['caminho_md'])
+                if tp: refpaths.append(tp)
                 st = str(o.get('status', ''))
                 if tp and not os.path.exists(tp) and not re.search(r'ocr_pendente|pendente|ausente|removid|duplicata', st):
                     err('caminho:' + rel(p) + '::' + o['caminho_md'][:110], 'caminho_md não existe')
@@ -140,6 +144,44 @@ for n, e in sp.items():
     tg = set(str(x) for x in (e.get('tags_do_dominio') or []))
     if tipo != 'sistema' and n != 'bibliotecario' and tg and not (tg & kbtags):
         err(f'esp:{n}:sem-kb', 'especialista não enxerga NENHUMA KB (nenhuma tag cruza) — falta material ou tag')
+
+# ---------- especialista x biblioteca ----------
+for n, e in sp.items():
+    tipo = e.get('tipo', 'sistema' if n == 'kairos' else 'conteudo')
+    if tipo != 'sistema' and n != 'bibliotecario' and not e.get('consulta_biblioteca'):
+        err(f'esp:{n}:consulta', 'especialista de conteúdo sem bloco `consulta_biblioteca` (instrução de consultar/citar a biblioteca)')
+    tg = set(str(x) for x in (e.get('tags_do_dominio') or []))
+    txt = open(os.path.join(D, 'perfil', 'especialistas', n + '.yaml'), encoding='utf8').read()
+    for k in sorted(set(re.findall(r'kb-[a-z0-9\-]+\.yaml', txt))):
+        if k not in kbmap:
+            err(f'esp:{n}:kb-inexistente:{k}', 'cita KB que não existe')
+        elif tg and not (kbmap[k] & tg) and n != 'bibliotecario':
+            err(f'esp:{n}:kb-invisivel:{k}', 'cita KB que não enxerga (nenhuma tag cruza)')
+
+# ---------- livros no disco x KBs ----------
+import hashlib
+def _h(p):
+    m = hashlib.sha1()
+    with open(p, 'rb') as f:
+        for c in iter(lambda: f.read(1 << 20), b''): m.update(c)
+    return m.hexdigest()
+refset = set(os.path.realpath(x) for x in refpaths)
+BOOKDIRS = ('livros/', 'kb-biblioteconomia/', 'rhetor/', 'zetesis/', 'antropos/', 'comentarios-biblicos/')
+refsizes = collections.defaultdict(list)
+for x in refset:
+    if os.path.exists(x): refsizes[os.path.getsize(x)].append(x)
+refhash = {}
+for x in glob.glob(os.path.join(D, 'estudos', '**', '*.md'), recursive=True):
+    r = os.path.relpath(x, os.path.join(D, 'estudos'))
+    if not r.startswith(BOOKDIRS) or re.search(r'(^|/)(chapters|resumos|_[^/]*)/', r) or os.path.realpath(x) in refset: continue
+    sz = os.path.getsize(x)
+    if sz < 200: err('livro-vazio:' + r, 'arquivo de livro vazio (<200 bytes)'); continue
+    dup = False
+    if sz in refsizes:
+        for y in refsizes[sz]:
+            if y not in refhash: refhash[y] = _h(y)
+        hx = _h(x); dup = any(refhash[y] == hx for y in refsizes[sz])
+    if not dup: err('livro-sem-kb:' + r, 'livro convertido em estudos/ que nenhuma KB referencia (invisível para os especialistas)')
 
 # ---------- framework ----------
 for f in ('CLAUDE.md', 'ORQUESTRADOR.md', 'README.md', 'AGENTS.md'):
