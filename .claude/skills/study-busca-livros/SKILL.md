@@ -92,10 +92,12 @@ python3 .claude/skills/study-busca-livros/buscar.py --info      # estado do índ
   como `deus`) e `--frase` nunca expandem.
 - Frase que atravessa o limite entre dois trechos pode não casar em `--frase`; use `--verificar`
   (lê o arquivo) ou busque os termos em modo E.
-- OCR com **letras espaçadas** (`T E O L O G IA`) é corrigido só no texto indexado (vira `TEOLOGIA`), sem
-  mexer no arquivo nem na numeração de linhas; o índice antigo é migrado pelo `indexar.py`, que reprocessa
-  apenas os livros afetados. OCR com outros defeitos (letras trocadas, palavras coladas) continua sem
-  correção; `--verificar` lê o arquivo original, então citações de trecho espaçado não casam.
+- OCR com **letras espaçadas** (`T E O L O G IA`) é corrigido **na origem**: `.claude/scripts/normalizar_md.py`
+  roda dentro do `book-pipeline` (e do `ocr-pdf.py`) em toda conversão, e a Regra 2 manda rodá-lo após conversão
+  manual. Livros que já estavam no disco com o defeito são normalizados **no índice** como rede de segurança
+  (mesma função), mas o arquivo continua espaçado, então `--verificar` de um trecho assim não casa: corrija o
+  arquivo com `normalizar_md.py <arquivo|pasta>` (use `--dry-run` antes). Só letras latinas: grego/hebraico ficam
+  intactos. Outros defeitos de OCR (letras trocadas, palavras coladas, palavra de 2 letras isolada) não são corrigidos.
 - **Desempenho medido** (acervo de ~1.000 arquivos / 540 mil trechos, VM com disco lento): indexação inicial
   ~36 min e ~1,8 GB (uma vez; depois é incremental); consulta ~1,5 s com cache quente e até ~9 s a frio, contra
   mais de 150 s de `grep -r` nos mesmos livros. Em disco SSD é bem mais rápido.

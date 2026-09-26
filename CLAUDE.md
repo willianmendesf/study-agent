@@ -46,8 +46,12 @@ Quando o usuário anexa ou referencia um arquivo PDF, DOCX, EPUB, RTF ou similar
    - Documento maior / livro / material de referência → use a skill `book-to-skill` (`.claude/skills/book-to-skill/SKILL.md`), que extrai estrutura (frameworks, conceitos, glossário) — não só texto corrido.
    - Documento simples/curto/planilha/slide (ex.: plano de aula, nota, `.pptx`, `.xlsx`) → skill `markitdown` (`.claude/skills/markitdown/`) — conversão direta e rápida.
    - PDF **escaneado** (foto de prova, formulário, tabela) → skill `pdf-processing-pro` (`.claude/skills/pdf-processing-pro/`, tem OCR) antes de markitdown/book-to-skill.
-3. **Leia o `.md` gerado**, não o arquivo original, para produzir qualquer resposta.
-4. **Indexe**: registre o material em `data/biblioteca/` (via `study-gerenciar-bibliotecas` se for material recorrente) para reuso em sessões futuras.
+3. **Normalize o `.md` gerado**: `python3 .claude/scripts/normalizar_md.py <arquivo.md>` — junta letras espaçadas que
+   conversores/OCR produzem (`T E O L O G IA` → `TEOLOGIA`), que quebram busca e citação. O `book-pipeline` já faz isso
+   sozinho; **conversão manual (markitdown, book-to-skill, pdf-processing-pro) não** — rode você. Idempotente, só
+   mexe em espaços (linhas não mudam), preserva grego/hebraico e blocos de código.
+4. **Leia o `.md` gerado**, não o arquivo original, para produzir qualquer resposta.
+5. **Indexe**: registre o material em `data/biblioteca/` (via `study-gerenciar-bibliotecas` se for material recorrente) para reuso em sessões futuras.
 
 **Por quê:** ler PDF diretamente é caro em tokens a cada vez que o material é referenciado. Markdown é reindexável, buscável, versionável e muito mais barato de reler.
 

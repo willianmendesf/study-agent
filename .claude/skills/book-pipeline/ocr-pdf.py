@@ -6,6 +6,9 @@ import sys, subprocess, tempfile, os
 from pathlib import Path
 import easyocr
 
+sys.path.insert(0, str(Path(__file__).resolve().parent.parent.parent / 'scripts'))  # .claude/scripts
+from normalizar_md import descolar_letras  # noqa: E402  (OCR lê tipografia espaçada: corrige na origem)
+
 STUDY_AGENT_ROOT = Path('/dados/study-agent')
 SCRATCH_ROOT = STUDY_AGENT_ROOT / 'data' / '.tmp' / 'ocr'  # dentro de data/ (Regra 3), nunca /tmp
 
@@ -30,7 +33,7 @@ def main():
         resultados = []
         for i, p in enumerate(pages, 1):
             result = reader.readtext(str(p), detail=0, paragraph=True)
-            texto = '\n'.join(result).strip()
+            texto = descolar_letras('\n'.join(result).strip())
             resultados.append(f"\n\n---\n# Página {i:03d}\n\n{texto}\n")
             if i % 10 == 0:
                 print(f"  ✓ página {i}/{len(pages)}", flush=True)

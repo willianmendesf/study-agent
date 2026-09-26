@@ -13,6 +13,8 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from datetime import datetime
 
 SKILL_DIR = Path(__file__).resolve().parent
+sys.path.insert(0, str(SKILL_DIR.parent.parent / 'scripts'))  # .claude/scripts (normalizar_md compartilhado)
+from normalizar_md import normalizar_arquivo  # noqa: E402
 # Path fixo do study-agent (configurável via env se necessário)
 STUDY_AGENT_ROOT = Path('/dados/study-agent')
 
@@ -201,6 +203,23 @@ def baixar(file_id, dest):
             f.write(r.read())
 
 def converter(input_path, output_path, ext='', timeout_min=10):
+    """Converte (markitdown → MOBI → OCR) e NORMALIZA a saída.
+
+    Conversores leem tipografia de letras espaçadas e geram `T E O L O G IA`; isso quebra busca e
+    citação. A correção é aqui, na origem: todo .md que sai deste pipeline passa por normalizar_md
+    (o mesmo módulo que o índice de busca e a Regra 2 usam)."""
+    ok = _converter_bruto(input_path, output_path, ext=ext, timeout_min=timeout_min)
+    if ok:
+        try:
+            n = normalizar_arquivo(str(output_path))
+            if n:
+                log.info(f'   normalizado: {n} linha(s) com letras espaçadas juntadas')
+        except Exception as e:  # normalizar nunca derruba a conversão já feita
+            log.warning(f'   normalização falhou (arquivo mantido como convertido): {e}')
+    return ok
+
+
+def _converter_bruto(input_path, output_path, ext='', timeout_min=10):
     """Pipeline: markitdown → mobi lib (se MOBI) → OCR (se escaneado) → none.
     `ext` é a extensão original do arquivo no Drive — o arquivo baixado em si
     (input_path) não tem extensão no nome, então não dá pra usar input_path.suffix

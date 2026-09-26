@@ -20,14 +20,21 @@ DIRS_IGNORADOS = {'.git', '.processing', 'node_modules', '_tools', '__pycache__'
 ALVO_CHUNK = 1400   # caracteres: fecha o chunk na próxima quebra de parágrafo
 MAX_CHUNK = 2400    # teto duro: parte no limite de linha (ou de caractere, se a linha for gigante)
 RE_TITULO = re.compile(r'^\s{0,3}#{1,6}\s+(.*\S)\s*$')
-# OCR com letras espaçadas ("T E O L O G IA"): 3+ letras soltas seguidas de um fecho de 1-3 letras
-RE_LETRAS_ESPACADAS = re.compile(r'(?<!\S)(?:[^\W\d_] ){3,}[^\W\d_]{1,3}(?!\S)')
-NORM_VERSAO = '2'  # sobe quando a normalização do texto indexado muda (força reprocessar o que for afetado)
+
+# A correção do OCR com letras espaçadas vive NA ORIGEM (conversão); aqui é só rede de segurança para
+# livros que ainda estão no disco com o defeito. Mesma função dos conversores (sem regex duplicado).
+sys.path.insert(0, os.path.join(RAIZ, '.claude', 'scripts'))
+from normalizar_md import descolar_letras  # noqa: E402
+
+NORM_VERSAO = '3'  # sobe quando a normalização do texto indexado muda (reprocessa só o que for afetado)
+# Como o texto era normalizado em versões antigas do índice (para saber o que precisa ser refeito)
+_RE_NORM_V2 = re.compile(r'(?<!\S)(?:[^\W\d_] ){3,}[^\W\d_]{1,3}(?!\S)')  # v2 juntava qualquer alfabeto
 
 
-def descolar_letras(texto):
-    """Junta letras espaçadas de OCR só no texto INDEXADO (não altera o arquivo nem a numeração de linhas)."""
-    return RE_LETRAS_ESPACADAS.sub(lambda m: m.group(0).replace(' ', ''), texto)
+def _texto_como_indexado(texto, versao):
+    if versao == '2':
+        return _RE_NORM_V2.sub(lambda m: m.group(0).replace(' ', ''), texto)
+    return texto  # versões sem normalização
 
 
 def abrir_db(criar=False):
@@ -272,10 +279,11 @@ def atualizar_metadados(con, kbs):
     return alterados
 
 
-def _precisa_normalizar(caminho):
+def _precisa_normalizar(caminho, versao_indice):
+    """O texto indexado (pela versão antiga) difere do que a normalização atual produziria?"""
     with open(caminho, encoding='utf-8', errors='replace') as fh:
         texto = fh.read()
-    return descolar_letras(texto) != texto
+    return descolar_letras(texto) != _texto_como_indexado(texto, versao_indice)
 
 
 def sincronizar(con, progresso=None, migrar_norm=False):
@@ -285,11 +293,12 @@ def sincronizar(con, progresso=None, migrar_norm=False):
     APENAS os livros que a nova normalização altera (lê todos, refatia só esses).
     """
     mudou, removidos, kbs = diferencas(con)
-    if migrar_norm and dict(con.execute('SELECT k, v FROM meta')).get('norm') != NORM_VERSAO:
+    versao_indice = dict(con.execute('SELECT k, v FROM meta')).get('norm')
+    if migrar_norm and versao_indice != NORM_VERSAO:
         ja = {m[0] for m in mudou}
         candidatos = [(a, c, t, m) for a, (c, t, m) in listar_arquivos().items() if a not in ja]
         print(f'  verificando OCR em {len(candidatos)} arquivo(s)…', flush=True)
-        mudou += [x for x in candidatos if _precisa_normalizar(x[1])]
+        mudou += [x for x in candidatos if _precisa_normalizar(x[1], versao_indice)]
     meta_alterados = atualizar_metadados(con, kbs)
     if meta_alterados:
         print(f'  tags/títulos atualizados em {meta_alterados} documento(s) (sem reprocessar o texto)', flush=True)

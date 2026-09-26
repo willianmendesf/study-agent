@@ -26,7 +26,8 @@ que o hook faria, e seguir as travas abaixo. Vale para qualquer modelo, mesmo os
 4. Responda no idioma de `data/perfil/orquestrador-global-profile.yaml`.
 
 ## 2. Travas (checklist) — nunca pule
-- [ ] PDF/EPUB/DOCX **nunca** lido direto: converta para `.md` antes (Regra 2).
+- [ ] PDF/EPUB/DOCX **nunca** lido direto: converta para `.md` antes (Regra 2) e, se a conversão foi manual, rode
+      `python3 .claude/scripts/normalizar_md.py <arquivo.md>` (junta letras espaçadas de OCR; o book-pipeline já faz).
 - [ ] Arquivo de biblioteca/KB novo ou editado: precisa de `tags: [...]` não vazia; itens em `materiais:`; `caminho_md` **existente**.
 - [ ] Especialista novo/editado: campos `nome`, `titulo`, `dominio`, `quando_ativar`, `tags_do_dominio` (se conteúdo);
       **no mesmo turno** atualize `data/perfil/perfis.md` (linha + `total_especialistas`) e `data/perfil/relacionamentos.yaml`.

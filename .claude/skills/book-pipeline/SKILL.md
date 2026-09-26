@@ -5,6 +5,10 @@ description: "Automatiza a ingestão em massa de livros de uma pasta do Google D
 
 # book-pipeline
 
+> **Saída normalizada:** todo `.md` gerado (markitdown, MOBI ou OCR) passa por `.claude/scripts/normalizar_md.py`
+> dentro de `converter()`, que junta letras espaçadas (`T E O L O G IA` → `TEOLOGIA`). Não desligue: sem isso a
+> busca (`study-busca-livros`) e a citação (Regra 9) falham nesses livros.
+
 ## Descrição
 
 Skill que **automatiza todo o pipeline de trazer livros do Google Drive** (ou local) para a base `data/estudos/livros/`. Quando o usuário pedir muitos livros (≥15), ou livros pesados (≥50 MB), ou um drive inteiro, esta skill:
