@@ -94,23 +94,23 @@ def carregar_kbs():
                 continue
             try:
                 with open(os.path.join(base, nome), encoding='utf-8') as fh:
-                    doc = yaml.safe_load(fh) or {}
+                    # alguns KBs têm mais de um documento YAML no arquivo (`---` repetido): lê todos
+                    docs = [d for d in yaml.safe_load_all(fh) if isinstance(d, dict)]
             except Exception as exc:  # KB quebrado não derruba a indexação
                 print(f'aviso: KB ilegível {nome}: {exc}', file=sys.stderr)
                 continue
-            if not isinstance(doc, dict):
-                continue
-            tags = {str(t).strip().lower() for t in (doc.get('tags') or []) if str(t).strip()}
-            for item in doc.get('materiais') or []:
-                if not isinstance(item, dict):
-                    continue
-                alvo = normalizar_caminho_kb(item.get('caminho_md'))
-                if not alvo:
-                    continue
-                reg = mapa.setdefault(alvo, {'tags': set(), 'kbs': set(), 'titulo': ''})
-                reg['tags'] |= tags
-                reg['kbs'].add(nome.rsplit('.', 1)[0])
-                reg['titulo'] = reg['titulo'] or str(item.get('titulo') or '')
+            for doc in docs:
+                tags = {str(t).strip().lower() for t in (doc.get('tags') or []) if str(t).strip()}
+                for item in doc.get('materiais') or []:
+                    if not isinstance(item, dict):
+                        continue
+                    alvo = normalizar_caminho_kb(item.get('caminho_md'))
+                    if not alvo:
+                        continue
+                    reg = mapa.setdefault(alvo, {'tags': set(), 'kbs': set(), 'titulo': ''})
+                    reg['tags'] |= tags
+                    reg['kbs'].add(nome.rsplit('.', 1)[0])
+                    reg['titulo'] = reg['titulo'] or str(item.get('titulo') or '')
     return mapa
 
 

@@ -296,7 +296,7 @@ do domínio):
 
 1. **Leia de fato** os arquivos relevantes do escopo resolvido (Regra 8) — **comece SEMPRE por
    `study-busca-livros`**: `python3 .claude/skills/study-busca-livros/buscar.py "<termos>" [--tags <tags_do_dominio
-   do especialista ativo>]` acha o livro, as linhas e o trecho em milissegundos, já no escopo da Regra 8. Depois
+   do especialista ativo>]` acha o livro, as linhas e o trecho em segundos, já no escopo da Regra 8. Depois
    `Read` com `offset`/`limit` ao redor das linhas devolvidas. `Grep` só como fallback; `study-rag-local` quando o
    vocabulário do livro difere do da pergunta. Não responda "de cabeça" sem abrir o material.
    **Trava de tamanho (biblioteca cresce, alguns livros passam de 10 MB):** antes de `Read` num arquivo

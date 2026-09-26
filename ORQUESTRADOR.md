@@ -74,7 +74,7 @@ Primeira sessão real, se `data/perfil/orquestrador-global-profile.yaml` não ex
 
 - **Conteúdo, citação ou "em que livro fala de X?"** → o primeiro passo é sempre a skill
   [`study-busca-livros`](.claude/skills/study-busca-livros/SKILL.md) (`buscar.py "<termos>" --tags <tags_do_dominio do
-  especialista ativo>`): devolve livro + linhas + trecho em milissegundos, no escopo da Regra 8. Citação entre aspas só
+  especialista ativo>`): devolve livro + linhas + trecho em segundos, no escopo da Regra 8. Citação entre aspas só
   depois de `buscar.py --verificar` dizer `CONFIRMADA`. Sem resultado → "não há material na sua biblioteca" (Regra 9.4).
   `study-rag-local` (semântico) entra quando o vocabulário do livro difere do da pergunta.
 - **Chat novo / assunto retomado** → consulta ao deja-vu **antes** de responder ou perguntar (recall automático no

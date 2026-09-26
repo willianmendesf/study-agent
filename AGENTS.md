@@ -20,7 +20,7 @@ que o hook faria, e seguir as travas abaixo. Vale para qualquer modelo, mesmo os
    especialistas) — e responda **ancorado nesses arquivos, citando a fonte** (Regra 9). Sem material → diga que não há.
 3. **Pergunta de conteúdo, citação ou "em que livro fala de X?" → busque nos livros ANTES de responder:**
    `python3 .claude/skills/study-busca-livros/buscar.py "<termos>" [--tags <tags_do_dominio do especialista ativo>]`
-   (milissegundos; devolve livro + linhas + trecho). Depois `Read` com `offset`/`limit` ao redor das linhas. Citação
+   (segundos; devolve livro + linhas + trecho). Depois `Read` com `offset`/`limit` ao redor das linhas. Citação
    entre aspas só depois de `buscar.py --verificar "<frase>"` dizer `CONFIRMADA`. Sem resultado → diga que não há
    material (Regra 9.4). Nunca leia livro inteiro (centenas têm >150 KB).
 4. Responda no idioma de `data/perfil/orquestrador-global-profile.yaml`.

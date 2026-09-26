@@ -127,6 +127,7 @@ def cmd_buscar(args, con):
     print(f'Busca «{" ".join(tokens)}» · modo {modo} · {len(achados)} resultado(s)'
           + (f' · escopo tags: {", ".join(tags)}' if tags else ' · pool inteiro'))
     for n, (arq, tit, tg, ini, fim, secao, trecho, _r, _rid) in enumerate(achados, start=1):
+        tit = tit if len(tit) <= 90 else tit[:87] + '…'  # títulos de Z-Library vêm enormes
         print(f'\n[{n}] {tit} — data/{arq}:{ini}-{fim}' + (f' · seção «{secao}»' if secao else '')
               + (f' · tags:{tg.rstrip()}' if tg.strip() else ''))
         print('    ' + re.sub(r'\s+', ' ', trecho).strip())

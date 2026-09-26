@@ -1,6 +1,6 @@
 ---
 name: study-busca-livros
-description: "Busca de texto completo nos livros da biblioteca (data/estudos/ e data/biblioteca/) em milissegundos, devolvendo livro + linhas exatas + trecho para citar, e confirma se uma citação literal existe no livro. É o PRIMEIRO passo da Regra 9 para qualquer pergunta de conteúdo, citação ou 'em qual livro fala de X?'. Respeita o escopo por tags do especialista (Regra 8). Só stdlib Python; sem instalação, sem LLM, sem rede."
+description: "Busca de texto completo nos livros da biblioteca (data/estudos/ e data/biblioteca/) em segundos, devolvendo livro + linhas exatas + trecho para citar, e confirma se uma citação literal existe no livro. É o PRIMEIRO passo da Regra 9 para qualquer pergunta de conteúdo, citação ou 'em qual livro fala de X?'. Respeita o escopo por tags do especialista (Regra 8). Só stdlib Python; sem instalação, sem LLM, sem rede."
 ---
 
 # Busca nos livros — índice de texto completo (SQLite FTS5)
@@ -8,7 +8,7 @@ description: "Busca de texto completo nos livros da biblioteca (data/estudos/ e 
 **Tipo:** utility que a IA roda via Bash (Regra 4: nada roda sozinho — quem executa é você).
 Resolve o problema de ler livros: o acervo passa de **800 MB de markdown** (centenas de livros, vários
 acima de 10 MB); `Grep` recursivo leva minutos e devolve arquivos inteiros. Esta skill mantém um
-índice derivado em `data/.indice/livros.db` e devolve, em milissegundos, **só os trechos certos com a
+índice derivado em `data/.indice/livros.db` e devolve, em segundos, **só os trechos certos com a
 fonte exata** (arquivo + linhas), que é o que a Regra 9 exige para citar.
 
 ## Quando usar (ordem obrigatória na Regra 9)
@@ -65,7 +65,7 @@ python3 .claude/skills/study-busca-livros/buscar.py --verificar "…" --arquivo 
 
 ```bash
 python3 .claude/skills/study-busca-livros/indexar.py            # incremental (só o que mudou)
-python3 .claude/skills/study-busca-livros/indexar.py --refazer  # do zero (~minutos no acervo todo)
+python3 .claude/skills/study-busca-livros/indexar.py --refazer  # do zero (~36 min no acervo todo, disco lento)
 python3 .claude/skills/study-busca-livros/buscar.py --info      # estado do índice
 ```
 
@@ -89,6 +89,11 @@ python3 .claude/skills/study-busca-livros/buscar.py --info      # estado do índ
 - Frase que atravessa o limite entre dois trechos pode não casar em `--frase`; use `--verificar`
   (lê o arquivo) ou busque os termos em modo E.
 - OCR ruim (letras espaçadas) não é encontrável por palavra inteira.
+- **Desempenho medido** (acervo de ~1.000 arquivos / 540 mil trechos, VM com disco lento): indexação inicial
+  ~36 min e ~1,8 GB (uma vez; depois é incremental); consulta ~1,5 s com cache quente e até ~9 s a frio, contra
+  mais de 150 s de `grep -r` nos mesmos livros. Em disco SSD é bem mais rápido.
+- Livro que **nenhum `kb-*.yaml` lista** fica sem tag: acha-se sem `--tags`, mas o filtro por especialista o
+  esconde. O bibliotecário deve catalogá-lo (Regra 8) — `study-lint` acusa "livros sem KB".
 
 ## Relacionadas
 
