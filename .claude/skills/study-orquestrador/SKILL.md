@@ -33,7 +33,10 @@ delas, **valem elas** — este SKILL.md é detalhamento/pseudocódigo, pode ter 
    `data/perfil/bibliotecario/bibliotecario-log.md` (ver `log_de_acoes_permanente` no perfil dele).
 7. **Sincronização automática de `data/`** (acesso ao estudo de qualquer lugar, sem depender do PC
    ligado): DEPOIS de resolver o pedido do usuário, como passo silencioso, checar
-   `git -C data status --short`. Se houver qualquer mudança (material processado, fila, quiz,
+   `git -C data status --short`. **Antes de commitar, rode `python3 .claude/scripts/study-lint.py`** (Regra 10):
+   se der erro, CORRIJA o que ele apontou (YAML inválido, KB sem tags, `caminho_md` inexistente, especialista
+   sem linha em `perfis.md`…) e só então commite — nunca `--no-verify`, nunca esconder erro novo no baseline.
+   Se houver qualquer mudança (material processado, fila, quiz,
    flashcards, notas, progresso salvo pelas mini-apps de estudo, perfil) — `git -C data add -A`,
    commit com mensagem curta (`data: sync automático <ISO 8601>`, sem atribuição de IA — Regra 7) e
    `git -C data push origin master`. Se falhar (sem internet, conflito, divergência com o remoto):
