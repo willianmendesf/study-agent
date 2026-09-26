@@ -200,7 +200,8 @@ coordenar_ferramentas:
       - study-analytics-dashboard: "registra início"
 
     03-aprender:
-      - study-rag-local: "busca conceitos similares na biblioteca indexada"
+      - study-busca-livros: "PRIMEIRO passo de todo conteúdo/citação (Regra 9): buscar.py com --tags do especialista ativo → livro + linhas; citação literal só após --verificar"
+      - study-rag-local: "busca conceitos similares na biblioteca indexada (semântico; quando o vocabulário do livro difere)"
       - study-concept-mapping: "reexibe o mapa já gerado, destacando o conceito atual"
       - study-analytics-dashboard: "rastreia engajamento"
 

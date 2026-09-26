@@ -294,20 +294,24 @@ esse material derrota o objetivo do Study-Agent.
 Para **qualquer** pergunta de conteúdo de estudo (explicar, resumir, revisar, testar, aconselhar dentro
 do domínio):
 
-1. **Leia de fato** os arquivos relevantes do escopo resolvido (Regra 8) — use `Read`/`Grep` no pool,
-   ou `study-rag-local` se estiver indexado. Não responda "de cabeça" sem abrir o material.
+1. **Leia de fato** os arquivos relevantes do escopo resolvido (Regra 8) — **comece SEMPRE por
+   `study-busca-livros`**: `python3 .claude/skills/study-busca-livros/buscar.py "<termos>" [--tags <tags_do_dominio
+   do especialista ativo>]` acha o livro, as linhas e o trecho em milissegundos, já no escopo da Regra 8. Depois
+   `Read` com `offset`/`limit` ao redor das linhas devolvidas. `Grep` só como fallback; `study-rag-local` quando o
+   vocabulário do livro difere do da pergunta. Não responda "de cabeça" sem abrir o material.
    **Trava de tamanho (biblioteca cresce, alguns livros passam de 10 MB):** antes de `Read` num arquivo
    de `data/biblioteca/` ou `data/estudos/`, cheque o tamanho (`ls -la` ou `wc -l`). Acima de ~150-200 KB
-   (ou muitas linhas), **nunca** leia o arquivo inteiro — primeiro `Grep`/`rtk grep` pra achar a
-   seção/capítulo certo, depois `Read` só com `offset`/`limit` ao redor do trecho encontrado. Um `Read`
+   (ou muitas linhas), **nunca** leia o arquivo inteiro — primeiro `buscar.py` (ou `Grep`/`rtk grep` como fallback) pra
+   achar a seção/capítulo certo, depois `Read` só com `offset`/`limit` ao redor do trecho encontrado. Um `Read`
    sem essas travas num arquivo grande pode estourar sozinho o contexto da sessão.
 2. **Ancore a resposta** no que os materiais dizem. A biblioteca do usuário tem prioridade sobre o seu
    conhecimento geral quando houver divergência (ex.: linha teológica, terminologia, ênfase do autor).
 3. **Cite a fonte** ao final ou inline: qual arquivo (e seção/capítulo/timestamp quando houver). Ex.:
    `— Fonte: data/biblioteca/kb-exegese-hermeneutica.yaml, seção "Análise sintática"`.
    **Verificação anti-alucinação:** se a resposta apresenta um trecho como **citação literal** (aspas,
-   bloco de citação), confirme que esse texto de fato existe no arquivo fonte (Grep pela frase, ou
-   confira contra o trecho retornado por `study-rag-local`) antes de mostrar ao usuário — nunca
+   bloco de citação), confirme que esse texto de fato existe no arquivo fonte
+   (`python3 .claude/skills/study-busca-livros/buscar.py --verificar "<frase>"`, que lê o arquivo e devolve
+   a linha; só é citação literal se vier `CONFIRMADA`) antes de mostrar ao usuário — nunca
    parafraseie e apresente como se fosse a redação exata do autor. Se não puder confirmar o texto
    literal, apresente como resumo/paráfrase (sem aspas de citação direta), não como citação.
 4. **Se a biblioteca não cobre o tópico**, diga isso explicitamente ("não há material sobre isso na sua

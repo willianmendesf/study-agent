@@ -152,6 +152,20 @@ especialista de conteúdo pergunta ao Bibliotecário "temos livro sobre X?"; o B
 responde sobre o conteúdo em si, só indica os livros e devolve a conversa pro especialista do domínio.
 Sem o arquivo, nada muda — cada especialista responde isolado, como hoje.
 
+## Depois de mexer no pool: reindexe a busca (a IA faz, o usuário não precisa pedir)
+
+Ao converter, adicionar, mover, renomear, apagar ou **re-taguear** livros/KBs, rode no mesmo turno:
+
+```bash
+python3 .claude/skills/study-busca-livros/indexar.py
+```
+
+É incremental (só o que mudou). O índice de texto completo (`study-busca-livros`) é o que os especialistas usam
+para achar livro + linhas e citar (Regra 9); ele herda as **tags** dos `kb-*.yaml` (`tags` + `materiais[].caminho_md`),
+então KB sem `tags` ou item sem `caminho_md` real deixa o livro **invisível** para os especialistas. Ao responder
+"temos livro sobre X?", consulte o catálogo (KBs) **e**, se a pergunta for de conteúdo ("onde fala de X"),
+`buscar.py "<termos>"` — ele acha pelo texto, não só por título/tag.
+
 ## O que esta skill NUNCA faz
 - Registrar biblioteca em `config.yaml`
 - Criar IDs de biblioteca

@@ -15,6 +15,10 @@ resolve isso: quebra o livro em pedaços, gera embeddings, e busca por **signifi
 trecho relevante + a linha exata pra citar (Regra 9) ou fazer um `Read` pontual se precisar de mais
 contexto ao redor.
 
+> **Ordem de uso:** o primeiro passo para achar trecho em livro é `study-busca-livros` (texto completo, já
+> indexado, instantâneo, sem dependências, com escopo por tag e verificação de citação). Esta skill (semântica)
+> é o **segundo passo**: use quando a busca por palavras não achar porque o vocabulário do livro difere do da pergunta.
+
 ## Setup (uma vez, gated — nunca assumido)
 
 ```bash

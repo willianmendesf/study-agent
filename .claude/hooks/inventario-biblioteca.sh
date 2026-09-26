@@ -32,6 +32,10 @@ if [[ -d "$BIB" ]]; then
   ctx+="Escopo do turno: SEM especialista chamado -> qualquer arquivo. COM especialista (nome/apelido/'modo X'/tema)\n"
   ctx+="-> so os arquivos cujas tags cruzam com tags_do_dominio do .yaml dele; o resto fica fora. Se nada do\n"
   ctx+="escopo servir, diga 'nao ha material sobre isso na sua biblioteca' antes de usar conhecimento geral.\n"
+  ctx+="BUSCA NOS LIVROS (1o passo da Regra 9): python3 .claude/skills/study-busca-livros/buscar.py \"<termos>\" [--tags <tags_do_dominio do especialista>] -> livro+linhas+trecho; citacao literal so apos --verificar \"<frase>\" = CONFIRMADA. Nao use grep -r nem Read de livro inteiro.\n"
+  if [[ ! -f "$ROOT/data/.indice/livros.db" ]]; then
+    ctx+="(indice de busca ainda nao criado: rode python3 .claude/skills/study-busca-livros/indexar.py)\n"
+  fi
 else
   ctx+="data/biblioteca/ nao existe ainda — rode o setup (CLAUDE.md Regra 7).\n"
 fi

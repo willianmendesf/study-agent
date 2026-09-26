@@ -70,6 +70,16 @@ Arquivo: `data/perfil/aprendizado-meta.yaml` (schema em `.claude/templates/apren
 
 Primeira sessão real, se `data/perfil/orquestrador-global-profile.yaml` não existir: sugerir `study-setup-orquestrador` para definir domínio (Medicina, Programação...), modos primários, bibliotecas base e tom de comunicação. Ver `.claude/skills/study-setup-orquestrador/SKILL.md`.
 
+## Busca nos livros e memória entre sessões
+
+- **Conteúdo, citação ou "em que livro fala de X?"** → o primeiro passo é sempre a skill
+  [`study-busca-livros`](.claude/skills/study-busca-livros/SKILL.md) (`buscar.py "<termos>" --tags <tags_do_dominio do
+  especialista ativo>`): devolve livro + linhas + trecho em milissegundos, no escopo da Regra 8. Citação entre aspas só
+  depois de `buscar.py --verificar` dizer `CONFIRMADA`. Sem resultado → "não há material na sua biblioteca" (Regra 9.4).
+  `study-rag-local` (semântico) entra quando o vocabulário do livro difere do da pergunta.
+- **Chat novo / assunto retomado** → consulta ao deja-vu **antes** de responder ou perguntar (recall automático no
+  início da sessão; se vazio, `deja "<termo>"`). O usuário não deve precisar reexplicar decisões já tomadas.
+
 ## Limitações conhecidas
 
 1. **Depende da IA seguir CLAUDE.md** — não há enforcement de sistema (nenhum agente de IA hoje suporta hook que auto-invoque skill). Se a IA ignorar a regra, o roteamento não acontece — reforce pedindo explicitamente se notar que não rodou.

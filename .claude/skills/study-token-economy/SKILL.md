@@ -44,6 +44,7 @@ não percebe diferença nenhuma.
 | Ver mudanças/commits em `data/` (Regra 7) | `rtk git status` / `rtk git log` / `rtk git diff` |
 | Logs de `book-pipeline` (`server.py`, downloads) | `rtk read <log>` ou `rtk log <arquivo>` |
 | Listar `data/biblioteca/` ou `data/estudos/` quando ficarem grandes | `rtk find` / `rtk ls` |
+| Buscar conteúdo/citação nos livros de `data/estudos/` | `study-busca-livros` (`buscar.py`) — devolve só o trecho; **não** faça `grep -r`/`rtk grep` recursivo nos livros (minutos e MBs de saída) |
 | Buscar padrão em muitos arquivos (`study-gerenciar-bibliotecas`, `study-rag-local`) | `rtk grep <padrão>` |
 | Rodar teste/build de uma skill com dependência externa (ex.: `study-h5p` servindo local) | `rtk err <cmd>` (só erros) |
 
