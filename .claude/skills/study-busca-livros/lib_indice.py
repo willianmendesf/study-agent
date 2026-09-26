@@ -234,21 +234,37 @@ def indexar_arquivo(con, arquivo, caminho, tamanho, mtime_ns, kbs):
 def diferencas(con):
     """(novos_ou_alterados, removidos, kbs) comparando disco × índice (inclui mudança de tags)."""
     disco = listar_arquivos()
-    ja = {r[0]: (r[1], r[2], r[3]) for r in con.execute('SELECT arquivo, tamanho, mtime_ns, tags FROM docs')}
+    ja = {r[0]: (r[1], r[2]) for r in con.execute('SELECT arquivo, tamanho, mtime_ns FROM docs')}
     kbs = carregar_kbs()
-    mudou = []
-    for arq, (cam, tam, mt) in disco.items():
-        tags_novas = ' ' + ' '.join(sorted(kbs.get(arq, {}).get('tags', []))) + ' '
-        atual = ja.get(arq)
-        if atual is None or atual[0] != tam or atual[1] != mt or atual[2] != tags_novas:
-            mudou.append((arq, cam, tam, mt))
+    mudou = [(arq, cam, tam, mt) for arq, (cam, tam, mt) in disco.items() if ja.get(arq) != (tam, mt)]
     removidos = [a for a in ja if a not in disco]
     return mudou, removidos, kbs
+
+
+def atualizar_metadados(con, kbs):
+    """Tags/título/KBs vêm dos KBs, não do texto: mudou só isso → UPDATE, sem refatiar o livro."""
+    alterados = 0
+    for doc_id, arq, tags_ant, titulo_ant, kbs_ant in con.execute(
+            'SELECT id, arquivo, tags, titulo, kbs FROM docs').fetchall():
+        info = kbs.get(arq)
+        if info is None:
+            continue
+        tags = ' ' + ' '.join(sorted(info['tags'])) + ' '
+        kb_lista = ','.join(sorted(info['kbs']))
+        titulo = info['titulo'] or titulo_ant
+        if (tags, titulo, kb_lista) != (tags_ant, titulo_ant, kbs_ant):
+            con.execute('UPDATE docs SET tags=?, titulo=?, kbs=? WHERE id=?', (tags, titulo, kb_lista, doc_id))
+            alterados += 1
+    con.commit()
+    return alterados
 
 
 def sincronizar(con, progresso=None):
     """Aplica as diferenças. Devolve (reindexados, removidos, chunks)."""
     mudou, removidos, kbs = diferencas(con)
+    meta_alterados = atualizar_metadados(con, kbs)
+    if meta_alterados:
+        print(f'  tags/títulos atualizados em {meta_alterados} documento(s) (sem reprocessar o texto)', flush=True)
     for arq in removidos:
         _apagar_doc(con, arq)
     total_chunks = 0
