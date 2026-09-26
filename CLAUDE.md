@@ -333,8 +333,8 @@ Todo chat novo e toda interação consultam o `deja` (memória local do históri
 `SessionStart` e o `UserPromptSubmit` (`.claude/settings.json`) injetam `<deja-recall>` sozinhos, e o MCP
 `deja` está em `.mcp.json`. **O deja é o PRIMEIRO passo, antes de qualquer outra busca ou pergunta ao
 usuário.** Se o recall vier vazio ou não cobrir o tema, rode você mesmo `deja "<termo>"` antes de responder
-(binário: `.claude/skills/deja-search/bin/deja`, ou `deja` se estiver no PATH). Sem nenhum dos dois, os hooks
-ficam em silêncio e você segue normal.
+(via `sh .claude/skills/deja-search/bin/deja-run.sh "<termo>"`, que escolhe o binário do SO; cai no `deja` do
+PATH). Sem nenhum dos dois, os hooks ficam em silêncio e você segue normal.
 
 **Quando o aluno retomar um assunto** ("continuando aquilo", "onde paramos", "aquele tema de ontem"), **nunca
 peça para ele reexplicar antes de consultar o deja.** Reconstrua o contexto pelas sessões passadas, confirme

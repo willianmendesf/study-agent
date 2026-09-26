@@ -27,7 +27,7 @@
           },
           {
             "type": "command",
-            "command": "D=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja\"; [ -x \"$D\" ] || D=$(command -v deja); [ -n \"$D\" ] && \"$D\" hook-prompt || true",
+            "command": "L=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja-run.sh\"; [ -f \"$L\" ] && sh \"$L\" hook-prompt || true",
             "timeout": 10
           }
         ]
@@ -38,7 +38,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "D=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja\"; [ -x \"$D\" ] || D=$(command -v deja); [ -n \"$D\" ] && \"$D\" hook-context || true",
+            "command": "L=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja-run.sh\"; [ -f \"$L\" ] && sh \"$L\" hook-context || true",
             "timeout": 10
           }
         ]
@@ -50,7 +50,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "D=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja\"; [ -x \"$D\" ] || D=$(command -v deja); [ -n \"$D\" ] && \"$D\" hook-precompact || true",
+            "command": "L=\"$CLAUDE_PROJECT_DIR/.claude/skills/deja-search/bin/deja-run.sh\"; [ -f \"$L\" ] && sh \"$L\" hook-precompact || true",
             "timeout": 10
           }
         ]

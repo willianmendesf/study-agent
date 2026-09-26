@@ -1,5 +1,10 @@
-deja-vu v0.21.2 (linux_amd64)
-fonte: https://github.com/vshulcz/deja-vu/releases/tag/v0.21.2
-licenca: MIT (ver DEJA-LICENSE)
-sha256 do binario deja: 5f25f3c957ec0a07c716facf365b816c4514e822dd949f20a4fe1e497d8cdf80
-Outros SO/arquitetura: brew install deja-vu | scoop install deja-vu (os hooks caem no deja do PATH).
+deja-vu v0.21.2 - binarios de todas as plataformas (escolhidos por deja-run.sh)
+fonte: https://github.com/vshulcz/deja-vu/releases/tag/v0.21.2 (checksums.txt da release conferido; MIT, ver LICENSE)
+sha256 de cada binario:
+  darwin_amd64/deja  9b2ab538dc891cc4fe0b5c3bdf2142066c9e919c9072ff14c6446aedda314757
+  darwin_arm64/deja  3db5e84ad0e60d01554a96a26496b0143683a190bc49f717e1565a6e3bff3774
+  linux_amd64/deja  5f25f3c957ec0a07c716facf365b816c4514e822dd949f20a4fe1e497d8cdf80
+  linux_arm64/deja  a66d0c0933b10aae0ebf7b77c04c5c7806c5f2f1d1af978ba19fe8e403319c4f
+  windows_amd64/deja.exe  4e42254454b0458c3f5d516d77fb23efe34ccae1ee470976438c859967c35d85
+  windows_arm64/deja.exe  379ac0f7240c05e2416e7cda2ce3d11766dbed9daf7837923edb1c1066547ac8
+atualizar: trocar as 6 pastas <so>_<arch>/ pelos binarios da nova release e reconferir o checksum.
