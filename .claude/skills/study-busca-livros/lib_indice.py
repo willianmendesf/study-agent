@@ -82,6 +82,19 @@ def _yaml():
     return yaml
 
 
+def _achar_caminhos_md(no):
+    """Todo `caminho_md` em qualquer profundidade (materiais, volumes, raiz…): gera (caminho_rel, titulo)."""
+    if isinstance(no, dict):
+        alvo = normalizar_caminho_kb(no.get('caminho_md')) if isinstance(no.get('caminho_md'), str) else None
+        if alvo:
+            yield alvo, str(no.get('titulo') or '')
+        for v in no.values():
+            yield from _achar_caminhos_md(v)
+    elif isinstance(no, list):
+        for v in no:
+            yield from _achar_caminhos_md(v)
+
+
 def carregar_kbs():
     """Devolve {arquivo_rel: {'tags': set, 'kbs': set, 'titulo': str}} a partir dos KBs do pool."""
     yaml = _yaml()
@@ -99,18 +112,18 @@ def carregar_kbs():
             except Exception as exc:  # KB quebrado não derruba a indexação
                 print(f'aviso: KB ilegível {nome}: {exc}', file=sys.stderr)
                 continue
+            # tags de qualquer documento do arquivo valem para todos os livros dele (frontmatter + corpo)
+            tags = set()
             for doc in docs:
-                tags = {str(t).strip().lower() for t in (doc.get('tags') or []) if str(t).strip()}
-                for item in doc.get('materiais') or []:
-                    if not isinstance(item, dict):
-                        continue
-                    alvo = normalizar_caminho_kb(item.get('caminho_md'))
-                    if not alvo:
-                        continue
+                brutas = doc.get('tags') or []
+                tags |= {str(t).strip().lower() for t in (brutas if isinstance(brutas, list) else [brutas])
+                         if str(t).strip()}
+            for doc in docs:
+                for alvo, titulo in _achar_caminhos_md(doc):
                     reg = mapa.setdefault(alvo, {'tags': set(), 'kbs': set(), 'titulo': ''})
                     reg['tags'] |= tags
                     reg['kbs'].add(nome.rsplit('.', 1)[0])
-                    reg['titulo'] = reg['titulo'] or str(item.get('titulo') or '')
+                    reg['titulo'] = reg['titulo'] or titulo
     return mapa
 
 
