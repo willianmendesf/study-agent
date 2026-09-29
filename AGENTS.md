@@ -9,6 +9,10 @@ que o hook faria, e seguir as travas abaixo. Vale para qualquer modelo, mesmo os
 - Em chat novo, o recall do deja-vu chega sozinho no contexto (`<deja-recall>`; no opencode, via plugin). Se ele vier
   vazio ou não cobrir o tema, **você** consulta: `sh .claude/skills/deja-search/bin/deja-run.sh "<termo>"` (ou a
   ferramenta MCP `deja`) **antes** de perguntar, investigar ou explicar do zero.
+- **ANTES de fazer QUALQUER pergunta ao usuário** (preferência, decisão, caminho, formato, "onde está X", "você já
+  configurou Y?", "qual arquivo/livro?"): **busque o termo exato no deja primeiro**; só pergunte se o histórico não
+  responder. Perguntar o que já foi definido quebra a continuidade e obriga o usuário a repetir. Termos exatos (nome
+  de arquivo, erro verbatim, comando, título) rankeiam melhor que frases — use-os como query.
 - Usuário retomou um assunto ("como estávamos", "aquele X", "o que decidimos")? **Não peça para ele reexplicar**:
   reconstrua pelo deja, confirme em uma frase o que entendeu e siga. Só pergunte o que o histórico não responder.
 - O deja lembra **conversas**, não os livros nem o `data/`: para conteúdo de estudo use a busca do passo 1.
