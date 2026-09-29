@@ -50,7 +50,7 @@ usuário, que só precisa saber o que pode pedir.
    marcá-lo como adquirido.
 
 ### 2. Localizar / recomendar ("temos livro sobre X?")
-1. Buscar em `data/biblioteca/` (título, tags, conteúdo) e em `data/estudos/livros/` pelo tema.
+1. Buscar em `data/biblioteca/` (título, tags, conteúdo) e em `data/biblioteca/` pelo tema.
 2. **Nunca inventar** — se não está no pool, dizer isso explicitamente (Regra 9).
 3. Se achar, listar com caminho, autor (se souber), e — quando possível — a seção/capítulo relevante.
 4. Se for pedido de recomendação ("o que ler sobre X?"), organizar por **relevância pro tema**, não

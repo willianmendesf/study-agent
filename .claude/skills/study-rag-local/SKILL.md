@@ -33,9 +33,9 @@ Instala `chromadb` + `sentence-transformers` (modelo `all-MiniLM-L6-v2`, ~90MB, 
 ## Indexar
 
 ```bash
-python3 .claude/skills/study-rag-local/index.py data/estudos/livros --min-size-kb 500
+python3 .claude/skills/study-rag-local/index.py data/biblioteca --min-size-kb 500
 # ou um arquivo específico:
-python3 .claude/skills/study-rag-local/index.py data/estudos/livros/<pasta>/<arquivo>.md --min-size-kb 0
+python3 .claude/skills/study-rag-local/index.py data/biblioteca/<pasta>/<arquivo>.md --min-size-kb 0
 ```
 
 - Quebra por heading markdown (`#`..`######`); blocos ainda grandes (ou sem heading nenhum — comum em
@@ -73,7 +73,7 @@ local é pra quando o tamanho do arquivo torna isso inviável.
 
 ```bash
 # reindexar um livro específico depois de corrigir a conversão
-python3 index.py data/estudos/livros/<pasta>/<arquivo>.md --force --min-size-kb 0
+python3 index.py data/biblioteca/<pasta>/<arquivo>.md --force --min-size-kb 0
 
 # apagar o índice inteiro e recomeçar (ex.: mudou o modelo de embedding)
 rm -rf data/rag/

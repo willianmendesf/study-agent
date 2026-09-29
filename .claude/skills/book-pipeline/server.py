@@ -514,7 +514,7 @@ button:hover{{background:#2c5282}}button:disabled{{background:#a0aec0;cursor:not
 .btn-all:hover{{background:#2f855a}}
 .stats{{background:#ebf8ff;padding:14px;border-radius:8px;margin-bottom:16px;display:flex;gap:24px;align-items:center;flex-wrap:wrap}}
 </style></head><body>
-<h1>📚 Drive → data/estudos/livros (Study-Agent)</h1>
+<h1>📚 Drive → data/biblioteca (Study-Agent)</h1>
 {worker_panel}
 <div class="stats">
 <div><b>{len(pendentes)}</b> pendentes</div>

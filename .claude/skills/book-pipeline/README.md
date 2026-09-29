@@ -1,6 +1,6 @@
 # book-pipeline
 
-Skill para automatizar o pipeline de trazer livros do Google Drive (ou local) para a base `data/estudos/livros/`.
+Skill para automatizar o pipeline de trazer livros do Google Drive (ou local) para a base `data/biblioteca/`.
 
 ## Quick start
 
@@ -64,7 +64,7 @@ curl -s http://localhost:8765/worker-status | python3 -m json.tool
 tail -f /tmp/server-livros.log
 
 # Listar livros processados (a partir da raiz do study-agent)
-ls data/estudos/livros/*/*.md | wc -l
+ls data/biblioteca/*/*.md | wc -l
 ```
 
 ## Características

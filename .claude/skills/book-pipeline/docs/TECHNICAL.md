@@ -21,7 +21,7 @@
                                   │
                                   ▼
                          livros convertidos em
-                   data/estudos/livros/<tema>/<prefixo><nome>.md
+                   data/biblioteca/<tema>/<prefixo><nome>.md
 ```
 
 ## Fluxo de processamento (worker_trazer_todos)

@@ -7,7 +7,7 @@ este arquivo é a explicação conceitual, não o passo a passo de execução.
 ## O que é
 
 O Bibliotecário é a função do Study-Agent responsável por **tudo que envolve o material físico da
-biblioteca** (`data/biblioteca/`) e os livros processados (`data/estudos/livros/`):
+biblioteca** (`data/biblioteca/`) e os livros processados (`data/biblioteca/`):
 
 - Converter material bruto (PDF, EPUB, DOCX, áudio, vídeo) pra Markdown e catalogar no pool.
 - Decidir/ajustar `tags: [...]` de cada item.

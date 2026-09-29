@@ -1,6 +1,6 @@
 ---
 name: book-pipeline
-description: "Automatiza a ingestão em massa de livros de uma pasta do Google Drive (ou local) para data/estudos/livros/ — sobe um servidor local com fila, fallback de conversão (markitdown/mobi/OCR) e retomada após crash. Use quando o usuário pedir muitos livros de uma vez (≥15), livros pesados (≥50 MB), ou um drive/pasta inteira. Requer setup opcional (OAuth do Drive) — não é skill padrão."
+description: "Automatiza a ingestão em massa de livros de uma pasta do Google Drive (ou local) para data/biblioteca/ — sobe um servidor local com fila, fallback de conversão (markitdown/mobi/OCR) e retomada após crash. Use quando o usuário pedir muitos livros de uma vez (≥15), livros pesados (≥50 MB), ou um drive/pasta inteira. Requer setup opcional (OAuth do Drive) — não é skill padrão."
 ---
 
 # book-pipeline
@@ -11,7 +11,7 @@ description: "Automatiza a ingestão em massa de livros de uma pasta do Google D
 
 ## Descrição
 
-Skill que **automatiza todo o pipeline de trazer livros do Google Drive** (ou local) para a base `data/estudos/livros/`. Quando o usuário pedir muitos livros (≥15), ou livros pesados (≥50 MB), ou um drive inteiro, esta skill:
+Skill que **automatiza todo o pipeline de trazer livros do Google Drive** (ou local) para a base `data/biblioteca/`. Quando o usuário pedir muitos livros (≥15), ou livros pesados (≥50 MB), ou um drive inteiro, esta skill:
 
 1. **Detecta** a necessidade
 2. **Configura** automaticamente o OAuth do Google Drive (se ainda não estiver)
@@ -78,7 +78,7 @@ Antes da primeira execução, `data/perfil/bibliotecario/book-pipeline-config.js
 {
   "drive_root_folder_id": "<ID da pasta raiz do Drive do usuário>",
   "mapeamento": {
-    "Nome exato da categoria/pasta no Drive": ["subpasta-slug-em-data/estudos/livros", "PR-"]
+    "Nome exato da categoria/pasta no Drive": ["subpasta-slug-em-data/biblioteca", "PR-"]
   },
   "categorias_ignoradas": ["Nome de alguma pasta do Drive a pular, se houver"]
 }

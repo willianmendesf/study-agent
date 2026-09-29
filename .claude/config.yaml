@@ -403,7 +403,7 @@ skills:
              — se não, ajudar o usuário a criar (drive_root_folder_id + mapeamento, nunca hardcoded no
              template — Regra 7); (2) rodar setup.sh se ~/.config/gdrive-mcp/ não existir. Nunca tentar
              subir o servidor sem os dois."
-    storage: "data/estudos/livros/<subpasta>/ (saída); data/perfil/bibliotecario/book-pipeline-config.json (config do usuário)"
+    storage: "data/biblioteca/<subpasta>/ (saída); data/perfil/bibliotecario/book-pipeline-config.json (config do usuário)"
 
   study-rag-local:
     enabled: true

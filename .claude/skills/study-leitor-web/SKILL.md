@@ -90,7 +90,7 @@ Markdown.
 
 **Modo EPUB/PDF** (em vez de `corpo_markdown`/`secoes`):
 ```json
-{ "formato": "epub", "arquivo_original": "data/estudos/livros/revolucao-francesa.epub" }
+{ "formato": "epub", "arquivo_original": "data/biblioteca/revolucao-francesa.epub" }
 ```
 
 Regras:

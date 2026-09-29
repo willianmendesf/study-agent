@@ -11,7 +11,7 @@ alfabeto `α β γ δ` são conteúdo legítimo). Blocos de código (```) são p
 mudam, então a numeração de linhas do arquivo não se altera. Idempotente.
 
     python3 .claude/scripts/normalizar_md.py livro.md              # corrige o arquivo
-    python3 .claude/scripts/normalizar_md.py data/estudos/livros --dry-run   # só conta
+    python3 .claude/scripts/normalizar_md.py data/biblioteca --dry-run   # só conta
 """
 import argparse
 import os

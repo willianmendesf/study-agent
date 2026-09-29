@@ -93,7 +93,8 @@ repositório pessoal dele (Regra 7):
 | Analytics/progresso agregado | `data/analytics/` | ~~`.claude/analytics/`~~ |
 | RAG local (embeddings) | `data/rag/` | ~~`.claude/rag/`~~ |
 | Mapas conceituais / grafos de conhecimento | `data/concept-maps/`, `data/knowledge-graphs/` | ~~`.claude/concept-maps/`, `.claude/knowledge-graphs/`~~ |
-| Materiais (PDF→MD, transcrições) | `data/estudos/aulas\|livros\|notas\|papers\|exercicios/trabalhos/` | (sem mudança de nome, só de raiz) |
+| Materiais de trabalho (aulas, notas, exercícios, papers, trabalhos) | `data/estudos/aulas\|notas\|papers\|exercicios/trabalhos/` | ~~`data/estudos/livros/`~~ |
+| Acervo de referência (`.md` dos livros, por tema) | `data/biblioteca/<tema>/` (índice em `data/biblioteca/global/kb-<tema>.yaml`) | ~~`data/estudos/livros/`~~ |
 | Transcrições de áudio (bruto) | `data/audios/aulas/<materia>/<unidade>/parteN.txt` | (novo — bruto separado dos elaborados em `data/estudos/aulas/`) |
 
 Convenção de subpasta dentro de `data/estudos/` (especialmente `notas/`):
@@ -240,6 +241,12 @@ houver (ex.: uma subpasta `skills/`). Só arquivos genuinamente **globais** (ín
 
 Não existe catálogo de bibliotecas. **O que está fisicamente em `data/biblioteca/` É a biblioteca** —
 um pool só (subpastas ali são organização, não escopo).
+
+O **acervo** (os `.md` convertidos dos livros, agrupados em `data/biblioteca/<tema>/`) e o **índice**
+(`data/biblioteca/global/kb-<tema>.yaml`, com `tags` + `caminho_md`) vivem ambos dentro de
+`biblioteca/`. **Nenhum livro (`.md`, PDF ou EPUB) fica em `estudos/`** — `estudos/` guarda só o que
+se estuda agora (`aulas/`, `notas/`, `papers/`, `exercicios/`). O ebook original não fica local: vai
+pro Book Orbit; aqui fica só o `.md`.
 
 - Cada arquivo de biblioteca declara `tags: [...]` no topo (frontmatter YAML). Ex.: um léxico de grego
   → `tags: [grego, exegese, lexico]`.

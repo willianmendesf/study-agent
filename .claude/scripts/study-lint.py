@@ -56,7 +56,7 @@ def resolve(p):
     for pre in ('/dados/study-agent/', '/home/study-agent/'):
         if p.startswith(pre): return os.path.join(ROOT, p[len(pre):])
     if p.startswith('data/'): return os.path.join(ROOT, p)
-    if p.startswith('/estudos/') or p.startswith('estudos/'): return os.path.join(D, p.lstrip('/'))
+    if p.startswith(('/estudos/', 'estudos/', '/biblioteca/', 'biblioteca/')): return os.path.join(D, p.lstrip('/'))
     return p if os.path.isabs(p) else os.path.join(D, p)
 
 pool = set()

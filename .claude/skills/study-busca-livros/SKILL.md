@@ -44,7 +44,7 @@ python3 .claude/skills/study-busca-livros/buscar.py graça obras --json
 | `--json` | saída estruturada (`arquivo`, `titulo`, `tags`, `linha_inicio`, `linha_fim`, `secao`, `trecho`) |
 
 Cada resultado traz **título — `data/<arquivo>:<linha_ini>-<linha_fim>` · seção · tags** e o trecho com
-os termos entre «». Cite assim: `— Fonte: data/estudos/livros/…/livro.md, linhas 120-134, seção "…"`.
+os termos entre «». Cite assim: `— Fonte: data/biblioteca/…/livro.md, linhas 120-134, seção "…"`.
 Códigos de saída: `0` achou · `3` nada achado · `2` uso/índice ausente · `1` erro.
 
 ## Verificar citação literal (anti-alucinação, Regra 9.3)
