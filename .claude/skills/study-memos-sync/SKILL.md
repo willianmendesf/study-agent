@@ -45,6 +45,61 @@ Skill que posta conteúdo de estudo (planos, resumos, mapas textuais, relatório
   - Adicionar `#study-agent` em todos os memos do flow
 - **Visibilidade** — PRIVATE por padrão. O usuário muda no app se quiser público.
 
+## Taxonomia de tags (regra aprendida 2026-10-01)
+
+**Cinco eixos**, combináveis:
+
+1. **`#grupo/<X>`** (sempre 1) — área ampla
+   - `#grupo/estudo/teologia` — exegese, devocionais, hermenêutica, notas bíblicas
+   - `#grupo/estudo/curriculo` — planos de curso/aula/programa (IPB Candidatura, seminário, EBD)
+   - `#grupo/estudo/lingua` — gramática/sintaxe/redação
+   - `#grupo/estudo/literatura` — teoria/crítica literária
+   - `#grupo/gestao/tempo` — gestão pessoal (NÃO regras técnicas do kairos)
+
+2. **`#tipo/<X>`** (sempre 1) — forma do conteúdo
+   - `#tipo/plano` — plano de aula, plano de estudo, roadmap, descoberta
+   - `#tipo/mapa` — mapa conceitual textual
+   - `#tipo/exegese` — exegese de porção bíblica
+   - `#tipo/devocional` — reflexão devocional
+   - `#tipo/simulado` — prova/simulado
+   - `#tipo/relatorio` — relatório de quiz/resultado
+   - `#tipo/guia` — guia de bolso, manual
+   - `#tipo/esboco` — esboço expositivo
+   - `#tipo/indice` — índice, catálogo, grade curricular
+   - `#tipo/nota` — nota livre, resumo de leitura, anotações
+
+3. **`#fonte/<X>`** (opcional) — quando faz parte de um programa/curso estruturado
+   - `#fonte/ipb-candidatura`
+   - `#fonte/seminario-jmc`
+   - `#fonte/ebd-ipbf`
+   - `#fonte/hermeneia`
+
+4. **`#livro/<X>`** (opcional) — livro bíblico sendo estudado
+   - `#livro/oseias`
+   - `#livro/1-joao`
+   - `#livro/joao`
+   - `#livro/romanos`
+
+5. **`#modulo/<X>`** (opcional) — módulo do edital IPB
+   - `#modulo/m1-portugues`
+   - `#modulo/m2-redacao`
+   - `#modulo/m3-literatura`
+   - `#modulo/m4-ingles`
+   - `#modulo/m5-simbolos`
+   - `#modulo/m6-at`
+   - `#modulo/m7-nt`
+   - `#modulo/m8-revisao`
+
+**NÃO USE:**
+- Tags genéricas tipo `study-agent`, `mes-2026-10`, `tipo-plano`, `nota-de-estudo`
+- Tags repetidas em quase todas as memos (perde poder de filtragem)
+- Tags técnicas de perfil/orquestrador (regras do kairos, checklists do bibliotecário) — não pertencem ao Memos
+
+**Exemplo real (memo "Exegese 1 João 2:12-17 — Hermes"):**
+```
+#grupo/estudo/teologia #tipo/exegese #livro/1-joao
+```
+
 ## Configuração
 
 URL + PAT ficam em `data/config-backup/memos/memos.env` (chmod 600, versionável no `data/`).
