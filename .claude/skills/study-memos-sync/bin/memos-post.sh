@@ -55,10 +55,10 @@ if [[ -z "$CONTENT" ]]; then
   exit 2
 fi
 
-# tamanho trava (200 KB)
+# tamanho trava (108192 bytes = ~106 KB — limite efetivo do Memos)
 SIZE=$(printf '%s' "$CONTENT" | wc -c)
-if [[ $SIZE -gt 204800 ]]; then
-  echo "✗ conteúdo muito grande ($SIZE bytes > 200 KB). Quebre em seções." >&2
+if [[ $SIZE -gt 108192 ]]; then
+  echo "✗ conteúdo muito grande ($SIZE bytes > 108192). Quebre em seções." >&2
   exit 2
 fi
 
