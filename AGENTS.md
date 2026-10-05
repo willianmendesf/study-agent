@@ -70,3 +70,10 @@ python3 .claude/scripts/study-lint.py
   (skill `study-gerenciar-bibliotecas`). Ao responder, informe o caminho do arquivo criado.
 - Conversa de trânsito (dúvida rápida, sem material novo) não gera arquivo.
 - Para leitura no app, poste também pela skill `study-memos-sync`.
+
+## 6. Regras anti-loop (picoclaw)
+- **Responda ao usuário com o texto final da resposta.** Não use a ferramenta `message` para falar no mesmo chat
+  em que ele está conversando com você; `message` serve só para avisar outro canal ou pessoa quando o usuário pedir.
+- **Erro de conexão com o LLM** (`LLM call failed`, `GOAWAY`, `erro transitório`): não tente de novo mandando
+  mensagens. Responda **uma única vez**, curto, e pare. Nunca envie mais de 1 mensagem por turno.
+- Nunca repita a mesma mensagem. Se o resultado de uma ferramenta for igual ao anterior, pare e informe o usuário.
