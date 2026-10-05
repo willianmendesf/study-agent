@@ -96,6 +96,7 @@ repositório pessoal dele (Regra 7):
 | Materiais de trabalho (aulas, notas, exercícios, papers, trabalhos) | `data/estudos/aulas\|notas\|papers\|exercicios/trabalhos/` | ~~`data/estudos/livros/`~~ |
 | Acervo de referência (`.md` dos livros, por tema) | `data/biblioteca/<tema>/` (índice em `data/biblioteca/global/kb-<tema>.yaml`) | ~~`data/estudos/livros/`~~ |
 | Transcrições de áudio (bruto) | `data/audios/aulas/<materia>/<unidade>/parteN.txt` | (novo — bruto separado dos elaborados em `data/estudos/aulas/`) |
+| Histórico de conversas do picoclaw (bruto) | `data/historico/picoclaw/` (gerado por `.claude/scripts/picoclaw-historico.py`) | (novo — bruto; elaborados vão para `data/estudos/`) |
 
 Convenção de subpasta dentro de `data/estudos/` (especialmente `notas/`):
 - **Pasta = navegação por texto (livro → capítulo)**: `notas/evangelho-joao/4/`, `notas/assunto/12/`.

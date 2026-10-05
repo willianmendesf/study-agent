@@ -47,3 +47,26 @@ python3 .claude/scripts/study-lint.py
 ```
 - Saiu com erro? **Corrija a causa** e rode de novo. Não use `--no-verify`, não edite `lint-baseline.txt` para esconder erro novo.
 - Passou? Siga o passo 7 do Orquestrador (commit/push de `data/` sem assinatura de IA).
+
+## 4. Regras para quem roda no picoclaw (e em qualquer IA sem hooks)
+- **Memória global (deja-vu), a CADA mensagem.** No picoclaw não existe recall automático: antes de responder, rode
+  `sh .claude/skills/deja-search/bin/deja-run.sh "<termo exato do pedido>"`, mesmo em chat novo. A memória vale entre
+  chats e conversas; não dependa do histórico da conversa atual. Se o deja não cobrir, aí sim pergunte.
+- **Skill: leia antes de chamar.** Antes de rodar qualquer script de uma skill, abra o `SKILL.md` dela e use os
+  argumentos exatos (ex.: `buscar.py` usa `-k N`, não `--limit`). Se vier `usage:`/`unrecognized arguments`, releia o
+  `SKILL.md` e rode `--help`; não chute flag.
+- **Comando longo (mais de ~4 min: OCR, índice, transcrição):** rode em segundo plano (`nohup ... > log 2>&1 &`) e
+  consulte o log. O `exec` do picoclaw corta em 300 s.
+- **Orquestrador é obrigatório a cada turno de estudo** (Regra 1 do `CLAUDE.md`): anuncie o modo e a skill escolhida
+  antes de executar e atualize o perfil depois.
+
+## 5. Persistência do que você gerar (no picoclaw o chat é descartável)
+- O **histórico bruto** das conversas é arquivado sozinho em `data/historico/picoclaw/` (timer a cada 5 min) e
+  indexado no deja. Você não precisa fazer isso, e não deve editar essa pasta.
+- **Todo material de estudo que você gerar** (aula, resumo, plano, exegese, exercícios, mapa conceitual, relatório)
+  deve ser **salvo em arquivo**, nunca só na resposta do chat: caminho pela Regra 3
+  (`data/estudos/notas|aulas|exercicios/...`), com o frontmatter do `data/estudos/README.md`
+  (`passagem`, `livro`, `capitulo`, `tipo`, `publico`) e catalogado pelo bibliotecário
+  (skill `study-gerenciar-bibliotecas`). Ao responder, informe o caminho do arquivo criado.
+- Conversa de trânsito (dúvida rápida, sem material novo) não gera arquivo.
+- Para leitura no app, poste também pela skill `study-memos-sync`.
