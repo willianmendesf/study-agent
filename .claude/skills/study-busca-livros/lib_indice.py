@@ -82,16 +82,28 @@ def rel_data(caminho):
 
 
 def normalizar_caminho_kb(valor):
-    """Converte o `caminho_md` de um KB (absoluto de qualquer máquina, ou relativo) em 'estudos/...'."""
+    """Converte o `caminho_md` de um KB (absoluto de qualquer máquina, ou relativo) em 'biblioteca/...'
+    ou 'estudos/...' (sempre relativo a data/, sem prefixo 'data/')."""
     if not valor:
         return None
-    v = str(valor).replace('\\', '/')
+    v = str(valor).replace('\\', '/').strip().strip('"\'')
+    # Caso 1: caminho contém '/data/' em qualquer ponto (absoluto de qualquer máquina, ou './data/', '../data/', etc.)
     marca = v.rfind('/data/')
     if marca >= 0:
-        v = v[marca + len('/data/'):]
-    elif v.startswith('data/'):
-        v = v[len('data/'):]
-    return v.lstrip('/')
+        return v[marca + len('/data/'):]
+    # Caso 2: caminho começa com 'data/' (com ou sem './' antes)
+    if v.startswith('./data/'):
+        v = v[2:]  # tira o './'
+    if v.startswith('data/'):
+        return v[len('data/'):]
+    # Caso 3: já é 'biblioteca/...' ou 'estudos/...' sem prefixo data/ — devolver como está
+    if v.startswith(('biblioteca/', 'estudos/')):
+        return v
+    # Caso 4: caminho absoluto sem /data/ (ex.: /home/user/alguma_coisa/foo.md) — não dá pra inferir, devolve None
+    if v.startswith('/'):
+        return None
+    # Caso 5: caminho desconhecido — devolve como está pra erro ser visível
+    return v
 
 
 def _yaml():
