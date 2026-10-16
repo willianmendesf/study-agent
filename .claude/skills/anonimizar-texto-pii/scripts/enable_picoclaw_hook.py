@@ -31,7 +31,7 @@ def main() -> None:
         "priority": args.priority,
         "transport": "stdio",
         "command": [args.python, args.hook],
-        "intercept": ["before_llm", "after_llm"],
+        "intercept": ["before_llm", "after_llm", "before_tool"],
         "env": {"ANON_HOME": args.anon_home},
     }
     path.write_text(json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8")

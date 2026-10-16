@@ -136,23 +136,34 @@ def before_llm(params: dict, masker: Masker) -> dict:
     return {"action": "modify", "request": request}
 
 
+def restore_value(value, state: dict):
+    if isinstance(value, str):
+        return restore(value, state)
+    if isinstance(value, list):
+        return [restore_value(v, state) for v in value]
+    if isinstance(value, dict):
+        return {k: restore_value(v, state) for k, v in value.items()}
+    return value
+
+
 def after_llm(params: dict, masker: Masker) -> dict:
-    state = masker.session(session_key(params))
     response = dict(params.get("response") or {})
+    if response.get("tool_calls"):
+        return {"action": "continue"}
+    state = masker.session(session_key(params))
     for key in ("content", "reasoning_content", "reasoning"):
         if isinstance(response.get(key), str):
             response[key] = restore(response[key], state)
-    if isinstance(response.get("tool_calls"), list):
-        calls = []
-        for call in response["tool_calls"]:
-            fn = call.get("function") if isinstance(call, dict) else None
-            if fn and isinstance(fn.get("arguments"), str):
-                call = {**call, "function": {**fn, "arguments": restore(fn["arguments"], state, json_safe=True)}}
-            calls.append(call)
-        response["tool_calls"] = calls
     result = dict(params)
     result["response"] = response
     return {"action": "modify", "response": result}
+
+
+def before_tool(params: dict, masker: Masker) -> dict:
+    state = masker.session(session_key(params))
+    call = dict(params)
+    call["arguments"] = restore_value(params.get("arguments") or {}, state)
+    return {"action": "modify", "call": call}
 
 
 def reply(request_id, result=None, error=None) -> None:
@@ -180,7 +191,7 @@ def main() -> None:
         load_error = str(exc)
         sys.stderr.write(f"anonymizer failed to load: {exc}\n")
         sys.stderr.flush()
-    handlers = {"hook.before_llm": before_llm, "hook.after_llm": after_llm}
+    handlers = {"hook.before_llm": before_llm, "hook.after_llm": after_llm, "hook.before_tool": before_tool}
     for line in sys.stdin:
         line = line.strip()
         if not line:
