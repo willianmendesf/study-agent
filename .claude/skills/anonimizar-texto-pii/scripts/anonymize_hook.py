@@ -90,7 +90,19 @@ def restore(text: str, state: dict, json_safe: bool = False) -> str:
     return TAG_PATTERN.sub(swap, text)
 
 
+def warn_system(message: dict, masker: Masker, state: dict) -> None:
+    texts = [message.get("content")] + [p.get("text") for p in message.get("system_parts") or [] if isinstance(p, dict)]
+    count = sum(len(masker.entities(t)) for t in texts if isinstance(t, str) and t)
+    if count and state.get("warned") != count:
+        state["warned"] = count
+        sys.stderr.write(f"warning: system prompt contains {count} personal data item(s) the engine does not let hooks mask\n")
+        sys.stderr.flush()
+
+
 def mask_message(message: dict, masker: Masker, state: dict) -> dict:
+    if message.get("role") == "system":
+        warn_system(message, masker, state)
+        return message
     out = dict(message)
     if isinstance(out.get("content"), str):
         out["content"] = masker.mask(out["content"], state)
