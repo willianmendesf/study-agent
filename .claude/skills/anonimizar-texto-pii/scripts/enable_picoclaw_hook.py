@@ -6,6 +6,7 @@ import time
 from pathlib import Path
 
 NAME = "pii_anonymizer"
+TRUSTED_NAME = "trusted_pii_anonymizer"
 TIMEOUT_MS = 30000
 
 
@@ -16,6 +17,7 @@ def main() -> None:
     parser.add_argument("--hook", required=True)
     parser.add_argument("--anon-home", required=True)
     parser.add_argument("--priority", type=int, default=200)
+    parser.add_argument("--trusted", action="store_true", help="engine patched with 0002-trusted-hooks: also mask the system prompt")
     args = parser.parse_args()
 
     path = Path(args.config)
@@ -26,16 +28,22 @@ def main() -> None:
     hooks["enabled"] = True
     defaults = hooks.setdefault("defaults", {})
     defaults["interceptor_timeout_ms"] = max(int(defaults.get("interceptor_timeout_ms", 0)), TIMEOUT_MS)
-    hooks.setdefault("processes", {})[NAME] = {
+    processes = hooks.setdefault("processes", {})
+    processes.pop(NAME, None)
+    processes.pop(TRUSTED_NAME, None)
+    env = {"ANON_HOME": args.anon_home}
+    if args.trusted:
+        env["ANON_MASK_SYSTEM"] = "1"
+    processes[TRUSTED_NAME if args.trusted else NAME] = {
         "enabled": True,
         "priority": args.priority,
         "transport": "stdio",
         "command": [args.python, args.hook],
         "intercept": ["before_llm", "after_llm", "before_tool"],
-        "env": {"ANON_HOME": args.anon_home},
+        "env": env,
     }
     path.write_text(json.dumps(config, indent=2, ensure_ascii=False), encoding="utf-8")
-    print(f"registered {NAME} in {path}")
+    print(f"registered {TRUSTED_NAME if args.trusted else NAME} in {path}")
 
 
 if __name__ == "__main__":

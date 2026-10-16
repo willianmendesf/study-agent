@@ -11,6 +11,7 @@ from pathlib import Path
 BASE_DIR = Path(os.environ.get("ANON_HOME", str(Path.home() / ".local" / "share" / "anonimizador-dp")))
 MODEL_DIR = Path(os.environ.get("ANON_MODEL", str(BASE_DIR / "model")))
 FAIL_OPEN = os.environ.get("ANON_FAIL_OPEN") == "1"
+MASK_SYSTEM = os.environ.get("ANON_MASK_SYSTEM") == "1"
 CHUNK_CHARS = 50000
 MAX_SESSIONS = 50
 MAX_CACHE = 4000
@@ -100,7 +101,7 @@ def warn_system(message: dict, masker: Masker, state: dict) -> None:
 
 
 def mask_message(message: dict, masker: Masker, state: dict) -> dict:
-    if message.get("role") == "system":
+    if message.get("role") == "system" and not MASK_SYSTEM:
         warn_system(message, masker, state)
         return message
     out = dict(message)
