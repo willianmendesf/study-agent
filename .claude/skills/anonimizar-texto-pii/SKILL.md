@@ -52,3 +52,20 @@ usuário em vez de adivinhar.
 
 `anonimizador-dp` (Anatel, GPL-3.0-only) e seu modelo, instalados do PyPI/GitHub Releases em ambiente
 separado e chamados como processo à parte. Nenhum código dele é copiado para este repositório.
+
+## Modo automático (picoclaw)
+
+O picoclaw não precisa lembrar de chamar a skill: o hook `scripts/anonymize_hook.py` mascara **toda**
+mensagem antes de cada chamada ao modelo (inclusive histórico, saída de ferramentas e prompt de sistema)
+e restaura as tags na resposta e nos argumentos de ferramentas. Se o anonimizador falhar, o turno é
+abortado e nada é enviado (`ANON_FAIL_OPEN=1` inverte isso). Ativar:
+
+```bash
+bash .claude/skills/anonimizar-texto-pii/scripts/install.sh
+python3 .claude/skills/anonimizar-texto-pii/scripts/enable_picoclaw_hook.py <config.json do picoclaw> \
+  --python ~/.local/share/anonimizador-dp/venv/bin/python \
+  --hook "$PWD/.claude/skills/anonimizar-texto-pii/scripts/anonymize_hook.py" \
+  --anon-home ~/.local/share/anonimizador-dp
+```
+
+Reinicie o picoclaw depois. Limites: nomes livres e imagens não são mascarados.
