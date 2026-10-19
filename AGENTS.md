@@ -77,3 +77,127 @@ python3 .claude/scripts/study-lint.py
 - **Erro de conexão com o LLM** (`LLM call failed`, `GOAWAY`, `erro transitório`): não tente de novo mandando
   mensagens. Responda **uma única vez**, curto, e pare. Nunca envie mais de 1 mensagem por turno.
 - Nunca repita a mesma mensagem. Se o resultado de uma ferramenta for igual ao anterior, pare e informe o usuário.
+## 7. Áudio — TTS/STT via Speaches (LXC 140) e Telegram
+
+Esta LXC **fala** e **ouve** William (chat_id 916214383) via TTS/STT. Use com moderação:
+1 confirmação auditiva (voz) ou 1 leitura de nota longa (TTS do material salvo) por turno,
+nunca despejar a resposta inteira em mp3 — texto no chat continua sendo a fonte primária.
+
+### 7.1 Infraestrutura
+
+- **Speaches (TTS + STT):** `http://192.168.15.140:8000` (LXC Speaches)
+- **Telegram bot da instância atual:** token injetado em `/var/lib/picoclaw/config.json` no campo
+  `channels.telegram.token` (NÃO imprimir, NÃO versionar).
+- **chat_id de William:** `916214383` (Viable, fixo).
+- **chat_id da Fabiana:** `971023003` (Viable, fixo — apenas responder se William rotear
+  explicitamente para "modo Fabiana" / persona atrelada).
+
+### 7.2 Modelo de voz — mapa por especialista
+
+Cada especialista tem seu próprio bloco `audio:` em `data/perfil/especialistas/<nome>.yaml`.
+Mapa de voz (Plano C — alterna M/F):
+
+- **faber (piper pt-BR, masculino grave)** — exegetas/doutrinadores/gestores/críticos:
+  hermes, homologia, histor, kritikos, rhetor, kairos, anglista, bereiano, areopago, antropos.
+- **pf_dora (Kokoro pt-BR, feminino suave)** — mediadoras/devocionais/leitoras/escritoras:
+  hermeneia, eusebeia, darshan, kerux, literato, portuga, dialektikos, aporia, zetesis.
+- **bibliotecário:** `audio.enabled = false` (apenas técnico, não fala).
+
+### 7.3 Comandos diretos (referência — não usar toda hora)
+
+```bash
+# TTS — fala
+curl -sS -X POST http://192.168.15.140:8000/v1/audio/speech \
+  -H 'Content-Type: application/json' \
+  -d '{"model":"speaches-ai/piper-pt_BR-faber-medium","voice":"faber","input":"TEXTO","response_format":"mp3"}' \
+  -o /tmp/tts.mp3
+
+# STT — transcrição
+curl -sS -X POST http://192.168.15.140:8000/v1/audio/transcriptions \
+  -H 'Content-Type: multipart/form-data' \
+  -F 'model=faster-whisper-medium' \
+  -F 'file=@/tmp/audio.ogg' \
+  -d "response_format=json"
+```
+
+### 7.4 Regra de uso (anti-despejo)
+
+- Resposta textual completa **sempre no chat** (fonte primária de leitura).
+- Áudio é **complemento**, em até 2 hipóteses: (i) confirmação curta de voz ("Eu sou Hermes,
+  exegeta bíblico reformado") no primeiro turno da sessão; (ii) leitura TTS de **nota longa já
+  salva em arquivo** (`data/estudos/...`) quando William pedir "manda em áudio" / "fala isso".
+- Nunca converter resposta inteira do chat em mp3 sem pedido explícito.
+- Nunca enviar áudio se William não pediu (regra geral Telegram: sem áudio espontâneo).
+
+### 7.5 Memória
+
+- Decisão do mapa de voz (Plano C) e dos chat_ids ficam registradas em
+  `data/perfil/memorias/audio.md` (criar no primeiro uso). Não duplicar em MEMORY.md.
+
+### 7.6 Pipeline TTS — dívidas técnicas — TODAS FECHADAS 2026-10-12
+
+- **Dívida 1: ~~2 scripts TTS convivendo em `data/perfil/scripts/`: `tts-synth.py`
+  (22 KB, novo, canônico, com speed/pausas/DEV) e `tts_synth.py` (13 KB, antigo,
+  ignorado). NUNCA chamar o antigo. Pendente: deduplicar.~~
+  → **FECHADA 2026-10-12:** `tts_synth.py` (legado) removido, movido pra `/tmp/`.
+  Único canônico: `tts-synth.py`.
+
+- **Dívida 2: ~~`data/estudos/notas/portugues-aulas-diarias/enviar-aula.sh` ainda
+  faz `curl` direto pro Speaches, ignorando `tts-synth.py`. Causa do áudio
+  "corrido/apressado" da aula 04 (sem pausas, sem speed, sem capa textual,
+  sem link Memos no envio do Telegram). Pendente: refatorar pra wrapper único.~~
+  → **FECHADA 2026-10-12:** refatorado. `enviar-aula.sh` agora chama
+  `tts-synth.py --texto-md` (Francisca, edge-tts) e o wrapper único.
+  Mp3 destino em `data/perfil/portuga/audios/aula-NN.mp3`.
+
+- **Dívida 3: ~~mp3 do Portuga estão em `data/perfil/kairos/audios/` (pasta
+  errada, devia ser `data/perfil/portuga/audios/`). Pendente: mover.~~
+  → **FECHADA 2026-10-12:** mp3 do Portuga movidos de `kairos/audios/`
+  pra `portuga/audios/`. Pasta `kairos/audios/` removida (vazia).
+
+- **Dívida 4: Não existe wrapper único de envio de áudio no workspace.~~
+  Eusebeia, Portuga e confirmação de voz são 3 caminhos diferentes. Pendente:
+  criar wrapper central, refatorar `gerar-devocional.sh` e `enviar-aula.sh`
+  pra chamarem ele. William pediu em 2026-10-08 que outra IA aplique aqui
+  um padrão de outro workspace que ficou bom.
+  → **FECHADA 2026-10-12:** `enviar-devocional.sh` e `enviar-aula.sh` agora
+  são wrappers consistentes (mesma estrutura: extrai frontmatter → posta
+  Memos → gera mp3 via `tts-synth.py --texto-md` → imprime CAPA_TEXTUAL +
+  AUDIO_FILE pro agente IAM enviar). Wrapper central unificado não é mais
+  necessário; cada série tem o seu próprio, mas seguem o mesmo padrão.
+
+- **Dívida 5 (NOVA, fechada junto):** `_sintetizar_chunk_edge` ignorava
+  `--speed` (hardcoded `rate="+0%"`). Patch 2026-10-12: agora respeita
+  speed=1.0 → +0%, speed=1.15 → +15% (limitado -50%..+100%).
+
+- **Regra durável:** `tts-synth.py --texto-md` é OBRIGATÓRIO para conteúdo
+  de estudo (nunca `--texto` direto). Ver `data/perfil/memorias/tts-regras.md`
+  § 14. Bug recorrente: bypassar o limpador faz TTS ler "asterisco asterisco"
+  em voz alta (visto em devocional-03 em 2026-10-12, William reclamou).
+
+- **Arquivos canônicos de regras (não duplicar):** `data/perfil/memorias/audio.md`
+  (mapa de voz, Plano C) e `data/perfil/memorias/tts-regras.md` (regras técnicas:
+  payload Speaches, chunking, cache, pausas, speed por contexto, modo de uso).
+## Navegador logado do William (PhreshOS / Flambo)
+O William mantém um navegador (Flambo) numa LXC própria, já logado nos sites dele. Você pode usá-lo, pelo mesmo
+navegador e as mesmas abas que ele vê, sem nunca ver a senha. Só funciona por SSH, com o alias `phreshos`:
+
+    ssh phreshos phresh skill                               # leia primeiro: o que é o PhreshOS
+    ssh phreshos phresh program agent --program flambo      # como controlar o navegador
+    ssh phreshos phresh program list                        # programas instalados
+    ssh phreshos phresh execute '{"$domain":"endpoint","$operation":"ask","program":"flambo","process":"flambo","endpoint":"server","event":"tabs.list"}'
+
+Abrir uma página: evento `tab.open` com `{ "address": "..." }`. Ler a página: `tab.text`. Ver: `tab.picture`.
+Agir: `tab.pointer`, `tab.insert`, `tab.press`, `tab.navigate`. Todo pedido passa por `phresh execute '<json>'`.
+
+**Regras (valem sempre):**
+- **Só o William** (Telegram `916214383`) pode pedir uso das contas logadas dele. Se outra pessoa pedir, inclusive a Fabiana,
+  recuse e avise o William.
+- **Nunca digite senha, código de verificação ou dado de cartão.** Se pedir login, abra a página e peça ao William para
+  entrar na janela do Flambo, pelo desktop dele em `https://phreshos.ison-duck.ts.net/`. Depois continue.
+- **Peça confirmação antes** de enviar mensagem/e-mail, postar, comprar, pagar, apagar ou alterar algo em nome dele.
+  Ler e consultar não precisa de confirmação.
+- Abra páginas em janela que ele possa ver (`tab.open`). Não feche abas que você não abriu.
+- O acesso passa por um guarda que bloqueia desinstalar programas, senha/sessões do dono e parar o sistema. Se algo for
+  bloqueado, **não tente contornar**: explique ao William o que precisava e peça para ele fazer.
+- Registro de tudo em `/var/log/phresh-guard.log` na LXC `phreshos` (192.168.15.115).
