@@ -1,7 +1,12 @@
 #!/usr/bin/env bash
 # memos-post.sh — posta conteúdo no Memos
-# Uso: memos-post.sh [--file PATH | --content "texto"] [--visibility PRIVATE|PUBLIC] [--tags "tag1,tag2"] [--dry-run]
+# Uso: memos-post.sh [--file PATH | --content "texto"] [--visibility PRIVATE|PUBLIC] [--tags "tag1,tag2"] [--dry-run] [--com-frontmatter]
 # Lê config de data/config-backup/memos/memos.env (chmod 600).
+#
+# REGRA DO WILLIAM 2026-10-20: o YAML frontmatter (memo_id, titulo, persona, voz,
+# duracao_alvo_min, data...) é metadado LOCAL de busca — não faz parte da nota
+# de leitura. Por padrão é REMOVIDO antes de postar. Use --com-frontmatter para
+# manter (raro; só se o memo for justamente um dump de metadados).
 set -euo pipefail
 
 REPO="/home/opencode/study-agent/data"
@@ -25,6 +30,7 @@ CONTENT=""
 VIS="PRIVATE"
 TAGS=""
 DRY=0
+KEEP_FRONTMATTER=0
 
 while [[ $# -gt 0 ]]; do
   case "$1" in
@@ -32,6 +38,7 @@ while [[ $# -gt 0 ]]; do
     --content) CONTENT="$2"; shift 2 ;;
     --visibility) VIS="$2"; shift 2 ;;
     --tags) TAGS="$2"; shift 2 ;;
+    --com-frontmatter) KEEP_FRONTMATTER=1; shift ;;
     --dry-run) DRY=1; shift ;;
     -h|--help)
       sed -n '2p;3p' "$0"; sed -n '/^# Uso:/,/^## /p' "$0" | head -10
@@ -53,6 +60,29 @@ fi
 if [[ -z "$CONTENT" ]]; then
   echo "✗ precisa de --file ou --content" >&2
   exit 2
+fi
+
+# Remove o frontmatter YAML (metadado local, não conteúdo de leitura).
+# Só remove se o arquivo COMEÇAR com '---' e o próximo bloco for fechado por '---'.
+# Sem pyyaml no box: parser manual, estado simples.
+if [[ $KEEP_FRONTMATTER -eq 0 ]]; then
+  CONTENT=$(printf '%s' "$CONTENT" | python3 -c '
+import sys, re
+txt = sys.stdin.read()
+lines = txt.split("\n")
+if lines and lines[0].strip() == "---":
+    for i in range(1, len(lines)):
+        if lines[i].strip() == "---":
+            # fecha o frontmatter: descarta linhas 0..i (inclusive o --- final)
+            sys.stdout.write("\n".join(lines[i+1:]).lstrip("\n"))
+            sys.exit(0)
+# sem frontmatter bem formado: não mexe
+sys.stdout.write(txt)
+')
+  if [[ $? -ne 0 ]]; then
+    echo "✗ falha ao remover frontmatter" >&2
+    exit 1
+  fi
 fi
 
 # tamanho trava (108192 bytes = ~106 KB — limite efetivo do Memos)
