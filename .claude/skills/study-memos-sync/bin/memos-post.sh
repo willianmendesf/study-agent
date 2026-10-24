@@ -122,6 +122,7 @@ fi
 
 # POST
 HTTP=$(curl -sS -o /tmp/memos-resp.$$ -w "%{http_code}" \
+  --connect-timeout 8 --max-time 25 \
   -X POST "${MEMOS_URL%/}/api/v1/memos" \
   -H "Authorization: Bearer ${MEMOS_PAT}" \
   -H "Content-Type: application/json" \
