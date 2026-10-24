@@ -287,3 +287,16 @@ capítulo, versículos), (3) **link Memos**.
 5. Entregar no Telegram (capa textual + mp3) → às 6h BRT via timer systemd
 
 **Origem:** William pediu o fluxo de uma frase só, depois de eu ter listado 7 perguntas. Lição: quando ele resumir, **o resumo é a decisão** — não perguntar mais.
+
+## 📚 Rotina Diária de Aquisição da Biblioteca (2026-10-24)
+
+- **Pedido do William:** "faça uma rotina diária para busca mais materiais para a base, levantando gaps e baixando materiais que complementem e acabem com o gap, faça levantamento do tipo de materiais que seminaristas e pastores necessitam".
+- **O que existe (não inventar de novo):**
+  - `data/biblioteca/LEVANTAMENTO-NECESSIDADES.md` — 7 áreas de seminário reformado + 12 gaps medidos.
+  - `data/perfil/bibliotecario/biblioteca-orbit/gap-analysis.py` — mede lacunas → `gap-report.json`.
+  - `data/perfil/bibliotecario/rodada-diaria.sh` — wrapper (fases 0/1/2 + log).
+  - `data/perfil/bibliotecario/biblioteca-orbit/rodape-aquisicao.py` — gap → download z-library.
+- **Cron:** `fed05ac460f0a3d5` — `30 6 * * *` UTC = **03:30 BRT** (cota do z-library reseta 00:00 UTC).
+- **Detalhes e armadilhas técnicas:** `data/perfil/memorias/rodada-aquisicao.md` (LER antes de mexer nas KBs).
+- **Armadilha crítica:** `yaml.safe_dump` com `width=80` **quebra** o `caminho_md` em 2 linhas e valores sem aspas com `, `/`: ` viram mapa. Sempre `width=4096` + aspas simples, ou edite o YAML em texto.
+- **Estado 2026-10-24:** 1050 .md, 1038 catalogados, 0 caminho quebrado, 0 YAML inválido, lint 0 erro novo, índice 1322 docs / 609371 trechos.

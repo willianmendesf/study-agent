@@ -46,6 +46,27 @@
       "createdAtMs": 1792594324125,
       "updatedAtMs": 1792620140952,
       "deleteAfterRun": false
+    },
+    {
+      "id": "fed05ac460f0a3d5",
+      "name": "Rotina diaria de aquisicao ...",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "30 6 * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Rotina diaria de aquisicao da biblioteca (fase 0 + fase 1 + fase 2). Roda /home/study-agent/data/perfil/bibliotecario/rodada-diaria.sh e me reporta o resumo: quantos materiais foram baixados, quais gaps foram fechados, quantos ficaram pendentes e o resultado do lint. Se o lint acusar erro novo, corrige a causa antes de encerrar.",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "nextRunAtMs": 1792909800000
+      },
+      "createdAtMs": 1792850852841,
+      "updatedAtMs": 1792850852841,
+      "deleteAfterRun": false
     }
   ]
 }
