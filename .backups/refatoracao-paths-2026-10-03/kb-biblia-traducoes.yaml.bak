@@ -1,0 +1,178 @@
+tags:
+- biblia
+- traducoes
+- texto-biblico
+knowledge_base_biblia_traducoes:
+  version: '2.0'
+  tipo: Bíblia Sagrada — Múltiplas Traduções e Idiomas Originais
+  descricao: Bíblia em múltiplas traduções (PT, EN, ES) e idiomas originais (Grego
+    Koiné, Hebraico)
+  total_arquivos: 22
+  created_at: '2026-09-07T15:05:00Z'
+  atualizado_em: '2026-09-25T23:30:00-03:00'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Biblias/
+  destino_organizado: /dados/study-agent/data/biblioteca/biblias/
+  fluxo_processamento:
+    download: N/A (local)
+    organizacao: Cópia + conversão parcial pra .md (NAA epub → .md; JSONs e TXTs preservados)
+    destino: /dados/study-agent/data/biblioteca/biblias/{pt,en,es,grc,he}/
+  portugues:
+    descricao: Bíblias em português — Almeida (várias revisões), NVI, NAA
+    total_arquivos: 7
+    traducoes:
+      almeida_ra:
+        nome: Almeida Revista e Atualizada (RA)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/almeida_ra.txt
+        origem: truth/PT-Português/almeida_ra.txt
+      almeida_rc:
+        nome: Almeida Revista e Corrigida (RC)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/almeida_rc.txt
+        origem: truth/PT-Português/almeida_rc.txt
+      almeida_rc_zip:
+        nome: Almeida Revista e Corrigida (RC) - extraída do zip
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/biblia-em-txt.txt
+        origem: biblia-sagrada-em-txt-versao-revista-e-corrigida.zip
+      almeida_jfa_1911:
+        nome: Almeida JFA 1911 (edição antiga)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/jfa-1911.txt
+        origem: bilbia-em-texto-jfa-1911.txt
+      naa_sbb:
+        nome: Nova Almeida Atualizada (NAA) — Sociedade Bíblica do Brasil
+        formato: md (convertido do epub)
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/naa-sbb.md
+        linhas_md: 181575
+        origem: Bíblia Sagrada Nova Almeida Atualizada - Sociedade Bíblica do Brasil.epub
+      acf_json:
+        nome: Almeida Corrigida Fiel (ACF) - JSON
+        formato: json
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/acf.json
+      aa_json:
+        nome: Almeida Atualizada (AA) - JSON
+        formato: json
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/aa.json
+      nvi_json:
+        nome: Nova Versão Internacional (NVI) - JSON
+        formato: json
+        caminho: /dados/study-agent/data/biblioteca/biblias/pt/nvi.json
+  ingles:
+    descricao: Bíblias em inglês — KJV, ASV, Geneva, Tyndale, WEB
+    total_arquivos: 7
+    traducoes:
+      king_james:
+        nome: King James Version (KJV)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/king-james.txt
+        origem: biblia-king-james.txt
+      kjv_truth:
+        nome: King James Version (KJV) - truth project
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/kjv-2.txt
+        origem: truth/EN-English/kjv.txt
+      asv:
+        nome: American Standard Version (ASV)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/asv.txt
+      geneva:
+        nome: Geneva Bible
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/geneva.txt
+      tyndale:
+        nome: Tyndale Bible
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/tyndale.txt
+      web:
+        nome: World English Bible (WEB)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/web.txt
+      bible_english:
+        nome: Bible (English) - versão genérica
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/en/bible-english.txt
+  espanhol:
+    descricao: Bíblias em espanhol — Reina Valera
+    total_arquivos: 3
+    traducoes:
+      rv_1858:
+        nome: Reina Valera 1858
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/es/rv_1858.txt
+      rv_1909:
+        nome: Reina Valera 1909
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/es/rv_1909.txt
+      sagradas:
+        nome: Sagradas (Spanish)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/es/sagradas.txt
+  grego:
+    descricao: Grego Koiné — Textos originais do NT
+    total_arquivos: 2
+    versoes:
+      tr:
+        nome: TR (Textus Receptus)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/grc/tr.txt
+      trparsed:
+        nome: TR parsed (grego analisado)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/grc/trparsed.txt
+  hebraico:
+    descricao: Hebraico Bíblico — Westminster Leningrad Codex + Hebraico Moderno
+    total_arquivos: 2
+    versoes:
+      wlc:
+        nome: Westminster Leningrad Codex (WLC)
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/he/wlc.txt
+      he_modern:
+        nome: Hebraico Moderno
+        formato: txt
+        caminho: /dados/study-agent/data/biblioteca/biblias/he/he_modern.txt
+  observacoes:
+  - Bíblias não são convertidas pra .md (são texto bíblico puro; já são usáveis).
+  - Apenas NAA foi convertido pra .md pra uniformidade e busca textual.
+  - JSONs preservados como estrutura de dados alternativa.
+  - TXTs preservados como formato original.
+  materiais:
+  - titulo: King James Version
+    autor: King James Version
+    idioma: English
+    formato_original: mobi
+    caminho_md: /biblioteca/biblias-en/Bible Holy Bible King James Version Old
+      and New Testaments (KJV),(With Active Table of Contents) (King James Versio.md
+    tamanho_md: 1 KB
+    linhas_md: 17
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Almeida Revista e Atualizada
+    autor: Sociedade Bíblica do Brasil
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/biblias-pt/Bíblia Almeida Revista e Atualizada 1993
+      Com notas e referencias cruzadas (Sociedade Bíblica do Brasil [Brasil etc..md
+    tamanho_md: 7612 KB
+    linhas_md: 118886
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Nova Almeida Atualizada
+    autor: Sociedade Bíblica do Brasil
+    idioma: Portuguese
+    formato_original: azw3
+    caminho_md: /biblioteca/biblias-pt/Bíblia Sagrada Nova Almeida Atualizada
+      (NAA) —, Sociedade Bíblica do Brasil, Portuguese - Varios Autores 2017 (z-li.md
+    tamanho_md: 1 KB
+    linhas_md: 17
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  total_volumes: 3
+  atualizado_por: bibliotecario (rodada gaps 2 2026-09-25)

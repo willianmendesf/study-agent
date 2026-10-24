@@ -1,0 +1,66 @@
+tags:
+- sexualidade
+- aconselhamento
+- teologia-pratica
+- etica
+knowledge_base_sexual:
+  version: '1.0'
+  tipo: Ética Sexual Cristã
+  descricao: Base de conhecimento sobre ética sexual cristã — pornografia, sexualidade,
+    pureza
+  total_volumes: 4
+  created_at: '2026-09-09T23:50:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/sexual/
+    backup_pdf: true
+  materiais:
+  - titulo: Pornografia — e-book (CO-299-2018)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/sexual/CO-299-2018-Porn-book-ebook-format.md
+    tamanho_md: 176 KB
+    linhas_md: 4128
+    status: indexado
+    topicos:
+    - Pornografia
+    - Vício sexual
+    - Ética sexual cristã
+    - Pureza
+  - titulo: Desintoxicação Sexual — Um guia para homens que querem fugir da imoralidade
+      sexual
+    autor: Tim Challies
+    editora: Vida Nova
+    ano: 2015
+    fonte: Z-Library (via Drive / 1. Fides / Sexual)
+    caminho_md: /dados/study-agent/data/biblioteca/sexual/Desintoxicacao_sexual-Tim_Challies.md
+    linhas_md: 2826
+    status: indexado
+    drive_id: 17GqgPlahEP72G-PCwTZI6yDScSK9TI98
+    topicos:
+    - Desintoxicação sexual
+    - Pureza
+    - Homens
+    - Pornografia
+    - Imoralidade
+  - titulo: 'Com toda pureza: livres da pornografia e da masturbação'
+    autor: Chester, Tim
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/sexual/Com toda pureza livres da pornografia e da
+      masturbação.md
+    tamanho_md: 321 KB
+    linhas_md: 2803
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - sexual-pureza
+  - titulo: "SX Desintoxicacao sexual Um guia para homens que querem fugir da imoralidade sexual - Vida Nova- Portuguese Tim Challies 20"
+    caminho_md: data/biblioteca/sexual/SX-Desintoxicacao_sexual_Um_guia_para_homens_que_querem_fugir_da_imoralidade_sexual_-_Vida_Nova-_Portuguese-Tim_Challies_20.md
+    tamanho_md: 154 KB
+    linhas_md: 1191
+    status: indexado_auto
+    nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."

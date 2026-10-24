@@ -1,0 +1,178 @@
+tags:
+- filosofia
+- apologetica
+- teologia
+knowledge_base_filosofia_crista:
+  version: '1.0'
+  tipo: Filosofia Cristã — Apologética
+  descricao: Base de conhecimento sobre apologética cristã e refutação de heresias/seitas
+  total_volumes: 15
+  created_at: '2026-09-09T23:50:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/filosofia-crista/
+    backup_pdf: true
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  materiais:
+  - titulo: Cristianismo puro e simples
+    autor: C.S. Lewis
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/filosofia-crista/Cristianismo puro e simples (C. S.
+      Lewis) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 18 KB
+    linhas_md: 1043
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Filosofia Crista
+    autor: Cornelius Van Til
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/filosofia-crista/Filosofia Cristã (Filosofia e Apologética
+      Puritana) —, Nadere Reformatie Publicações, Portuguese - Cornelius Van Ti.md
+    tamanho_md: 18 KB
+    linhas_md: 480
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 01-No-Crepusculo-do-Pensamento-Ocidental
+    caminho_md: data/biblioteca/filosofia-crista/01-No-Crepusculo-do-Pensamento-Ocidental.md
+    tamanho_md: 471 KB
+    linhas_md: 1828
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 02-Philosophy-of-Revelation-Bavinck-EN
+    caminho_md: data/biblioteca/filosofia-crista/02-Philosophy-of-Revelation-Bavinck-EN.md
+    tamanho_md: 492 KB
+    linhas_md: 7181
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Apologetica_Contemporanea-Willian_Craig
+    caminho_md: data/biblioteca/filosofia-crista/Apologetica_Contemporanea-Willian_Craig.md
+    tamanho_md: 33 KB
+    linhas_md: 495
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Fe-na-era-do-ceticismo-Timothy-Keller
+    caminho_md: data/biblioteca/filosofia-crista/Fe-na-era-do-ceticismo-Timothy-Keller.md
+    tamanho_md: 600 KB
+    linhas_md: 2754
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Los_Testigos_de_Jehova_desenmascarados
+    caminho_md: data/biblioteca/filosofia-crista/Los_Testigos_de_Jehova_desenmascarados.md
+    tamanho_md: 68 KB
+    linhas_md: 1248
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Mere-Christianity-CS-Lewis
+    caminho_md: data/biblioteca/filosofia-crista/Mere-Christianity-CS-Lewis.md
+    tamanho_md: 369 KB
+    linhas_md: 6741
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Naugle-Philosophy-Students-Guide
+    caminho_md: data/biblioteca/filosofia-crista/Naugle-Philosophy-Students-Guide.md
+    tamanho_md: 234 KB
+    linhas_md: 2806
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Apologética Contemporânea
+    autor: William Lane Craig
+    caminho_md: /dados/study-agent/data/biblioteca/filosofia-crista/Apologetica_Contemporanea-Willian_Craig.md
+    nota: 'ATENÇÃO: o PDF no acervo tem só 20 páginas (trecho/amostra do livro de
+      Craig). Livro completo ainda por adquirir.'
+    tamanho_md: 34 KB
+    linhas_md: 494
+    status: parcial
+    topicos:
+    - Apologética
+    - Defesa da fé
+    - Filosofia da religião
+    - Craig
+  - titulo: Testemunhas de Jeová Desmascaradas
+    autor: C. van Dam
+    caminho_md: /dados/study-agent/data/biblioteca/filosofia-crista/Los_Testigos_de_Jehova_desenmascarados.md
+    nota: Felire, ed. 2019. Reconvertido do PDF do Orbit (pdftotext) em 2026-09-25.
+    idioma: es
+    tamanho_md: 70 KB
+    linhas_md: 1247
+    status: indexado
+    topicos:
+    - Apologética contra TJ
+    - Refutação de heresias
+    - Cristologia comparada
+  - titulo: No Crepúsculo do Pensamento Ocidental
+    autor: '?'
+    idioma: pt
+    linhas: 1827
+    caminho_md: /dados/study-agent/data/biblioteca/filosofia-crista/01-No-Crepusculo-do-Pensamento-Ocidental.md
+    fonte: Z-Library (via Drive / 1. Fides / Filosofia Cristã)
+    status: indexado
+    tamanho_md: 471 KB
+  - titulo: Philosophy of Revelation
+    autor: Herman Bavinck
+    idioma: en
+    linhas: 7180
+    caminho_md: /dados/study-agent/data/biblioteca/filosofia-crista/02-Philosophy-of-Revelation-Bavinck-EN.md
+    fonte: Z-Library (via Drive / 1. Fides / Filosofia Cristã)
+    status: indexado
+    tamanho_md: 492 KB
+  - titulo: A Fé na era do ceticismo
+    autor: Timothy Keller
+    ano: 2017
+    idioma: pt
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/filosofia-crista/Fe-na-era-do-ceticismo-Timothy-Keller.md
+    caminho_original: /dados/study-agent/data/biblioteca/filosofia-crista/A Fé
+      na era do ceticismo Como a razão explica Deus (Timothy Keller [Keller, Timothy])
+      (z-library.sk, 1lib.sk, z-lib.epub
+    tamanho_md: 1.2 MB
+    linhas_md: 2754
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    zlib_id: 6151990
+    zlib_hash: 582020
+    processado_via: markitdown
+    topicos:
+    - Apologética contemporânea
+    - Fé e razão
+    - Ceticismo moderno
+    - Keller
+  - titulo: Mere Christianity (C.S. Lewis Signature Classics)
+    autor: C. S. Lewis
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/filosofia-crista/Mere-Christianity-CS-Lewis.md
+    caminho_original: /dados/study-agent/data/biblioteca/filosofia-crista/Mere
+      Christianity a revised and amplified edition, with a new introduction, of the
+      three books, Broadcast talks, Ch.epub
+    tamanho_md: 220 KB
+    linhas_md: 6741
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 1615747
+    zlib_hash: 5179ea
+    topicos:
+    - Cristianismo puro
+    - Lewis
+    - Clássico apologético
+    - C. S. Lewis
+    nota: 'Item #019 da wishlist (retried). 1ª tentativa falhou (epub zip vazio);
+      2ª tentativa com ID alternativo funcionou.'

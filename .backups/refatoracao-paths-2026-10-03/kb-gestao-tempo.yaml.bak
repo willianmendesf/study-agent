@@ -1,0 +1,324 @@
+tags:
+- gestao-tempo
+- produtividade
+- habitos
+- foco
+- ritmo
+- mordomia
+- vida-crista
+- fundamentos
+knowledge_base_gestao_tempo:
+  version: '1.0'
+  tipo: Gestão de Tempo — Hábitos, Foco, Ritmo e Mordomia
+  descricao: 'Base de conhecimento sobre gestão de tempo, hábitos, foco, ritmo e descanso.
+    Metade geral (produtividade), metade cristã (mordomia, disciplinas espirituais).
+    Apoia o especialista Kairos (gestor de tempo do TickTick) e embasa a skill kairos-gestao-tempo.
+    Origem: solicitação via Kairos em 2026-09-11 (15 obras).
+
+    '
+  total_volumes: 17
+  created_at: '2026-09-11'
+  criado_por: bibliotecario
+  origem: Z-Library (MCP zlib) — rodada automática de 2026-09-11
+  destino: /dados/study-agent/data/biblioteca/gestao-tempo/
+  politicas:
+    idioma_preferencial: pt-BR quando canônica; EN quando único disponível
+    formato_preferencial: epub > pdf > mobi (mobi só quando único disponível)
+    backup_original: manter .epub/.pdf/.mobi junto ao .md (fonte de verdade)
+  observacao_processamento: "Alguns PDFs do z-lib vieram corrompidos (xref/trailer\
+    \ inválidos) — não foi possível\nextrair texto nem com markitdown nem com pdftotext.\
+    \ Casos conhecidos:\n  - Wallace \"Greek Grammar Beyond the Basics\" (epub): markitdown\
+    \ retornou vazio, .epub\n    perdido durante retry (script rm removeu antes de\
+    \ confirmar conteúdo)\n  - Mounce \"Basics of Biblical Greek Grammar\" (pdf):\
+    \ trailer/xref inválidos\n  - Covey \"Os 7 Hábitos\" (pdf): trailer/xref inválidos\n\
+    Workaround aplicado para mobi (McKeown): kindleunpack + html parser → .md.\n"
+  materiais:
+  - id: crist-001
+    titulo: A Eliminação Impiedosa da Pressa (The Ruthless Elimination of Hurry)
+    autor: John Mark Comer
+    ano: 2019
+    idioma: EN
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/The-Ruthless-Elimination-of-Hurry-John-Mark-Comer.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/The Ruthless
+      Elimination of Hurry How to Stay Emotionally Healthy and Spiritually Alive in
+      the Chaos of the Modern .epub
+    linhas_md: 3081
+    topicos:
+    - Pressa
+    - Ritmo
+    - Mordomia
+    - Descanso
+    - Vida cristã
+    - Caos moderno
+    - Saudável emocionalmente
+    zlib_id: 26278694
+    zlib_hash: 085600
+  - id: crist-002
+    titulo: Margem (Margin)
+    autor: Richard Swenson
+    idioma: PT
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Margem-Richard-Swenson.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Margem restaurando
+      as reservas emocionais, físicas, financeiras e de tempo em uma vida sobrecarregada
+      (Richard Swen.epub
+    linhas_md: 3194
+    topicos:
+    - Sobrecarga
+    - Capacidade
+    - Orçamento do dia
+    - Mordomia
+    zlib_id: 122062065
+    zlib_hash: 0486d2
+  - id: crist-003
+    titulo: Ordem no Seu Mundo Interior (Ordering Your Private World)
+    autor: Gordon MacDonald
+    idioma: EN
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Ordering-Your-Private-World-Gordon-MacDonald.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Ordering
+      Your Private World (Gordon MacDonald) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    linhas_md: 7703
+    topicos:
+    - Gestão de vida
+    - Prioridades
+    - Disciplina
+    - Mundo interior
+    zlib_id: 11806675
+    zlib_hash: 5b0e10
+  - id: crist-010
+    titulo: Celebração da Disciplina (Celebration of Discipline)
+    autor: Richard Foster
+    idioma: PT
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Celebracao-da-Disciplina-Richard-Foster.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Celebração
+      da Disciplina - Richard J. Foster (soare) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    linhas_md: 2313
+    topicos:
+    - Disciplinas espirituais
+    - Meditação
+    - Oração
+    - Simplicidade
+    - Solitude
+    - Serviço
+    zlib_id: 23113362
+    zlib_hash: 9cfa9d
+  - id: crist-011
+    titulo: Disciplinas Espirituais para a Vida Cristã (Spiritual Disciplines for
+      the Christian Life)
+    autor: Donald S. Whitney
+    idioma: EN
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Spiritual-Disciplines-for-the-Christian-Life-Donald-Whitney.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Spiritual
+      Disciplines for the Christian Life (Donald S. Whitney) (z-library.sk, 1lib.sk,
+      z-lib.sk).epub
+    linhas_md: 6850
+    topicos:
+    - Disciplinas espirituais
+    - Hábitos espirituais
+    - Devocional
+    zlib_id: 4991486
+    zlib_hash: 7673a8
+  - id: crist-016
+    titulo: Disciplines of a Godly Man
+    autor: R. Kent Hughes
+    idioma: EN
+    formato: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Disciplines-of-a-Godly-Man-R-Kent-Hughes.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Disciplines
+      of a Godly Man (R. Kent Hughes) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+    linhas_md: 10606
+    processado_via: pdftotext (markitdown sem [pdf])
+    topicos:
+    - Disciplina
+    - Masculinidade
+    - Paternidade
+    - Pureza
+    - Grupo de homens
+    zlib_id: 849012
+    zlib_hash: b53117
+    nota: candidato para o Grupo de Homens (kairos-perfil.md)
+  - id: crist-017
+    titulo: Sacred Rhythms
+    autor: Ruth Haley Barton
+    idioma: EN
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Sacred-Rhythms-Ruth-Haley-Barton.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Sacred Rhythms
+      Arranging Our Lives for Spiritual Transformation (Transforming Resources) (Ruth
+      Haley Barton [Barton.epub
+    linhas_md: 2109
+    topicos:
+    - Ritmos
+    - Transformação espiritual
+    - Formação
+    - Descanso
+    zlib_id: 16760243
+    zlib_hash: 6aa309
+  - id: ger-001
+    titulo: Quatro Mil Semanas (Four Thousand Weeks)
+    autor: Oliver Burkeman
+    idioma: PT
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Quatro-Mil-Semanas-Oliver-Burkeman.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Quatro mil
+      semanas (Oliver Burkeman) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    linhas_md: 1391
+    topicos:
+    - Tempo finito
+    - Anti-produtividade
+    - Prioridades
+    - Filosofia
+    zlib_id: 28985543
+    zlib_hash: f1bc4c
+  - id: ger-002
+    titulo: Essencialismo (Essentialism)
+    autor: Greg McKeown
+    idioma: PT
+    formato: mobi
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Essencialismo-Greg-McKeown.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Essencialismo-Greg-McKeown.mobi
+    linhas_md: 1218
+    processado_via: mobi Python lib + kindleunpack + html parser (markitdown não suporta
+      mobi)
+    topicos:
+    - Essencialismo
+    - Priorização
+    - Foco
+    - Limites
+    zlib_id: 11595591
+    zlib_hash: 6ccd02
+  - id: ger-003
+    titulo: Hábitos Atômicos (Atomic Habits)
+    autor: James Clear
+    idioma: PT
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Habitos-Atomicos-James-Clear.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Hábitos
+      atômicos Um método fácil e comprovado de criar bons hábitos e se livrar dos
+      maus (James Clear) (z-library.s.epub
+    linhas_md: 14505
+    topicos:
+    - Hábitos
+    - Rotina
+    - Comportamento
+    - Engenharia de hábitos
+    zlib_id: 28459113
+    zlib_hash: 760e03
+  - id: ger-004
+    titulo: Trabalho Focado (Deep Work)
+    autor: Cal Newport
+    idioma: PT
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Trabalho-Focado-Deep-Work-Cal-Newport.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Trabalho
+      Focado (Cal Newport) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    linhas_md: 2299
+    topicos:
+    - Foco profundo
+    - Concentração
+    - Blocos de trabalho
+    zlib_id: 10777011
+    zlib_hash: 73836e
+  - id: ger-005
+    titulo: A Arte de Fazer Acontecer (Getting Things Done)
+    autor: David Allen
+    idioma: PT
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/A-Arte-de-Fazer-Acontecer-GTD-David-Allen.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/A arte de
+      fazer acontecer Guia prático 10 etapas para a produtividade sem estresse (David
+      Allen  Brandon Hall) (z-l.epub
+    linhas_md: 3411
+    topicos:
+    - GTD
+    - Captura
+    - Tarefas
+    - Next actions
+    zlib_id: 22002281
+    zlib_hash: 2e9624
+  - id: ger-006
+    titulo: Make Time
+    autor: Jake Knapp & John Zeratsky
+    idioma: EN
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/Make-Time-Knapp-Zeratsky.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/Make Time
+      How to Focus on What Matters Every Day (Jake Knapp, John Zeratsky) (z-library.sk,
+      1lib.sk, z-lib.sk).epub
+    linhas_md: 3266
+    topicos:
+    - Design do dia
+    - Foco
+    - Energia
+    zlib_id: 14548962
+    zlib_hash: f6e092
+  - id: ger-007
+    titulo: The Power of Full Engagement
+    autor: Jim Loehr & Tony Schwartz
+    idioma: EN
+    formato: epub
+    caminho_md: /dados/study-agent/data/biblioteca/gestao-tempo/The-Power-of-Full-Engagement-Loehr-Schwartz.md
+    caminho_original: /dados/study-agent/data/biblioteca/gestao-tempo/The Power
+      of Full Engagement. Managing Energy, Not Time, Is the Key to High Performance
+      and Personal Renewal (Jim L.epub
+    linhas_md: 4773
+    topicos:
+    - Energia
+    - Capacidade
+    - Ritmo
+    - Performance
+    zlib_id: 2495335
+    zlib_hash: 99b7b2
+  - titulo: Deep Work
+    autor: Newport, Cal
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/gestao-tempo/Deep Work Rules for Focused Success in
+      a Distracted World (Cal Newport).md
+    tamanho_md: 13 KB
+    linhas_md: 943
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - foco-profundo
+  - titulo: Como Ler um Livro
+    autor: Adler, Mortimer J. & Van Doren, Charles
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/gestao-tempo/Como Ler um Livro (Mortimer J. Adler
+      e Charles Van Doren).md
+    tamanho_md: 28 KB
+    linhas_md: 1451
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - leitura-estudo
+  - titulo: Atomic Habits
+    autor: Clear, James
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/gestao-tempo/Atomic Habits An Easy  Proven Way to
+      Build Good Habits  Break Bad Ones — Penguin Random House English - James Cle.md
+    tamanho_md: 509 KB
+    linhas_md: 8138
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - habitos-produtividade
+  observacoes:
+  - 'Livro #007 (English Grammar in Use — Raymond Murphy) foi removido da lista em
+    2026-09-11 (item descontinuado pelo usuário).'
+  - 'Hughes (#036) tem dupla indexação sugerida: kb-gestao-tempo (aqui) E kb-masculinidade-crista
+    (Disciplines of a Godly Man).'
+  atualizado_em: '2026-09-25T05:00:00-03:00'
+  atualizado_por: bibliotecário (rodada 2026-09-25)

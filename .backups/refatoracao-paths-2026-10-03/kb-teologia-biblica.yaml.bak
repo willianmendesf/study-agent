@@ -1,0 +1,126 @@
+tags:
+- teologia-biblica
+- biblia
+- doutrina
+knowledge_base_teologia_biblica:
+  version: '1.0'
+  tipo: Teologia Bíblica
+  descricao: Base de conhecimento sobre pensamento teológico sistemático
+  total_volumes: 13
+  created_at: '2026-09-07T14:55:00Z'
+  materiais:
+  - titulo: Teologia Bíblica - Antigo e Novo Testamento
+    autor: Geerhardus Vos
+    tamanho: 2.7M
+    formato: epub
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/Teologia Bíblica_Antigo
+      e Novo Test - Geerhardus Vos.epub
+    topicos:
+    - Teologia Sistemática
+    - Desenvolvimento Teológico
+    - Pensamento Cristão
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/01-VOS-Antigo-Novo-Testamento.md
+    tamanho_md: 1087 KB
+    linhas_md: 3208
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Teologia Bíblica (Capítulo 1)
+    autor: Geerhardus Vos
+    tamanho: 740.6K
+    formato: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/VOS, Teologia Bíblica,
+      cap. 1.pdf
+    topicos:
+    - Fundamentos Teológicos
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/02-VOS-Capitulo-1.md
+    tamanho_md: 46 KB
+    linhas_md: 848
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Encontrando Cristo no Antigo Testamento
+    tamanho: 1.9M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/Encontrando Cristo
+      no Antigo Testamento.pdf
+    topicos:
+    - Cristologia
+    - Tipologia Bíblica
+    - Prefigurações de Cristo
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/03-Encontrando-Cristo-AT.md
+    tamanho_md: 426 KB
+    linhas_md: 13340
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Criação e Consumação — Teologia Bíblica Reformada
+    autor: '? (reformado)'
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/01-Criacao-e-Consumacao-Reformed.md
+    linhas_md: 24447
+    tamanho_md: 1555 KB
+    status: indexado
+    fonte: Drive / 1. Fides / Teologia Bíblica (1ljV6SCXHouPu0EewHe5k1RsfT55og9I5)
+  - titulo: Teologia Bíblica do Novo Testamento
+    autor: G.K. Beale
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/04-Beale-Teologia-Biblica-do-NT.md
+    linhas_md: 66838
+    tamanho_md: 3734 KB
+    status: indexado
+    fonte: Drive / 1. Fides / Teologia Bíblica (1ljV6SCXHouPu0EewHe5k1RsfT55og9I5)
+  - titulo: O Progresso da Revelação
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/02-Progresso-Revelacao.md
+    linhas_md: 0
+    status: todo_ocr
+    observacao: PDF escaneado. OCR via EasyOCR pendente.
+  - titulo: Como Obter o Máximo da Palavra
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-biblica/03-Como-Obter-Maximo-da-Palavra.md
+    linhas_md: 0
+    status: todo_ocr
+    observacao: PDF escaneado. OCR via EasyOCR pendente.
+  - titulo: Revelação Messiânica no Antigo Testamento (no Drive)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/messias/Revelacao-Messianica-no-Antigo-Testamento.md
+    linhas_md: 63195
+    status: todo_ocr
+    observacao: PDF escaneado. OCR via EasyOCR pendente.
+  - titulo: TB Criacao e Consumacao O Rein
+    caminho_md: data/biblioteca/teologia-biblica/TB-Criacao_e_Consumacao_O_Rein_-Z-Library-1.pdf.md
+    tamanho_md: 1951 KB
+    linhas_md: 46147
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: TB Criacao e Consumacao O Rein
+    caminho_md: data/biblioteca/teologia-biblica/TB-Criacao_e_Consumacao_O_Rein_-Z-Library-2.pdf.md
+    tamanho_md: 1162 KB
+    linhas_md: 20769
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: TB G. K. Beale Teologia B blica do Novo Testamento
+    caminho_md: data/biblioteca/teologia-biblica/TB-G._K._Beale-Teologia_B_blica_do_Novo_Testamento.pdf.md
+    tamanho_md: 3734 KB
+    linhas_md: 66838
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: TB-Como_Obter_o_Maximo_da_Pala_-Z-Library-.pdf
+    caminho_md: data/biblioteca/teologia-biblica/TB-Como_Obter_o_Maximo_da_Pala_-Z-Library-.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TB-O_progresso_da_revelacao_no_-Z-Library-.pdf
+    caminho_md: data/biblioteca/teologia-biblica/TB-O_progresso_da_revelacao_no_-Z-Library-.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  origem_local_ebdi: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  atualizado_por: bibliotecario (auditoria 2026-09-29)

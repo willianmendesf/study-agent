@@ -1,0 +1,12 @@
+{
+  "skill_name": "book-pipeline",
+  "workspace_id": "/home/study-agent",
+  "current_version": "",
+  "status": "active",
+  "origin": "manual",
+  "human_summary": "book-pipeline",
+  "last_used_at": "2026-10-03T02:32:14.080344868Z",
+  "use_count": 1,
+  "retention_score": 0.30000000000000004,
+  "version_history": null
+}

@@ -1,0 +1,237 @@
+tags:
+- igreja
+- eclesiologia
+- teologia-pratica
+knowledge_base_igreja:
+  version: '1.0'
+  tipo: Igreja — Eclesiologia, Missões, Criacionismo
+  descricao: Base de conhecimento sobre eclesiologia, igreja local, missões e posição
+    cristã sobre criacionismo
+  total_volumes: 26
+  created_at: '2026-09-09T23:50:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/igreja/
+    backup_pdf: true
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  observacao_ipb: Subpasta IPB (1G1KwmsjHpzeRN4WBVSDN-M-8QPwUg-tZ/155o3ZVSa2MsOa63EQetzKgH09_pI_W5c)
+    é duplicata de kb-ipb-global.yaml — não indexada aqui.
+  materiais:
+  - titulo: A Regra do amor
+    autor: Jonathan Leeman
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/igreja/A Regra do amor como a igreja local deve refletir
+      o amor e a autoridade de Deus (Jonathan Leeman) (z-library.sk, 1l.md
+    tamanho_md: 361 KB
+    linhas_md: 2743
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Igreja em Lugares Dificeis
+    autor: Mez McConnell & Mike McKinley
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/igreja/Igreja em Lugares Difíceis Como a igreja local
+      traz vida ao pobre e necessitado (Mez McConnell  Mike McKinley) (z-l.md
+    tamanho_md: 333 KB
+    linhas_md: 2481
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: A_Igreja_Local_e_Missoes-Edison_Queiroz
+    caminho_md: data/biblioteca/igreja/A_Igreja_Local_e_Missoes-Edison_Queiroz.md
+    tamanho_md: 245 KB
+    linhas_md: 8836
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: A_Igreja_e_o_Criacionismo-Adauto_J._B._Lourenco
+    caminho_md: data/biblioteca/igreja/A_Igreja_e_o_Criacionismo-Adauto_J._B._Lourenco.md
+    tamanho_md: 87 KB
+    linhas_md: 2177
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Church-Edmund-Clowney
+    caminho_md: data/biblioteca/igreja/Church-Edmund-Clowney.md
+    tamanho_md: 237 KB
+    linhas_md: 1614
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: A Igreja Local e Missões
+    autor: Edison Queiroz
+    caminho_md: /dados/study-agent/data/biblioteca/igreja/A_Igreja_Local_e_Missoes-Edison_Queiroz.md
+    tamanho_md: 248 KB
+    linhas_md: 8836
+    status: indexado
+    topicos:
+    - Igreja local
+    - Missões
+    - Eclesiologia prática
+  - titulo: A Igreja e o Criacionismo
+    autor: Adauto J. B. Lourenço
+    caminho_md: /dados/study-agent/data/biblioteca/igreja/A_Igreja_e_o_Criacionismo-Adauto_J._B._Lourenco.md
+    tamanho_md: 88 KB
+    linhas_md: 2176
+    status: indexado
+    topicos:
+    - Criacionismo
+    - Igreja e ciência
+    - Visão cristã
+  - titulo: Aconselhando uns aos outros — Oito Maneiras de Cultivar Relacionamentos
+      Saudáveis dentro da Igreja
+    autor: Edward T. Welch
+    ano: 2019
+    linhas: 820
+    caminho_md: /dados/study-agent/data/biblioteca/igreja-discipulado/01-Aconselhando-uns-aos-outros-Welch.md
+    fonte: Drive / 1. Fides / Igreja > Livros Curso Discipulado (135DwT37n8_nvsnxP90rPw9Jtg9Fx2wG1)
+    status: indexado
+  - titulo: A Comunidade Cativante — Onde o Poder de Deus Torna uma Igreja Atraente
+    autor: Mark Dever e Jamie Dunlop
+    editora: Fiel
+    linhas: 2041
+    caminho_md: /dados/study-agent/data/biblioteca/igreja-discipulado/02-A-Comunidade-Cativante-Mark-Dever.md
+    fonte: Drive / 1. Fides / Igreja > Livros Curso Discipulado (135DwT37n8_nvsnxP90rPw9Jtg9Fx2wG1)
+    status: indexado
+  - titulo: A Treliça e a Videira — A Mentalidade de Discipulado que Muda Tudo
+    autor: Colin Marshall, Tony Payne
+    editora: Fiel
+    linhas: 1940
+    caminho_md: /dados/study-agent/data/biblioteca/igreja-discipulado/03-A-Trelia-e-a-Videira-Marshall-Payne.md
+    fonte: Drive / 1. Fides / Igreja > Livros Curso Discipulado (135DwT37n8_nvsnxP90rPw9Jtg9Fx2wG1)
+    status: indexado
+  - titulo: O Que é a Igreja (Questões Cruciais Livro 16)
+    autor: R.C. Sproul
+    editora: Fiel
+    linhas: 365
+    caminho_md: /dados/study-agent/data/biblioteca/igreja-discipulado/04-O-Que-e-a-Igreja-RC-Sproul.md
+    fonte: Drive / 1. Fides / Igreja > Livros Curso Discipulado (135DwT37n8_nvsnxP90rPw9Jtg9Fx2wG1)
+    status: indexado
+  - titulo: O Que é a Igreja (MOBI)
+    autor: R.C. Sproul
+    editora: Fiel
+    linhas: 1275
+    caminho_md: /dados/study-agent/data/biblioteca/igreja-discipulado/05-O-Que-e-a-Igreja-RC-Sproul-mobi.md
+    fonte: Drive / 1. Fides / Igreja > Livros Curso Discipulado (135DwT37n8_nvsnxP90rPw9Jtg9Fx2wG1)
+    status: indexado
+  - titulo: Living in Christ's Church
+    autor: Edmund P. Clowney
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/igreja/Church-Edmund-Clowney.md
+    caminho_original: /dados/study-agent/data/biblioteca/igreja/Living in Christs
+      Church (Edmund P. Clowney [Clowney, Edmund P.]) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 258 KB
+    linhas_md: 1614
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser (markitdown/conversão direta falhou — epub tem .htm
+      em OEBPS/Text/ sem .xhtml)
+    zlib_id: 16753720
+    zlib_hash: 57cdab
+    topicos:
+    - Eclesiologia
+    - Vida da igreja
+    - Clowney
+    nota: 'Item #018 da wishlist (retried). 1ª tentativa ''The Church'' (17 MB PDF)
+      falhou (xref inválido); 2ª tentativa com ID alternativo ''Living in Christ''s
+      Church'' (258 KB epub) funcionou.'
+  - titulo: IG 2013 Prova 1 Conhecimentos Gerais da Biblia e Simbolos de Fe
+    caminho_md: data/biblioteca/igreja-discipulado/IG-2013-Prova_1-Conhecimentos_Gerais_da_Biblia_e_Simbolos_de_Fe.pdf.md
+    tamanho_md: 21 KB
+    linhas_md: 639
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG 2013 Prova 2 Ingles e Portugues
+    caminho_md: data/biblioteca/igreja-discipulado/IG-2013-Prova_2-Ingles_e_Portugues.pdf.md
+    tamanho_md: 23 KB
+    linhas_md: 556
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG GABARITO PAIPB 2025
+    caminho_md: data/biblioteca/igreja-discipulado/IG-GABARITO_PAIPB_2025.pdf.md
+    tamanho_md: 5 KB
+    linhas_md: 56
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG Manual Presbiteriano 2019
+    caminho_md: data/biblioteca/igreja-discipulado/IG-Manual-Presbiteriano-2019.pdf.md
+    tamanho_md: 972 KB
+    linhas_md: 17693
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG ManualAspirante2023v1
+    caminho_md: data/biblioteca/igreja-discipulado/IG-ManualAspirante2023v1.pdf.md
+    tamanho_md: 20 KB
+    linhas_md: 666
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG Manual Presbiteriano 2019 a5
+    caminho_md: data/biblioteca/igreja-discipulado/IG-Manual_Presbiteriano-2019_a5.pdf.md
+    tamanho_md: 950 KB
+    linhas_md: 1
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG Manual Presbiteriano 2019 com Capa
+    caminho_md: data/biblioteca/igreja-discipulado/IG-Manual_Presbiteriano-2019_com_Capa.pdf.md
+    tamanho_md: 972 KB
+    linhas_md: 17693
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG Manual Presbiteriano 2019 original
+    caminho_md: data/biblioteca/igreja-discipulado/IG-Manual_Presbiteriano-2019_original.pdf.md
+    tamanho_md: 972 KB
+    linhas_md: 17693
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG Manual aspirante 2026 2v
+    caminho_md: data/biblioteca/igreja-discipulado/IG-Manual_aspirante_2026_2v.pdf.md
+    tamanho_md: 21 KB
+    linhas_md: 711
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG PROVA ANTIGA ING PTG
+    caminho_md: data/biblioteca/igreja-discipulado/IG-PROVA_ANTIGA_ING_PTG.pdf.md
+    tamanho_md: 22 KB
+    linhas_md: 617
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG manual aspirante 2024 5v
+    caminho_md: data/biblioteca/igreja-discipulado/IG-manual_aspirante_2024_5v.pdf.md
+    tamanho_md: 20 KB
+    linhas_md: 691
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG manual aspirante 2025 3v
+    caminho_md: data/biblioteca/igreja-discipulado/IG-manual_aspirante_2025_3v.pdf.md
+    tamanho_md: 21 KB
+    linhas_md: 705
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IG prova 4 simbolos de fe da ipb1
+    caminho_md: data/biblioteca/igreja-discipulado/IG-prova-4-simbolos-de-fe-da-ipb1.pdf.md
+    tamanho_md: 17 KB
+    linhas_md: 963
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.

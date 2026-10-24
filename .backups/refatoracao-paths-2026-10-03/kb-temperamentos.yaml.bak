@@ -1,0 +1,39 @@
+tags:
+- temperamentos
+- personalidade
+- devocional
+- vida-crista
+- santificacao
+- autoconhecimento
+- aplicacao
+knowledge_base_temperamentos:
+  version: '1.0'
+  tipo: Temperamentos Cristãos
+  descricao: Base de conhecimento sobre temperamentos e personalidade cristã
+  total_volumes: 2
+  created_at: 2026-09-10T...Z
+  origem: Drive / 1. Fides / Temperamentos (1zeaf5ZOMik3oy-i8IfruOtKs-evgmj88)
+  destino: /dados/study-agent/data/biblioteca/Temperamentos/
+  materiais:
+  - titulo: Temperamentos Transformados
+    autor: '?'
+    idioma: pt
+    caminho_md: /dados/study-agent/data/biblioteca/temperamentos/01-Temperamentos-Transformados.md
+    tamanho_md: 305 KB
+    linhas_md: 1235
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Temperamento Controlado pelo Espírito
+    autor: Tim LaHaye
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: data/biblioteca/temperamentos/Temperamento controlado pelo Espírito
+      (Tim LaHaye) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 277 KB
+    linhas_md: 1999
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  atualizado_em: '2026-09-29T23:30:00-03:00'
+  atualizado_por: bibliotecario (rodada gaps 3 2026-09-29)

@@ -1,0 +1,181 @@
+tags:
+- espiritualidade
+- devocional
+- discipulado
+- formacao-espiritual
+- vida-crista
+- bonhoeffer
+- foster
+- nouwen
+- willard
+- reformatada
+- meditacao
+knowledge_base_espiritualidade_reformada:
+  version: '1.0'
+  tipo: Espiritualidade Reformada — Discipulado, Devoção e Formação Espiritual
+  descricao: 'Base de conhecimento sobre espiritualidade reformada clássica — discipulado,
+    práticas devocionais, formação espiritual. Complementa teologia reformada (kb-teologia-sistematica)
+    com a dimensão vivencial/pessoal da fé.
+
+    '
+  total_volumes: 9
+  created_at: 2026-09-13
+  criado_por: bibliotecario
+  origem: Z-Library (rodada de levantamento 2026-09-13)
+  destino: /dados/study-agent/data/biblioteca/espiritualidade/
+  observacoes:
+  - KB nova criada a pedido do Willian ("Levante outras bases de conhecimentos")
+  - Foco: estudo teológico pessoal (profundidade), formação devocional
+  - Inclui clássicos da espiritualidade reformada (Bonhoeffer, Foster, Nouwen, Willard)
+  - Complementa o que já tem em kb-vida-crista (Packer, Horton, Keller, etc.)
+  materiais:
+  - titulo: O custo do discipulado (A doutrina da imitação de Cristo)
+    autor: Jonas Madureira (ed. de Bonhoeffer)
+    idioma: pt
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/espiritualidade-reformada/Custo-do-Discipulado-Bonhoeffer-Madureira.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/O custo do
+      discipulado a doutrina da imitação de Cristo —, —, Portuguese - Madureira, Jonas
+      — (z-library.sk, 1lib.s.epub
+    tamanho_md: 117 KB
+    linhas_md: 904
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser (markitdown vazio)
+    zlib_id: 26618519
+    zlib_hash: ceeec9
+    topicos:
+    - Discipulado
+    - Imitação de Cristo
+    - Bonhoeffer (referência)
+    - Custo do seguimento
+    - Cristianismo radical
+    - Sofrimento pelo evangelho
+    nota: Versão editada/comentada por Jonas Madureira do clássico de Dietrich Bonhoeffer.
+      O Madureira é teólogo presbiteriano brasileiro, e esta versão inclui comentários
+      introdutórios próprios (não apenas o texto original). O conteúdo de Bonhoeffer
+      está preservado.
+  - titulo: Renovation of the Heart — Experiments in Spiritual Transformation (Daily
+      Practice)
+    autor: Dallas Willard & Jan Johnson
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/espiritualidade-reformada/Renovation-of-the-Heart-Willard-Johnson-Daily-Practice.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Renovation
+      of the Heart in Daily Practice Experiments in Spiritual Transformation (Jan
+      Johnson Dallas Willard) (z-l.epub
+    tamanho_md: 262 KB
+    linhas_md: 3026
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 24349921
+    zlib_hash: bade61
+    topicos:
+    - Formação espiritual
+    - Vontade, mente, coração
+    - Discipulado prático
+    - Willard (Vision for Life / CCS)
+    - Diário devocional
+    nota: Esta versão "Daily Practice" é um companheiro prático do livro principal
+      (Renovation of the Heart). Willard estrutura a formação espiritual em 6 dimensões
+      da pessoa (vontade, mente, emoções, espírito, relacionamentos, corpo).
+  - titulo: Direção espiritual e meditação
+    autor: Merton, Thomas
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/espiritualidade-reformada/Direção espiritual e meditação
+      (Thomas Merton).md
+    tamanho_md: 5 KB
+    linhas_md: 339
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - espiritualidade
+  - titulo: When I Don't Desire God
+    autor: Piper, John
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/espiritualidade-reformada/When I Dont Desire God How
+      to Fight for Joy (John Piper [Piper John]).md
+    tamanho_md: 527 KB
+    linhas_md: 5026
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - espiritualidade
+  - titulo: Meditação Cristã — uma oração integradora
+    autor: Cunha, Domingos
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/espiritualidade-reformada/Meditação Cristã - uma oração
+      integradora — Paulus Portuguese - Domingos Cunha Csh 2015 (z-library.sk 1lib.sk
+      z.md
+    tamanho_md: 183 KB
+    linhas_md: 3638
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - espiritualidade
+  - titulo: Celebration of Discipline
+    autor: Foster, Richard J.
+    idioma: English
+    formato_original: pdf
+    caminho_md: /biblioteca/espiritualidade-reformada/Celebration of Discipline
+      Special Anniversary Edition (Richard J. Foster [Foster Richard J.]) (z-library.sk
+      1lib.md
+    tamanho_md: 556 KB
+    linhas_md: 4410
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+    topicos:
+    - espiritualidade
+  - titulo: The Knowledge of the Holy
+    autor: Tozer, A. W.
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/espiritualidade-reformada/The Knowledge of the Holy
+      (A.W. Tozer) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 0 KB
+    linhas_md: 16
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Os Atributos de Deus I
+    autor: Tozer, A. W.
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/espiritualidade-reformada/Os atributos de Deus I (A.
+      W.Tozer) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 296 KB
+    linhas_md: 2721
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 'Os atributos de Deus 1: uma viagem ao coração do Pai'
+    autor: Tozer, A. W.
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/espiritualidade-reformada/Os atributos de Deus 1 uma
+      viagem ao coração do Pai —, Editora Vida, Portuguese - A. W. Tozer 2024 (z-library.sk,
+      1.md
+    tamanho_md: 12 KB
+    linhas_md: 665
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  atualizado_em: '2026-09-25T22:00:00-03:00'
+  atualizado_por: bibliotecario (rodada 2026-09-25)

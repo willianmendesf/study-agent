@@ -1,0 +1,28 @@
+tags: [historia, judaica, povo-judeu, contexto, israel]
+
+knowledge_base_historia:
+  version: '1.0'
+  tipo: História Geral
+  descricao: História geral/mundial (não-bíblica, não-eclesiástica) — Israel, povos
+    antigos
+  total_volumes: 3
+  created_at: '2026-09-10T00:10:00Z'
+  origem: Drive / 1. Fides / Historia (1xHXhJ_SBPbfHOhCMsywNTDgVDgzM3yvT)
+  destino: /dados/study-agent/data/biblioteca/historia/
+  materiais:
+  - titulo: Historia Hebreus
+    caminho_md: /dados/study-agent/data/biblioteca/historia/Historia-Hebreus.md
+    linhas_md: 104843
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Historia Israel Mapas
+    caminho_md: /dados/study-agent/data/biblioteca/historia/Historia-Israel-Mapas.md
+    nota: "Arquivo .md praticamente vazio (527 bytes) — reconverter/OCR do original no Orbit (auditoria 2026-09-25)."
+    linhas_md: 41
+    status: ocr_pendente
+    fonte: Z-Library (via Drive)
+  - titulo: Historia Israel Nova co
+    caminho_md: /dados/study-agent/data/biblioteca/historia/Historia-Israel-Nova-co.md
+    linhas_md: 25699
+    status: indexado
+    fonte: Z-Library (via Drive)

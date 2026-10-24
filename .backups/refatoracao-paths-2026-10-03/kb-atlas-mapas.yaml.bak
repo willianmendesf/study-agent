@@ -1,0 +1,128 @@
+tags:
+- biblia
+- geografia
+- contexto
+- atlas
+knowledge_base_atlas_mapas:
+  version: '1.0'
+  tipo: Atlas e Mapas Bíblicos
+  descricao: Atlas bíblicos, mapas e geografia bíblica
+  total_volumes: 16
+  created_at: '2026-09-10T01:15:00Z'
+  origem: Drive / 1. Fides / Atlas & Mapas Bíblicos (1izQGu7mmsD6gROgtdHmgpGtlPPx14NU4)
+  destino: /dados/study-agent/data/biblioteca/atlas-mapas/
+  materiais:
+  - titulo: Oxford Bible Atlas
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/01-Oxford-Bible-Atlas.md
+    linhas_md: 17571
+    tamanho_md: 483 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Holman QuickSource Bible Atlas
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/02-Holman-QuickSource-Bible-Atlas.md
+    linhas_md: 23765
+    tamanho_md: 1198 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Atlas Bíblico
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/03-Atlas-biblico.md
+    linhas_md: 0
+    tamanho_md: 0 KB
+    status: todo_ocr
+    fonte: Z-Library (via Drive)
+  - titulo: Atlas of The Bible
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/04-Atlas-Of-The-Bible-Illustrated-Guide-Holy-Land.md
+    linhas_md: 31990
+    tamanho_md: 949 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Geografia Bíblica
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/05-Geografia-Biblica.md
+    linhas_md: 9365
+    tamanho_md: 235 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Terra Santa — Geografia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/06-Terra-Santa-Geografia.md
+    linhas_md: 7447
+    tamanho_md: 363 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: A Extensão do Mundo Bíblico
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/07-A-extensao-do-mundo-biblico.md
+    linhas_md: 255
+    tamanho_md: 5 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Mapas, Gráficos e Cronologia Bíblica
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/08-Mapas-Graficos-cronologia-biblica.md
+    linhas_md: 0
+    tamanho_md: 0 KB
+    status: todo_ocr
+    fonte: Z-Library (via Drive)
+  - titulo: Atlas Bíblico CPAD
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/09-Atlas-Biblico-CPAD-Anson-Safarai.md
+    linhas_md: 32253
+    tamanho_md: 693 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Atlas Didático da Bíblia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/10-Atlas-Didatico-da-Biblia.md
+    linhas_md: 1471
+    tamanho_md: 17 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Atlas Vida Nova da Bíblia e História do Cristianismo (Hudson)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/11-Atlas-Vida-Nova-Biblia-Historia-Cristianismo-Hudson.md
+    linhas_md: 1
+    tamanho_md: 231 KB
+    status: todo_ocr
+    fonte: Z-Library (via Drive)
+  - titulo: Geografia da Terra Santa e das Terras Bíblicas
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/12-GEOGRAFIA-TERRA-SANTA-TERRAS-BIBLICAS.md
+    linhas_md: 20030
+    tamanho_md: 963 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Atlas Histórico-Geográfico da Bíblia (SBB)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/atlas-mapas/13-atlas-historico-geografico-biblia-sbb.md
+    linhas_md: 0
+    tamanho_md: 0 KB
+    status: todo_ocr
+    fonte: Z-Library (via Drive)
+  - titulo: AM Geografia Biblica
+    caminho_md: data/biblioteca/atlas-mapas/AM-Geografia-Biblica.pdf.md
+    tamanho_md: 235 KB
+    linhas_md: 9365
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: AM-Atlas-biblico.pdf
+    caminho_md: data/biblioteca/atlas-mapas/AM-Atlas-biblico.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: AM-Mapas-Graficos-e-cronologia-biblica.pdf
+    caminho_md: data/biblioteca/atlas-mapas/AM-Mapas-Graficos-e-cronologia-biblica.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  atualizado_por: bibliotecario (auditoria 2026-09-29)

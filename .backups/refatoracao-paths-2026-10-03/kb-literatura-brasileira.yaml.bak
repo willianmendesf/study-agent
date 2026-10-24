@@ -1,0 +1,331 @@
+titulo: KB — Literatura Brasileira
+descricao: Acervo de literatura brasileira — obras obrigatórias, modernismo, realismo,
+  cânone. Apoia o especialista literato.
+tags:
+- literatura
+- kb-literatura-brasileira
+- kb-meta
+- meta-biblioteca
+- literatura-brasileira
+- canon-literario
+- machado-de-assis
+- machado
+- clarice
+- clarice-lispector
+- hora-da-estrela
+- memorias-postumas
+- bras-cubas
+- dom-casmurro
+- realismo-brasileiro
+mantido_por: bibliotecario
+criado_em: 2026-09-11
+ultima_atualizacao: 2026-09-11
+atualizado_por: bibliotecario (verificação periódica detectou livros novos na pasta)
+knowledge_base_literatura_brasileira:
+  version: '1.1'
+  tipo: Literatura Brasileira — Acervo de referência
+  descricao: 'Acervo de obras canônicas da literatura brasileira para apoiar o especialista
+    literato e o estudo da prova de Literatura Brasileira do Processo de Admissão
+    aos Seminários da IPB (peso 20 pts). Atualização 2026-09-11: 4 livros indexados
+    (eram 1).
+
+    '
+  especialista_principal: literato
+  obras_obrigatorias_edital_2026:
+  - Memórias Póstumas de Brás Cubas — Machado de Assis (1881)
+  - A Hora da Estrela — Clarice Lispector (1977)
+  obras: null
+  materiais_apoio_desejados:
+  - Nada pendente — Alfredo Bosi cobre a maior parte das necessidades
+  - English Grammar in Use (Murphy) — prioridade baixa (whishlist 007)
+  materiais:
+  - titulo: A-Hora-da-Estrela-Clarice-Lispector
+    caminho_md: data/biblioteca/literatura-brasileira/A-Hora-da-Estrela-Clarice-Lispector.md
+    tamanho_md: 129 KB
+    linhas_md: 1211
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Euclides-Cunha-Os-Sertoes
+    caminho_md: data/biblioteca/literatura-brasileira/Euclides-Cunha-Os-Sertoes.md
+    tamanho_md: 1030 KB
+    linhas_md: 7101
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Graciliano-Ramos-Vidas-Secas
+    caminho_md: data/biblioteca/literatura-brasileira/Graciliano-Ramos-Vidas-Secas.md
+    tamanho_md: 0 KB
+    linhas_md: 60
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Guimaraes-Rosa-Grande-Sertao-Veredas
+    caminho_md: data/biblioteca/literatura-brasileira/Guimaraes-Rosa-Grande-Sertao-Veredas.md
+    tamanho_md: 1131 KB
+    linhas_md: 5734
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Historia-Concisa-Literatura-Brasileira-Alfredo-Bosi
+    caminho_md: data/biblioteca/literatura-brasileira/Historia-Concisa-Literatura-Brasileira-Alfredo-Bosi.md
+    tamanho_md: 1321 KB
+    linhas_md: 10609
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Historia-Literatura-Brasileira-vol1-Massaud-Moises
+    caminho_md: data/biblioteca/literatura-brasileira/Historia-Literatura-Brasileira-vol1-Massaud-Moises.md
+    tamanho_md: 1618 KB
+    linhas_md: 12207
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Jose-de-Alencar-Iracema
+    caminho_md: data/biblioteca/literatura-brasileira/Jose-de-Alencar-Iracema.md
+    tamanho_md: 189 KB
+    linhas_md: 4877
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Lima-Barreto-Triste-Fim-de-Policarpo-Quaresma
+    caminho_md: data/biblioteca/literatura-brasileira/Lima-Barreto-Triste-Fim-de-Policarpo-Quaresma.md
+    tamanho_md: 625 KB
+    linhas_md: 5865
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Machado-Assis-Dom-Casmurro
+    caminho_md: data/biblioteca/literatura-brasileira/Machado-Assis-Dom-Casmurro.md
+    tamanho_md: 14 KB
+    linhas_md: 291
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Memorias-Postumas-Bras-Cubas-Machado
+    caminho_md: data/biblioteca/literatura-brasileira/Memorias-Postumas-Bras-Cubas-Machado.md
+    tamanho_md: 396 KB
+    linhas_md: 8385
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - id: 1
+    titulo: Memórias Póstumas de Brás Cubas
+    autor: Machado de Assis
+    ano: 1881
+    genero: Romance — Realismo/Machadiano
+    formato_original: epub
+    caminho_origem: /home/willianmendesf/Downloads/memorias-postumas-bras-cubas.epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Memorias-Postumas-Bras-Cubas-Machado.md
+    tamanho_md: 396 KB
+    linhas_md: 8370
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    fonte_url: https://www.gutenberg.org/ebooks/54829
+    topicos:
+    - Narrador pós-túmulo (defunto-autor)
+    - Ironia romanesca
+    - Crítica social velada
+    - Prosa do séc. XIX
+    - Influência de Laurence Sterne
+  - id: 2
+    titulo: A Hora da Estrela
+    autor: Clarice Lispector
+    ano: 1977
+    genero: Romance — Modernismo 2ª geração
+    formato_original: epub
+    caminho_origem: /dados/study-agent/data/biblioteca/literatura-brasileira/A-Hora-da-Estrela-Clarice-Lispector.epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/A-Hora-da-Estrela-Clarice-Lispector.md
+    tamanho_md: 129 KB
+    linhas_md: 1196
+    status: indexado
+    download_em: 2026-09-11 (já estava na pasta)
+    convertido_em: 2026-09-11 (frontmatter adicionado)
+    observacao: Adquirido em 2013 (Rocco Digital). ISBN B06Y3JBBGJ implícito no identifier
+    topicos:
+    - Macabéa — protagonista nordestina
+    - Rodrigo S.M. — narrador meta-literário
+    - Identidade e questão social
+    - Fluxo de consciência
+    - Prosa enxuta do séc. XX
+  - id: 3
+    titulo: História Concisa da Literatura Brasileira
+    autor: Alfredo Bosi
+    ano: 1970 (1ª edição)
+    genero: História literária / crítica
+    formato_original: epub
+    caminho_origem: /dados/study-agent/data/biblioteca/literatura-brasileira/Historia-Concisa-Literatura-Brasileira-Alfredo-Bosi.epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Historia-Concisa-Literatura-Brasileira-Alfredo-Bosi.md
+    tamanho_md: 1.3 MB
+    linhas_md: 10594
+    status: indexado
+    observacao: Já estava na pasta, não foi convertido agora — frontmatter adicionado
+    topicos:
+    - Pré-modernismo
+    - Modernismo 1ª e 2ª geração
+    - Contexto histórico-literário
+    - Autores canônicos brasileiros
+  - id: 4
+    titulo: 'História da Literatura Brasileira — Vol. I: das origens ao romantismo'
+    autor: Massaud Moisés
+    ano: 2001 (copyright)
+    genero: História literária
+    formato_original: epub
+    caminho_origem: /dados/study-agent/data/biblioteca/literatura-brasileira/História
+      da Literatura brasileira, volume I das origens ao romantismo (Massaud Moisés)
+      (z-library.sk, 1lib.sk, z-li.epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Historia-Literatura-Brasileira-vol1-Massaud-Moises.md
+    tamanho_md: 1618 KB
+    linhas_md: 12207
+    status: indexado
+    observacao: Reprocessado — versão anterior tinha whitespace; agora texto completo.
+      Cobre Origens, Barroco, Arcadismo, Romantismo
+    topicos:
+    - Origens da literatura brasileira
+    - Barroco
+    - Arcadismo
+    - Romantismo
+  - titulo: Dom Casmurro
+    autor: Machado de Assis
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Machado-Assis-Dom-Casmurro.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Dom Casmurro -
+      Machado de Assis (ARVITEC) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 290 KB
+    linhas_md: 291
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 23113733
+    zlib_hash: d0fcaa
+    topicos:
+    - Romance realista
+    - Machado de Assis
+    - Ciúmes e ambiguidade (Bento/Capitu)
+    - Clássico da literatura brasileira
+  - titulo: Iracema
+    autor: José de Alencar
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Jose-de-Alencar-Iracema.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Iracema (José de
+      Alencar) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 1.6 MB
+    linhas_md: 4877
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 4954927
+    zlib_hash: c583b3
+    topicos:
+    - Romance indianista
+    - Alencar (séc. XIX)
+    - Lenda do Ceará
+    - Romance nacional
+  - titulo: Os Sertões
+    autor: Euclides da Cunha
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Euclides-Cunha-Os-Sertoes.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Os Sertões (Euclides
+      da Cunha) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 1.1 MB
+    linhas_md: 7101
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 127149109
+    zlib_hash: c555a2
+    topicos:
+    - Romance-reportagem
+    - Guerra de Canudos (1896-97)
+    - Euclides da Cunha
+    - Clássico do pré-modernismo brasileiro
+  - titulo: Triste Fim de Policarpo Quaresma
+    autor: Lima Barreto
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Lima-Barreto-Triste-Fim-de-Policarpo-Quaresma.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Triste Fim de Policarpo
+      Quaresma (Lima Barreto [Lima Barreto]) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 400 KB
+    linhas_md: 5865
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 6004757
+    zlib_hash: faae0d
+    topicos:
+    - Romance pré-modernista
+    - Lima Barreto
+    - Crítica à República Velha
+    - Nacionalismo/Ufanismo
+  - titulo: Vidas Secas
+    autor: Graciliano Ramos
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Graciliano-Ramos-Vidas-Secas.md
+    nota: Arquivo .md praticamente vazio (154 bytes) — reconverter/OCR do original
+      no Orbit (auditoria 2026-09-25).
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Vidas Secas (Graciliano
+      Ramos [Ramos, Graciliano]) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 370 KB
+    linhas_md: 60
+    status: ocr_pendente
+    adicionado_em: 2026-09-13
+    zlib_id: 5593634
+    zlib_hash: d67960
+    topicos:
+    - Regionalismo de 30
+    - Graciliano Ramos
+    - Nordeste brasileiro
+    - Fabiano/Sinha Vitória
+  - titulo: 'Grande Sertão: Veredas (Edição Comemorativa)'
+    autor: João Guimarães Rosa
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-brasileira/Guimaraes-Rosa-Grande-Sertao-Veredas.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Grande Sertão Veredas
+      Edição Comemorativa (Coleção Guimarães Rosa) —, Nova Fronteira, Portuguese -
+      João Guimarães R.epub
+    tamanho_md: 1.1 MB
+    linhas_md: 5734
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 23846966
+    zlib_hash: 1a022c
+    topicos:
+    - Romance regionalista
+    - Guimarães Rosa
+    - Sertão mineiro
+    - Riobaldo/Diadorim
+  - titulo: Formação da Literatura Brasileira
+    autor: Antonio Candido
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: biblioteca/literatura-brasileira/Formação da Literatura Brasileira
+      - Momentos decisivos 1 e 2, Itatiaia, Portuguese - Antonio Candido 2000 (z-library.md
+    tamanho_md: 0 KB
+    linhas_md: 1
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'
+  - titulo: História Concisa da Literatura Brasileira
+    autor: Alfredo Bosi
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: biblioteca/literatura-brasileira/História concisa da Literatura Brasileira
+      (Alfredo Bosi) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 1339 KB
+    linhas_md: 11612
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'
+  total_volumes: 22
+  atualizado_em: '2026-09-30T00:30:00-03:00'
+  atualizado_por: bibliotecario (rodada gaps 4 2026-09-30)

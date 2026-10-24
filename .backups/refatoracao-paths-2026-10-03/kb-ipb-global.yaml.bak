@@ -1,0 +1,413 @@
+tags:
+- ipb
+- presbiterianismo
+- igreja
+- confessional
+knowledge_base_ipb_global:
+  version: '1.0'
+  tipo: Igreja Presbiteriana do Brasil (IPB)
+  descricao: Base de conhecimento global com documentos, regulamentos e recursos da
+    IPB
+  total_arquivos: 85
+  created_at: '2026-09-07T15:00:00Z'
+  origem: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos
+  confissao_fe_catecismos:
+    nome: Confissão de Fé de Westminster e Catecismos
+    descricao: Documentos confessionais da tradição reformada
+    recursos:
+      confissao_fe: null
+      confissao_fe_alt: null
+      confissao_texto: null
+      breve_catecismo: null
+      catecismo_maior: null
+      comparativo: null
+  constituicao_estatutos:
+    nome: Constituição e Estatutos da IPB
+    descricao: Documentos que regulam a estrutura e funcionamento da Igreja
+    recursos:
+      constituicao: null
+      estatuto_ipb: null
+      modelo_estatuto_igreja: null
+      modelo_estatuto_presbitério: null
+      modelo_estatuto_sínodo: null
+  regimentos_regulamentos:
+    nome: Regimentos Internos e Regulamentos
+    descricao: Normas específicas para órgãos e procedimentos
+    recursos:
+      regimento_geral: null
+      regimento_comissão: null
+      regimento_secretaria: null
+      regimento_tesouraria: null
+      modelo_regimento_presbitério: null
+      modelo_regimento_sínodo: null
+      modelo_regimento_diaconato: null
+      regulamento_atas: null
+  disciplina_codigo:
+    nome: Código de Disciplina
+    descricao: Normas disciplinares e de conduta
+    recursos:
+      codigo_disciplina: null
+  liturgia_principios:
+    nome: Princípios de Liturgia
+    descricao: Guia de práticas litúrgicas e adoração
+    recursos:
+      principios_liturgia: null
+  manuais:
+    nome: Manuais Oficiais
+    descricao: Manuais de referência e procedimentos
+    recursos:
+      manual_presbiteriano_2024: null
+      manual_presbiteriano_2025: null
+      manual_candidato: null
+      manual_candidato_guia_estudo_atnt_historia: null
+  conformidade:
+    nome: Conformidade e Legislação
+    descricao: Documentos sobre conformidade legal e regulatória
+    recursos:
+      lgpd: null
+  recursos_adicionais:
+    nome: Recursos Adicionais
+    descricao: Flashcards, conteúdo programático e outros recursos
+    total_flashcards: 2
+    recursos:
+      flashcard_breve_catecismo: null
+      flashcard_breve_catecismo_pt2: null
+      conteudo_jmc: null
+  resumo:
+    total_arquivos: 85
+    categorias: 7
+    status: indexado
+    data_indexacao: '2026-09-07T15:00:00Z'
+    observacoes: Base completa de documentos oficiais e recursos da IPB
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/
+  destino_local: /dados/study-agent/data/biblioteca/ipb-documentos/
+  modelos_estatuto_regimento:
+    Modelo-de-Estatuto-para-a-Igreja:
+      titulo: Modelo de Estatuto para a Igreja
+      caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Modelo-de-Estatuto-para-a-Igreja.md
+      fonte: local (IPB Documentos)
+      status: indexado
+    Modelo-de-Estatuto-para-o-Presbiterio:
+      titulo: Modelo de Estatuto para o Presbiterio
+      caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Modelo-de-Estatuto-para-o-Presbiterio.md
+      fonte: local (IPB Documentos)
+      status: indexado
+    Modelo-de-Estatuto-para-o-Sinodo:
+      titulo: Modelo de Estatuto para o Sinodo
+      caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Modelo-de-Estatuto-para-o-Sinodo.md
+      fonte: local (IPB Documentos)
+      status: indexado
+    Modelo-de-Regimento-Interno-para-a-Junta-Diaconal:
+      titulo: Modelo de Regimento Interno para a Junta Diaconal
+      caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Modelo-de-Regimento-Interno-para-a-Junta-Diaconal.md
+      fonte: local (IPB Documentos)
+      status: indexado
+    Modelo-de-Regimento-Interno-para-o-Presbiterio:
+      titulo: Modelo de Regimento Interno para o Presbiterio
+      caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Modelo-de-Regimento-Interno-para-o-Presbiterio.md
+      fonte: local (IPB Documentos)
+      status: indexado
+    Modelo-de-Regimento-Interno-para-o-Sinodo:
+      titulo: Modelo de Regimento Interno para o Sinodo
+      caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Modelo-de-Regimento-Interno-para-o-Sinodo.md
+      fonte: local (IPB Documentos)
+      status: indexado
+  observacoes:
+  - confissao_de_westminster.pdf (local) é DUPLICATA EXATA de Confissão de Fé de Westminster.pdf
+    (mesmo md5 a3f5931018d85985cefd052fcbea47bb) — já indexado.
+  materiais:
+  - titulo: Confissão de Fé de Westminster
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Confissão de
+      Fé de Westminster.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Confissão de
+      Fé de Westminster.md
+    tamanho_md: 69 KB
+    linhas_md: 902
+  - titulo: Confissão de Fé de Westminster (alternativa)
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/confissao_de_westminster.pdf
+  - titulo: Confissão de Fé Westminster (texto)
+    tipo: txt
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/ConfissaoDeFeWestminster.txt
+  - titulo: Breve Catecismo de Westminster
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Breve_Catecismo_de_Westminster.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Breve_Catecismo_de_Westminster.md
+    tamanho_md: 33 KB
+    linhas_md: 888
+  - titulo: Breve Catecismo (texto)
+    tipo: txt
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/BreveCatecismo.txt
+  - titulo: Catecismo Maior de Westminster
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Catecismo_Maior_de_Westminster.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Catecismo_Maior_de_Westminster.md
+    tamanho_md: 107 KB
+    linhas_md: 1732
+  - titulo: Catecismo Maior (texto)
+    tipo: txt
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/CatecismoMaior.txt
+  - titulo: Os 3 Documentos da Confissão de Fé de Westminster Comparados
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Os 3 Documentos
+      da CFW Comparados.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Os_3_Documentos_da_CFW_Comparados.md
+    tamanho_md: 4 KB
+    linhas_md: 72
+    status_md: parcial_ocr_pendente
+  - titulo: Constituição da IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Constituição
+      da IPB.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Constituicao_da_IPB.md
+    tamanho_md: 66 KB
+    linhas_md: 1081
+  - titulo: Estatuto da IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Estatuto da
+      IPB.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Estatuto_da_IPB.md
+    tamanho_md: 36 KB
+    linhas_md: 611
+  - titulo: Modelo de Estatuto para a Igreja
+    tipo: docx
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Modelo de Estatuto
+      para a Igreja.docx
+  - titulo: Modelo de Estatuto para o Presbitério
+    tipo: docx
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Modelo de Estatuto
+      para o Presbitério.docx
+  - titulo: Modelo de Estatuto para o Sínodo
+    tipo: docx
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Modelo de Estatuto
+      para o Sínodo.docx
+  - titulo: Regimento Interno do SC_IPB (Geral)
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Regimento Interno
+      do SC_IPB.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Regimento_Interno_do_SC_IPB.md
+    tamanho_md: 114 KB
+    linhas_md: 1692
+  - titulo: Regimento Interno da Comissão Executiva SC_IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Regimento Interno
+      da Comissão Executiva SC_IPB.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Regimento_Interno_da_Comissao_Executiva_SC_IPB.md
+    tamanho_md: 40 KB
+    linhas_md: 592
+  - titulo: Regimento Interno da Secretaria Executiva SC_IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Regimento Interno
+      da Secretaria Executiva SC_IPB.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Regimento_Interno_da_Secretaria_Executiva_SC_IPB.md
+    tamanho_md: 16 KB
+    linhas_md: 455
+  - titulo: Regimento Interno da Tesouraria SC_IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Regimento Interno
+      da Tesouraria SC_IPB.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Regimento_Interno_da_Tesouraria_SC_IPB.md
+    tamanho_md: 17 KB
+    linhas_md: 321
+  - titulo: Modelo de Regimento Interno para o Presbitério
+    tipo: docx
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Modelo de Regimento
+      Interno para o Presbitério.docx
+  - titulo: Modelo de Regimento Interno para o Sínodo
+    tipo: docx
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Modelo de Regimento
+      Interno para o Sínodo.docx
+  - titulo: Modelo de Regimento Interno para a Junta Diaconal
+    tipo: docx
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Modelo de Regimento
+      Interno para a Junta Diaconal.docx
+  - titulo: Regulamento para Confecção das Atas
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Regulamento
+      para Confecção das Atas.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Regulamento_para_Confeccao_das_Atas.md
+    tamanho_md: 24 KB
+    linhas_md: 365
+  - titulo: Código de Disciplina da IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Código de Disciplina.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Codigo_de_Disciplina.md
+    tamanho_md: 43 KB
+    linhas_md: 735
+  - titulo: Princípios de Liturgia da IPB
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Princípios de
+      Liturgia.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Principios_de_Liturgia.md
+    tamanho_md: 14 KB
+    linhas_md: 310
+  - titulo: Manual Presbiteriano 2024
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/manual_presbiteriano_2024.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/manual_presbiteriano_2024.md
+    tamanho_md: 1414 KB
+    linhas_md: 30520
+  - titulo: Manual Presbiteriano 2025
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/manual_presbiteriano_2025.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/manual_presbiteriano_2025.md
+    tamanho_md: 1349 KB
+    linhas_md: 27301
+  - titulo: Manual do Candidato
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Manual do Candidato.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/Manual_do_Candidato.md
+    tamanho_md: 151 KB
+    linhas_md: 4711
+  - titulo: Manual do Candidato — Guia de Estudo AT/NT/História (compêndio condensado)
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/Manual do Candidatos
+      - TXT Para Estudos/ManualdoCandidatoATNTHISTORIA-GuiaDeEstudo.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-manual-candidato/manual.md
+    tamanho_pdf: 59 KB
+    tamanho_md: 8,6 KB
+    linhas_md: 283
+    relacao_com_oficial: compêndio de estudo derivado do Manual do Candidato oficial
+      (foco em panorama AT/NT/História); PDF original permanece na mídia externa (.md
+      é a fonte de trabalho)
+    adicionado_em: '2026-09-10T21:13:00Z'
+  - titulo: LGPD nas Igrejas e Concílios
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/LGPD nas Igrejas
+      e Concílios.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/LGPD_nas_Igrejas_e_Concilios.md
+    tamanho_md: 19 KB
+    linhas_md: 753
+  - titulo: FlashCard - Breve Catecismo
+    tipo: txt
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/FlashCards/BreveCatecismo.txt
+  - titulo: FlashCard - Breve Catecismo (Parte 2)
+    tipo: txt
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/FlashCards/BreveCatecismo-pt2.txt
+  - titulo: Conteúdo Programático - JMC
+    tipo: pdf
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/IPB - Documentos/ConteudoProgramatico-JMC.pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/ConteudoProgramatico-JMC.md
+    tamanho_md: 357 KB
+    linhas_md: 14035
+  - titulo: 'FIDES REFORMATA — O Supremo Oficial e seus suboficiais: a natureza do
+      tríplice ofício'
+    autor: Willian (? — verificar)
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/ipb-documentos/FIDES-REFORMATA-Supremo-Oficial.pdf.md
+    tamanho_md: 60 KB
+    linhas_md: 970
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+    - IPB
+    - Tríplice ofício
+    - Ministro
+    - Documento confessional
+    nota: Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_. Artigo da
+      IPB sobre teologia do ofício pastoral.
+  - titulo: 1067800 615203eba3c01
+    caminho_md: data/biblioteca/ipb-documentos/27_1067800_615203eba3c01.md
+    tamanho_md: 132 KB
+    linhas_md: 3835
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: BreveCatecismo
+    caminho_md: data/biblioteca/ipb-documentos/BreveCatecismo.md
+    tamanho_md: 36 KB
+    linhas_md: 524
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: CatecismoMaior
+    caminho_md: data/biblioteca/ipb-documentos/CatecismoMaior.md
+    tamanho_md: 109 KB
+    linhas_md: 1856
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: ConfissaoDeFeWestminster
+    caminho_md: data/biblioteca/ipb-documentos/ConfissaoDeFeWestminster.md
+    tamanho_md: 69 KB
+    linhas_md: 998
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Confissao de Fe de Westminster
+    caminho_md: data/biblioteca/ipb-documentos/Confissao_de_Fe_de_Westminster.md
+    tamanho_md: 77 KB
+    linhas_md: 1285
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IP 2 Fides 27 1 2022 As Tres Dimensoes do Ministerio da Palavra Valdeci
+      Santos
+    caminho_md: data/biblioteca/ipb-documentos/IP-2-Fides_27-1-2022-As_Tres_Dimensoes_do_Ministerio_da_Palavra-Valdeci_Santos.pdf.md
+    tamanho_md: 27 KB
+    linhas_md: 523
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IP 2 N JBabler Uma critica do DSM IV 2023
+    caminho_md: data/biblioteca/ipb-documentos/IP-2_N_JBabler_Uma_critica_do_DSM-IV-2023.pdf.md
+    tamanho_md: 27 KB
+    linhas_md: 767
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: IP 4 C DPowlison Afimacoes e negacoes
+    caminho_md: data/biblioteca/ipb-documentos/IP-4_C_DPowlison_Afimacoes_e_negacoes.pdf.md
+    tamanho_md: 38 KB
+    linhas_md: 1108
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Modelo-de-Estatuto-para-a-Igreja
+    caminho_md: data/biblioteca/ipb-documentos/Modelo-de-Estatuto-para-a-Igreja.md
+    tamanho_md: 32 KB
+    linhas_md: 575
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Modelo-de-Estatuto-para-o-Presbiterio
+    caminho_md: data/biblioteca/ipb-documentos/Modelo-de-Estatuto-para-o-Presbiterio.md
+    tamanho_md: 43 KB
+    linhas_md: 693
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Modelo-de-Estatuto-para-o-Sinodo
+    caminho_md: data/biblioteca/ipb-documentos/Modelo-de-Estatuto-para-o-Sinodo.md
+    tamanho_md: 15 KB
+    linhas_md: 274
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Modelo-de-Regimento-Interno-para-a-Junta-Diaconal
+    caminho_md: data/biblioteca/ipb-documentos/Modelo-de-Regimento-Interno-para-a-Junta-Diaconal.md
+    tamanho_md: 23 KB
+    linhas_md: 411
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Modelo-de-Regimento-Interno-para-o-Presbiterio
+    caminho_md: data/biblioteca/ipb-documentos/Modelo-de-Regimento-Interno-para-o-Presbiterio.md
+    tamanho_md: 93 KB
+    linhas_md: 1601
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Modelo-de-Regimento-Interno-para-o-Sinodo
+    caminho_md: data/biblioteca/ipb-documentos/Modelo-de-Regimento-Interno-para-o-Sinodo.md
+    tamanho_md: 86 KB
+    linhas_md: 1549
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  total_volumes: 46
+  atualizado_por: bibliotecario (auditoria 2026-09-29)

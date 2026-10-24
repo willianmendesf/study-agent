@@ -1,0 +1,75 @@
+tags: [biblia, referencia, contexto, manual, perguntas-dificeis]
+
+knowledge_base_manuais_biblicos:
+  version: '1.0'
+  tipo: Manuais Bíblicos
+  descricao: Manuais de referência bíblica — introduções, mapas, costumes, perguntas
+    difíceis
+  total_volumes: 9
+  created_at: '2026-09-10T00:40:00Z'
+  origem: Drive / 1. Fides / Manuais Bíblicos (1I-m6W7jxC8huMyJW57quemOweDoOW_qx)
+  destino: /dados/study-agent/data/biblioteca/manuais-biblicos/
+  materiais:
+  - titulo: Manual Bíblico Vida
+    autor: '? (Editora Vida)'
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/01-Manual-biblico-Vida.md
+    linhas_md: 102655
+    tamanho_md: 3442 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico Unger
+    autor: Merril F. Unger
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/02-Manual-Biblico-Unger-Merril-Frederick.md
+    linhas_md: 70316
+    tamanho_md: 2360 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico de Mapas e Gráficos
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/03-Manual-Biblico-de-mapas-e-graficos.md
+    linhas_md: 17844
+    tamanho_md: 1451 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico Ilustrado Vida
+    autor: J. Daniel Hays
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/04-Manual-Biblico-Ilustrado-Vida-Hays.md
+    linhas_md: 50090
+    tamanho_md: 2331 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico Dake
+    autor: Finis Dake
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/05-Manual-Biblico-Dake.md
+    linhas_md: 12949
+    tamanho_md: 402 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico de Perguntas Difíceis e Polêmicas da Bíblia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/06-Manual-biblico-perguntas-dificeis-polemicas.md
+    linhas_md: 19296
+    tamanho_md: 1004 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: NVO — Manual Usos e Costumes dos Tempos Bíblicos
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/07-NVO-Manual-Usos-Costumes-Tempos-Biblicos.md
+    linhas_md: 17027
+    tamanho_md: 579 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico Henry Halley
+    autor: Henry H. Halley
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/08-Manual-Biblico-Henry-Halley.md
+    linhas_md: 46188
+    tamanho_md: 2223 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Manual Bíblico MacArthur
+    autor: John MacArthur
+    caminho_md: /dados/study-agent/data/biblioteca/manuais-biblicos/09-Manual-biblico-MacArthur.md
+    linhas_md: 36069
+    tamanho_md: 1374 KB
+    status: indexado
+    fonte: Z-Library (via Drive)

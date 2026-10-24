@@ -1,0 +1,29 @@
+{
+  "key": "sk_v1_31b43a95a02158d15ac06afae628812770daee1e30cd14c4a24bcb609af857c8",
+  "summary": "**Resumo do segmento:**\n\nO usuário iniciou a configuração do ambiente do agente, indicando os locais canônicos: `/etc/study-agent/ENVMAP.md` (canônico, 644), `/etc/study-agent/env.sh` (source of truth, 644), `~/study-agent/data/config-backup/ENVMAP.md` (symlink de entry point), e comando de regeneração via `build-env.py`.\n\nO assistente seguiu a regra 0 do AGENTS.md (recall do deja-vu) e verificou o estado real do host **picoclaw**:\n\n- Sessão roda como **root** (uid 0); não existe `.bashrc`/`.profile` para `study-agent` (não é user de login; workspace montado direto).\n- `/etc/study-agent/` **não existe** — os 2 symlinks em `data/config-backup/` (`env.sh` e `ENVMAP.md`) estão **quebrados**.\n- `build-env.py` existe (12.7 KB, chmod 700, owner uid 1000 — não root, não pode sobrescrever sem `-f`).\n- Sem `sudo`; tem `gpg` e `python3`.\n\n**Pendência:** o assistente formulou **2 perguntas de confirmação** ao usuário antes de prosseguir, pois o `build-env.py` move credenciais reais e tem caminho com `chmod 600` em `.secret/` — prefere confirmar a fonte antes de executar. Está aguardando resposta, sem tocar em nada.",
+  "skip": 0,
+  "count": 16,
+  "created_at": "2026-10-05T01:17:56.321286886Z",
+  "updated_at": "2026-10-05T02:54:23.165209903Z",
+  "scope": {
+    "version": 1,
+    "agent_id": "main",
+    "channel": "pico",
+    "account": "default",
+    "dimensions": [
+      "chat"
+    ],
+    "values": {
+      "chat": "direct:pico:21d2e5af-6b49-479a-850d-f745cac0c289"
+    }
+  },
+  "aliases": [
+    "agent:main:main",
+    "agent:main:direct:pico-user",
+    "agent:main:pico:direct:pico-user",
+    "agent:main:pico:default:direct:pico-user",
+    "agent:main:direct:pico:21d2e5af-6b49-479a-850d-f745cac0c289",
+    "agent:main:pico:direct:pico:21d2e5af-6b49-479a-850d-f745cac0c289",
+    "agent:main:pico:default:direct:pico:21d2e5af-6b49-479a-850d-f745cac0c289"
+  ]
+}

@@ -1,0 +1,90 @@
+titulo: KB — Santidade e Teologia Prática Reformada
+descricao: Acervo sobre santificação e piedade reformada — inclui Ryle 'Santidade'
+  e materiais correlatos.
+tags:
+- santidade
+- teologia-pratica
+- piedade
+- simbolos-fe
+- kb-meta
+- meta-biblioteca
+mantido_por: bibliotecario
+criado_em: 2026-09-11
+ultima_atualizacao: 2026-09-11
+knowledge_base_santidade:
+  version: '1.0'
+  tipo: Santificação e Teologia Prática Reformada
+  descricao: 'Acervo sobre santificação, piedade e vida cristã reformada. Material
+    principal: ''Santidade'' de J.C. Ryle (leitura obrigatória do edital IPB Candidatura
+    2026).
+
+    '
+  especialista_principal: homologia
+  obras_obrigatorias_edital_2026:
+  - 'Santidade: Sem a qual ninguém verá o Senhor — J.C. Ryle (1879/2016)'
+  obras:
+  - id: 1
+    titulo: 'Santidade: Sem a qual ninguém verá o Senhor'
+    autor: J.C. Ryle
+    ano_original: 1879
+    ano_traducao_pt: 2016
+    genero: Teologia prática / piedade reformada
+    formato_original: epub
+    caminho_origem: /dados/study-agent/data/biblioteca/santidade/Santidade-JC-Ryle.epub
+    caminho_md: /dados/study-agent/data/biblioteca/santidade/Santidade-JC-Ryle.md
+    tamanho_md: 1.1 MB
+    linhas_md: 4475
+    status: indexado
+    download_em: 2026-09-11 (já estava na pasta — Willian trouxe)
+    convertido_em: 2026-09-11 (frontmatter adicionado)
+    edicao_pt: Editora Fiel (2016)
+    isbn_pt: B08VF8SCST (Kindle)
+    topicos:
+    - Natureza da santidade
+    - Obstáculos à santidade (mundanismo, negligência)
+    - Combate e luta cristã
+    - Crescimento na graça
+    - Vida vitoriosa
+    - Costume de santidade
+    - Mortificação do pecado
+    - Perseverança
+  obras_complementares_recomendadas:
+  - O Peregrino — John Bunyan (símile da jornada cristã)
+  - O Cristianismo Desencantado — John MacArthur (crítica ao evangelicalismo moderno)
+  - Teologia Sistemática — Louis Berkhof (cap. sobre santificação)
+  contexto_no_plano: M5.17-M5.20 (4 sessões) cobrem a leitura estruturada de Ryle
+  materiais:
+  - titulo: Santidade-JC-Ryle
+    caminho_md: data/biblioteca/santidade/Santidade-JC-Ryle.md
+    tamanho_md: 1056 KB
+    linhas_md: 4492
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: No Esplendor da Santidade
+    autor: Jon Payne (ed.)
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: data/biblioteca/santidade/No Esplendor da Santidade Redescobrindo
+      a Beleza da Adoração Reformada para o Século XXI (Jon Payne) (z-library.sk,.md
+    tamanho_md: 162 KB
+    linhas_md: 1649
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  - titulo: 'Santidade: Sem a qual ninguém verá ao Senhor'
+    autor: J. C. Ryle
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: data/biblioteca/santidade/Santidade Sem a qual ninguém verá ao
+      Senhor (J. C. Ryle) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 36 KB
+    linhas_md: 1250
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  total_volumes: 3
+  atualizado_em: '2026-09-29T23:30:00-03:00'
+  atualizado_por: bibliotecario (rodada gaps 3 2026-09-29)

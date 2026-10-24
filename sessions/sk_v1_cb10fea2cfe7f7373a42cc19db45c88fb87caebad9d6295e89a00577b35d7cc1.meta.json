@@ -1,0 +1,30 @@
+{
+  "key": "sk_v1_cb10fea2cfe7f7373a42cc19db45c88fb87caebad9d6295e89a00577b35d7cc1",
+  "summary": "### Resumo do segmento\n\n- O **devocional 07**, baseado em **Salmo 46:1-11** e intitulado **“O refúgio que não se move”**, foi concluído e validado. O arquivo já estava escrito, íntegro e commitado, sem sobrescrita por outro agente.\n- A citação foi conferida com **954 caracteres**, a estrutura foi comparada ao devocional 03 e o frontmatter ao devocional 06. O `study-lint` não apresentou novos erros; a validação de TTS contabilizou **1.163 palavras**.\n- Novo achado: como o Sl 46 é a primeira passagem com **“(Selá)”** e o limpador de TTS não o remove, os marcadores foram omitidos para evitar que fossem lidos em voz alta. A fidelidade textual permanece validada pela comparação normalizada.\n- A data foi mantida em **`2026-10-23`**, pois `2026-10-22` já pertencia ao devocional 06. O problema do guard de data/idempotência foi registrado como bug no documento de memória.\n- Commits: **`1e693fc`**, **`e15c126`** e **`45bbc61`**. Memos, áudio, `_catalogo.md` e `_passagens-usadas.md` continuam reservados para a entrega.\n- Permanecem duas pendências: corrigir o guard de data/idempotência do script e limpar o processo órfão `picoclaw agent` (PID 33290, PPID 1). O único agente ativo era o próprio processo do pipeline, sem risco imediato de sobrescrita.",
+  "skip": 0,
+  "count": 127,
+  "created_at": "2026-10-05T00:41:10.777249862Z",
+  "updated_at": "2026-10-23T23:22:50.799914806Z",
+  "scope": {
+    "version": 1,
+    "agent_id": "main",
+    "channel": "cli",
+    "account": "default",
+    "dimensions": [
+      "chat"
+    ],
+    "values": {
+      "chat": "direct:direct"
+    }
+  },
+  "aliases": [
+    "agent:main:main",
+    "agent:main:direct:cron",
+    "agent:main:cli:direct:cron",
+    "agent:main:cli:default:direct:cron",
+    "agent:main:direct:direct",
+    "agent:main:cli:direct:direct",
+    "agent:main:cli:default:direct:direct",
+    "cli:default"
+  ]
+}

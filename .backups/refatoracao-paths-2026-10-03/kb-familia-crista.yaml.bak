@@ -1,0 +1,249 @@
+tags:
+- familia
+- teologia-pratica
+- aconselhamento
+knowledge_base_familia_crista:
+  version: '1.0'
+  tipo: Família Cristã — Casamento, Sexualidade, Feminilidade
+  descricao: Base de conhecimento sobre Família Cristã — casamento, sexualidade conjugal,
+    feminilidade, parentalidade, discipulado familiar
+  total_volumes: 26
+  created_at: '2026-09-09T23:50:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/familia-crista/
+    backup_pdf: true
+  materiais:
+  - titulo: Casamento, Sexo, Divórcio à Luz da Bíblia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Casamento_Sexo_Divorcio_a_luz_da_Biblia.md
+    tamanho_md: 144 KB
+    linhas_md: 3713
+    status: indexado
+    topicos:
+    - Casamento
+    - Sexualidade conjugal
+    - Divórcio
+  - titulo: O Ato Conjugal
+    autor: Tim e Beverly LaHaye
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/O_Ato_Conjugal-Tim_e_Beverly_LaHaye.md
+    tamanho_md: 620 KB
+    linhas_md: 12498
+    status: indexado
+    topicos:
+    - Sexualidade conjugal
+    - Casamento cristão
+    - Resposta bíblica à libido
+  - titulo: La Mujer Total
+    autor: Marabel Morgan
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/pdfcoffee.com_la-mujer-total-marabel-morgan-2-pdf-free.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: ocr_pendente
+    topicos:
+    - Feminilidade cristã
+    - Mulher total para Deus
+  - titulo: Pense — A Vida da Mente e o Amor de Deus
+    autor: John Piper
+    editora: Fiel
+    ano: 2016
+    linhas_md: 2776
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Pense-Vida-Mente-John_Piper.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: O Caráter do Cristão
+    autor: Tim Challies
+    editora: Trinitas
+    ano: 2019
+    linhas_md: 660
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Carater-Cristao-Tim_Challies.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: Envelhecendo com Graça
+    autor: Tim Challies
+    editora: Trinitas
+    ano: 2022
+    linhas_md: 423
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Envelhecendo-Graca-Tim_Challies.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: O Mandamento Esquecido
+    autor: Tim Challies
+    editora: Trinitas
+    ano: 2019
+    linhas_md: 482
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Mandamento-Esquecido-Tim_Challies.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: O Significado do Casamento
+    autor: Timothy Keller
+    editora: Vida Nova
+    ano: 2017
+    linhas_md: 11052
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Significado-Casamento-Timothy_Keller.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: O que é uma Família
+    autor: Edith Schaeffer
+    editora: Monergismo
+    ano: 2019
+    linhas_md: 1463
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/O-que-e-uma-familia-Edith_Schaeffer.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: Dê o Exemplo
+    autor: Tim Challies
+    editora: Trinitas
+    ano: 2019
+    linhas_md: 390
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/De-o-Exemplo-Tim_Challies.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: The Christian Family
+    autor: Herman Bavinck
+    editora: '?'
+    linhas_md: 903
+    idioma: en
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/The-Christian-Family-Herman_Bavinck.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: Discipulado Familiar
+    autor: Tim Challies
+    editora: Trinitas
+    linhas_md: 2579
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Discipulado-Familiar-Tim_Challies.md
+    fonte: Drive / 1. Fides / Familia Cristã (13JJsbBj7eVakBu-CtGd_XbOcWmjb-oKt)
+    status: indexado
+  - titulo: Virtuosa — Um estudo para mulheres de todas as idades
+    autor: Nancy Wilson
+    editora: Trinitas
+    ano: 2019
+    linhas_md: 3172
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Virtuosa-Nancy_Wilson.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Mulheres em Apuros — Soluções Bíblicas
+    autor: Martha Peace
+    editora: Fiel
+    ano: 2017
+    linhas_md: 6236
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Mulheres-em-Apuros-Martha_Peace.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Contentamento — Um Estudo Para Mulheres de Todas as Idades
+    autor: Nancy Wilson
+    editora: Trinitas
+    ano: 2018
+    linhas_md: 789
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Contentamento-Nancy_Wilson.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: A Dama, seu amado, e seu Senhor
+    autor: T.D. Jakes
+    editora: '?'
+    linhas_md: 3016
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Dama-amado-senhor-TD_Jakes.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Mulher Virtuosa (Paul Washer)
+    autor: William Teixeira (comp.)
+    editora: '?'
+    linhas_md: 273
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Mulher-Virtuosa-Paul_Washer.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Deixe-me ser mulher — Lições à minha filha sobre o significado de feminilidade
+    autor: Elisabeth Elliot
+    editora: '?'
+    ano: 2021
+    linhas_md: 1464
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Deixe-me-ser-mulher-Elisabeth_Elliot.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Feminilidade Radical — Fé Feminina em um mundo Feminista
+    autor: Carolyn McCulley
+    editora: Fiel
+    ano: 2017
+    linhas_md: 3905
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Feminilidade-Radical-Carolyn_McCulley.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Deixe-me ser mulher (MOBI)
+    autor: Elisabeth Elliot
+    editora: '?'
+    ano: 2021
+    linhas_md: 4356
+    observacao: Versão MOBI convertida via mobi lib + html2text
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Deixe-me-ser-mulher-Elisabeth_Elliot-mobi.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Feminilidade Radical (MOBI)
+    autor: Carolyn McCulley
+    editora: Fiel
+    ano: 2017
+    linhas_md: 8297
+    observacao: Versão MOBI convertida via mobi lib + html2text
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Feminilidade-Radical-Carolyn_McCulley-mobi.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Uma vida de obediência — 7 disciplinas para a vida do cristão
+    autor: Elisabeth Elliot
+    editora: Fiel
+    ano: 2022
+    linhas_md: 3017
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Uma-Vida-Obediencia-Elisabeth_Elliot.md
+    fonte: Drive / 1. Fides / Feminilidade Cristã (1Pwzzaty8OCyt8qt0PkhX0t5k0wdsVbWZ)
+    status: indexado
+  - titulo: Shepherding a Child's Heart
+    autor: Tedd Tripp
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/familia-crista/Shepherding-Childs-Heart-Tedd-Tripp.md
+    caminho_original: /dados/study-agent/data/biblioteca/familia-crista/Shepherding
+      a Childs Heart (Tedd Tripp [Tripp, Tedd]) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 364 KB
+    linhas_md: 3603
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    zlib_id: 16760902
+    zlib_hash: a493ec
+    processado_via: markitdown
+    topicos:
+    - Parentalidade
+    - Disciplina bíblica
+    - Paternidade
+    - Tripp
+    - Cuidado da alma infantil
+  - titulo: Coisas do Casamento (Winston T. Smith)
+    caminho_md: data/biblioteca/familia-crista/Coisas do Casamento (Winston T.
+      Smith).md
+    tamanho_md: 8 KB
+    linhas_md: 591
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: 'Desafio aos pais: 14 princípios do evangelho que podem mudar radicalmente
+      a sua família'
+    autor: Paul Tripp
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/familia-crista/Desafio aos pais (Paul Tripp) (z-library.sk,
+      1lib.sk, z-lib.sk).md
+    tamanho_md: 446 KB
+    linhas_md: 3120
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: resumo-desafio-aos-pais-paul-tripp
+    caminho_md: data/biblioteca/familia-crista/resumos/resumo-desafio-aos-pais-paul-tripp.md
+    tamanho_md: 13 KB
+    linhas_md: 221
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  atualizado_por: bibliotecario (auditoria 2026-09-29)

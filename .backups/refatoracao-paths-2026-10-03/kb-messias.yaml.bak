@@ -1,0 +1,62 @@
+tags:
+- messias
+- cristologia
+- teologia-biblica
+knowledge_base_messias:
+  version: '1.0'
+  tipo: Messias — Cristologia no Antigo Testamento
+  descricao: Base de conhecimento sobre a revelação messiânica no AT, festas bíblicas,
+    profecias do Messias
+  total_volumes: 4
+  created_at: '2026-09-10T00:05:00Z'
+  origem: Drive / 1. Fides / Messias (1OlxjgOPcxfpUUTamAxiLPzJuHS-eGNAp)
+  fluxo_processamento:
+    download: Drive API REST (OAuth 2.0)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/messias/
+    backup_pdf: false
+  materiais:
+  - titulo: Pessoa do Messias nas Festas Bíblicas
+    autor: Marcelo Miranda Guimarães
+    caminho_md: /dados/study-agent/data/biblioteca/messias/Pessoa-do-Messias-Nas-Festas-Biblicas.md
+    linhas_md: 4776
+    drive_id: 1vaoOHt0wh33q-zKmiBFYt8OuMXoljcEu
+    status: indexado
+    topicos:
+    - Festas bíblicas
+    - Tipologia messiânica
+    - Cristologia AT
+    - Cristologia festiva
+  - titulo: Revelação Messiânica no Antigo Testamento
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/messias/Revelacao-Messianica-no-Antigo-Testamento.md
+    linhas_md: 63195
+    drive_id: 1Fj_PRb9Z9i4s0HKZHdO9D7Eu43Rbl3g4
+    status: indexado
+    topicos:
+    - Revelação messiânica
+    - Profecias AT
+    - Cristologia AT
+    - Tipologia
+    - Promessas messiânicas
+  - titulo: MS Revelacao Messianica no Antigo Testamento
+    caminho_md: data/biblioteca/messias/MS-Revelacao-Messianica-no-Antigo-Testamento.pdf.md
+    tamanho_md: 3129 KB
+    linhas_md: 63195
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: O Mundo Perdido dos Profetas
+    autor: John Walton
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: biblioteca/messias/O Mundo Perdido dos Profetas Profecia do Antigo
+      Testamento e Literatura Apocalíptica no Contexto Antigo (John Walto.md
+    tamanho_md: 385 KB
+    linhas_md: 2259
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'
+  atualizado_em: '2026-09-30T00:30:00-03:00'
+  atualizado_por: bibliotecario (rodada gaps 4 2026-09-30)

@@ -1,0 +1,546 @@
+tags:
+- exegese
+- hermeneutica
+- interpretacao
+- metodo
+knowledge_base_exegese_hermeneutica:
+  version: '1.0'
+  tipo: Exegese & Hermenêutica
+  descricao: Base de conhecimento sobre métodos de interpretação e análise bíblica
+    — hermenêutica, exegese, figuras de linguagem
+  total_volumes: 52
+  created_at: '2026-09-07T14:55:00Z'
+  atualizado_em: '2026-09-30T00:30:00-03:00'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  origem_local_ebdi: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  origem_drive: Drive / 1. Fides / Hermeneutica e Exegese (1NZRhoCxbGqnj-1PHx5F7yg7FALhVR9bE)
+  total_volumes_com_variantes: 15
+  materiais_adicionados_rodada_3: null
+  atualizado_por: bibliotecario (rodada gaps 4 2026-09-30)
+  materiais:
+  - titulo: 'Convite à interpretação bíblica: a tríade hermenêutica'
+    autor: Köstenberger, Andreas J. & Patterson, Richard D.
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: /biblioteca/exegese-hermeneutica/Convite à interpretação bíblica a
+      tríade hermenêutica (Andreas J. Köstenberger etc.) (z-library.sk, 1lib.sk, z-lib.s.md
+    tamanho_md: 1768 KB
+    linhas_md: 47189
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Knowing God
+    autor: Packer, J. I.
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/exegese-hermeneutica/Knowing God —, Hachette UK, English
+      - J. I. Packer [Packer, J. I.] 2011 (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 655 KB
+    linhas_md: 8183
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Principles of Biblical Interpretation
+    autor: Berkhof, Louis
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/exegese-hermeneutica/Principles of Biblical Interpretation
+      —, —, English - Louis Berkhof — (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 290 KB
+    linhas_md: 2311
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Convite à interpretação bíblica a tríade hermenêutica —, Vida Nova, Portuguese
+      - Andreas J. Köstenberger etc. 2015
+    autor: Andreas J. Köstenberger
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: /biblioteca/exegese-hermeneutica/Convite à interpretação bíblica a
+      tríade hermenêutica —, Vida Nova, Portuguese - Andreas J. Köstenberger etc. 2015
+      (.md
+    tamanho_md: 1768 KB
+    linhas_md: 47189
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 01-A-Interpretacao-Biblica
+    caminho_md: data/biblioteca/exegese-hermeneutica/01-A-Interpretacao-Biblica.md
+    tamanho_md: 771 KB
+    linhas_md: 16681
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 01-Leitura-cronologica-Biblia-epub
+    caminho_md: data/biblioteca/exegese-hermeneutica/01-Leitura-cronologica-Biblia-epub.md
+    tamanho_md: 960 KB
+    linhas_md: 21409
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 02-Principios-Interpretacao
+    caminho_md: data/biblioteca/exegese-hermeneutica/02-Principios-Interpretacao.md
+    tamanho_md: 339 KB
+    linhas_md: 7523
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03-Entendes-o-Que-LES-pdf
+    caminho_md: data/biblioteca/exegese-hermeneutica/03-Entendes-o-Que-LES-pdf.md
+    tamanho_md: 742 KB
+    linhas_md: 15525
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03-Manual-Exegese
+    caminho_md: data/biblioteca/exegese-hermeneutica/03-Manual-Exegese.md
+    tamanho_md: 830 KB
+    linhas_md: 20072
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03.1-Entendes-o-que-les-2022-ed4-Fee-Stuart
+    caminho_md: data/biblioteca/exegese-hermeneutica/03.1-Entendes-o-que-les-2022-ed4-Fee-Stuart.md
+    tamanho_md: 719 KB
+    linhas_md: 5144
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03.2-Entendes-o-que-les-2022-Fee-Stuart-RESUMO-POR-CAPITULO
+    caminho_md: data/biblioteca/exegese-hermeneutica/03.2-Entendes-o-que-les-2022-Fee-Stuart-RESUMO-POR-CAPITULO.md
+    tamanho_md: 24 KB
+    linhas_md: 504
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 04-Figuras-Linguagem
+    caminho_md: data/biblioteca/exegese-hermeneutica/04-Figuras-Linguagem.md
+    tamanho_md: 14 KB
+    linhas_md: 571
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 04-Principios-Interpretacao-Biblica-epub
+    caminho_md: data/biblioteca/exegese-hermeneutica/04-Principios-Interpretacao-Biblica-epub.md
+    tamanho_md: 338 KB
+    linhas_md: 3739
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 05-A-espiral-Hermeneutica-Grant-Osborn-OpenWi
+    caminho_md: data/biblioteca/exegese-hermeneutica/05-A-espiral-Hermeneutica-Grant-Osborn-OpenWi.md
+    tamanho_md: 2289 KB
+    linhas_md: 61192
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 05-A-espiral-Hermeneutica-Grant-Osborn-pdf
+    caminho_md: data/biblioteca/exegese-hermeneutica/05-A-espiral-Hermeneutica-Grant-Osborn-pdf.md
+    tamanho_md: 2289 KB
+    linhas_md: 61192
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 06-Hermeneutica-Terry-pdf
+    caminho_md: data/biblioteca/exegese-hermeneutica/06-Hermeneutica-Terry-pdf.md
+    tamanho_md: 642 KB
+    linhas_md: 7825
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 07-Introducao-a-hermeneutica-epub
+    caminho_md: data/biblioteca/exegese-hermeneutica/07-Introducao-a-hermeneutica-epub.md
+    tamanho_md: 713 KB
+    linhas_md: 3539
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 08-Convite-a-interpretacao-biblica-pdf
+    caminho_md: data/biblioteca/exegese-hermeneutica/08-Convite-a-interpretacao-biblica-pdf.md
+    tamanho_md: 1740 KB
+    linhas_md: 47186
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: A Biblical-Theological Introduction to the Old Testament - The Gospel
+      Promised (Miles V. Van Pelt)
+    caminho_md: data/biblioteca/exegese-hermeneutica/A Biblical-Theological Introduction
+      to the Old Testament - The Gospel Promised (Miles V. Van Pelt).md
+    tamanho_md: 2084 KB
+    linhas_md: 18351
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Exegese Para quê — CPAD Portuguese - Gordon D. Fee 2019
+    caminho_md: data/biblioteca/exegese-hermeneutica/Exegese Para quê — CPAD Portuguese
+      - Gordon D. Fee 2019.md
+    tamanho_md: 1150 KB
+    linhas_md: 6536
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Exegetical-Fallacies-Donald-Carson
+    caminho_md: data/biblioteca/exegese-hermeneutica/Exegetical-Fallacies-Donald-Carson.md
+    tamanho_md: 372 KB
+    linhas_md: 3349
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: FUNDAMENTOS PARA EXEGESE DO NOVO TESTAMENTO - Carlos Osvaldo Cardoso Pinto
+      (z-library.sk 1lib.sk
+    caminho_md: data/biblioteca/exegese-hermeneutica/FUNDAMENTOS PARA EXEGESE DO NOVO
+      TESTAMENTO - Carlos Osvaldo Cardoso Pinto (z-library.sk 1lib.sk.md
+    tamanho_md: 125 KB
+    linhas_md: 3388
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Fee-Stuart-Como-Ler-Biblioteca-Livro-por-Livro-PT
+    caminho_md: data/biblioteca/exegese-hermeneutica/Fee-Stuart-Como-Ler-Biblioteca-Livro-por-Livro-PT.md
+    tamanho_md: 1000 KB
+    linhas_md: 7062
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Introdução ao Antigo Testamento (Raymond B. Dillard  Tremper Longman III)
+    caminho_md: data/biblioteca/exegese-hermeneutica/Introdução ao Antigo Testamento
+      (Raymond B. Dillard  Tremper Longman III).md
+    tamanho_md: 1304 KB
+    linhas_md: 27193
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Introdução ao Antigo Testamento O mundo e a Palavra (Eugene H. Merrill)
+    caminho_md: data/biblioteca/exegese-hermeneutica/Introdução ao Antigo Testamento
+      O mundo e a Palavra (Eugene H. Merrill).md
+    tamanho_md: 2961 KB
+    linhas_md: 30632
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Introdução ao Novo Testamento -, Editora Vida Nova, Portuguese - D.A.
+      Carson, Douglas Moo, Leon Morris 1997 (z-libra
+    caminho_md: data/biblioteca/exegese-hermeneutica/Introdução ao Novo Testamento
+      -, Editora Vida Nova, Portuguese - D.A. Carson, Douglas Moo, Leon Morris 1997
+      (z-libra.md
+    tamanho_md: 0 KB
+    linhas_md: 1
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Introdução à exegese bíblica (Michael J. Gorman)
+    caminho_md: data/biblioteca/exegese-hermeneutica/Introdução à exegese bíblica
+      (Michael J. Gorman).md
+    tamanho_md: 718 KB
+    linhas_md: 7189
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Kostenberger-Patterson-Convite-Interpretacao-Biblica
+    caminho_md: data/biblioteca/exegese-hermeneutica/Kostenberger-Patterson-Convite-Interpretacao-Biblica.md
+    tamanho_md: 1740 KB
+    linhas_md: 47186
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: La-Hermeneutica-ES
+    caminho_md: data/biblioteca/exegese-hermeneutica/La-Hermeneutica-ES.md
+    tamanho_md: 642 KB
+    linhas_md: 7825
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: O uso do Antigo Testamento no Novo Testamento e suas implicações hermenêuticas
+      (G. K. Beale) (z-library.sk 1lib.sk
+    caminho_md: data/biblioteca/exegese-hermeneutica/O uso do Antigo Testamento no
+      Novo Testamento e suas implicações hermenêuticas (G. K. Beale) (z-library.sk
+      1lib.sk.md
+    tamanho_md: 18 KB
+    linhas_md: 1315
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Principios de Interpretacion Biblica (Louis Berkhof) (z-library.sk, 1lib.sk,
+      z-lib.sk)
+    caminho_md: data/biblioteca/exegese-hermeneutica/Principios de Interpretacion
+      Biblica (Louis Berkhof) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 339 KB
+    linhas_md: 5516
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Two-Horizons-Anthony-Thiselton
+    caminho_md: data/biblioteca/exegese-hermeneutica/Two-Horizons-Anthony-Thiselton.md
+    tamanho_md: 1373 KB
+    linhas_md: 22317
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Williams-How-to-Read-Bible-Through-the-Jesus-Lens
+    caminho_md: data/biblioteca/exegese-hermeneutica/Williams-How-to-Read-Bible-Through-the-Jesus-Lens.md
+    tamanho_md: 465 KB
+    linhas_md: 5135
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: ebook-figuras-de-linguagens-da-biblia_cropped
+    caminho_md: data/biblioteca/exegese-hermeneutica/ebook-figuras-de-linguagens-da-biblia_cropped.md
+    tamanho_md: 14 KB
+    linhas_md: 571
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: A Interpretação Bíblica
+    tamanho: 6.0M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/A Interpretação Bíblica.pdf
+    topicos:
+    - Métodos de Interpretação
+    - Hermenêutica
+    - Análise Textual
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/01-A-Interpretacao-Biblica.md
+    tamanho_md: 771 KB
+    linhas_md: 16681
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Princípios de Interpretação Bíblica
+    tamanho: 2.8M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/Princípios de Interpretação
+      Bíblica.pdf
+    topicos:
+    - Princípios Hermenêuticos
+    - Metodologia de Estudo
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/02-Principios-Interpretacao.md
+    tamanho_md: 345 KB
+    linhas_md: 7523
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Manual de Exegese Bíblica
+    tamanho: 8.0M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/Manual Exegese Bíblica.pdf
+    topicos:
+    - Exegese Prática
+    - Análise de Textos
+    - Técnicas de Estudo
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/03-Manual-Exegese.md
+    tamanho_md: 837 KB
+    linhas_md: 20072
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Figuras de Linguagem da Bíblia
+    tamanho: 2.5M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/ebook-figuras-de-linguagens-da-biblia.pdf
+    topicos:
+    - Figuras de Linguagem
+    - Recursos Literários
+    - Análise Linguística
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/04-Figuras-Linguagem.md
+    tamanho_md: 14 KB
+    linhas_md: 571
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Figuras de Linguagem da Bíblia (versão cropped)
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/ebook-figuras-de-linguagens-da-biblia_cropped.md
+    tamanho_md: 16 KB
+    linhas_md: 571
+    conversao: markitdown
+    status: duplicata
+    observacao: Versão cropped do mesmo ebook já indexado. Provavelmente idêntica.
+  - titulo: Leitura Cronológica da Bíblia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/01-Leitura-cronologica-Biblia-epub.md
+    tamanho_md: 960 KB
+    linhas_md: 21409
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: Entendes o Que Lês? — Guia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/03-Entendes-o-Que-LES-pdf.md
+    tamanho_md: 743 KB
+    linhas_md: 15525
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: Princípios de Interpretação Bíblica
+    autor: Vilson Scholz
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/04-Principios-Interpretacao-Biblica-epub.md
+    tamanho_md: 338 KB
+    linhas_md: 3739
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: A Espiral Hermenêutica — Uma Nova Abordagem
+    autor: Grant R. Osborne
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/05-A-espiral-Hermeneutica-Grant-Osborn-pdf.md
+    tamanho_md: 2292 KB
+    linhas_md: 61192
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: Hermenêutica (Terry)
+    autor: Terry
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/06-Hermeneutica-Terry-pdf.md
+    tamanho_md: 642 KB
+    linhas_md: 7825
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: Introdução à Hermenêutica Bíblica
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/07-Introducao-a-hermeneutica-epub.md
+    tamanho_md: 713 KB
+    linhas_md: 3539
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: Convite à Interpretação Bíblica
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/08-Convite-a-interpretacao-biblica-pdf.md
+    tamanho_md: 1768 KB
+    linhas_md: 47186
+    fonte: Z-Library (via Drive / 1. Fides / Hermeneutica e Exegese)
+    conversao: markitdown
+    status: indexado
+  - titulo: La Hermenéutica
+    autor: '?'
+    idioma: es
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/La-Hermeneutica-ES.md
+    linhas_md: 7825
+    tamanho_md: 642 KB
+    status: indexado
+    fonte: local /home/willianmendesf/Downloads/OpenWi/
+    topicos:
+    - Hermenêutica
+    - Interpretação bíblica
+    - ES
+  - titulo: Convite à Interpretação Bíblica — Hermenêutica Tridimensional
+    autor: Andreas J. Köstenberger, Richard D. Patterson
+    editora: Vida Nova (provável)
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/Kostenberger-Patterson-Convite-Interpretacao-Biblica.md
+    linhas_md: 47186
+    tamanho_md: 1768 KB
+    status: indexado
+    fonte: local /home/willianmendesf/Downloads/OpenWi/
+    topicos:
+    - Hermenêutica
+    - Tríade (história, literatura, teologia)
+    - Köstenberger
+  - titulo: A Espiral Hermenêutica (versão alternativa — OpenWi)
+    autor: Grant R. Osborne
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/05-A-espiral-Hermeneutica-Grant-Osborn-OpenWi.md
+    linhas_md: 61192
+    tamanho_md: 2292 KB
+    status: variante_duplicata
+    fonte: local /home/willianmendesf/Downloads/OpenWi/ (mesmo conteúdo de 05-A-espiral-Hermeneutica-Grant-Osborn-pdf.md
+      do Drive)
+    observacao: PDF alternativo do mesmo livro. Mantido como backup. Hash diferente
+      do original.
+    topicos:
+    - Hermenêutica
+    - Espiral
+    - Osborne
+    - titulo: Exegetical Fallacies
+      autor: D. A. Carson
+      idioma: en
+      formato_original: pdf
+      caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/Exegetical-Fallacies-Donald-Carson.md
+      caminho_original: /dados/study-agent/data/biblioteca/exegese-hermeneutica/Exegetical
+        Fallacies (Donald A. Carson) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+      tamanho_md: 1.8 MB
+      linhas_md: 3348
+      status: indexado
+      download_em: 2026-09-13
+      convertido_em: 2026-09-13
+      processado_via: pdftotext
+      zlib_id: 5281671
+      zlib_hash: 8e9df6
+      topicos:
+      - Falácias exegéticas
+      - Carson
+      - Métodos de interpretação
+      - Curículo Hermeneia (H08) e Darshan
+      nota: 'Item #039 da wishlist (era ''Kaiser'' mas o autor canônico é CARSON).
+        Bibliotecário corrigiu a referência.'
+    - titulo: The Two Horizons — New Testament Hermeneutics and Philosophical Description
+      autor: Anthony C. Thiselton
+      idioma: en
+      formato_original: pdf
+      caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/Two-Horizons-Anthony-Thiselton.md
+      caminho_original: /dados/study-agent/data/biblioteca/exegese-hermeneutica/The
+        Two Horizons New Testament Hermeneutics and Philosophical Description —, Eerdmans,
+        English - Anthony C. Thiselto.pdf
+      tamanho_md: 34.5 MB
+      linhas_md: 22316
+      status: indexado
+      download_em: 2026-09-13
+      convertido_em: 2026-09-13
+      processado_via: pdftotext
+      zlib_id: 18039716
+      zlib_hash: 08d53d
+      topicos:
+      - Hermenêutica do NT
+      - Filosofia
+      - Heidegger, Bultmann, Gadamer, Wittgenstein
+      - Thiselton
+      - Curículo Hermeneia (H09)
+      nota: 'Item #016 da wishlist (retried). 1ª tentativa falhou (xref inválido);
+        2ª tentativa com ID alternativo (PDF 34 MB) funcionou.'
+  - titulo: Como Ler a Bíblia Livro por Livro (Fee & Stuart)
+    autor: Gordon Fee, Douglas Stuart
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/Fee-Stuart-Como-Ler-Biblioteca-Livro-por-Livro-PT.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Como ler a bíblia
+      livro por livro (GORDON FEE  DOUGLAS STUART) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 1000 KB
+    linhas_md: 7062
+    status: flag_parcial (markitdown vazio — epub protegido)
+    adicionado_em: 2026-09-13
+    zlib_id: 23791705
+    zlib_hash: 5b8b92
+    nota: Fee & Stuart é livro-base do currículo de Hermenêutica (Herm 1-2) do JMC.
+      Adicionado para familiarização — versão PT-BR (Vida Nova).
+  - titulo: How to Read the Bible Through the Jesus Lens
+    autor: Michael Williams
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/exegese-hermeneutica/Williams-How-to-Read-Bible-Through-the-Jesus-Lens.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/How to Read the
+      Bible Through the Jesus Lens A Guide to Christ-Focused Reading of Scripture
+      (Michael James Williams.epub
+    tamanho_md: 465 KB
+    linhas_md: 5135
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 16750516
+    zlib_hash: 2f2e74
+    topicos:
+    - Leitura cristocêntrica da Bíblia
+    - Williams
+    - Zondervan
+  - titulo: The Epistles of John
+    autor: (Burdick, Donald W.)
+    idioma: English
+    formato_original: pdf
+    caminho_md: biblioteca/exegese-hermeneutica/The Epistles of John (Donald W. Burdick)
+      (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 258 KB
+    linhas_md: 5196
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'

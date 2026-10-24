@@ -1,0 +1,474 @@
+tags:
+- aconselhamento
+- pastoral
+- teologia-pratica
+knowledge_base_aconselhamento:
+  version: '1.0'
+  tipo: Aconselhamento Bíblico
+  descricao: Base de conhecimento sobre Aconselhamento Bíblico — série clássica, coletâneas,
+    tópicos específicos, metodologia
+  total_volumes: 43
+  created_at: '2026-09-09T23:30:00Z'
+  atualizado_em: '2026-09-10T00:55:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/aconselhamento/
+    backup_pdf: true
+  categorias_presentes:
+  - Coletanias
+  - Efetivo
+  - Especial
+  - Serie_Classica
+  - Teologia
+  - Topicos_Especificos_Familiar
+  - Topicos_Especificos_Pastoral
+  - Topicos_Especificos_Pessoal
+  materiais:
+  - titulo: A Graça Divina no Aconselhamento Bíblico
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/A_Graca_Divina_No_Aconselhamento_Biblico.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/A_Graca_Divina_No_Aconselhamento_Biblico.pdf
+    tamanho_md: 206 KB
+    linhas_md: 5629
+    categoria: Especial
+    conversao: markitdown
+    status: indexado
+  - titulo: Aconselhamento Bíblico Vol 6
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico._Vol_6.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico._Vol_6.pdf
+    tamanho_md: 442 KB
+    linhas_md: 13333
+    categoria: Serie_Classica
+    conversao: markitdown
+    status: indexado
+    volume: 6
+  - titulo: Aconselhamento Bíblico Efetivo
+    autor: Jay Adams
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico_Efetivo.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico_Efetivo.pdf
+    tamanho_md: 372 KB
+    linhas_md: 6941
+    categoria: Efetivo
+    conversao: markitdown
+    status: indexado
+  - titulo: Aconselhamento Bíblico Vol 1
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico_Vol_1.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico_Vol_1.pdf
+    tamanho_md: 591 KB
+    linhas_md: 17687
+    categoria: Serie_Classica
+    conversao: markitdown
+    status: indexado
+    volume: 1
+  - titulo: Aconselhamento Bíblico Vol 2
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico_Vol_2.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico_Vol_2.pdf
+    tamanho_md: 596 KB
+    linhas_md: 17690
+    categoria: Serie_Classica
+    conversao: markitdown
+    status: indexado
+    volume: 2
+  - titulo: Aconselhamento Bíblico Vol 3
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico_Vol_3.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico_Vol_3.pdf
+    tamanho_md: 628 KB
+    linhas_md: 18707
+    categoria: Serie_Classica
+    conversao: markitdown
+    status: indexado
+    volume: 3
+  - titulo: Aconselhamento Bíblico Vol 5
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico_Vol_5.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico_Vol_5.pdf
+    tamanho_md: 543 KB
+    linhas_md: 16359
+    categoria: Serie_Classica
+    conversao: markitdown
+    status: indexado
+    volume: 5
+  - titulo: Aconselhamento Bíblico Vol 7
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_Biblico_Vol_7.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_Biblico_Vol_7.pdf
+    tamanho_md: 481 KB
+    linhas_md: 13535
+    categoria: Serie_Classica
+    conversao: markitdown
+    status: indexado
+    volume: 7
+  - titulo: Aconselhamento em Dependência Química (2ª ed.)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Aconselhamento_em_Dependencia_Quimica_2a_ed._1.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Aconselhamento_em_Dependencia_Quimica_2a_ed._1.pdf
+    tamanho_md: 2546 KB
+    linhas_md: 41970
+    categoria: Especial
+    conversao: markitdown
+    status: indexado
+  - titulo: Coletâneas de Aconselhamento Bíblico Vol II
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_II.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_II.pdf
+    tamanho_md: 1 KB
+    linhas_md: 12
+    categoria: Coletanias
+    conversao: markitdown
+    status: parcial_ocr_pendente
+    volume: 2
+  - titulo: Coletâneas Vol III
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_III.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_III.pdf
+    tamanho_md: 653 KB
+    linhas_md: 17456
+    categoria: Coletanias
+    conversao: markitdown
+    status: indexado
+    volume: 3
+  - titulo: Coletâneas Vol IV
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_IV.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_IV.pdf
+    tamanho_md: 493 KB
+    linhas_md: 14353
+    categoria: Coletanias
+    conversao: markitdown
+    status: indexado
+    volume: 4
+  - titulo: Coletâneas Vol V
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_V.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_V.pdf
+    tamanho_md: 537 KB
+    linhas_md: 15364
+    categoria: Coletanias
+    conversao: markitdown
+    status: indexado
+    volume: 5
+  - titulo: Coletâneas Vol VI
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_VI.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_VI.pdf
+    tamanho_md: 435 KB
+    linhas_md: 12511
+    categoria: Coletanias
+    conversao: markitdown
+    status: indexado
+    volume: 6
+  - titulo: Coletâneas Vol VIII
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_VIII.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_VIII.pdf
+    tamanho_md: 443 KB
+    linhas_md: 11992
+    categoria: Coletanias
+    conversao: markitdown
+    status: indexado
+    volume: 8
+  - titulo: Cura Após Aborto
+    autor: David Powlinson
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento-cura_apos_aborto-David_Powlinson.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento-cura_apos_aborto-David_Powlinson.pdf
+    tamanho_md: 32 KB
+    linhas_md: 632
+    categoria: Topicos_Especificos_Pastoral
+    conversao: markitdown
+    status: indexado
+    tema: Aborto
+  - titulo: Eu Quero Morrer
+    autor: David Powlinson
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento-eu_quero_morrer-David_Powlinson.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento-eu_quero_morrer-David_Powlinson.pdf
+    tamanho_md: 33 KB
+    linhas_md: 629
+    categoria: Topicos_Especificos_Pastoral
+    conversao: markitdown
+    status: indexado
+    tema: Suicídio
+  - titulo: O Dilema Gay
+    autor: John Freeman
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento-o_dilema_gay-John_Freeman.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento-o_dilema_gay-John_Freeman.pdf
+    tamanho_md: 49 KB
+    linhas_md: 840
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Sexualidade
+  - titulo: Pais Solteiros
+    autor: Robert D. Jones
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento-pais_solteiros-Robert_D._Jones.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento-pais_solteiros-Robert_D._Jones.pdf
+    tamanho_md: 54 KB
+    linhas_md: 889
+    categoria: Topicos_Especificos_Familiar
+    conversao: markitdown
+    status: indexado
+    tema: Paternidade solo
+  - titulo: Transtorno Bipolar
+    autor: Edward T. Welch
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento-transtorno_bipolar-Edward_t._Welch.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento-transtorno_bipolar-Edward_t._Welch.pdf
+    tamanho_md: 36 KB
+    linhas_md: 678
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Saúde mental
+  - titulo: Transtorno Bipolar (cópia)
+    autor: Edward T. Welch
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento-transtorno_bipolar-Edward_t._Welch_1.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento-transtorno_bipolar-Edward_t._Welch_1.pdf
+    tamanho_md: 36 KB
+    linhas_md: 678
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: duplicata
+    tema: Saúde mental
+  - titulo: Ajuda para Família de Recasados
+    autor: Winston T. Smith
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_ajuda_para_familia_de_recasados_Winston_T_Smith.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_ajuda_para_familia_de_recasados_Winston_T_Smith.pdf
+    tamanho_md: 38 KB
+    linhas_md: 694
+    categoria: Topicos_Especificos_Familiar
+    conversao: markitdown
+    status: indexado
+    tema: Recasamento
+  - titulo: Ajudando Seu Filho Adotivo
+    autor: Paul Tripp
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_ajudando_seu_filho_adotivo_Paull_Tripp.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_ajudando_seu_filho_adotivo_Paull_Tripp.pdf
+    tamanho_md: 28 KB
+    linhas_md: 533
+    categoria: Topicos_Especificos_Familiar
+    conversao: markitdown
+    status: indexado
+    tema: Adoção
+  - titulo: Crianças com Necessidades Especiais
+    autor: Stephen
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_criancas_com_necessidades_especiais_Stephen.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_criancas_com_necessidades_especiais_Stephen.pdf
+    tamanho_md: 33 KB
+    linhas_md: 671
+    categoria: Topicos_Especificos_Familiar
+    conversao: markitdown
+    status: indexado
+    tema: Necessidades Especiais
+  - titulo: Enfrentando a Morte com Esperança
+    autor: David Powlinson
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_enfretando_a_morte_com_esperanca_David_Powlinson.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_enfretando_a_morte_com_esperanca_David_Powlinson.pdf
+    tamanho_md: 33 KB
+    linhas_md: 614
+    categoria: Topicos_Especificos_Pastoral
+    conversao: markitdown
+    status: indexado
+    tema: Luto
+  - titulo: Lutando Contra (v2)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_lutando_contra.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_lutando_contra.pdf
+    tamanho_md: 39 KB
+    linhas_md: 738
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: duplicata
+    tema: Doença
+  - titulo: Lutando Contra o Câncer
+    autor: David Powlison
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_lutando_contra_o_cancer_David_Powlison.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_lutando_contra_o_cancer_David_Powlison.pdf
+    tamanho_md: 39 KB
+    linhas_md: 738
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Doença
+  - titulo: Como Amar Pessoas Difíceis
+    autor: William P. Smith
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_omo_amar_pessoas_dificeis_Willian_P_Smilh.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_omo_amar_pessoas_dificeis_Willian_P_Smilh.pdf
+    tamanho_md: 41 KB
+    linhas_md: 730
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Relacionamentos
+  - titulo: Sofrendo com a Perda de um Filho
+    autor: Ryan Showalter
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_sofrendo_com_a_perda_de_um_filho_Ryan_Showalter.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_sofrendo_com_a_perda_de_um_filho_Ryan_Showalter.pdf
+    tamanho_md: 36 KB
+    linhas_md: 626
+    categoria: Topicos_Especificos_Pastoral
+    conversao: markitdown
+    status: indexado
+    tema: Luto
+  - titulo: Transtornos do Espectro Autista
+    autor: Kathy Hoopmann
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie_aconselhamento_transtornos_do_espectro_autista_Kathy_Hoopmann.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Serie_aconselhamento_transtornos_do_espectro_autista_Kathy_Hoopmann.pdf
+    tamanho_md: 41 KB
+    linhas_md: 760
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Saúde mental
+  - titulo: Teologia do Aconselhamento Cristão
+    autor: Larry Crabb
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Teologia_do_Aconselhamento_Cristao.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/Teologia_do_Aconselhamento_Cristao.pdf
+    tamanho_md: 952 KB
+    linhas_md: 29212
+    categoria: Teologia
+    conversao: markitdown
+    status: indexado
+  - titulo: Coletânea de Artigos — Religião e Sociedade Pós-Moderna
+    autor: Diversos
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/coletanea_de_artigos_Religiao_e_sociedade_Pos_Moderna.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/coletanea_de_artigos_Religiao_e_sociedade_Pos_Moderna.pdf
+    tamanho_md: 0 KB
+    linhas_md: 0
+    categoria: Efetivo
+    conversao: markitdown
+    status: parcial_ocr_pendente
+  - titulo: Filhos e Divórcio
+    autor: Amy Baker
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/serie_aconselhamento_Amy_Backer-Filhos_e_divorcio.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/serie_aconselhamento_Amy_Backer-Filhos_e_divorcio.pdf
+    tamanho_md: 39 KB
+    linhas_md: 682
+    categoria: Topicos_Especificos_Familiar
+    conversao: markitdown
+    status: indexado
+    tema: Divórcio
+  - titulo: A Vida Além dos Erros dos Seus Pais
+    autor: David Powlinson
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/serie_aconselhamento_David_Powlinson_A_vida_alem_dos_erros_dos_seus.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/serie_aconselhamento_David_Powlinson_A_vida_alem_dos_erros_dos_seus.pdf
+    tamanho_md: 41 KB
+    linhas_md: 727
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Família de origem
+  - titulo: Doença de Alzheimer
+    autor: Robert Smith
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/serie_aconselhamento_Robert_Smith-Doenca_de_Alzheimer.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/serie_aconselhamento_Robert_Smith-Doenca_de_Alzheimer.pdf
+    tamanho_md: 42 KB
+    linhas_md: 726
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Saúde mental
+  - titulo: Livre da Culpa
+    autor: Timothy S. Lane
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/serie_aconselhamento_Timothy_S._Lane-Livre_da_culpa.md
+    caminho_pdf_original: /media/willianmendesf/384F-81BE/4. Docs/Books/Aconselhamento/serie_aconselhamento_Timothy_S._Lane-Livre_da_culpa.pdf
+    tamanho_md: 26 KB
+    linhas_md: 489
+    categoria: Topicos_Especificos_Pessoal
+    conversao: markitdown
+    status: indexado
+    tema: Culpa
+  - titulo: TESE MDiv FINAL
+    autor: '?'
+    linhas: 4127
+    categoria: Especial
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/TESE-MDiv-FINAL.md
+    fonte: Drive / 1. Fides / Aconselhamento
+    status: indexado
+  - titulo: O Pastor e o Aconselhamento — Um guia básico
+    autor: '?'
+    linhas: 3797
+    categoria: Efetivo
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/O-Pastor-e-o-Aconselhamento.md
+    fonte: Drive / 1. Fides / Aconselhamento
+    status: indexado
+  - titulo: Série Aconselhamento — Doença de Alzheimer (Robert Smith)
+    autor: Robert Smith
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie-Aconselhamento-Doenca-de-Alzheimer-Robert-Smith.md
+    tamanho_md: 726 KB
+    linhas_md: 726
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+      - Alzheimer
+      - Demência
+      - Família do paciente
+      - Acompanhamento pastoral
+    nota: 'Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_.'
+  - titulo: Série Aconselhamento — Filhos e Divórcio (Amy Backer)
+    autor: Amy Backer
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie-Aconselhamento-Filhos-e-Divorcio-Amy-Backer.md
+    tamanho_md: 682 KB
+    linhas_md: 682
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+      - Filhos de pais divorciados
+      - Divórcio
+      - Conflito familiar
+    nota: 'Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_.'
+  - titulo: Série Aconselhamento — Livre da Culpa (Timothy S. Lane)
+    autor: Timothy S. Lane
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie-Aconselhamento-Livre-da-Culpa-Timothy-Lane.md
+    tamanho_md: 489 KB
+    linhas_md: 489
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+      - Culpa
+      - Perdão
+      - Nova identidade em Cristo
+      - Lane
+    nota: 'Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_.'
+  - titulo: Série Aconselhamento — Transtorno Bipolar (Edward T. Welch)
+    autor: Edward T. Welch
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/aconselhamento/Serie-Aconselhamento-Transtorno-Bipolar-Welch.md
+    tamanho_md: 678 KB
+    linhas_md: 678
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+      - Transtorno bipolar
+      - Saúde mental
+      - Welch
+    nota: 'Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_. ATENÇÃO: já existe outra cópia (Serie_aconselhamento-transtorno_bipolar-Edward_t._Welch) — uma deve ser descartada na próxima limpeza.'
+  - titulo: "Aconselhamento Dependencia Quimica"
+    caminho_md: data/biblioteca/aconselhamento/Aconselhamento-Dependencia-Quimica.pdf.md
+    tamanho_md: 2546 KB
+    linhas_md: 41970
+    status: indexado_auto
+    nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+  observacoes:
+  - Agrupamento por TÓPICO (não por source folder).
+  - 'Duplicatas detectadas: transtorno_bipolar (Welch) tem 2 cópias; lutando_contra
+    tem 2 cópias.'
+  - 'OCR pendente em background: coletanea_de_artigos_Religiao_e_sociedade_Pos_Moderna
+    (68 MB, ~600 pp).'
+  - Drive / 1. Fides / Aconselhamento — verificados 39 arquivos, 27 são duplicatas
+    com nome diferente (encoding), 11 detectados como NOVO (mas provavelmente também
+    duplicatas). Processados apenas 2 realmente novos.

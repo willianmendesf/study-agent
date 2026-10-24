@@ -1,0 +1,161 @@
+tags: [carson, teologia, novo-testamento, exegese]
+
+knowledge_base_d_a_carson:
+  version: "1.0"
+  tipo: "D.A. Carson — Obra Completa"
+  descricao: "Base de conhecimento com a obra teológica de D.A. Carson (reformado evangelical, NT scholar)"
+  total_volumes: 22
+  created_at: "2026-09-09T23:55:00Z"
+  origem_local: "/media/willianmendesf/384F-81BE/4. Docs/Books/D.A Carson (Free Books)/"
+
+  fluxo_processamento:
+    download: "N/A (local)"
+    conversao: "markitdown via uvx"
+    destino: "/dados/study-agent/data/biblioteca/d-a-carson/"
+    backup_pdf: True
+  materiais:
+    - titulo: "Greek Accents"
+      autor: "D.A. Carson"
+      ano: 1985
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/1985_Greek_accents.md"
+      linhas_md: 9566
+      topicos: ["Grego Koiné", "Acentuação grega", "Filologia NT"]
+      categoria: "linguas-originais"
+    - titulo: "Holy Sonnets of John Donne"
+      autor: "D.A. Carson (introd.)"
+      ano: 1994
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/1994_holy_sonnets.md"
+      linhas_md: 2638
+      topicos: ["Poesia devocional", "John Donne"]
+      categoria: "referencias-devocional"
+    - titulo: "The Difficult Doctrine of the Love of God"
+      autor: "D.A. Carson"
+      ano: 2000
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/2000_difficult_doctrine_of_the_love_of_God.md"
+      linhas_md: 4092
+      topicos: ["Teologia Sistemática", "Atributos de Deus", "Amor de Deus"]
+      categoria: "teologia-sistematica"
+    - titulo: "Love in Hard Places"
+      autor: "D.A. Carson"
+      ano: 2002
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/2002_love_in_hard_places.md"
+      linhas_md: 10153
+      topicos: ["Teologia prática", "Dificuldades", "Vida cristã"]
+      categoria: "familia-crista"
+    - titulo: "The Resurrection"
+      autor: "D.A. Carson"
+      ano: 2010
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/2010_resurrection.md"
+      linhas_md: 1391
+      topicos: ["Ressurreição", "Cristologia", "Apologética"]
+      categoria: "teologia-biblica"
+    - titulo: "Entrusted with the Gospel"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/EntrustedWithTheGospel.md"
+      linhas_md: 7422
+      topicos: ["Ministério pastoral", "Evangelho", "Pregação"]
+      categoria: "pregacao-homiletica"
+    - titulo: "For the Love of God, Vol. 1"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/ForTheLoveOfGodVol1.md"
+      linhas_md: 20302
+      topicos: ["Devocional diário", "1 Crônicas", "NT em vista"]
+      categoria: "referencia-devocional"
+    - titulo: "For the Love of God, Vol. 2"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/ForTheLoveOfGodVol2.md"
+      linhas_md: 25983
+      topicos: ["Devocional diário", "2 Crônicas", "NT em vista"]
+      categoria: "referencia-devocional"
+    - titulo: "God's Word, Our Story"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/God_sWordOurStory.md"
+      linhas_md: 8708
+      topicos: ["Bíblia", "História da Salvação", "Bibliologia"]
+      categoria: "bibliologia"
+    - titulo: "Gospel-Centered Ministry (EPUB)"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/GospelCenteredMinistry.md"
+      linhas_md: 180
+      status: "duplicata_inferior"
+      topicos: ["Ministério centrado no evangelho"]
+      categoria: "pregacao-homiletica"
+      observacao: 'EPUB parcial (180 linhas, quase vazio). Canônico = Gospel-Centered Ministry PDF (786 linhas, ver item seguinte). Considerar desabilitar este.'
+    - titulo: "Gospel-Centered Ministry (PDF)"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/Gospel_Centered_Ministry.md"
+      linhas_md: 786
+      topicos: ["Ministério centrado no evangelho"]
+      categoria: "pregacao-homiletica"
+    - titulo: "The Gospel of Luke (Comentário)"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/Gospel_of_Luke.md"
+      linhas_md: 8213
+      topicos: ["Comentário Lucas", "Evangelhos", "Exegese NT"]
+      categoria: "comentarios-biblicos"
+    - titulo: "Here Is Our God"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/HereIsOurGod.md"
+      linhas_md: 14350
+      topicos: ["Cristologia", "Deus revelado", "Antropologia bíblica"]
+      categoria: "teologia-biblica"
+    - titulo: "His Mission"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/HisMission.md"
+      linhas_md: 7889
+      topicos: ["Missões", "Igreja", "Evangelização"]
+      categoria: "igreja"
+    - titulo: "Letters Along the Way"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/LettersAlongTheWay.md"
+      linhas_md: 12413
+      topicos: ["Cartas", "Devocional"]
+      categoria: "referencia-devocional"
+    - titulo: "Memoirs of an Ordinary Pastor"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/MemoirsOfAnOrdinaryPastor.md"
+      linhas_md: 6883
+      topicos: ["Biografia", "Ministério pastoral", "Tom Carson"]
+      categoria: "biografia"
+    - titulo: "Prophetic from the Center"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/Prophetic_from_the_Center.md"
+      linhas_md: 1197
+      topicos: ["Profetas", "AT", "Cristologia"]
+      categoria: "comentarios-biblicos"
+    - titulo: "Scandalous (PDF completo)"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/Scandalous-2.md"
+      linhas_md: 10353
+      topicos: ["Cruz", "Cristologia", "Escandalização"]
+      categoria: "teologia-biblica"
+    - titulo: "Scandalous (EPUB)"
+      autor: "D.A. Carson"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/Scandalous.md"
+      linhas_md: 2212
+      status: "duplicata_parcial"
+      categoria: "teologia-biblica"
+      observacao: 'Versão EPUB parcial (2212 linhas). Canônico = Scandalous PDF completo (10353 linhas, ver item anterior). Mantida apenas como referência rápida.'
+    - titulo: "The Gospel as Center"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/TheGospelAsCenter.md"
+      linhas_md: 17296
+      topicos: ["Centralidade do evangelho", "Pregação"]
+      categoria: "pregacao-homiletica"
+    - titulo: "The Pastor as Scholar"
+      autor: "D.A. Carson (ed.)"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/ThePastorAsScholar.md"
+      linhas_md: 6951
+      topicos: ["Ministério pastoral", "Erudição", "Vida pastoral"]
+      categoria: "igreja"
+    - titulo: "An Introduction to the New Testament"
+      autor: "D.A. Carson, Douglas J. Moo, Leon Morris"
+      idioma: "en"
+      caminho_md: "/dados/study-agent/data/biblioteca/d-a-carson/Introduction-New-Testament-Carson-Moo-Morris-EN.md"
+      caminho_original: "/dados/study-agent/data/biblioteca/_incoming/An introduction to the New Testament (D  A Carson Douglas J Moo Leon Morris) (z-library.sk, 1lib.sk, z-lib.sk).epub"
+      linhas_md: 11254
+      adicionado_em: "2026-09-16"
+      processado_via: "markitdown"
+      topicos: ["Introdução ao Novo Testamento", "Isagógica", "Carson/Moo/Morris"]
+      categoria: "d-a-carson"
+      observacao: "Versão em inglês (Zondervan), completa e catalogada. A versão PT-BR ('Introdução ao Novo Testamento') é PDF escaneado — OCR (EasyOCR) estourou o timeout de 30min sem terminar (arquivo grande, ~27MB). Guardada como referência não convertida em d-a-carson/Introducao-Novo-Testamento-Carson-Moo-Morris-PT.pdf.REFERENCE.pdf (não committada, .gitignore). Como a versão EN já cobre o conteúdo, não é prioridade reprocessar — se algum dia for necessário o texto em PT-BR, rodar OCR com timeout maior ou em lotes de páginas."

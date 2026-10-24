@@ -1,0 +1,25 @@
+tags: [masculinidade, devocional, vida-crista, discipulado, homem, aplicacao]
+
+knowledge_base_masculinidade_crista:
+  version: '1.0'
+  tipo: Masculinidade Cristã
+  descricao: Base de conhecimento sobre masculinidade cristã
+  total_volumes: 2
+  created_at: 2026-09-10T...Z
+  origem: Drive / 1. Fides / Masculinidade Cristã (1msreeHmY62thy8habgOYM-APunWiGrNr)
+  destino: /dados/study-agent/data/biblioteca/Masculinidade-Crista/
+  materiais:
+  - titulo: Homens de Verdade — O Chamado de Deus para Masculinidade
+    autor: '?'
+    idioma: pt
+    caminho_md: /dados/study-agent/data/biblioteca/masculinidade-crista/01-Homens-de-Verdade.md
+    tamanho_md: 334 KB
+    linhas_md: 1680
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: "New Testament Masculinities (Society of Biblical Literature Semeia Studies) (Stephen D. Moore, Janice Capel Anderson"
+    caminho_md: data/biblioteca/masculinidade-crista/New Testament Masculinities (Society of Biblical Literature Semeia Studies) (Stephen D. Moore, Janice Capel Anderson.md
+    tamanho_md: 1075 KB
+    linhas_md: 20433
+    status: indexado_auto
+    nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."

@@ -1,0 +1,218 @@
+tags:
+- trabalho
+- vocacao
+- mordomia
+- tempo
+- produtividade
+- vida-crista
+- habitos
+- agenda
+knowledge_base_trabalho_vida_crista:
+  version: '1.0'
+  tipo: Trabalho e Vida Cristã — Ótica cristã de trabalho, tempo e rotina
+  descricao: Base de conhecimento sobre trabalho, gestão de tempo e ritmos de vida
+    com ótica cristã. Serve de âncora curada para o Kairos (gestor de tempo / mordomo
+    do TickTick) aconselhar agenda e prioridades a partir de princípios bíblicos,
+    não apenas de produtividade secular.
+  total_volumes: 16
+  created_at: '2026-09-11T00:00:00Z'
+  origem: Biblioteca existente em data/biblioteca/ (outros/ e mathis-habitos-espirituais/)
+  destino: /dados/study-agent/data/biblioteca/
+  observacoes:
+  - Kairos não é especialista de conteúdo, mas usa esta KB como referência para correlacionar
+    decisões de agenda com princípios cristãos (mordomia do tempo, vocação, limites).
+  - Item 'Todo Bom Trabalho' (Timothy Keller) está na lista-aquisicao.md (#022) —
+    indexar aqui quando chegar ao acervo.
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  materiais:
+  - titulo: Mordomia Crista
+    autor: Samuel Rocha Lopes
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/trabalho-vida-crista/Mordomia Cristã O Privilégio
+      de Administrar os Bens Materiais e Espirituais do Senhor (Samuel Rocha Lopes)
+      (z-libra.md
+    tamanho_md: 9 KB
+    linhas_md: 622
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Super Ocupado
+    autor: Kevin DeYoung
+    editora: Editora Fiel
+    ano: 2014
+    idioma: pt
+    isbn: 978-8581322001
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Super-Ocupado.md
+    linhas_md: 994
+    status: indexado
+    fonte: Z-Library (via Drive)
+    topicos:
+    - Correria e ocupação excessiva — diagnóstico bíblico
+    - Princípios bíblicos de prioridade e limites (não dicas de produtividade)
+    - O perigo de ser ocupado com o que não é essencial
+    - Redimindo o tempo (Ef 5:16)
+  - titulo: Knowing God
+    autor: J. I. Packer
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/vida-crista/Knowing-God-JI-Packer.md
+    caminho_original: /dados/study-agent/data/biblioteca/vida-crista/Knowing God
+      (J. I. Packer) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 836 KB
+    linhas_md: 5997
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    zlib_id: 4975255
+    zlib_hash: 22d552
+    processado_via: markitdown
+    topicos:
+    - Conhecendo a Deus
+    - Atributos de Deus
+    - Vida cristã
+    - Packer
+    - Clássico devocional-teológico
+    - Base da fé reformada
+  - titulo: Every Good Endeavor (Todo Bom Trabalho)
+    autor: Timothy Keller
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/vida-crista/Every-Good-Endeavor-Timothy-Keller.md
+    caminho_original: /dados/study-agent/data/biblioteca/vida-crista/Every Good
+      Endeavor Connecting Your Work to Gods Work —, Penguin Group US, English - Keller,
+      Timothy 2012 (z-librar.epub
+    tamanho_md: 378 KB
+    linhas_md: 566
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    zlib_id: 23175393
+    zlib_hash: c6c972
+    processado_via: xhtml_parser (markitdown vazio)
+    topicos:
+    - Trabalho e vocação
+    - Teologia do trabalho
+    - Vocation como mordomia cristã
+    - Conectar trabalho à obra de Deus
+    - Complementa kairos-gestao-tempo (fundamento teológico)
+    nota: 'era item #022 da wishlist — baixado em 2026-09-13 (rodada 3 — biblioteca
+      canônica sugerida). Em vez do kairos (gestor de tempo), Keller oferece o embasamento
+      teológico cristão para o kairos'
+  - titulo: The Seven Habits of Highly Effective People
+    autor: Stephen R. Covey
+    idioma: zh
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/vida-crista/7-Habitos-Stephen-Covey.md
+    caminho_original: /dados/study-agent/data/biblioteca/vida-crista/The Seven
+      Habits of Highly Effective People (Stephen R.Covey) (z-library.sk, 1lib.sk,
+      z-lib.sk).epub
+    tamanho_md: 3.4 MB
+    linhas_md: 135912
+    status: indexado_com_ressalva
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 17930524
+    zlib_hash: 4f8466
+    topicos:
+    - 7 hábitos
+    - Covey
+    - Gestão pessoal
+    - Eficácia
+    nota: 'Item #032 da wishlist (retried). 1ª tentativa (PDF 4 MB) e 2ª (PDF 1 MB)
+      falharam (xref corrompido). 3ª tentativa com ID alternativo (epub) funcionou
+      MAS o epub está em chinês (idioma errado: ''English Edition'' era só metadata).
+      Conteúdo em chinês mandarim tradicional — utilizável apenas para referência
+      estrutural dos 7 hábitos, não para leitura. Willian deve procurar versão PT-BR
+      separadamente ou ler este como exercício de mandarim.'
+  - titulo: Você é aquilo que ama
+    autor: James K. A. Smith
+    editora: Vida Nova
+    idioma: pt
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Voce-e-aquilo-que-ama-James-Smith.md
+    linhas_md: 12189
+    status: indexado
+    fonte: Z-Library (via Drive)
+    topicos:
+    - Como ritmos, hábitos e "liturgias" formam nossas prioridades
+    - O coração é formado pelo que se repete — agenda como liturgia
+    - Amor e desejo como motor da ação (mais que disciplina)
+  - titulo: Hábitos Espirituais
+    autor: David Mathis
+    editora: Fiel
+    idioma: pt
+    caminho_md: /dados/study-agent/data/biblioteca/mathis-habitos-espirituais/habitos-espirituais-david-mathis.md
+    linhas_md: 1546
+    status: indexado
+    fonte: Z-Library (via Drive)
+    skill_associada: mathis-habitos-espirituais (SKILL.md na mesma pasta)
+    topicos:
+    - A Graça Tríplice: Palavra, Oração e Comunhão como meios de graça diários
+    - Disciplina como resposta à graça (não mérito)
+    - Ritmo diário de graça — base para blocos devocionais na agenda
+  - titulo: SKILL
+    caminho_md: data/biblioteca/mathis-habitos-espirituais/SKILL.md
+    tamanho_md: 15 KB
+    linhas_md: 227
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: cheatsheet
+    caminho_md: data/biblioteca/mathis-habitos-espirituais/cheatsheet.md
+    tamanho_md: 7 KB
+    linhas_md: 162
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: glossary
+    caminho_md: data/biblioteca/mathis-habitos-espirituais/glossary.md
+    tamanho_md: 8 KB
+    linhas_md: 131
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: patterns
+    caminho_md: data/biblioteca/mathis-habitos-espirituais/patterns.md
+    tamanho_md: 10 KB
+    linhas_md: 260
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: plano 30 dias
+    caminho_md: data/biblioteca/mathis-habitos-espirituais/plano-30-dias.md
+    tamanho_md: 11 KB
+    linhas_md: 252
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Apresentacao Tulip
+    caminho_md: data/biblioteca/vida-crista/Apresentacao-Tulip.pdf.md
+    tamanho_md: 8 KB
+    linhas_md: 272
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Joao Calvino Atividades
+    caminho_md: data/biblioteca/vida-crista/Joao-Calvino-Atividades.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 96
+    status: ocr_pendente
+    nota: Arquivo .md praticamente vazio (836 bytes) — reconverter/OCR do original
+      no Orbit (auditoria 2026-09-25).
+  - titulo: Reforma Protestante Familia Alegria
+    caminho_md: data/biblioteca/vida-crista/Reforma-Protestante-Familia-Alegria.pdf.md
+    tamanho_md: 676 KB
+    linhas_md: 2786
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Verdades Evangelho Mentiras Pagas
+    caminho_md: data/biblioteca/vida-crista/Verdades-Evangelho-Mentiras-Pagas.pdf.md
+    tamanho_md: 1826 KB
+    linhas_md: 8355
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.

@@ -1,0 +1,186 @@
+tags:
+- literatura-mundial
+- literatura-classica
+- romance
+- epoca
+knowledge_base_literatura_mundial_classica:
+  version: '1.0'
+  tipo: Literatura Mundial Clássica — Romance, Épica, Ficção Clássica
+  descricao: 'Base de conhecimento para a literatura clássica mundial (romances, épicos,
+    contos) que aparece no currículo de literatura mundial em geral. KB criada a pedido
+    do Willian em 2026-09-13.
+
+    '
+  total_volumes: 13
+  created_at: 2026-09-13
+  criado_por: bibliotecario
+  origem: Z-Library
+  destino: /dados/study-agent/data/biblioteca/literatura-mundial-classica/
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  materiais:
+  - titulo: 'The Charles Dickens Collection Volume One: Oliver Twist, Great Expectations,
+      and Bleak House'
+    autor: Dickens, Charles
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/literatura-mundial-classica/The Charles Dickens Collection
+      Volume One Oliver Twist, Great Expectations, and Bleak House (Charles Dickens)
+      (z-li.md
+    tamanho_md: 79 KB
+    linhas_md: 4559
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Brothers-Karamazov-Dostoyevsky
+    caminho_md: data/biblioteca/literatura-mundial-classica/Brothers-Karamazov-Dostoyevsky.md
+    tamanho_md: 2450 KB
+    linhas_md: 12123
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Cervantes-Dom-Quixote
+    caminho_md: data/biblioteca/literatura-mundial-classica/Cervantes-Dom-Quixote.md
+    tamanho_md: 17 KB
+    linhas_md: 486
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: City-of-God-Augustine
+    caminho_md: data/biblioteca/literatura-mundial-classica/City-of-God-Augustine.md
+    tamanho_md: 2665 KB
+    linhas_md: 4402
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Confessions-Augustine
+    caminho_md: data/biblioteca/literatura-mundial-classica/Confessions-Augustine.md
+    tamanho_md: 828 KB
+    linhas_md: 3128
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Divine-Comedy-Dante-Alighieri
+    caminho_md: data/biblioteca/literatura-mundial-classica/Divine-Comedy-Dante-Alighieri.md
+    tamanho_md: 1269 KB
+    linhas_md: 31326
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: War-and-Peace-Tolstoy
+    caminho_md: data/biblioteca/literatura-mundial-classica/War-and-Peace-Tolstoy.md
+    tamanho_md: 3462 KB
+    linhas_md: 60576
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: O Engenhoso Fidalgo Dom Quixote de La Mancha
+    autor: Miguel de Cervantes Saavedra
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-mundial-classica/Cervantes-Dom-Quixote.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/O fidalgo Dom
+      Quixote (Miguel de Cervantes Saavedra) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 1.2 MB
+    linhas_md: 486
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 16829194
+    zlib_hash: 79c5f1
+    topicos:
+    - Romance cavalheiresco
+    - Sátira do idealismo medieval
+    - Quixotismo (idealismo x realismo)
+    - Cervantes (séc. XVI/XVII)
+    - Literatura espanhola
+    observacoes:
+    - Adicionado em 2026-09-13 (rodada de levantamento — Willian quer familiarização
+      com clássicos da literatura mundial)
+    - Versão PT-BR (Martin Claret)
+    - 'Pode expandir com outras obras clássicas: Dante (Divina Comédia), Tolstói (Guerra
+      e Paz), Dostoiévski (Irmãos Karamázov), Cervantes (outras), Shakespeare, etc.'
+  - titulo: Confessions
+    autor: Saint Augustine (trad. Henry Chadwick)
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-mundial-classica/Confessions-Augustine.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Saint Augustine
+      Confessions (Oxford Worlds Classics) (Saint Augustine, Henry Chadwick) (z-library.sk,
+      1lib.sk, z-li.epub
+    tamanho_md: 832K
+    linhas_md: 3127
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Autobiografia espiritual clássica
+    - Patrística (séc. IV/V)
+    - Augustine (Oxford World's Classics, trad. Chadwick)
+  - titulo: The City of God
+    autor: Augustine
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-mundial-classica/City-of-God-Augustine.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/The City of
+      God (Modern Library Classics) (Augustine) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 2.7M
+    linhas_md: 4401
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Filosofia política cristã
+    - Patrística (séc. V)
+    - Modern Library Classics
+  - titulo: The Divine Comedy (Inferno, Purgatorio, Paradiso)
+    autor: Dante Alighieri (trad. Robin Kirkpatrick)
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-mundial-classica/Divine-Comedy-Dante-Alighieri.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Divine
+      Comedy Inferno, Purgatorio, Paradiso (Penguin Classics Deluxe Edition) (Dante
+      Alighieri, Robin Kirkpatri.epub
+    tamanho_md: 1.3M
+    linhas_md: 31325
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Poema épico medieval
+    - Literatura italiana (séc. XIV)
+    - Penguin Classics Deluxe
+  - titulo: The Brothers Karamazov
+    autor: Fyodor Dostoyevsky
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-mundial-classica/Brothers-Karamazov-Dostoyevsky.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Brothers
+      Karamazov (Penguin Classics) (Fyodor Dostoyevsky) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 2.4M
+    linhas_md: 12122
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Romance russo clássico (séc. XIX)
+    - Dostoiévski
+    - Penguin Classics
+  - titulo: War and Peace
+    autor: Leo Tolstoy
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/literatura-mundial-classica/War-and-Peace-Tolstoy.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/War And Peace
+      (Penguin Classics) (Tolstoy, Leo) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 3.4M
+    linhas_md: 60575
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Romance histórico russo (séc. XIX)
+    - Tolstói
+    - Penguin Classics

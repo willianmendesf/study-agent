@@ -1,0 +1,162 @@
+tags:
+- pregacao
+- homiletica
+- teologia-pratica
+knowledge_base_pregacao_homiletica:
+  version: '1.0'
+  tipo: Pregação & Homilética
+  descricao: Base de conhecimento sobre arte de pregar e expor a Bíblia
+  total_volumes: 11
+  created_at: '2026-09-07T14:55:00Z'
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  origem_local_ebdi: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  materiais:
+  - titulo: Between Two Worlds The Art of Preaching in the Twentieth Century —, Eerdmans
+      Publishing Co - A, English - Stott, Jo.epub
+    autor: John Stott
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/pregacao-homiletica/Between Two Worlds The Art of
+      Preaching in the Twentieth Century —, Eerdmans Publishing Co - A, English - Stott,
+      Jo.md
+    tamanho_md: 699 KB
+    linhas_md: 3778
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 01-Pregando-Cristo-AT
+    caminho_md: data/biblioteca/pregacao-homiletica/01-Pregando-Cristo-AT.md
+    tamanho_md: 1056 KB
+    linhas_md: 22198
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Biblical-Sermons-Haddon-Robinson
+    caminho_md: data/biblioteca/pregacao-homiletica/Biblical-Sermons-Haddon-Robinson.md
+    tamanho_md: 406 KB
+    linhas_md: 5156
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Models-for-Biblical-Preaching-Robinson-Batten
+    caminho_md: data/biblioteca/pregacao-homiletica/Models-for-Biblical-Preaching-Robinson-Batten.md
+    tamanho_md: 339 KB
+    linhas_md: 2366
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Polito-Como-Falar-Corretamente-PT
+    caminho_md: data/biblioteca/pregacao-homiletica/Polito-Como-Falar-Corretamente-PT.md
+    tamanho_md: 424 KB
+    linhas_md: 5929
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Preaching-Preachers-Lloyd-Jones
+    caminho_md: data/biblioteca/pregacao-homiletica/Preaching-Preachers-Lloyd-Jones.md
+    tamanho_md: 761 KB
+    linhas_md: 2516
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Pregando Cristo a partir do Antigo Testamento
+    autor: Sidney Greidanus
+    tamanho: 11.6M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/Sidney_Greidanus_Pregando_Cristo_a_partir_do_Antigo_Testamen.pdf
+    topicos:
+    - Homilética
+    - Pregação Cristológica
+    - Exposição Bíblica
+    - Preparação de Sermões
+    caminho_md: /dados/study-agent/data/biblioteca/pregacao-homiletica/01-Pregando-Cristo-AT.md
+    tamanho_md: 1057 KB
+    linhas_md: 22198
+    conversao: markitdown
+    status: indexado_local
+    origem: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  - titulo: Preaching and Preachers, 40th Anniversary Edition
+    autor: D. Martyn Lloyd-Jones
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/pregacao-homiletica/Preaching-Preachers-Lloyd-Jones.md
+    caminho_original: /dados/study-agent/data/biblioteca/pregacao-homiletica/Preaching
+      and Preachers, 40th Anniversary Edition (D. Martyn Lloyd-Jones, Bryan Chapell
+      etc.) (z-library.sk, 1lib.s.epub
+    tamanho_md: 547 KB
+    linhas_md: 2516
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    zlib_id: 16757585
+    zlib_hash: ab190d
+    processado_via: markitdown
+    topicos:
+    - Pregação expositiva
+    - Lloyd-Jones
+    - Poder da pregação
+    - Convicção do pregador
+  - titulo: Biblical Sermons — How Twelve Preachers Apply the Principles of Biblical
+      Preaching
+    autor: Haddon W. Robinson
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/pregacao-homiletica/Biblical-Sermons-Haddon-Robinson.md
+    caminho_original: /dados/study-agent/data/biblioteca/pregacao-homiletica/Biblical
+      Sermons How Twelve Preachers Apply the Principles of Biblical Preaching (Haddon
+      W. Robinson [Robinson, Had.epub
+    tamanho_md: 1.1 MB
+    linhas_md: 5156
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 16734001
+    zlib_hash: 58f700
+    topicos:
+    - Pregação expositiva
+    - Robinson
+    - Compêndio de sermões
+    - Princípios de pregação
+    nota: 'Item #015 da wishlist (retried). 1ª tentativa falhou (epub zip vazio);
+      2ª tentativa com ID alternativo funcionou. Nota: não é o ''Biblical Preaching''
+      (livro-texto do Robinson) mas ''Biblical Sermons'' (coletânea de sermões aplicando
+      os princípios). Para o currículo Hermeneia H07 (construção da proposição exegética),
+      este serve perfeitamente.'
+  - titulo: Como Falhar Corretamente e sem Inibições
+    autor: Reinaldo Polito
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/pregacao-homiletica/Polito-Como-Falar-Corretamente-PT.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Como falar
+      corretamente e sem inibições (Reinaldo Polito) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 424 KB
+    linhas_md: 5929
+    status: flag_parcial (markitdown vazio — epub protegido)
+    adicionado_em: 2026-09-13
+    zlib_id: 21793177
+    zlib_hash: a7ad29
+    topicos:
+    - Comunicação e oratória
+    - Pregação
+    - Polito
+    - Livro-base para Tec Com do JMC
+  - titulo: Models for Biblical Preaching
+    autor: Haddon W. Robinson & Patricia Batten (eds.)
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/pregacao-homiletica/Models-for-Biblical-Preaching-Robinson-Batten.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Models for
+      Biblical Preaching (Haddon W. Robinson Patricia Batten eds.) (z-library.sk,
+      1lib.sk, z-lib.sk).epub
+    tamanho_md: 340K
+    linhas_md: 2366
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Homilética expositiva
+    - Robinson / Batten
+    - Modelos de sermão

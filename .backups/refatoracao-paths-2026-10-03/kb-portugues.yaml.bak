@@ -1,0 +1,205 @@
+tags:
+- portugues
+- lingua-portuguesa
+- gramatica
+- ortografia
+- morfologia
+- sintaxe
+- pontuacao
+- pt-br
+- ensino-portugues
+- estilo
+- redacao
+- lingua
+- acentuacao
+- portugues-brasileiro
+- guia-pratico
+knowledge_base_portugues:
+  version: '1.0'
+  tipo: Português — Língua e Aprendizado
+  descricao: Recursos sobre a língua portuguesa (gramática, vocabulário, aprendizado)
+    — especialmente para falantes nativos e estudantes da língua
+  total_volumes: 12
+  created_at: 2026-09-10T...Z
+  atualizado_em: '2026-09-25T22:00:00-03:00'
+  origem: local (/home/willianmendesf/Downloads/)
+  destino: /dados/study-agent/data/biblioteca/portugues/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    backup_pdf: true
+  materiais:
+  - titulo: Guia Prático do Português Correto — Ortografia 1
+    autor: Cláudio Moreno
+    editora: LPM Pocket
+    ano: 2004
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Claudio-Moreno-Guia-Portugues-Ortografia-1.md
+    linhas_md: 7181
+    tamanho_md: 244 KB
+    status: indexado
+    topicos:
+    - Ortografia
+    - Gramática portuguesa
+    - Português correto
+  - titulo: Guia Prático do Português Correto — Morfologia 2
+    autor: Cláudio Moreno
+    editora: LPM Pocket
+    ano: 2004
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Claudio-Moreno-Guia-Portugues-Morfologia-2.md
+    linhas_md: 5933
+    tamanho_md: 316 KB
+    status: indexado
+    topicos:
+    - Morfologia
+    - Classes de palavras
+    - Gramática portuguesa
+  - titulo: Guia Prático do Português Correto — Sintaxe 3
+    autor: Cláudio Moreno
+    editora: LPM Pocket
+    ano: 2005
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Claudio-Moreno-Guia-Portugues-Sintaxe-3.md
+    linhas_md: 6602
+    tamanho_md: 360 KB
+    status: indexado
+    topicos:
+    - Sintaxe
+    - Análise sintática
+    - Gramática portuguesa
+  - titulo: Guia Prático do Português Correto — Pontuação 4
+    autor: Cláudio Moreno
+    editora: LPM Pocket
+    ano: 2010
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Claudio-Moreno-Guia-Portugues-Pontuacao-4.md
+    linhas_md: 5574
+    tamanho_md: 292 KB
+    status: indexado
+    topicos:
+    - Pontuação
+    - Vírgula, ponto e vírgula, dois pontos
+    - Gramática portuguesa
+  - titulo: Sou Péssimo em Português
+    autor: Cíntia Chagas
+    editora: HarperCollins Brasil
+    ano: 2018
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Cintia-Chagas-Sou-Pessimo-em-Portugues.md
+    linhas_md: 4450
+    tamanho_md: 192 KB
+    status: indexado
+    topicos:
+    - Português para leigos
+    - Gramática divertida
+    - Humor linguístico
+  - titulo: Moderna Gramática Portuguesa
+    autor: Evanildo Bechara
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Bechara-Moderna-Gramatica-Portuguesa.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Moderna Gramática
+      Portuguesa (Evanildo Bechara [Bechara, Evanildo]) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+    tamanho_md: 4.6 MB
+    linhas_md: 29765
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: pdftotext
+    zlib_id: 11141591
+    zlib_hash: c1b760
+    topicos:
+    - Gramática normativa do português
+    - Clássico de Evanildo Bechara
+    - Para cultura geral do seminário JMC
+  - titulo: Gramática do Português Brasileiro
+    autor: Ataliba T. de Castilho
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Castilho-Gramatica-do-Portugues-Brasileiro.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Gramática do
+      Português Brasileiro (Ataliba T. de Castilho) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+    tamanho_md: 8.5 MB
+    linhas_md: 38488
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: pdftotext
+    zlib_id: 16996186
+    zlib_hash: 8b686b
+    topicos:
+    - Gramática do português brasileiro contemporâneo
+    - Castilho (USP)
+    - Visão descritiva e atual
+  - titulo: Nossa Gramática Completa
+    autor: Luiz Antonio Sacconi
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/portugues/Sacconi-Nossa-Gramatica-Completa.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Nossa gramática
+      completa (Luiz Antonio Sacconi) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 31 MB
+    linhas_md: 438427
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 29425878
+    zlib_hash: 8f84c4
+    topicos:
+    - Gramática didática
+    - Para iniciantes (Nova Gramática)
+    - Sacconi
+  - titulo: 'Muito além da gramática: Por um ensino de línguas sem pedras no caminho'
+    autor: Antunes, Irandé
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/portugues/Muito além da gramática Por um ensino de
+      línguas sem pedras no caminho (Estratégias de ensino) (Antunes, Irandé) (z.md
+    tamanho_md: 18 KB
+    linhas_md: 209
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Psicogênese da língua escrita
+    autor: Ferreiro, Emilia & Teberosky, Ana
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: /biblioteca/portugues/Psicogênese da língua escrita (Emilia Ferreiro
+      e Ana Teberosky) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 0 KB
+    linhas_md: 1
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 'Portugués básico para estrangeiros: curso completo para os níveis principiante,
+      intermediário, avançado'
+    autor: Slade, Rejane de Oliveira
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: /biblioteca/portugues/Portugués básico para estrangeiros curso
+      completo para os níveis  principiante, intermediário, avançado (Rejane de O.md
+    tamanho_md: 585 KB
+    linhas_md: 48813
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Gramática Completa Para Concursos e Vestibulares
+    autor: Almeida, Nilson Teixeira de
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: /biblioteca/portugues/Gramática Completa Para Concursos e Vestibulares
+      (Nilson Teixeira de Almeida) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 10 KB
+    linhas_md: 614
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  atualizado_por: bibliotecario (rodada 2026-09-25)

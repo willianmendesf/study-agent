@@ -1,0 +1,408 @@
+tags:
+- teologia
+- doutrina
+- teologia-sistematica
+- sistematica
+- reformada
+- teologia-biblica
+- teologia-pratica
+- cristologia
+- antropologia
+- espiritualidade
+- evangelismo
+knowledge_base_teologia:
+  version: '1.0'
+  tipo: Teologia (Geral)
+  descricao: Teologia reformada em geral — diversos autores e temas
+  total_volumes: 54
+  created_at: '2026-09-10T01:05:00Z'
+  origem: Drive / 1. Fides / Teologia (1V2Qufslwrj8ynE1QZDun_mLGl3DjlOzb)
+  destino: /dados/study-agent/data/biblioteca/teologia/
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  materiais:
+  - titulo: Reformed Dogmatics Abridged in One Volume (Herman Bavinck  John Bolt [Bavinck
+      etc.) (z-library.sk, 1lib.sk, z-lib.s.epub
+    autor: Herman Bavinck
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/teologia-sistematica/Reformed Dogmatics Abridged in
+      One Volume (Herman Bavinck  John Bolt [Bavinck etc.) (z-library.sk, 1lib.sk,
+      z-lib.s.md
+    tamanho_md: 45 KB
+    linhas_md: 2545
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 02-Teologia-Puritana-Doutrina-Vida
+    caminho_md: data/biblioteca/teologia/02-Teologia-Puritana-Doutrina-Vida.md
+    tamanho_md: 4464 KB
+    linhas_md: 91872
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 03-Soli-Deo-Gloria
+    caminho_md: data/biblioteca/teologia/03-Soli-Deo-Gloria.md
+    tamanho_md: 961 KB
+    linhas_md: 12299
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 04-Gospel-John-Ridderbos
+    caminho_md: data/biblioteca/teologia/04-Gospel-John-Ridderbos.md
+    tamanho_md: 2316 KB
+    linhas_md: 45862
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 05-Somos-Todos-Teologos-Sproul
+    caminho_md: data/biblioteca/teologia/05-Somos-Todos-Teologos-Sproul.md
+    tamanho_md: 608 KB
+    linhas_md: 3053
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 06-Somos-Todos-Teologos-mobi
+    caminho_md: data/biblioteca/teologia/06-Somos-Todos-Teologos-mobi.md
+    tamanho_md: 606 KB
+    linhas_md: 10620
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 07-Teologia-Sistematica-Erickson
+    caminho_md: data/biblioteca/teologia/07-Teologia-Sistematica-Erickson.md
+    tamanho_md: 3574 KB
+    linhas_md: 25339
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 08-Teologia-Sistematica-Historica-Filosofica-McGrath
+    caminho_md: data/biblioteca/teologia/08-Teologia-Sistematica-Historica-Filosofica-McGrath.md
+    tamanho_md: 1775 KB
+    linhas_md: 7599
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 10-Saved-by-Grace-Bavinck
+    caminho_md: data/biblioteca/teologia/10-Saved-by-Grace-Bavinck.md
+    tamanho_md: 721 KB
+    linhas_md: 3916
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 12-Teologia-Sistematica-Charles-Hodge
+    caminho_md: data/biblioteca/teologia/12-Teologia-Sistematica-Charles-Hodge.md
+    tamanho_md: 6226 KB
+    linhas_md: 26394
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 13-Teologia-Puritana-Beeke-Vida-Nova
+    caminho_md: data/biblioteca/teologia/13-Teologia-Puritana-Beeke-Vida-Nova.md
+    tamanho_md: 4054 KB
+    linhas_md: 30288
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 15-O-Que-e-Teologia-Reformada-Sproul
+    caminho_md: data/biblioteca/teologia/15-O-Que-e-Teologia-Reformada-Sproul.md
+    tamanho_md: 48 KB
+    linhas_md: 1080
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 16-O-Cristo-dos-Profetas-Robertson
+    caminho_md: data/biblioteca/teologia/16-O-Cristo-dos-Profetas-Robertson.md
+    tamanho_md: 1435 KB
+    linhas_md: 22642
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 17-O-Cristo-dos-Pactos-Robertson
+    caminho_md: data/biblioteca/teologia/17-O-Cristo-dos-Pactos-Robertson.md
+    tamanho_md: 71 KB
+    linhas_md: 1615
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 18-Imago-Dei-Antropologia-Reformada-Anglada
+    caminho_md: data/biblioteca/teologia/18-Imago-Dei-Antropologia-Reformada-Anglada.md
+    tamanho_md: 661 KB
+    linhas_md: 5048
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 19-Abraham-Kuyper-Calvinismo
+    caminho_md: data/biblioteca/teologia/19-Abraham-Kuyper-Calvinismo.md
+    tamanho_md: 550 KB
+    linhas_md: 8335
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: 20-Espiritualidade-Reformada-Beeke
+    caminho_md: data/biblioteca/teologia/20-Espiritualidade-Reformada-Beeke.md
+    tamanho_md: 1243 KB
+    linhas_md: 11262
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Anglada-Imago-Dei-Antropologia-Reformada-PT
+    caminho_md: data/biblioteca/teologia/Anglada-Imago-Dei-Antropologia-Reformada-PT.md
+    tamanho_md: 4 KB
+    linhas_md: 90
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Saved-by-Grace-EN
+    caminho_md: data/biblioteca/teologia/Bavinck-Saved-by-Grace-EN.md
+    tamanho_md: 14 KB
+    linhas_md: 270
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Beeke-Espiritualidade-Reformada-PT
+    caminho_md: data/biblioteca/teologia/Beeke-Espiritualidade-Reformada-PT.md
+    tamanho_md: 9 KB
+    linhas_md: 174
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Beeke-Kuyper-Calvinismo
+    caminho_md: data/biblioteca/teologia/Beeke-Kuyper-Calvinismo.md
+    tamanho_md: 509 KB
+    linhas_md: 8168
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Beeke-Teologia-Puritana-PT-pdf
+    caminho_md: data/biblioteca/teologia/Beeke-Teologia-Puritana-PT-pdf.md
+    tamanho_md: 4271 KB
+    linhas_md: 64943
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Beeke-Teologia-Puritana-PT
+    caminho_md: data/biblioteca/teologia/Beeke-Teologia-Puritana-PT.md
+    tamanho_md: 52 KB
+    linhas_md: 1098
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Copia-Como-Ler-Biblioteca-Livro-por-Livro
+    caminho_md: data/biblioteca/teologia/Copia-Como-Ler-Biblioteca-Livro-por-Livro.md
+    tamanho_md: 1019 KB
+    linhas_md: 17957
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Hodge-Teologia-Sistematica-PT
+    caminho_md: data/biblioteca/teologia/Hodge-Teologia-Sistematica-PT.md
+    tamanho_md: 43 KB
+    linhas_md: 900
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: McGrath-Teologia-Sistematica-PT-2
+    caminho_md: data/biblioteca/teologia/McGrath-Teologia-Sistematica-PT-2.md
+    tamanho_md: 92 KB
+    linhas_md: 1875
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: McGrath-Teologia-Sistematica-PT
+    caminho_md: data/biblioteca/teologia/McGrath-Teologia-Sistematica-PT.md
+    tamanho_md: 322 KB
+    linhas_md: 6531
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Robertson-O-Cristo-dos-Pactos-PT
+    caminho_md: data/biblioteca/teologia/Robertson-O-Cristo-dos-Pactos-PT.md
+    tamanho_md: 4 KB
+    linhas_md: 90
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Robertson-O-Cristo-dos-Profetas-PT
+    caminho_md: data/biblioteca/teologia/Robertson-O-Cristo-dos-Profetas-PT.md
+    tamanho_md: 1234 KB
+    linhas_md: 19735
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Sproul-O-Que-E-Teologia-Reformada-PT
+    caminho_md: data/biblioteca/teologia/Sproul-O-Que-E-Teologia-Reformada-PT.md
+    tamanho_md: 9 KB
+    linhas_md: 210
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Sproul-Soli-Deo-Gloria-PT
+    caminho_md: data/biblioteca/teologia/Sproul-Soli-Deo-Gloria-PT.md
+    tamanho_md: 483 KB
+    linhas_md: 10400
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Sproul-Somos-Todos-Teologos-PT
+    caminho_md: data/biblioteca/teologia/Sproul-Somos-Todos-Teologos-PT.md
+    tamanho_md: 41 KB
+    linhas_md: 819
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TG-01._Works_of_John_Howem.pdf
+    caminho_md: data/biblioteca/teologia/TG-01._Works_of_John_Howem.pdf.md
+    tamanho_md: 1173 KB
+    linhas_md: 21939
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TG-02._Works_of_John_Howem.pdf
+    caminho_md: data/biblioteca/teologia/TG-02._Works_of_John_Howem.pdf.md
+    tamanho_md: 945 KB
+    linhas_md: 24727
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TG-03._Works_of_John_Howem.pdf
+    caminho_md: data/biblioteca/teologia/TG-03._Works_of_John_Howem.pdf.md
+    tamanho_md: 975 KB
+    linhas_md: 25455
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TG-04._Works_of_John_Howem.pdf
+    caminho_md: data/biblioteca/teologia/TG-04._Works_of_John_Howem.pdf.md
+    tamanho_md: 885 KB
+    linhas_md: 23625
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TG-05._Works_of_John_Howem.pdf
+    caminho_md: data/biblioteca/teologia/TG-05._Works_of_John_Howem.pdf.md
+    tamanho_md: 861 KB
+    linhas_md: 22842
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TG-06._Works_of_John_Howem.pdf
+    caminho_md: data/biblioteca/teologia/TG-06._Works_of_John_Howem.pdf.md
+    tamanho_md: 893 KB
+    linhas_md: 28828
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Teologia Puritana — Doutrina para a Vida
+    autor: Joel Beeke
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/02-Teologia-Puritana-Doutrina-Vida.md
+    linhas_md: 91872
+    tamanho_md: 4476 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Soli Deo Gloria — O Ser e Obra de Deus
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/03-Soli-Deo-Gloria.md
+    linhas_md: 12299
+    tamanho_md: 961 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: The Gospel of John — A Theological Commentary
+    autor: Herman Ridderbos
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/04-Gospel-John-Ridderbos.md
+    linhas_md: 45862
+    tamanho_md: 2316 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Somos Todos Teólogos — Introdução à Teologia Sistemática
+    autor: R.C. Sproul
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/05-Somos-Todos-Teologos-Sproul.md
+    linhas_md: 3053
+    tamanho_md: 608 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Somos Todos Teólogos (MOBI)
+    autor: R.C. Sproul
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/06-Somos-Todos-Teologos-mobi.md
+    linhas_md: 10620
+    tamanho_md: 606 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Teologia Sistemática
+    autor: Millard J. Erickson
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/07-Teologia-Sistematica-Erickson.md
+    linhas_md: 25339
+    tamanho_md: 3574 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Teologia Sistemática, Histórica e Filosófica
+    autor: Alister E. McGrath
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/08-Teologia-Sistematica-Historica-Filosofica-McGrath.md
+    linhas_md: 7599
+    tamanho_md: 1775 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Saved by Grace
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/10-Saved-by-Grace-Bavinck.md
+    linhas_md: 3916
+    tamanho_md: 721 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Teologia Sistemática
+    autor: Charles Hodge
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/12-Teologia-Sistematica-Charles-Hodge.md
+    linhas_md: 26394
+    tamanho_md: 6226 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Teologia Puritana
+    autor: Joel Beeke
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/13-Teologia-Puritana-Beeke-Vida-Nova.md
+    linhas_md: 30288
+    tamanho_md: 4054 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: O Que é Teologia Reformada?
+    autor: R.C. Sproul
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/15-O-Que-e-Teologia-Reformada-Sproul.md
+    linhas_md: 1080
+    tamanho_md: 48 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: O Cristo dos Profetas
+    autor: O. Palmer Robertson
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/16-O-Cristo-dos-Profetas-Robertson.md
+    linhas_md: 22642
+    tamanho_md: 1435 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: O Cristo dos Pactos
+    autor: O. Palmer Robertson
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/17-O-Cristo-dos-Pactos-Robertson.md
+    linhas_md: 1615
+    tamanho_md: 71 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Imago Dei — Antropologia Reformada
+    autor: Paulo Anglada
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/18-Imago-Dei-Antropologia-Reformada-Anglada.md
+    linhas_md: 5048
+    tamanho_md: 661 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvinismo
+    autor: Abraham Kuyper
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/19-Abraham-Kuyper-Calvinismo.md
+    linhas_md: 8335
+    tamanho_md: 550 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Espiritualidade Reformada
+    autor: Joel R. Beeke
+    caminho_md: /dados/study-agent/data/biblioteca/teologia/20-Espiritualidade-Reformada-Beeke.md
+    linhas_md: 11262
+    tamanho_md: 1243 KB
+    status: indexado
+    fonte: Z-Library (via Drive)

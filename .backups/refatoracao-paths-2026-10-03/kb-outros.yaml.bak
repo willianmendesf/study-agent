@@ -1,0 +1,124 @@
+tags:
+- miscelanea
+- devocional
+- vida-crista
+- evangelizacao
+- apologetica
+- espiritualidade
+knowledge_base_outros:
+  version: '1.0'
+  tipo: Outros — Miscelânea
+  descricao: Livros miscelâneos que não se encaixam em outras categorias
+  total_volumes: 20
+  created_at: '2026-09-10T00:55:00Z'
+  origem: Drive / 1. Fides / Outros (1QQBcbrkm3EVRxZAswvclsL_9kEN99AdA)
+  destino: /dados/study-agent/data/biblioteca/outros/
+  materiais:
+  - titulo: As Sete Igrejas
+    caminho_md: /dados/study-agent/data/biblioteca/outros/As-Sete-Igrejas.md
+    linhas_md: 10561
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Atraves Biblia Livro por Livro
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Atraves-Biblia-Livro-por-Livro.md
+    linhas_md: 16711
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Biblia e Nossa Testemunha Adao Carlos
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Biblia-e-Nossa-Testemunha-Adao-Carlos.md
+    nota: Arquivo .md praticamente vazio (0 bytes) — reconverter/OCR do original no
+      Orbit (auditoria 2026-09-25).
+    linhas_md: 0
+    status: ocr_pendente
+    fonte: Z-Library (via Drive)
+  - titulo: Biblia em Esbocos
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Biblia-em-Esbocos.md
+    linhas_md: 47569
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Estudos Divindade Thomas Ridgley
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Estudos-Divindade-Thomas-Ridgley.md
+    linhas_md: 3660
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Fireproof Love Dare
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Fireproof-Love-Dare.md
+    linhas_md: 7065
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Lewis Cartas Diablo Sobrino
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Lewis-Cartas-Diablo-Sobrino.md
+    linhas_md: 2187
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Mal que nao quero epub
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Mal-que-nao-quero-epub.md
+    linhas_md: 952
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Mal que nao quero mobi
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Mal-que-nao-quero-mobi.md
+    linhas_md: 1654
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Misterio Babilonia Desvendado
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Misterio-Babilonia-Desvendado.md
+    linhas_md: 9161
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Perguntas dificeis Vol1
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Perguntas-dificeis-Vol1.md
+    linhas_md: 2896
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Perguntas dificeis Vol3
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Perguntas-dificeis-Vol3.md
+    linhas_md: 12283
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Profetas profetisas Biblia
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Profetas-profetisas-Biblia.md
+    linhas_md: 7553
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Simplesmente Crente Michael Horton
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Simplesmente-Crente-Michael-Horton.md
+    linhas_md: 2217
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Simplesmente Crente mobi
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Simplesmente-Crente-mobi.md
+    linhas_md: 8033
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Super Ocupado
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Super-Ocupado.md
+    linhas_md: 994
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Todas Parabolas Biblia
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Todas-Parabolas-Biblia.md
+    linhas_md: 24465
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Verdades evangelho mentiras pagas
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Verdades-evangelho-mentiras-pagas.md
+    nota: Arquivo .md praticamente vazio (2 bytes) — reconverter/OCR do original no
+      Orbit (auditoria 2026-09-25).
+    linhas_md: 2
+    status: ocr_pendente
+    fonte: Z-Library (via Drive)
+  - titulo: Voce e aquilo que ama James Smith
+    caminho_md: /dados/study-agent/data/biblioteca/outros/Voce-e-aquilo-que-ama-James-Smith.md
+    linhas_md: 12189
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: OU-A-Biblia-e-Nossa-Testemunha-Adao-Carlos-Nascimento.pdf
+    caminho_md: data/biblioteca/outros/OU-A-Biblia-e-Nossa-Testemunha-Adao-Carlos-Nascimento.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  atualizado_por: bibliotecario (auditoria 2026-09-29)

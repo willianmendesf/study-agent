@@ -1,0 +1,425 @@
+tags:
+- historia
+- igreja
+- interpretacao
+- patristica
+- reforma
+- historia-igreja
+knowledge_base_historia_igreja:
+  version: '2.0'
+  tipo: História da Igreja
+  descricao: História da Igreja cristã — patrística, reforma, modernidade
+  total_volumes: 51
+  created_at: '2026-09-10T01:10:00Z'
+  origem: Drive / 1. Fides / História da Igreja (15XEkN9qEGp3-Sn3Bho3DekkZd-hho23M)
+  destino: /dados/study-agent/data/biblioteca/historia-igreja/
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  materiais_adicionados_rodada_3: null
+  materiais:
+  - titulo: História da Igreja Cristã (12ª edição) (Robert Hastings Nichols).epub
+    autor: Robert H. Nichols
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/historia-igreja/História da Igreja Cristã (12ª edição)
+      (Robert Hastings Nichols) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 14 KB
+    linhas_md: 1260
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 01-Uma-Historia-do-Pensamento-Vol1
+    caminho_md: data/biblioteca/historia-igreja/01-Uma-Historia-do-Pensamento-Vol1.md
+    tamanho_md: 958 KB
+    linhas_md: 16400
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 02-Historia-del-Cristianismo
+    caminho_md: data/biblioteca/historia-igreja/02-Historia-del-Cristianismo.md
+    tamanho_md: 3035 KB
+    linhas_md: 43761
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03-Uma-Historia-do-Pensamento-Vol2
+    caminho_md: data/biblioteca/historia-igreja/03-Uma-Historia-do-Pensamento-Vol2.md
+    tamanho_md: 879 KB
+    linhas_md: 14946
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 04-Como-morreram-os-apostolos
+    caminho_md: data/biblioteca/historia-igreja/04-Como-morreram-os-apostolos.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 05-Historia-Ilustrada-Vol1
+    caminho_md: data/biblioteca/historia-igreja/05-Historia-Ilustrada-Vol1.md
+    tamanho_md: 301 KB
+    linhas_md: 17246
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 06-Historia-Ilustrada-Vol2
+    caminho_md: data/biblioteca/historia-igreja/06-Historia-Ilustrada-Vol2.md
+    tamanho_md: 284 KB
+    linhas_md: 23678
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 07-Historia-Ilustrada-Vol3
+    caminho_md: data/biblioteca/historia-igreja/07-Historia-Ilustrada-Vol3.md
+    tamanho_md: 306 KB
+    linhas_md: 22680
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 08-Historia-Ilustrada-Vol4
+    caminho_md: data/biblioteca/historia-igreja/08-Historia-Ilustrada-Vol4.md
+    tamanho_md: 303 KB
+    linhas_md: 27275
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 09-Historia-Ilustrada-Vol5
+    caminho_md: data/biblioteca/historia-igreja/09-Historia-Ilustrada-Vol5.md
+    tamanho_md: 286 KB
+    linhas_md: 23216
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 10-Historia-Ilustrada-Vol6
+    caminho_md: data/biblioteca/historia-igreja/10-Historia-Ilustrada-Vol6.md
+    tamanho_md: 315 KB
+    linhas_md: 9585
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 11-Historia-Ilustrada-Vol7
+    caminho_md: data/biblioteca/historia-igreja/11-Historia-Ilustrada-Vol7.md
+    tamanho_md: 325 KB
+    linhas_md: 8163
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 12-Historia-Ilustrada-Vol8
+    caminho_md: data/biblioteca/historia-igreja/12-Historia-Ilustrada-Vol8.md
+    tamanho_md: 333 KB
+    linhas_md: 23746
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 13-Historia-Ilustrada-Vol9
+    caminho_md: data/biblioteca/historia-igreja/13-Historia-Ilustrada-Vol9.md
+    tamanho_md: 390 KB
+    linhas_md: 52770
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 14-Historia-Ilustrada-Vol10
+    caminho_md: data/biblioteca/historia-igreja/14-Historia-Ilustrada-Vol10.md
+    tamanho_md: 463 KB
+    linhas_md: 3813
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 15-Historia-Igreja-Paulus-Vol-I
+    caminho_md: data/biblioteca/historia-igreja/15-Historia-Igreja-Paulus-Vol-I.md
+    tamanho_md: 421 KB
+    linhas_md: 6956
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 16-Historia-Igreja-Paulus-Vol-II
+    caminho_md: data/biblioteca/historia-igreja/16-Historia-Igreja-Paulus-Vol-II.md
+    tamanho_md: 433 KB
+    linhas_md: 7993
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 17-Historia-Igreja-Paulus-Vol-III
+    caminho_md: data/biblioteca/historia-igreja/17-Historia-Igreja-Paulus-Vol-III.md
+    tamanho_md: 512 KB
+    linhas_md: 10139
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Cairns-Christianity-Through-the-Centuries-2ed
+    caminho_md: data/biblioteca/historia-igreja/Cairns-Christianity-Through-the-Centuries-2ed.md
+    tamanho_md: 1344 KB
+    linhas_md: 9268
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Cairns-Christianity-Through-the-Centuries
+    caminho_md: data/biblioteca/historia-igreja/Cairns-Christianity-Through-the-Centuries.md
+    tamanho_md: 1346 KB
+    linhas_md: 9404
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Como-morreram-os-apostolos.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Como-morreram-os-apostolos.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.1-Uma-historia-Ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.1-Uma-historia-Ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 301 KB
+    linhas_md: 17246
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.2-Uma-historia-Ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.2-Uma-historia-Ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 284 KB
+    linhas_md: 23678
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.3-Uma-historia-ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.3-Uma-historia-ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 306 KB
+    linhas_md: 22680
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.4-Uma-Historia-Ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.4-Uma-Historia-Ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 303 KB
+    linhas_md: 27275
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.5-Uma-Historia-Ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.5-Uma-Historia-Ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 286 KB
+    linhas_md: 23216
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.6-Uma-Historia-Ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.6-Uma-Historia-Ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 315 KB
+    linhas_md: 9585
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: HI2-Vol.8-Uma-Historia-Ilustrada-do-Cristianismo.pdf
+    caminho_md: data/biblioteca/historia-igreja/HI2-Vol.8-Uma-Historia-Ilustrada-do-Cristianismo.pdf.md
+    tamanho_md: 333 KB
+    linhas_md: 23746
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Sketches-Church-History-Houghton
+    caminho_md: data/biblioteca/historia-igreja/Sketches-Church-History-Houghton.md
+    tamanho_md: 823 KB
+    linhas_md: 9995
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: TGC_Echoes_Reformation_Pages_FINAL
+    caminho_md: data/biblioteca/historia-igreja/TGC_Echoes_Reformation_Pages_FINAL.md
+    tamanho_md: 214 KB
+    linhas_md: 6837
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Trueman-O-Imperativo-Confessional-PT
+    caminho_md: data/biblioteca/historia-igreja/Trueman-O-Imperativo-Confessional-PT.md
+    tamanho_md: 444 KB
+    linhas_md: 2238
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Uma História do Pensamento Cristão — Vol 1
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/01-Uma-Historia-do-Pensamento-Vol1.md
+    linhas_md: 16400
+    tamanho_md: 958 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Historia del Cristianismo
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/02-Historia-del-Cristianismo.md
+    linhas_md: 43761
+    tamanho_md: 3035 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História do Pensamento Cristão — Vol 2
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/03-Uma-Historia-do-Pensamento-Vol2.md
+    linhas_md: 14946
+    tamanho_md: 880 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Como Morreram os Apóstolos
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/04-Como-morreram-os-apostolos.md
+    linhas_md: 0
+    tamanho_md: 0 KB
+    status: todo_ocr
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 1
+    autor: Frank Mead / James King
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/05-Historia-Ilustrada-Vol1.md
+    linhas_md: 17246
+    tamanho_md: 301 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 2
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/06-Historia-Ilustrada-Vol2.md
+    linhas_md: 23678
+    tamanho_md: 284 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 3
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/07-Historia-Ilustrada-Vol3.md
+    linhas_md: 22680
+    tamanho_md: 306 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 4
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/08-Historia-Ilustrada-Vol4.md
+    linhas_md: 27275
+    tamanho_md: 303 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 5
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/09-Historia-Ilustrada-Vol5.md
+    linhas_md: 23216
+    tamanho_md: 286 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 6
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/10-Historia-Ilustrada-Vol6.md
+    linhas_md: 9585
+    tamanho_md: 315 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 7
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/11-Historia-Ilustrada-Vol7.md
+    linhas_md: 8163
+    tamanho_md: 325 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 8
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/12-Historia-Ilustrada-Vol8.md
+    linhas_md: 23746
+    tamanho_md: 333 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 9
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/13-Historia-Ilustrada-Vol9.md
+    linhas_md: 52770
+    tamanho_md: 390 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Uma História Ilustrada do Cristianismo — Vol 10
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/14-Historia-Ilustrada-Vol10.md
+    linhas_md: 3813
+    tamanho_md: 463 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: História da Igreja — Paulus Vol I
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/15-Historia-Igreja-Paulus-Vol-I.md
+    linhas_md: 6956
+    tamanho_md: 421 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: História da Igreja — Paulus Vol II
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/16-Historia-Igreja-Paulus-Vol-II.md
+    linhas_md: 7993
+    tamanho_md: 433 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: História da Igreja — Paulus Vol III
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/17-Historia-Igreja-Paulus-Vol-III.md
+    linhas_md: 10139
+    tamanho_md: 512 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Sketches from Church History
+    autor: S. M. Houghton
+    idioma: en
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/Sketches-Church-History-Houghton.md
+    caminho_original: /dados/study-agent/data/biblioteca/historia-igreja/Sketches
+      from church history (Houghton, S. M. (Sidney Maurice), Bennink etc.) (z-library.sk,
+      1lib.sk, z-lib.sk).pdf
+    tamanho_md: 29.6 MB
+    linhas_md: 9994
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: pdftotext
+    zlib_id: 125376131
+    zlib_hash: 67c22c
+    topicos:
+    - História da Igreja
+    - Sketches biográficos
+    - Houghton
+    - Banner of Truth
+    nota: 'Item #040 da wishlist (era Dargan mas o autor canônico do volume mais acessível
+      é HOUGHTON — Banner of Truth Trust). Bibliotecário escolheu Houghton/Dargan
+      pelo mesmo critério: cobertura panorâmica da história da igreja.'
+  - titulo: O Imperativo Confessional
+    autor: Carl R. Trueman
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/Trueman-O-Imperativo-Confessional-PT.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/O imperativo
+      confessional —, Editora Monergismo, Portuguese - Carl R. Trueman 2019 (z-library.sk,
+      1lib.sk, z-lib.sk).epub
+    tamanho_md: 300 KB
+    linhas_md: 2238
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 22058822
+    zlib_hash: 8d2dfe
+    topicos:
+    - Confessionalismo
+    - Tradição reformada
+    - Trudição vs. modernidade
+    - Trueman
+    - Editora Monergismo (PT-BR)
+  - titulo: 'Christianity Through the Centuries: A History of the Christian Church'
+    autor: Earle E. Cairns
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/historia-igreja/Cairns-Christianity-Through-the-Centuries.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Christianity
+      Through the Centuries A History of the Christian Church —, Zondervan, English
+      - Earle E. Cairns [Cairn.epub
+    tamanho_md: 6.4 MB
+    linhas_md: 9268
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 115767683
+    zlib_hash: 697b8b
+    topicos:
+    - História da Igreja Cristã
+    - Panorama cronológico
+    - Cairns
+    - Para HF 1-4

@@ -1,0 +1,109 @@
+tags:
+- metodologia
+- pesquisa-cientifica
+- abnt
+- monografia
+- projeto-de-pesquisa
+- normas
+- ciencia
+- tcc
+- metodologia-cientifica
+- normas-abnt
+- redacao-academica
+- pesquisa
+knowledge_base_zetesis:
+  version: '1.0'
+  tipo: Metodologia de Pesquisa Científica e Monografia
+  descricao: 'Base de conhecimento para o eixo "pesquisa" do edital de candidatura
+    IPB e monografias teológicas. KB criada a partir de gap identificado pelo bibliotecário
+    em 2026-09-16.
+
+    '
+  total_volumes: 5
+  created_at: 2026-09-16
+  criado_por: bibliotecario (gap identificado)
+  destino: /dados/study-agent/data/biblioteca/zetesis/
+  observacoes:
+  - Cobre as disciplinas CG06 (Metodologia da Pesquisa Científica), CG12 (Monografia
+    1) e CG13 (Monografia 2) do edital de candidatura IPB.
+  - 'Pode expandir com: normas ABNT atualizadas, recursos para TCC teológico, metodologias
+    qualitativas (entrevista, análise de discurso) específicas para teologia.'
+  materiais:
+  - titulo: Metodologia do Trabalho Científico
+    autor: Antônio Joaquim Severino
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/zetesis/Severino-Metodologia-Trabalho-Cientifico.md
+    caminho_original: /dados/study-agent/data/biblioteca/zetesis/Metodologia do trabalho
+      científico —, Cortez, Portuguese - Antônio Joaquim Severino 2017 (z-library.sk,
+      1-.epub
+    tamanho_md: 1.6 MB
+    linhas_md: 6851
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: xhtml_parser
+    zlib_id: 2947529
+    zlib_hash: 3d54a0
+    topicos:
+    - Metodologia científica
+    - Severino
+    - Cortez (PT-BR)
+    - Universidade / monografia
+    - Para CG06 do JMC
+  - titulo: Como Elaborar Projetos de Pesquisa
+    autor: Antônio Carlos Gil
+    idioma: pt-BR
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/zetesis/Gil-Como-Elaborar-Projetos-Pesquisa.md
+    caminho_original: /dados/study-agent/data/biblioteca/zetesis/Como Elaborar Projetos
+      de Pesquisa (Antônio Carlos Gil) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+    tamanho_md: 3.1 MB
+    linhas_md: 5395
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: pdftotext
+    zlib_id: 7802392
+    zlib_hash: 8d6cec
+    topicos:
+    - Projeto de pesquisa
+    - Metodologia aplicada
+    - Gil (Atlas)
+    - PT-BR
+    - Para CG06, CG12-13 do JMC
+  - titulo: Como se Faz uma Tese
+    autor: Umberto Eco
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: data/biblioteca/zetesis/Como se faz uma tese (Umberto Eco) (z-library.sk,
+      1lib.sk, z-lib.sk).md
+    tamanho_md: 488 KB
+    linhas_md: 11472
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  - titulo: Fundamentos de Metodologia Científica
+    autor: Marconi & Lakatos
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: data/biblioteca/zetesis/Fundamentos de Metodologia Científica ( etc.)
+      (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 85 KB
+    linhas_md: 3508
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  - titulo: 'Normalização: Entendendo e Participando da Normalização'
+    autor: (manual ABNT)
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: biblioteca/zetesis/Normalização Entendendo e participando da normalização
+      ( etc.) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 97 KB
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'
+  atualizado_em: '2026-09-30T00:30:00-03:00'
+  atualizado_por: bibliotecario (rodada gaps 4 2026-09-30)

@@ -1,0 +1,123 @@
+tags:
+- oratoria
+- retorica
+- comunicacao
+- persuasao
+- aristoteles
+- public-speaking
+- carnegie
+- tecnicas-de-comunicacao
+- expressao-oral
+- comunicacao-publica
+- argumentacao
+knowledge_base_rhetor:
+  version: '1.0'
+  tipo: Oratória, Retórica e Técnicas de Comunicação
+  descricao: 'Base de conhecimento para o bloco "Comunicação" do edital de candidatura
+    IPB: Oratória (CG60), Técnicas de Comunicação (vinculada à TP — Teologia Prática).
+    KB criada a partir de gap identificado pelo bibliotecário em 2026-09-16.
+
+    '
+  total_volumes: 6
+  created_at: 2026-09-16
+  criado_por: bibliotecario (gap identificado)
+  destino: /dados/study-agent/data/biblioteca/rhetor/
+  observacoes:
+  - 'DIFERENÇA em relação a Kerux: Kerux constrói o CONTEÚDO do sermão expositivo
+    (proposição, esboço, a partir do texto bíblico). Rhetor ensina a ENTREGA/COMUNICAÇÃO
+    em si (voz, postura, estrutura de fala persuasiva, gestão de nervosismo, adaptação
+    de linguagem ao público).'
+  - 'Pode expandir com: Quintiliano (Institutio Oratoria), Cicero (De Oratore), Cícero
+    (Retórica a Herênio), Perelman (Tratado da Argumentação), Quintilian, etc.'
+  atualizado_em: '2026-09-30T00:30:00-03:00'
+  atualizado_por: bibliotecario (rodada gaps 4 2026-09-30)
+  materiais:
+  - titulo: A Quick and Easy Way to Learn to Speak in Public
+    autor: Dale Carnegie
+    idioma: en
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/rhetor/Carnegie-Quick-Easy-Way-Effective-Speaking.md
+    caminho_original: /dados/study-agent/data/biblioteca/rhetor/A quick and easy way
+      to learn to speak in public (Carnegie, Dale, 1888-1955) (z-library.sk, 1lib.sk,
+      z-lib.sk).pdf
+    tamanho_md: 1.8 MB
+    linhas_md: 872
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: pdftotext
+    zlib_id: 119068147
+    zlib_hash: 3d7508
+    topicos:
+    - Public speaking
+    - Oratória prática
+    - Carnegie
+    - Voz, postura, persuasão
+    - Para CG60 do JMC
+  - titulo: 'Rhetoric: The Wit of Persuasion'
+    autor: Walter Nash
+    idioma: en
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/rhetor/Nash-Wit-of-Persuasion-Rhetoric.md
+    caminho_original: /dados/study-agent/data/biblioteca/rhetor/Rhetoric  the wit
+      of persuasion (Nash, Walter) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+    tamanho_md: 14.3 MB
+    linhas_md: 10670
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: pdftotext
+    zlib_id: 121995312
+    zlib_hash: a599c2
+    topicos:
+    - Retórica
+    - Persuasão
+    - Nash
+    - Estilo retórico
+    - Comunicação acadêmica
+  - titulo: A Arte de Falar em Público
+    autor: Pr. Jones Ross
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: data/biblioteca/rhetor/A ARTE DE FALAR EM PÚBLICO (Pr. Jones Ross
+      [Ross, Pr. Jones]) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 50 KB
+    linhas_md: 1348
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  - titulo: Comunicação Assertiva
+    autor: Débora Brum
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: data/biblioteca/rhetor/Comunicação Assertiva Aprenda a arte de falar
+      e influênciar —, Literare Books, Portuguese - Débora Brum 2022 (z-lib.md
+    tamanho_md: 8 KB
+    linhas_md: 433
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-29)
+    download_em: '2026-09-29'
+  - titulo: Curso de Oratória — Arte de Falar em Público
+    autor: (clássico)
+    idioma: Portuguese
+    formato_original: pdf
+    caminho_md: biblioteca/rhetor/Curso de Oratória - Arte de falar em público ou
+      a habilidade de falar em público ( etc.) (z-library.sk, 1lib.sk, z-l.md
+    tamanho_md: 59 KB
+    linhas_md: 1897
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'
+  - titulo: Quintiliano — Sobre la Formación del Orador
+    autor: Quintiliano
+    idioma: Spanish
+    formato_original: pdf
+    caminho_md: biblioteca/rhetor/Quintiliano Sobre la formacíon del orador doce libros
+      = Institutio oratoria. T. 1 Libros I - III continens —, Public.md
+    tamanho_md: 915 KB
+    linhas_md: 15892
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-30)
+    download_em: '2026-09-30'

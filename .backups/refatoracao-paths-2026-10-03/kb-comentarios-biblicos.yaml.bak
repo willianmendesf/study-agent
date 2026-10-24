@@ -1,0 +1,548 @@
+tags:
+- comentarios
+- biblia
+- exegese
+- comentario-biblico
+- exposicao
+knowledge_base_comentarios_biblicos:
+  version: '2.0'
+  tipo: Comentários Bíblicos
+  descricao: Base de conhecimento com comentários por livro bíblico — AT/NT, panorâmicos,
+    devocionais e técnico-exegéticos. Apoia Hermes (Módulos 3-6), Hermeneia (H04),
+    Kritikos (variantes em comentários) e Homologia (exegese das confissões).
+  total_volumes: 58
+  created_at: '2026-09-09T23:50:00Z'
+  atualizado_em: 2026-09-11
+  atualizado_por: bibliotecario (auditoria — sincronização com disco)
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx + EasyOCR CPU quando escaneado
+    destino: /dados/study-agent/data/biblioteca/comentarios-biblicos/
+    backup_pdf: true
+  observacao_sincronizacao: |
+    Em 2026-09-11, auditoria do Bibliotecário detectou que esta kb estava
+    desatualizada: só registrava 3 livros. Em disco, há 33 .md canônicos (mais
+    duplicatas CB-* redundantes mantidas como backup do Z-Library). KB reescrita
+    para refletir a realidade. Gap CRÍTICO resolvido: Romanos agora tem
+    comentário canônico (Hendriksen + Calvino).
+    # ------------------ COMENTÁRIOS PANORÂMICOS / INTRODUÇÕES ------------------
+    # ------------------ COMENTÁRIO DE SALMOS ------------------
+    # ------------------ ESTUDOS BÍBLICOS EXPOSITIVOS (Wiersbe) ------------------
+  # ------------------ WATERSBE AT (Comentário Bíblico Expositivo) ------------------
+  # ------------------ CHAMPLIN AT (Enciclopédia) ------------------
+  # ------------------ CHAMPLIN ENCICLOPÉDIA (Teologia e Filosofia) ------------------
+  # ------------------ HENDRIKSEN (New Testament Commentary) ------------------
+    # ------------------ CALVINO — COMENTÁRIO NT (canônico reformado) ------------------
+  # ------------------ KEENER — COMENTÁRIO HISTÓRICO-CULTURAL ------------------
+  # ------------------ JEREMIAS (OCR pendente) ------------------
+# observacoes_duplicatas:
+# - 'Arquivos CB-*.md no diretório são duplicatas dos livros canônicos numerados (mesmo hash, encoding diferente ou PDF renomeado). Mantidos como backup; podem ser desabilitados via sufixo .disabled se o usuário preferir desduplicar.'
+# - 'Pasta calvino-epub/ contém versões EPUB dos mesmos comentários (35-Calvino-Comentario-Biblicos-Epub.md etc.) — fonte alternativa caso a PDF tenha ficado corrompida.'
+
+
+
+
+
+## Lacunas declaradas (atualizado 2026-09-25)
+
+### Oséias (Hosea) — sem comentário dedicado
+
+# **Cobertura atual:** APENAS Bob Utley *Panorama do AT* (introdução panorâmica por livro, com esboço estrutural de Oséias em 7 unidades — fonte primária de estruturação no `data/estudos/notas/oseias/01-descoberta-plano.md` e a usar durante Fase A). Champlin AT Vol 2/4/5 (enciclopédia, menciona Oséias em verbetes temáticos sobre Baal, casamento simbólico, etc.) e Vol 6 (entrada sobre o rei Oséias). **CORREÇÃO 2026-09-25:** Wiersbe AT Vol 3 (Jó–Cantares — Wisdom and Poetry) **NÃO cobre Oséias**. A descrição original "Ezequiel-Malaquias" estava errada e foi corrigida. Wiersbe AT Vol 1 (Gênesis-Deuteronômio) e Vol 2 (Josué-2 Crônicas) também não cobrem Oséias. Nenhum comentário técnico-exegético dedicado ao livro.
+
+# **Gap recomendado:** ao iniciar estudo exegético-devocional de Oséias em `data/estudos/notas/oseias/01-descoberta-plano.md` (2026-09-25), bibliotecário adicionou 4 livros à `lista-aquisicao.md`: Wolff (Paulinas/Eerdmans), Garrett WBC 31, Hubbard TOTC, Andersen-Freedman Anchor Bible 24. Adquirir progressivamente da sem. 5 em diante do plano.
+
+# **Impacto operacional:** Orquestrador declara explicitamente ao usuário que "comentário dedicado ausente" toda vez que responder perguntas de exegese técnica de Oséias (Regra 9 §4) — não preenche a lacuna em silêncio. Para Fase A, a fonte estrutural primária é Bob Utley *Panorama do AT* (`…/Panorama-do-Antigo-Testamento-Bob-Utley.md`, seção "Introdução a Oséias" linhas 13340-13619 da versão local). Champlin é enciclopédia de consulta (verbetes pontuais). Para Fase B e C, **biblioteca precisa ser suplementada**: Wolff, Garrett WBC 31, Hubbard TOTC ou Andersen-Freedman Anchor 24 — todos já adicionados à `lista-aquisicao.md` (#071-#075).
+  materiais:
+    - id: pan-at
+      titulo: Panorama do Antigo Testamento
+      autor: Bob Utley
+      idioma: pt
+      formato_original: pdf
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Panorama-do-Antigo-Testamento-Bob-Utley.md
+      tamanho_md: 504 KB
+      status: indexado
+      fonte: Z-Library (local /home/willianmendesf/Downloads/Books)
+      topicos:
+        - Comentário panorâmico AT
+        - Introdução AT
+        - Panorâmica bíblica
+    - id: sal-1
+      titulo: Los Salmos — Comentário
+      autor: Frans van Deursen
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Los-salmos.md
+      nota: "Himnario de los hijos del Pacto (Salmos I), 2ª ed. 2003. Reconvertido do PDF do Orbit (pdftotext) em 2026-09-25."
+      linhas_md: 32493
+      idioma: es
+      tamanho_md: 1.5 MB
+      status: indexado
+      topicos:
+        - Comentário Salmos
+        - Poéticos
+        - Devocional
+    - id: sal-2
+      titulo: Comentário Salmos — Alonso Schökel
+      autor: Luis Alonso Schökel
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/03-Comentario-Salmos-Alonso-Schokel.md
+      tamanho_md: 2113 KB
+      status: indexado
+      topicos:
+        - Salmos
+        - Alonso Schökel
+        - Comentário literário
+        - Gênero poético
+    - id: wiersbe-est-vol1
+      titulo: Estudos Bíblicos Expositivo — Vol 1 (Antigo Testamento)
+      autor: Warren W. Wiersbe
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/01-Estudos-biblicos-expositivo-Vol-1.md
+      tamanho_md: 806 KB
+      status: indexado
+      topicos:
+        - Wiersbe
+        - Expositivo AT
+        - Devocional-exegético
+    - id: wiersbe-est-vol2
+      titulo: Estudos Bíblicos Expositivo — Vol 2 (Novo Testamento)
+      autor: Warren W. Wiersbe
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/02-Estudos-biblicos-expositivo-Vol-2.md
+      tamanho_md: 819 KB
+      status: indexado
+      topicos:
+        - Wiersbe
+        - Expositivo NT
+        - Devocional-exegético
+    - id: wiersbe-at-vol1
+      titulo: Comentário Bíblico Expositivo — Antigo Testamento Vol 1
+      autor: Warren W. Wiersbe
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/29-Wiersbe-AT-Vol-1.md
+      tamanho_md: 2493 KB
+      status: indexado
+      topicos:
+        - Wiersbe AT Vol 1 (Gênesis-Deuteronômio)
+        - Expositivo devocional
+    - id: wiersbe-at-vol2
+      titulo: Comentário Bíblico Expositivo — Antigo Testamento Vol 2
+      autor: Warren W. Wiersbe
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/30-Wiersbe-AT-Vol-2.md
+      tamanho_md: 3244 KB
+      status: indexado
+      topicos:
+        - Wiersbe AT Vol 2 (Josué-2 Crônicas)
+        - Expositivo devocional
+    - id: wiersbe-at-vol3
+      titulo: Comentário Bíblico Expositivo — Antigo Testamento Vol 3
+      autor: Warren W. Wiersbe
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/31-Wiersbe-AT-Vol-3.md
+      tamanho_md: 2226 KB
+      status: indexado
+      topicos:
+        - "Wiersbe AT Vol 3 (Wisdom and Poetry: Jó–Cantares; também inclui Daniel e Apocalipse no fim — NÃO cobre Ezequiel–Malaquias como registra a descrição original da kb. CORREÇÃO 2026-09-25 após leitura de cabeçalho (Sumário: Jó 7 · Salmos 85 · Provérbios 362 · Eclesiastes 449 · Cantares 512))"
+        - Expositivo devocional
+    - id: wiersbe-at-vol4
+      titulo: Comentário Bíblico Expositivo — Antigo Testamento Vol 4 (NT)
+      autor: Warren W. Wiersbe
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/32-Wiersbe-AT-Vol-4.md
+      tamanho_md: 2514 KB
+      status: indexado
+      observacao: 'Apesar do nome "Vol 4", cobre o NT (Mateus-Apocalipse)'
+      topicos:
+        - Wiersbe NT
+        - Expositivo devocional
+    - id: champlin-at-vol1
+      titulo: Champlin — Antigo Testamento Vol 1
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/04-Champlin-AT-Vol-1.md
+      tamanho_md: 6962 KB
+      status: indexado
+      topicos:
+        - Champlin
+        - AT Vol 1
+        - Comentário com múltiplas vozes
+    - id: champlin-at-vol2
+      titulo: Champlin — Antigo Testamento Vol 2
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/05-Champlin-AT-Vol-2.md
+      tamanho_md: 6546 KB
+      status: indexado
+    - id: champlin-at-vol3
+      titulo: Champlin — Antigo Testamento Vol 3
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/06-Champlin-AT-Vol-3.md
+      tamanho_md: 4999 KB
+      status: indexado
+    - id: champlin-at-vol4
+      titulo: Champlin — Antigo Testamento Vol 4
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/07-Champlin-AT-Vol-4.md
+      tamanho_md: 6869 KB
+      status: indexado
+    - id: champlin-at-vol5
+      titulo: Champlin — Antigo Testamento Vol 5
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/08-Champlin-AT-Vol-5.md
+      tamanho_md: 7435 KB
+      status: indexado
+    - id: champlin-at-vol6
+      titulo: Champlin — Antigo Testamento Vol 6
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/09-Champlin-AT-Vol-6.md
+      tamanho_md: 7906 KB
+      status: indexado
+    - id: champlin-at-vol7
+      titulo: Champlin — Antigo Testamento Vol 7
+      autor: Russel N. Champlin
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/10-Champlin-AT-Vol-7.md
+      tamanho_md: 6755 KB
+      status: indexado
+    - id: champlin-enc-vol1
+      titulo: Enciclopédia de Teologia e Filosofia — Champlin Vol 1
+      autor: Russel N. Champlin
+      tipo: enciclopedia
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/11-Champlin-Enciclopedia-Vol-1.md
+      tamanho_md: 7451 KB
+      status: indexado
+      topicos:
+        - Enciclopédia
+        - Teologia e Filosofia
+        - Referência
+    - id: champlin-enc-vol2
+      titulo: Enciclopédia de Teologia e Filosofia — Champlin Vol 2
+      autor: Russel N. Champlin
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Enciclopedia-de-Teologia-e-Filosofia-Champlin-Vol.-02.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/12-Champlin-Enciclopedia-Vol-2.md
+      tamanho_md: 1787 KB
+      status: indexado
+    - id: champlin-enc-vol3
+      titulo: Enciclopédia de Teologia e Filosofia — Champlin Vol 3
+      autor: Russel N. Champlin
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Enciclopedia-de-Teologia-e-Filosofia-Champlin-Vol.-03.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/13-Champlin-Enciclopedia-Vol-3.md
+      tamanho_md: 1372 KB
+      status: indexado
+    - id: champlin-enc-vol4
+      titulo: Enciclopédia de Teologia e Filosofia — Champlin Vol 4
+      autor: Russel N. Champlin
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/14-Champlin-Enciclopedia-Vol-4.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/14-Champlin-Enciclopedia-Vol-4.md
+      tamanho_md: 4322 KB
+      status: indexado
+    - id: champlin-enc-vol5
+      titulo: Enciclopédia de Teologia e Filosofia — Champlin Vol 5
+      autor: Russel N. Champlin
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Enciclopedia-de-Teologia-e-Filosofia-Champlin-Vol.-05.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/15-Champlin-Enciclopedia-Vol-5.md
+      tamanho_md: 3762 KB
+      status: indexado
+    - id: champlin-enc-vol6
+      titulo: Enciclopédia de Teologia e Filosofia — Champlin Vol 6
+      autor: Russel N. Champlin
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/16-Champlin-Enciclopedia-Vol-6.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/16-Champlin-Enciclopedia-Vol-6.md
+      tamanho_md: 6252 KB
+      status: indexado
+    - id: hendriksen-ef-fp
+      titulo: Efésios e Filipenses — Comentário
+      autor: William Hendriksen
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/17-Hendriksen-Efesios-Filipenses.md
+      tamanho_md: 626 KB
+      status: indexado
+      topicos:
+        - Hendriksen
+        - Efésios
+        - Filipenses
+        - Reformado
+    - id: hendriksen-tm-tt
+      titulo: 1-2 Timóteo e Tito — Comentário
+      autor: William Hendriksen
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/18-Hendriksen-1-2-Timoteo-Tito.md
+      tamanho_md: 0 KB
+      status: ocr_pendente
+      observacao: Arquivo vazio — precisa OCR ou recopy do Z-Library
+      prioridade_curto_prazo: ALTA
+    - id: hendriksen-rm
+      titulo: Romanos — Comentário (resolve gap do edital IPB Candidatura)
+      autor: William Hendriksen
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-09._Romanos-Willian_Hendriksen.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/19-Hendriksen-Romanos.md
+      tamanho_md: 1544 KB
+      status: indexado
+      topicos:
+        - Hendriksen
+        - Romanos
+        - Reformado
+        - 'Fecha gap declarado em 2026-09-10 (visão panorâmica Romanos)'
+    - id: calvino-1co
+      titulo: Comentário à Primeira Epístola aos Coríntios
+      autor: João Calvino
+      serie: Comentários do Novo Testamento (Calvino)
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Comentario_a_epistola_de_1_Corintios-Joao_Calvino.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/22-Calvino-NT-1-Corintios.md
+      tamanho_md: 1396 KB
+      status: indexado
+    - id: calvino-2co
+      titulo: Comentário à Segunda Epístola aos Coríntios
+      autor: João Calvino
+      serie: Comentários do Novo Testamento (Calvino)
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Comentario_a_epistola_de_2_Corintios-Joao_Calvino.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/24-Calvino-NT-2-Corintios.md
+      tamanho_md: 823 KB
+      status: indexado
+    - id: calvino-gl-ef-fp-cl
+      titulo: Comentário a Gálatas, Efésios, Filipenses e Colossenses
+      autor: João Calvino
+      serie: Comentários do Novo Testamento (Calvino)
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Comentario_de_Galatas-_Efesios-_Filipenses_e_Colossenses-Joao_Calvino.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/23-Calvino-NT-Galatas-Efesios-Filipenses-Colossenses.md
+      tamanho_md: 1399 KB
+      status: indexado
+    - id: calvino-hb
+      titulo: Comentário à Epístola aos Hebreus
+      autor: João Calvino
+      serie: Comentários do Novo Testamento (Calvino)
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Comentario_a_epistola_de_Hebreus-Joao_Calvino.pdf.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/25-Calvino-NT-Hebreus.md
+      tamanho_md: 1080 KB
+      status: indexado
+    - id: calvino-rm
+      titulo: Comentário à Epístola aos Romanos
+      autor: João Calvino
+      serie: Comentários do Novo Testamento (Calvino)
+      camino_md_alt: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Comentario_a_epistola_de_Romanos-Joao_Calvino.pdf.md
+      camino_md_alt2: /dados/study-agent/data/biblioteca/comentarios-biblicos/CB-Romanos_-Comentarios_Biblic_-Z-Library-.epub.md
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/26-Calvino-NT-Romanos.md
+      tamanho_md: 1468 KB
+      status: indexado
+      topicos:
+        - Calvino
+        - Romanos
+        - Reformado clássico
+        - Complementa o Hendriksen Romanos (mais exegético que pastoral)
+    - id: keener-nt
+      titulo: IVP Bible Background Commentary — Novo Testamento (Keener)
+      autor: Craig S. Keener
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/27-Keener-Historico-Cultural-NT.md
+      tamanho_md: 3980 KB
+      status: indexado
+      topicos:
+        - Keener
+        - Contexto histórico-cultural NT
+        - Complementa Histōr (Bloco 2 — NT)
+        - Para exegese com subsídio cultural
+    - id: keener-at
+      titulo: IVP Bible Background Commentary — Antigo Testamento (Walton/Matthews)
+      autor: John H. Walton, Victor H. Matthews
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/28-Keener-Historico-Cultural-AT.md
+      tamanho_md: 4666 KB
+      status: indexado
+      topicos:
+        - Contexto histórico-cultural AT
+        - Complementa Histōr (Bloco 1 — AT)
+    - id: jeremias
+      titulo: Jeremias — Comentário
+      autor: Meint R. van den Berg
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/jeremias.md
+      linhas_md: 14208
+      idioma: es
+      tamanho_md: 546 KB
+      status: indexado_ocr
+      observacao: "Jeremías — Una introducción a sus profecías (FELiRe). PDF escaneado convertido por OCR (tesseract, 2026-09-25); pode ter erros de reconhecimento, sobretudo acentos (OCR configurado em pt, texto em espanhol)."
+      prioridade_curto_prazo: MÉDIA
+    - titulo: The Letters of John (Pillar New Testament Commentary | PNTC)
+      autor: Colin G. Kruse
+      idioma: en
+      formato_original: pdf
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Kruse-Letters-of-John-Pillar-NTC.md
+      caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Letters of John (Pillar New Testament Commentary  PNTC) —, Wm. B. Eerdmans Publishing, English - Colin G. Kruse.pdf
+      tamanho_md: 1022 KB
+      linhas_md: 9260
+      status: indexado
+      adicionado_em: 2026-09-13
+      processado_via: pdftotext
+      topicos:
+        - Comentário de 1, 2, 3 João
+        - Pillar New Testament Commentary
+        - Kruse
+        - Crítica textual
+        - Soteriologia
+    - titulo: 1, 2, 3 John (Word Biblical Commentary | WBC Volume 51)
+      autor: Stephen S. Smalley
+      idioma: en
+      formato_original: epub
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Smalley-1-2-3-John-WBC.md
+      caminho_original: /dados/study-agent/data/biblioteca/_incoming/1, 2, 3 John. Word Biblical Commentary Volume 51 (Stephen S. Smalley) (z-library.sk, 1lib.sk, z-lib.sk).epub
+      tamanho_md: 1501 KB
+      linhas_md: 18330
+      status: flag_parcial (markitdown/xhtml vazio — epub protegido)
+      adicionado_em: 2026-09-13
+      zlib_id: 16727629
+      zlib_hash: 438618
+    - titulo: The Epistles of John (New International Commentary on the New Testament | NICNT)
+      autor: I. Howard Marshall
+      idioma: en
+      formato_original: epub
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Marshall-Epistles-of-John-NICNT.md
+      caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Epistles of John (NICNT) —, Eerdmans, William B. Publishing, English - I. Howard Marshall [Marshall, I. Howard].epub
+      tamanho_md: 18.6 MB
+      linhas_md: 8753
+      status: indexado
+      adicionado_em: 2026-09-13
+      processado_via: xhtml_parser
+      zlib_id: 16789894
+      zlib_hash: e53dfd
+      topicos:
+        - Comentário de 1, 2, 3 João
+        - NICNT
+        - Marshall
+        - Scholarship crítica
+    - titulo: The Letters of John (Tyndale New Testament Commentaries | TNTC)
+      autor: John R. W. Stott
+      idioma: en
+      formato_original: azw3 (extraído via mobi-lib → epub → markitdown)
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Stott-Letters-of-John-TNTC.md
+      caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Letters of John 19 (Tyndale New Testament Commentaries) —, InterVarsity Press, English - John Stott 2014 (z-lib.azw3
+      tamanho_md: 536K
+      linhas_md: 1968
+      status: indexado
+      adicionado_em: 2026-09-16
+      processado_via: mobi-lib+markitdown
+      topicos:
+        - Comentário de 1, 2, 3 João
+        - TNTC
+        - Stott
+        - Nível pastoral-acessível
+    - titulo: The Message of John's Letters (The Bible Speaks Today | BST)
+      autor: David Jackman
+      idioma: en
+      formato_original: epub
+      caminho_md: /dados/study-agent/data/biblioteca/comentarios-biblicos/Jackman-Message-of-Johns-Letters-BST.md
+      caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Message of Johns Letters (The Bible Speaks Today Series) (David Jackman [Jackman, David]) (z-library.sk, 1lib.s.epub
+      tamanho_md: 436K
+      linhas_md: 1709
+      status: indexado
+      adicionado_em: 2026-09-16
+      processado_via: markitdown
+      topicos:
+        - Comentário de 1, 2, 3 João
+        - BST
+        - Jackman
+        - Nível pastoral-expositivo
+    - titulo: "1–3 John (Reformed Expository Commentary) (Douglas Sean ODonnell)"
+      caminho_md: data/biblioteca/comentarios-biblicos/1–3 John (Reformed Expository Commentary) (Douglas Sean ODonnell).md
+      tamanho_md: 572 KB
+      linhas_md: 5137
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "A Biblical Theological Introduction to the New Testament - The Gospel Realized (Michael J. Kruger)"
+      caminho_md: data/biblioteca/comentarios-biblicos/A Biblical-Theological Introduction to the New Testament - The Gospel Realized (Michael J. Kruger).md
+      tamanho_md: 2400 KB
+      linhas_md: 22099
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Romanos Willian Hendriksen"
+      caminho_md: data/biblioteca/comentarios-biblicos/CB-09._Romanos-Willian_Hendriksen.pdf.md
+      tamanho_md: 1543 KB
+      linhas_md: 32436
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "e 2 Tessalonicenses- Colo"
+      caminho_md: data/biblioteca/comentarios-biblicos/CB-1_e_2_Tessalonicenses-_Colo_-Z-Library-.epub.md
+      tamanho_md: 1281 KB
+      linhas_md: 8497
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Comentario Biblico Expositivo NT Vol. 2 Warren W. Wiersbe"
+      caminho_md: data/biblioteca/comentarios-biblicos/CB-Comentario_Biblico_Expositivo_NT_Vol._2-Warren_W._Wiersbe.pdf.md
+      tamanho_md: 3231 KB
+      linhas_md: 92327
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Comentario a epistola de 2 Corintios Joao Calvino"
+      caminho_md: data/biblioteca/comentarios-biblicos/CB-Comentario_a_epistola_de_2_Corintios-Joao_Calvino.pdf.md
+      tamanho_md: 822 KB
+      linhas_md: 16141
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Comentario de Galatas- Efesios- Filipenses e Colossenses Joao Calvino"
+      caminho_md: data/biblioteca/comentarios-biblicos/CB-Comentario_de_Galatas-_Efesios-_Filipenses_e_Colossenses-Joao_Calvino.pdf.md
+      tamanho_md: 1398 KB
+      linhas_md: 29308
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Enciclopedia de Teologia e Filosofia Champlin Vol.-03"
+      caminho_md: data/biblioteca/comentarios-biblicos/CB-Enciclopedia-de-Teologia-e-Filosofia-Champlin-Vol.-03.pdf.md
+      tamanho_md: 1371 KB
+      linhas_md: 32408
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Epístolas Gerais (Série Comentários Bíblicos João Calvino) — Editora Fiel Portuguese - João Calvino 2016"
+      caminho_md: data/biblioteca/comentarios-biblicos/Epístolas Gerais (Série Comentários Bíblicos João Calvino) — Editora Fiel Portuguese - João Calvino 2016 (z-libra.md
+      tamanho_md: 1094 KB
+      linhas_md: 4441
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Panorama do Novo Testamento (Dr. Bob Utley)"
+      caminho_md: data/biblioteca/comentarios-biblicos/Panorama do Novo Testamento (Dr. Bob Utley).md
+      tamanho_md: 507 KB
+      linhas_md: 15782
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Pauls Letter to the Philippians (Gordon D. Fee [Fee Gordon D.])"
+      caminho_md: data/biblioteca/comentarios-biblicos/Pauls Letter to the Philippians (Gordon D. Fee [Fee Gordon D.]).md
+      tamanho_md: 1634 KB
+      linhas_md: 19674
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Ridderbos Gospel of John"
+      caminho_md: data/biblioteca/comentarios-biblicos/Ridderbos-Gospel-of-John.md
+      tamanho_md: 21187 KB
+      linhas_md: 110221
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "The Epistles of John (I. Howard Marshall)"
+      caminho_md: data/biblioteca/comentarios-biblicos/The Epistles of John (I. Howard Marshall).md
+      tamanho_md: 48 KB
+      linhas_md: 919
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "The Letters of John (Colin G. Kruse [Kruse Colin G.])"
+      caminho_md: data/biblioteca/comentarios-biblicos/The Letters of John (Colin G. Kruse [Kruse Colin G.]).md
+      tamanho_md: 720 KB
+      linhas_md: 6705
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Calvino Comentario Biblicos Epub"
+      caminho_md: data/biblioteca/comentarios-biblicos/calvino-epub/35-Calvino-Comentario-Biblicos-Epub.md
+      tamanho_md: 13071 KB
+      linhas_md: 153678
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Calvino Comentarios Biblicos Epub v2"
+      caminho_md: data/biblioteca/comentarios-biblicos/calvino-epub/36-Calvino-Comentarios-Biblicos-Epub-v2.md
+      tamanho_md: 11720 KB
+      linhas_md: 121684
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Calvino Galatas Efesios Filipenses Colossenses Epub"
+      caminho_md: data/biblioteca/comentarios-biblicos/calvino-epub/37-Calvino-Galatas-Efesios-Filipenses-Colossenses-Epub.md
+      tamanho_md: 1343 KB
+      linhas_md: 4827
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Calvino Romanos Epub"
+      caminho_md: data/biblioteca/comentarios-biblicos/calvino-epub/38-Calvino-Romanos-Epub.md
+      tamanho_md: 1393 KB
+      linhas_md: 5773
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Calvino 1 Corintios Epub"
+      caminho_md: data/biblioteca/comentarios-biblicos/calvino-epub/39-Calvino-1-Corintios-Epub.md
+      tamanho_md: 1345 KB
+      linhas_md: 6202
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Calvino Hebreus Epub"
+      caminho_md: data/biblioteca/comentarios-biblicos/calvino-epub/40-Calvino-Hebreus-Epub.md
+      tamanho_md: 1020 KB
+      linhas_md: 3492
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."

@@ -1,0 +1,135 @@
+tags:
+- teologia
+- doutrina
+- fe
+knowledge_base_bases_da_fe:
+  version: '1.0'
+  tipo: Bases da Fé — Doutrinas Fundamentais Cristãs
+  descricao: Base de conhecimento sobre as doutrinas essenciais da fé cristã — credos,
+    fundamentos, ensino básico
+  total_volumes: 7
+  created_at: '2026-09-09T21:55:00Z'
+  atualizado_em: 2026-09-10T...Z
+  origem: Google Drive — willianmendesf.study@gmail.com / 2. BIBLIOTECA / 1. Fides
+    / Bases da fé
+  fluxo_processamento:
+    download: Google Drive API REST (OAuth 2.0, escopo drive.readonly)
+    conversao: markitdown via uvx (PDF → Markdown) + mobi.extract + html2text (para
+      arquivo MOBI renomeado)
+    destino: /dados/study-agent/data/biblioteca/bases-da-fe/
+    backup_pdf: false
+  materiais:
+  - id: 1
+    titulo: Bases da fé cristã — 20 fundamentos que todo cristão precisa conhecer
+    tamanho_pdf_original: 2.8 MB
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/01-bases-fe-crista-20-fundamentos.md
+    tamanho_md: 288 KB
+    linhas_md: 1838
+    drive_id: 1F0fVRJs2KVlP1tV8vXplMo43wHD4fV7k
+    status: indexado
+    download_em: '2026-09-09T21:51:00Z'
+    convertido_em: '2026-09-09T21:55:00Z'
+    topicos:
+    - Fundamentos da fé cristã
+    - Doutrinas básicas
+    - Doutrina de Deus, Cristo, Espírito Santo
+    - Igreja, salvação, escatologia
+    - Ética cristã
+  - id: 2
+    titulo: Cristianismo Básico
+    autor: John Stott
+    tamanho_pdf_original: 7.8 MB
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/02-cristianismo-basico-stott.md
+    tamanho_md: 938 KB
+    linhas_md: 5531
+    drive_id: 1pOv2zrQg9PlhgUBOFiM77FvffAX-QgcH
+    status: indexado
+    download_em: '2026-09-09T21:51:00Z'
+    convertido_em: '2026-09-09T21:55:00Z'
+    topicos:
+    - Cristianismo básico para todos
+    - Stott — clássico evangelical
+    - Decisões, a Bíblia, Deus, Cristo
+    - Espírito Santo, a Igreja
+    - Apologética prática
+  - id: 3
+    titulo: O Credo dos Apóstolos — as doutrinas centrais da fé cristã
+    autor: Franklin Ferreira
+    tamanho_pdf_original: 4.6 MB (formato MOBI renomeado como PDF)
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/03-credo-apostolos-doutrinas-centrais.md
+    tamanho_md: 404 KB
+    linhas_md: 6695
+    drive_id: 19YVLU2aHdHD4JKHNAddtTDtjYbnoGn0L
+    status: indexado
+    download_em: '2026-09-09T21:51:00Z'
+    convertido_em: '2026-09-09T21:55:00Z'
+    nota_conversao: Arquivo original é MOBI (não PDF) — detectado por file/magic number.
+      Convertido via mobi.extract → HTML → html2text → Markdown.
+    topicos:
+    - Credo dos Apóstolos
+    - História dos credos
+    - Doutrinas centrais
+    - Apologética confessional
+    - Editora Fiel / Ministério Fiel
+    - Apêndice sobre uso do Credo na igreja
+  - id: 4
+    titulo: Série Concisa — Introdução à Bíblia
+    tamanho_pdf_original: 11.4 MB
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/04-serie-concisa-introducao-biblia.md
+    tamanho_md: 697 KB
+    linhas_md: 12082
+    drive_id: 1nIq7fpffFvjI8aq1UCV6m4frFTdUMpGE
+    status: indexado
+    download_em: '2026-09-09T21:51:00Z'
+    convertido_em: '2026-09-09T21:55:00Z'
+    topicos:
+    - Introdução à Bíblia
+    - Panorama AT e NT
+    - Livro por livro (conciso)
+    - Contexto e mensagem
+  - titulo: Deus é o Evangelho
+    autor: John Piper (provável)
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/Deus_e_o_evangelho-protegido.md
+    tamanho_md: 344 KB
+    linhas_md: 7240
+    status: indexado
+    topicos:
+    - Cristologia
+    - Evangelho
+    - Glória de Deus
+  - titulo: Os Cânones de Dort
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/LOS_CANONES_DE_DORT.md
+    tamanho_md: 92 KB
+    linhas_md: 1696
+    status: indexado
+    topicos:
+    - Credo Reformado
+    - Dort
+    - Soteriologia
+    - Eleição
+  - titulo: Adoração Cristocêntrica — O Culto Moldado pelo Evangelho
+    autor: Bryan Chapell
+    editora: Pro Nobis
+    ano: 2024
+    idioma: pt
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/bases-da-fe/01-07-Bryan-Chapell-Apostila-Adoracao-Cristocentrica.md
+    linhas_md: 6633
+    tamanho_md: 689 KB
+    status: indexado
+    fonte: Z-Library (local /home/willianmendesf/Downloads/Books)
+    topicos:
+    - Adoração
+    - Liturgia
+    - Culto cristão
+    - Evangelho
+    - Regeneration Worship
+  observacoes:
+  - 'Sessão Drive: google-drive://willianmendesf.study@gmail.com/0AChOZcEpA0FJUk9PVA/1jcCGhBG91zA5M9pIQnlOQhG9aG3wUJwS/1CsWI_bYHZ8qk6nt1v52HfWcMl0az0BQr/1fFU07AX9mTybSrwYpmk2ZQ1lrhyetdMJ'
+  - Arquivo 'O Credo dos Apóstolos' duplicado no Drive (mesmo drive_id diferente,
+    mesmo tamanho) — só baixado 1 cópia.
+  - 'Arquivo #3 era MOBI renomeado como PDF — extraído via mobi lib (mobi.extract)
+    e convertido HTML → Markdown via html2text.'
+  - PDFs originais foram deletados após conversão (.md é a fonte de verdade — Regra
+    2 do CLAUDE.md).

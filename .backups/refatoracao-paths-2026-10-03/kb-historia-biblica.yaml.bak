@@ -1,0 +1,389 @@
+tags:
+- historia-biblica
+- biblia
+- contexto
+knowledge_base_historia_biblica:
+  version: '2.0'
+  tipo: História Bíblica
+  descricao: Base de conhecimento sobre história, cronologia e contexto bíblico
+  total_volumes: 25
+  created_at: '2026-09-07T14:55:00Z'
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  materiais_local: null
+  materiais_drive_cronologia_contextos:
+    origem_drive: 1. Fides / Cronologia e Contextos Históricos (1EiVYV_tL7vsab6kGaDoJED3tORprs1mz)
+    data_download: '2026-09-09T21:16:00Z'
+    total_volumes: 18
+    caminho_local: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/
+  fluxo_processamento:
+    download: Google Drive API REST (OAuth 2.0, escopo drive.readonly)
+    conversao_principal: markitdown via uvx (PDF → Markdown)
+    conversao_ocr: EasyOCR CPU pt+en via pdftoppm (PDFs escaneados)
+    destino: /dados/study-agent/data/biblioteca/
+    backup_pdf: false
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/
+  materiais:
+  - titulo: Numbers Tyndale Old Testament Commentary (Tyndale Old Testament Commentaries)
+      (Gordon Wenham) (z-library.sk, 1lib.s.epub
+    autor: Gordon Wenham
+    idioma: Portuguese
+    formato_original: epub
+    caminho_md: /biblioteca/historia-biblica/Numbers Tyndale Old Testament Commentary
+      (Tyndale Old Testament Commentaries) (Gordon Wenham) (z-library.sk, 1lib.s.md
+    tamanho_md: 566 KB
+    linhas_md: 2762
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 01-palestina-tempo-de-jesus
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/01-palestina-tempo-de-jesus.md
+    tamanho_md: 230 KB
+    linhas_md: 3326
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 02-classes-judaicas-tempos-jesus
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/02-classes-judaicas-tempos-jesus.md
+    tamanho_md: 22 KB
+    linhas_md: 214
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03-fariseus-escribas-saduceus
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/03-fariseus-escribas-saduceus.md
+    tamanho_md: 813 KB
+    linhas_md: 16368
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 04-mundo-do-antigo-testamento
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/04-mundo-do-antigo-testamento.md
+    tamanho_md: 421 KB
+    linhas_md: 6374
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 05-mundo-do-novo-testamento
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/05-mundo-do-novo-testamento.md
+    tamanho_md: 403 KB
+    linhas_md: 1511
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 06-periodo-interbiblico
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/06-periodo-interbiblico.md
+    tamanho_md: 319 KB
+    linhas_md: 8553
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 07-tabernaculo-lugar-adoracao
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/07-tabernaculo-lugar-adoracao.md
+    tamanho_md: 10 KB
+    linhas_md: 313
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 08-tempos-do-antigo-testamento
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/08-tempos-do-antigo-testamento.md
+    tamanho_md: 774 KB
+    linhas_md: 16200
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 09-cronologia-biblica-guia-pratico
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/09-cronologia-biblica-guia-pratico.md
+    tamanho_md: 56 KB
+    linhas_md: 3602
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: CC-A_vida_quotidiana_na_Babilo_-Z-Library-.pdf
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/CC-A_vida_quotidiana_na_Babilo_-Z-Library-.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: CC-Classes-Judaicas-nos-tempos-de-Jesus-Cristo.pdf
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/CC-Classes-Judaicas-nos-tempos-de-Jesus-Cristo.pdf.md
+    tamanho_md: 23 KB
+    linhas_md: 629
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: CC-O-Mundo-do-Novo-Testamento.pdf
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/CC-O-Mundo-do-Novo-Testamento.pdf.md
+    tamanho_md: 403 KB
+    linhas_md: 1511
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: CC-Oriente._Babilonia_-_Akal-_-Z-Library-.pdf
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/CC-Oriente._Babilonia_-_Akal-_-Z-Library-.pdf.md
+    tamanho_md: 200 KB
+    linhas_md: 5655
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: CC-Tabernaculo-Um-lugar-de-adoracao-a-Deus-no-deserto.pdf
+    caminho_md: data/biblioteca/cronologia-contextos-historicos/CC-Tabernaculo-Um-lugar-de-adoracao-a-Deus-no-deserto.pdf.md
+    tamanho_md: 23 KB
+    linhas_md: 218
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 01-Biblia-Atraves-Seculos
+    caminho_md: data/biblioteca/historia-biblica/01-Biblia-Atraves-Seculos.md
+    tamanho_md: 356 KB
+    linhas_md: 6384
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 02-Festas-Judaicas
+    caminho_md: data/biblioteca/historia-biblica/02-Festas-Judaicas.md
+    tamanho_md: 217 KB
+    linhas_md: 6143
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 03-Breve-Instruccion
+    caminho_md: data/biblioteca/historia-biblica/03-Breve-Instruccion.md
+    tamanho_md: 98 KB
+    linhas_md: 1734
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: A_Biblia_e_a_Arqueologia-DR._JOHN_A._THOMPSON
+    caminho_md: data/biblioteca/historia-biblica/A_Biblia_e_a_Arqueologia-DR._JOHN_A._THOMPSON.md
+    tamanho_md: 298 KB
+    linhas_md: 9524
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: Bright-History-of-Israel-4th-ed
+    caminho_md: data/biblioteca/historia-biblica/Bright-History-of-Israel-4th-ed.md
+    tamanho_md: 1680 KB
+    linhas_md: 21928
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: A Bíblia Através dos Séculos
+    autor: Antonio Gilberto
+    tamanho: 2.4M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/A Bíblia Através dos
+      Séculos - Antonio Gilberto.pdf
+    topicos:
+    - Cronologia Bíblica
+    - História do Povo de Israel
+    - Contexto Histórico
+    caminho_md: /dados/study-agent/data/biblioteca/historia-biblica/01-Biblia-Atraves-Seculos.md
+    tamanho_md: 356 KB
+    linhas_md: 6384
+    conversao: markitdown
+    status: indexado_local
+  - titulo: As Festas Judaicas do Antigo Testamento
+    tamanho: 2.9M
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/As Festas Judaicas
+      do Antigo Testamento.pdf
+    topicos:
+    - Festas Judaicas
+    - Significado Religioso
+    - Práticas Culturais
+    caminho_md: /dados/study-agent/data/biblioteca/historia-biblica/02-Festas-Judaicas.md
+    tamanho_md: 217 KB
+    linhas_md: 6143
+    conversao: markitdown
+    status: indexado_local
+  - titulo: Breve Instrución (Histórico)
+    tamanho: 214.6K
+    caminho: /media/willianmendesf/384F-81BE/4. Docs/Books/EBDi/Breve-Instruccion.pdf
+    topicos:
+    - Resumo Histórico
+    - Contexto
+    caminho_md: /dados/study-agent/data/biblioteca/historia-biblica/03-Breve-Instruccion.md
+    tamanho_md: 98 KB
+    linhas_md: 1734
+    conversao: markitdown
+    status: indexado_local
+  - titulo: A Bíblia e a Arqueologia
+    autor: John A. Thompson
+    caminho_md: /dados/study-agent/data/biblioteca/historia-biblica/A_Biblia_e_a_Arqueologia-DR._JOHN_A._THOMPSON.md
+    tamanho_md: 300 KB
+    linhas_md: 9524
+    status: indexado
+    topicos:
+    - Arqueologia bíblica
+    - Confirmação histórica
+    - AT/NT
+    - id: 1
+      titulo: A Palestina no tempo de Jesus
+      tamanho: 1.1 MB
+      drive_id: 1ZzNrnmRacvhi5pHzNFMHQ6yS1vCBokkS
+      topicos:
+      - Geografia bíblica
+      - Palestina no século I
+      - Contexto político-geográfico do NT
+      - Rotas e regiões
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/01-palestina-tempo-de-jesus.md
+      tamanho_md: 230 KB
+      linhas_md: 3326
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: markitdown
+    - id: 2
+      titulo: Classes Judaicas nos tempos de Jesus Cristo
+      tamanho: 1.6 MB
+      drive_id: 1MjmfvucA72h8cNpKPMCmvkGspxvA4Ptd
+      topicos:
+      - Sociologia do judaísmo do século I
+      - Estratificação social
+      - Sacerdotes, levitas, fariseus, saduceus, essênios, zelotes
+      - Povo comum (am ha'aretz)
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/02-classes-judaicas-tempos-jesus.md
+      tamanho_md: 23 KB
+      linhas_md: 214
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: ocr_easyocr
+      observacao: PDF escaneado. OCR via EasyOCR CPU pt+en (200dpi, pdftoppm). Texto
+        fluente preservado.
+    - id: 3
+      titulo: Fariseus, Escribas e Saduceus
+      tamanho: 2.8 MB
+      drive_id: 1tkTf5t3tV-e0G5Z5FreLirj0C1MnMDTM
+      topicos:
+      - Fariseus — origem, doutrina, prática
+      - Escribas — função, autoridade, escolas (Hillel x Shammai)
+      - Saduceus — aristocracia sacerdotal, colaboração com Roma
+      - Conflitos com Jesus
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/03-fariseus-escribas-saduceus.md
+      tamanho_md: 813 KB
+      linhas_md: 16368
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: markitdown
+    - id: 4
+      titulo: O Mundo do Antigo Testamento
+      tamanho: 2.3 MB
+      drive_id: 18X1GqGGOoTxl6X-zr01WL-UZgiDBm0dz
+      topicos:
+      - Civilizações do AT (Egito, Mesopotâmia, Canaã, Pérsia)
+      - Costumes e instituições do AT
+      - Contexto cultural e religioso
+      - Vida cotidiana
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/04-mundo-do-antigo-testamento.md
+      tamanho_md: 421 KB
+      linhas_md: 6374
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: markitdown
+    - id: 5
+      titulo: O Mundo do Novo Testamento
+      tamanho: 17 MB
+      drive_id: 1UC8Nv3h2vKXnfYYtFmaQlBiAFnoRTiMq
+      topicos:
+      - Mundo greco-romano no século I
+      - Pax Romana
+      - Helenismo e judaísmo
+      - Vida cotidiana no NT
+      - Instituições romanas (governo, exército, direito)
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/05-mundo-do-novo-testamento.md
+      tamanho_md: 404 KB
+      linhas_md: 1511
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: ocr_easyocr
+      observacao: PDF escaneado. OCR via EasyOCR CPU pt+en (200dpi, pdftoppm). Conteúdo
+        completo extraído (1511 linhas).
+      autores:
+      - J.I. Packer
+      - Merrill C. Tenney
+      - William White Jr.
+      editora: Editora Vida (1988, tradução de "The World of the New Testament", Thomas
+        Nelson 1980/1982)
+    - id: 6
+      titulo: O período interbíblico — 400 anos de silêncio profético
+      tamanho: 3.2 MB
+      drive_id: 1pnOqgPyzs0MbIQB8qjlV4cBmCevFbCeJ
+      topicos:
+      - Período persa (538-331 a.C.)
+      - Período helenístico (331-63 a.C.)
+      - Revolta dos Macabeus (167-63 a.C.)
+      - Dominação romana (63 a.C. em diante)
+      - Surgimento das seitas judaicas
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/06-periodo-interbiblico.md
+      tamanho_md: 319 KB
+      linhas_md: 8553
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: markitdown
+    - id: 7
+      titulo: Tabernáculo — Um lugar de adoração a Deus no deserto
+      tamanho: 1.4 MB
+      drive_id: 1AMm8oSUEN1uahEufRCGu4ZMbjakumn0q
+      topicos:
+      - Estrutura do Tabernáculo
+      - Liturgia e oferendas
+      - Significado teológico
+      - Tipos e sombras de Cristo
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/07-tabernaculo-lugar-adoracao.md
+      tamanho_md: 10 KB
+      linhas_md: 313
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: ocr_easyocr
+      observacao: PDF escaneado (markitdown só extraiu layout bagunçado). OCR via
+        EasyOCR CPU pt+en (200dpi, pdftoppm). Texto fluente preservado.
+    - id: 8
+      titulo: Tempos do Antigo Testamento
+      tamanho: 12 MB
+      drive_id: 1DnIcEhDjtE9nyxp6jKIlXbiCjheQToR0
+      topicos:
+      - Periodização do AT
+      - Patriarcas, Êxodo, Juízes, Monarquia, Exílio, Pós-exílio
+      - Cronologia dos reis e impérios
+      - Contexto histórico por período
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/08-tempos-do-antigo-testamento.md
+      tamanho_md: 776 KB
+      linhas_md: 16200
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: markitdown
+    - id: 9
+      titulo: Cronologia Bíblica — Guia prático para compreender
+      tamanho: 371 KB
+      drive_id: 1vgEZSP16yCF9v8hmeRBUn8tdL40Dq8Xh
+      topicos:
+      - Cronologia bíblica básica
+      - Linha do tempo AT e NT
+      - Datas-chave
+      - Referência rápida
+      caminho_md: /dados/study-agent/data/biblioteca/cronologia-contextos-historicos/09-cronologia-biblica-guia-pratico.md
+      tamanho_md: 56 KB
+      linhas_md: 3602
+      convertido_em: '2026-09-09T21:25:00Z'
+      status: indexado
+      conversao: markitdown
+  - titulo: A History of Israel (4th Edition)
+    autor: John Bright
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/historia-biblica/Bright-History-of-Israel-4th-ed.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/A History of
+      Israel, Fourth Edition (John Bright [Bright, John]) (z-library.sk, 1lib.sk,
+      z-lib.sk).epub
+    tamanho_md: 1680 KB
+    linhas_md: 21928
+    status: flag_parcial (markitdown vazio — epub protegido)
+    adicionado_em: 2026-09-13
+    zlib_id: 16728396
+    zlib_hash: d5b562
+    topicos:
+    - História de Israel (AT)
+    - Bright (clássico Westminster)
+    - Para HF 1-4 do JMC
+    - Panorama cronológico AT
+  atualizado_por: bibliotecario (consolidacao auditoria)
+knowledge_base_historia_bibrica: null

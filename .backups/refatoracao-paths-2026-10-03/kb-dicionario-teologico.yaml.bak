@@ -1,0 +1,71 @@
+tags: [dicionario, teologia, referencia]
+
+knowledge_base_dicionario_teologico:
+  version: "1.0"
+  tipo: "Dicionário Teológico e Exegético"
+  descricao: "Base de conhecimento com dicionários teológicos e exegéticos — definição de termos bíblicos e teológicos"
+  total_volumes: 8
+  created_at: "2026-09-09T23:50:00Z"
+  origem_local: "/media/willianmendesf/384F-81BE/4. Docs/Books/"
+
+  fluxo_processamento:
+    download: "N/A (local)"
+    conversao: "markitdown via uvx"
+    destino: "/dados/study-agent/data/biblioteca/dicionario-teologico/"
+    backup_pdf: True
+
+  materiais:
+    - titulo: "Dicionário Vine — Antigo e Novo Testamento"
+      autor: "William Vine"
+      tamanho_pdf_original: "58 MB"
+      caminho_md: "/dados/study-agent/data/biblioteca/dicionario-teologico/58MB_1109_Dicionario_Vine_Antigo_e_Novo_Testamento_CPAD_compressed.md"
+      tamanho_md: "5.3 MB"
+      linhas_md: 143625
+      status: "indexado"
+      topicos:
+        - "Dicionário bíblico"
+        - "Termos gregos e hebraicos"
+        - "Definições exegéticas"
+        - "Editor CPAD"
+    - titulo: "DITAT Volume 1"
+      caminho_md: data/biblioteca/dicionario-teologico/01-DITAT-Volume-1.md
+      tamanho_md: 4266 KB
+      linhas_md: 74855
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "DITAT Volume 2"
+      caminho_md: data/biblioteca/dicionario-teologico/02-DITAT-Volume-2.md
+      tamanho_md: 4282 KB
+      linhas_md: 77284
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "DITAT Volume 3"
+      caminho_md: data/biblioteca/dicionario-teologico/03-DITAT-Volume-3.md
+      tamanho_md: 4660 KB
+      linhas_md: 86703
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "DITAT Volume 4"
+      caminho_md: data/biblioteca/dicionario-teologico/04-DITAT-Volume-4.md
+      tamanho_md: 4987 KB
+      linhas_md: 83225
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "DITAT Indice"
+      caminho_md: data/biblioteca/dicionario-teologico/05-DITAT-Indice.md
+      tamanho_md: 1662 KB
+      linhas_md: 76972
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Dicionario Popular Teologia"
+      caminho_md: data/biblioteca/dicionario-teologico/06-Dicionario-Popular-Teologia.md
+      tamanho_md: 527 KB
+      linhas_md: 18355
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."
+    - titulo: "Dicionario Teologico NT"
+      caminho_md: data/biblioteca/dicionario-teologico/07-Dicionario-Teologico-NT.md
+      tamanho_md: 6575 KB
+      linhas_md: 248403
+      status: indexado_auto
+      nota: "Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo — autor, idioma e tópicos a completar pelo bibliotecário."

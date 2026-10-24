@@ -1,0 +1,213 @@
+tags:
+- grego
+- hebraico
+- aramaico
+- linguas-originais
+- exegese
+knowledge_base_linguas_originais:
+  version: '1.0'
+  tipo: Línguas Originais — Grego Koiné, Hebraico Bíblico
+  descricao: Base de conhecimento sobre línguas originais da Bíblia — Grego Koiné,
+    Hebraico Bíblico, Septuaginta
+  total_volumes: 17
+  created_at: '2026-09-09T23:50:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/linguas-originais/
+    backup_pdf: true
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  atualizado_por: bibliotecario (auditoria 2026-09-29)
+  materiais:
+  - titulo: Noções Básicas de Hebraico Bíblico
+    autor: Rosemay Vita
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Nocoes_Basicas_de_Hebraico_Biblico-Rosemay_Vita.md
+    tamanho_md: 140 KB
+    linhas_md: 2277
+    status: indexado
+    topicos:
+    - Hebraico Bíblico
+    - Gramática hebraica
+    - Introdução AT
+  - titulo: Septuaginta (LXX)
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Septuaginta.md
+    tamanho_md: '?'
+    linhas_md: 71950
+    status: indexado
+    topicos:
+    - Septuaginta
+    - Tradução grega do AT
+    - LXX
+    - Filologia
+  - titulo: 'Greek Grammar Beyond the Basics: An Exegetical Syntax of the New Testament'
+    autor: Daniel B. Wallace
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Greek-Grammar-Beyond-the-Basics-Daniel-Wallace.md
+    caminho_original: /dados/study-agent/data/biblioteca/linguas-originais/Greek
+      Grammar Beyond the Basics An Exegetical Syntax of the New Testament —, Zondervan,
+      English - Daniel B. Wallace.epub
+    tamanho_md: 1.4 MB
+    linhas_md: 111292
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    zlib_id: 16749007
+    zlib_hash: 456bc9
+    processado_via: xhtml_parser (markitdown retornou vazio)
+    topicos:
+    - Sintaxe exegética do NT
+    - Grego koiné avançado
+    - Wallace
+    - Gramática para exegese
+    - Complementa o Rosemay Vita (introdução)
+    - Currículo Kritikos K09
+  - titulo: Vocabulary Lists And Kindle Flash Cards to correspond with William Mounce's
+      'Basics of Biblical Greek'
+    autor: William Mounce
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Vocabulary-Biblical-Greek-William-Mounce.md
+    caminho_original: /dados/study-agent/data/biblioteca/linguas-originais/Vocabulary
+      Lists And Kindle Flash Cards to correspond with William Mounces Basics of Biblical
+      Greek —, —, English -.epub
+    tamanho_md: 821 KB
+    linhas_md: 155484
+    status: indexado_parcial
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    zlib_id: 16774950
+    zlib_hash: 0b0714
+    processado_via: xhtml_parser
+    topicos:
+    - Vocabulário grego koiné
+    - Flash cards
+    - Mounce
+    - Companion to Basics of Biblical Greek Grammar
+    nota: 'Item #009 da wishlist (retried). 1ª tentativa (PDF Basics of Biblical Greek
+      Grammar, 88 MB) falhou (PDF corrompido na origem); 2ª tentativa com ID alternativo
+      (Vocabulary Lists) funcionou. ATENÇÃO: este é o livro COMPLEMENTAR (Vocabulary
+      Flash Cards), não o Basics of Biblical Greek Grammar em si — Willian ainda precisa
+      adquirir o livro principal de outra fonte.'
+  - titulo: Hebraico Biblico - Uma Gramatica Introdutoria
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Hebraico-Biblico-Gramatica-Introdutoria.md
+    tamanho_md: 543 KB
+    linhas_md: 21087
+    status: indexado_ocr
+    adicionada_em: 2026-09-13
+    topicos:
+    - Hebraico bíblico
+    - Gramática introdutória
+    nota: PDF do Orbit é majoritariamente escaneado (451 págs). OCR em andamento em
+      2026-09-25; ao terminar, trocar status para indexado_ocr e atualizar tamanho/linhas.
+  - titulo: Manuscristologia do Novo Testamento
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Manuscristologia-NT.md
+    tamanho_md: 6.5 MB
+    linhas_md: 6535
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+    - Manuscritos do NT
+    - Crítica textual
+    - Transmissão
+    nota: Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_. Complementa
+      Omanson (Variantes) e Bruce (History of NT Textual Criticism).
+  - titulo: Pequena História da Língua Hebraica
+    autor: Chaim Rabin
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/linguas-originais/Pequena-Historia-Lingua-Hebraica.md
+    tamanho_md: 4.5 MB
+    linhas_md: 4554
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+    - História da língua hebraica
+    - Lingüística
+    - Rabin
+    - Referência
+    nota: Curadoria 2026-09-13 (bibliotecario) — veio de _to_organize_. Complementa
+      o Pequeno Dicionário de Línguas Bíblicas.
+  - titulo: Aprenda grego NT
+    caminho_md: data/biblioteca/linguas-originais/01-Aprenda-grego-NT.md
+    tamanho_md: 583 KB
+    linhas_md: 36007
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Gramatica GREGA
+    caminho_md: data/biblioteca/linguas-originais/02-Gramatica-GREGA.md
+    tamanho_md: 2300 KB
+    linhas_md: 58381
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Hebraico Biblico Gramatica Introdutoria
+    caminho_md: data/biblioteca/linguas-originais/03-Hebraico-Biblico-Gramatica-Introdutoria.md
+    tamanho_md: 14 KB
+    linhas_md: 528
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Taylor Introducao Estudo NT Grego
+    caminho_md: data/biblioteca/linguas-originais/04-Taylor-Introducao-Estudo-NT-Grego.md
+    tamanho_md: 0 KB
+    linhas_md: 12
+    status: ocr_pendente
+    nota: Arquivo .md praticamente vazio (447 bytes) — reconverter/OCR do original
+      no Orbit (auditoria 2026-09-25).
+  - titulo: Gramatica Aramaico Biblico
+    caminho_md: data/biblioteca/linguas-originais/Gramatica-Aramaico-Biblico.pdf.md
+    tamanho_md: 36780 KB
+    linhas_md: 1007548
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Introducao Hebraico Biblico
+    caminho_md: data/biblioteca/linguas-originais/Introducao-Hebraico-Biblico.md
+    tamanho_md: 733 KB
+    linhas_md: 19044
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Pequeno Dicionario Linguas Biblicas
+    caminho_md: data/biblioteca/linguas-originais/Pequeno-Dicionario-Linguas-Biblicas.md
+    tamanho_md: 934 KB
+    linhas_md: 13028
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Novum Testamentum Graece
+    autor: Barbara Aland & Kurt Aland
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/linguas-originais/Novum Testamentum Graece (Nestle-Aland)
+      NA28 (Barbara Aland, Kurt Aland etc.) (z-library.sk, 1lib.sk, z-lib.sk).md
+    tamanho_md: 12 KB
+    linhas_md: 745
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: 06-Gramatica-hebraica-Gordon-Chown
+    caminho_md: data/biblioteca/linguas-originais/06-Gramatica-hebraica-Gordon-Chown.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois
+  - titulo: 09-Gramatica-aramaico-biblico
+    caminho_md: data/biblioteca/linguas-originais/09-Gramatica-aramaico-biblico.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados depois

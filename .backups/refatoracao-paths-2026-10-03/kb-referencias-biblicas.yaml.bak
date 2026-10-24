@@ -1,0 +1,252 @@
+tags:
+- referencias
+- biblia
+- citacoes
+- referencias-biblicas
+knowledge_base_referencias_biblicas:
+  version: '1.0'
+  tipo: Referências Bíblicas — Atlas, Geografia, Tipologia
+  descricao: Base de conhecimento com materiais de referência geográfica, atlas, tipologia
+    bíblica
+  total_volumes: 28
+  created_at: '2026-09-09T23:50:00Z'
+  origem_local: /media/willianmendesf/384F-81BE/4. Docs/Books/
+  fluxo_processamento:
+    download: N/A (local)
+    conversao: markitdown via uvx
+    destino: /dados/study-agent/data/biblioteca/referencias-biblicas/
+    backup_pdf: true
+  materiais:
+  - titulo: Enciclopedia de Temas Bíblicos
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/Enciclopedia-Temas-Biblicos.md
+    tamanho_md: 24 MB
+    linhas_md: 24883
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+    - Enciclopédia temática
+    - Referência bíblica
+    - Verbetes organizados por tema
+  - titulo: Manual de Tipologia Bíblica
+    autor: Ada Habershon
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/245_Manual_de_tipologia_biblica-Ada_Habershon.md
+    tamanho_md: 464 KB
+    linhas_md: 11147
+    status: indexado
+    topicos:
+    - Tipologia bíblica
+    - Tipos e símbolos
+    - Cristologia tipológica
+    - AT/NT paralelo
+  - titulo: Atlas Bíblico
+    autor: Access Foundation / Zaine Riding
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/Atlas_Biblico-Access_Foundation-Zaine_Riding.md
+    tamanho_md: 8 KB
+    linhas_md: 174
+    status: parcial
+    topicos:
+    - Atlas
+    - Mapas bíblicos
+    - Geografia sagrada
+  - titulo: Geografia Bíblica
+    autor: Pierson
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/Geografia_Biblica-Pierson.md
+    tamanho_md: 364 KB
+    linhas_md: 7465
+    status: indexado
+    topicos:
+    - Geografia bíblica
+    - Topografia AT/NT
+    - Rotas e regiões
+  - titulo: Nomes e Números Bíblicos
+    autor: Dan Duke
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/01-Nomes-Numeros-Biblicos-Dan-Duke.md
+    linhas_md: 10979
+    tamanho_md: 227 KB
+    status: indexado
+    categoria: simbologias
+    fonte: Drive / 1. Fides / Simbologias Biblicas (1RErJzyT4ZveWbdJNHRPgUEVSIQTijp92)
+  - titulo: Introdução ao Estudo da Tipologia Bíblica
+    autor: Magno Paganelli
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/02-Magno-Paganelli-Introducao-tipologia-biblica.md
+    linhas_md: 5580
+    tamanho_md: 239 KB
+    status: indexado
+    categoria: simbologias
+    fonte: Drive / 1. Fides / Simbologias Biblicas (1RErJzyT4ZveWbdJNHRPgUEVSIQTijp92)
+  - titulo: Simbologia — Sombras, Tipos e Mistérios da Bíblia
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/03-Simbologia-Sombras-Tipos-Misterios.md
+    linhas_md: 7093
+    tamanho_md: 308 KB
+    status: indexado
+    categoria: simbologias
+    fonte: Drive / 1. Fides / Simbologias Biblicas (1RErJzyT4ZveWbdJNHRPgUEVSIQTijp92)
+  - titulo: Tipologia Bíblica
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/04-Tipologia-biblica.md
+    linhas_md: 436
+    tamanho_md: 19 KB
+    status: indexado
+    categoria: simbologias
+    fonte: Drive / 1. Fides / Simbologias Biblicas (1RErJzyT4ZveWbdJNHRPgUEVSIQTijp92)
+  - titulo: Todos os Personagens da Bíblia de A-Z
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/01-Todos-os-Personagens-A-Z.md
+    linhas_md: 22079
+    tamanho_md: 755 KB
+    status: indexado
+    categoria: personagens
+    fonte: Drive / 1. Fides / Personagens Biblicos (19Jzd2FmvoalD2umeYx7XUlkrOr0TCrHU)
+  - titulo: Quem é Quem na Bíblia Sagrada
+    autor: Paul Gardner
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/02-Quem-e-Quem-Paul-Gardner.md
+    linhas_md: 42440
+    tamanho_md: 2540 KB
+    status: indexado
+    categoria: personagens
+    fonte: Drive / 1. Fides / Personagens Biblicos (19Jzd2FmvoalD2umeYx7XUlkrOr0TCrHU)
+  - titulo: Personagens Bíblicos do Antigo Testamento
+    autor: Alexander Whyte
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/04-Personagens-Biblicos-AT-Alexander-Whyte.md
+    linhas_md: 20821
+    tamanho_md: 1148 KB
+    status: indexado
+    categoria: personagens
+    fonte: Drive / 1. Fides / Personagens Biblicos (19Jzd2FmvoalD2umeYx7XUlkrOr0TCrHU)
+  - titulo: Personagens e Lugares Bíblicos
+    autor: '?'
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/05-Personagens-e-Lugares-Biblicos.md
+    linhas_md: 21842
+    tamanho_md: 756 KB
+    status: indexado
+    categoria: personagens
+    fonte: Drive / 1. Fides / Personagens Biblicos (19Jzd2FmvoalD2umeYx7XUlkrOr0TCrHU)
+  - titulo: Personagens Bíblicos do Novo Testamento
+    autor: Alexander Whyte
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/06-Personagens-Biblicos-NT-Alexander-Whyte.md
+    linhas_md: 22687
+    tamanho_md: 1209 KB
+    status: indexado
+    categoria: personagens
+    fonte: Drive / 1. Fides / Personagens Biblicos (19Jzd2FmvoalD2umeYx7XUlkrOr0TCrHU)
+  - titulo: Personagens Esquecidos da Bíblia
+    autor: Josivaldo de França Pereira e Marcelo de Oliveira
+    caminho_md: /dados/study-agent/data/biblioteca/personagens-biblicos/03-Personagens-Esquecidos.md
+    tamanho_md: 160 KB
+    linhas_md: 4426
+    status: indexado_ocr
+    categoria: personagens
+    observacao: PDF escaneado convertido por OCR (tesseract, 2026-09-25); pode ter
+      erros de reconhecimento.
+  - titulo: Bíblia Thompson — Temas em Cadeia
+    autor: '?'
+    idioma: pt
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/referencias-biblicas/Biblia-Thompson-Temas-em-Cadeia.md
+    linhas_md: 73152
+    tamanho_md: 1806 KB
+    status: indexado
+    fonte: local /home/willianmendesf/Downloads/OpenWi/
+    observacao: Cadeia temática — referência por tópicos. PDF escaneado (1599 pp).
+    topicos:
+    - Temas bíblicos
+    - Cadeia temática
+    - Referência bíblica
+    - Concordância temática
+  - titulo: Concordancia Biblica Exaustiva Joshua Vol4
+    caminho_md: data/biblioteca/referencias-biblicas/Concordancia-Biblica-Exaustiva-Joshua-Vol4.md
+    tamanho_md: 2927 KB
+    linhas_md: 60687
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Concordancia Exaustiva Conhecimento Biblico 2
+    caminho_md: data/biblioteca/referencias-biblicas/Concordancia-Exaustiva-Conhecimento-Biblico-2.md
+    tamanho_md: 5994 KB
+    linhas_md: 122819
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Concordancia Exaustiva Conhecimento Biblico
+    caminho_md: data/biblioteca/referencias-biblicas/Concordancia-Exaustiva-Conhecimento-Biblico.md
+    tamanho_md: 5980 KB
+    linhas_md: 123895
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Diccionario Biblico AvanzaPorMas
+    caminho_md: data/biblioteca/referencias-biblicas/Diccionario-Biblico-AvanzaPorMas.md
+    tamanho_md: 4825 KB
+    linhas_md: 127848
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Dicionario Biblico Mundo Hispanico
+    caminho_md: data/biblioteca/referencias-biblicas/Dicionario-Biblico-Mundo-Hispanico.md
+    tamanho_md: 2775 KB
+    linhas_md: 47811
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Dicionario Biblico Strong
+    caminho_md: data/biblioteca/referencias-biblicas/Dicionario-Biblico-Strong.md
+    tamanho_md: 2877 KB
+    linhas_md: 109070
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Dicionario Biblico Universal Buckland v2
+    caminho_md: data/biblioteca/referencias-biblicas/Dicionario-Biblico-Universal-Buckland-v2.md
+    tamanho_md: 1237 KB
+    linhas_md: 18633
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Dicionario Biblico Universal Buckland
+    caminho_md: data/biblioteca/referencias-biblicas/Dicionario-Biblico-Universal-Buckland.md
+    tamanho_md: 2380 KB
+    linhas_md: 55721
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Dicionario Ilustrado Interpretes Fe
+    caminho_md: data/biblioteca/referencias-biblicas/Dicionario-Ilustrado-Interpretes-Fe.md
+    tamanho_md: 2069 KB
+    linhas_md: 60318
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: Gran Diccionario Enciclopedico Biblia
+    caminho_md: data/biblioteca/referencias-biblicas/Gran-Diccionario-Enciclopedico-Biblia.md
+    tamanho_md: 25461 KB
+    linhas_md: 242318
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: PB TODOS OS PERSONAGENS DA BIBLIA DE A Z Copia
+    caminho_md: data/biblioteca/referencias-biblicas/PB-TODOS-OS-PERSONAGENS-DA-BIBLIA-DE-A-Z-Copia.pdf.md
+    tamanho_md: 755 KB
+    linhas_md: 22079
+    status: indexado_auto
+    nota: Catalogado automaticamente na auditoria 2026-09-25 a partir do nome do arquivo
+      — autor, idioma e tópicos a completar pelo bibliotecário.
+  - titulo: SB Pequena Enciclopedia de Simbolos e Figuras Biblico
+    caminho_md: data/biblioteca/referencias-biblicas/SB-Pequena-Enciclopedia-de-Simbolos-e-Figuras-Biblico.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 4
+    status: ocr_pendente
+    nota: Arquivo .md praticamente vazio (511 bytes) — reconverter/OCR do original
+      no Orbit (auditoria 2026-09-25).
+  - titulo: SB-O-uso-de-Joias-na-Biblia.pdf
+    caminho_md: data/biblioteca/referencias-biblicas/SB-O-uso-de-Joias-na-Biblia.pdf.md
+    tamanho_md: 0 KB
+    linhas_md: 0
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  atualizado_em: '2026-09-29T22:00:00-03:00'
+  atualizado_por: bibliotecario (auditoria 2026-09-29)

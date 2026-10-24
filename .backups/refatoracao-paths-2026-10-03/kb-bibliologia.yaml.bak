@@ -1,0 +1,124 @@
+tags: [bibliologia, teologia, doutrina, escritura]
+
+knowledge_base_bibliologia:
+  version: "2.0"
+  tipo: "Bibliologia (Estudo da Bíblia)"
+  descricao: "Base de conhecimento sobre a Bíblia — transmissão, texto, inspiração, interpretação, estrutura"
+  total_volumes: 5
+  created_at: "2026-09-09T21:12:00Z"
+  atualizado_em: "2026-09-09T21:25:00Z"
+  origem: "Google Drive — willianmendesf.study@gmail.com / 2. BIBLIOTECA / 1. Fides / Bibliologia"
+
+  fluxo_processamento:
+    download: "Google Drive API REST (OAuth 2.0, escopo drive.readonly)"
+    conversao: "markitdown via uvx (PDF → Markdown)"
+    destino: "/dados/study-agent/data/biblioteca/bibliologia/"
+    backup_pdf: false  # PDFs deletados após conversão (.md é fonte de verdade)
+
+
+
+
+  observacoes:
+    - "Sessão Drive: google-drive://willianmendesf.study@gmail.com/0AChOZcEpA0FJUk9PVA/1jcCGhBG91zA5M9pIQnlOQhG9aG3wUJwS/1CsWI_bYHZ8qk6nt1v52HfWcMl0az0BQr/1brGrwaI6b5sREnk6TTJQ1V1j8u35ro2C"
+    - "Autenticação via OAuth client (study-agent-drive-508121) com escopo drive.readonly"
+    - "Livro 'Pregando Cristo a partir do AT' (Greidanus) desta pasta do Drive é duplicata de kb-pregacao-homiletica.yaml — não baixado"
+    - "PDFs originais foram deletados após conversão (Regra 2: '.md é a fonte de verdade')"
+
+  atualizado_em: 2026-09-13T22:55:00-03:00
+  atualizado_por: "bibliotecario (rodada 4 — re-tentativas: Bruce adicionado)"
+  materiais:
+    - id: 1
+      titulo: "Variantes Textuais do Novo Testamento"
+      autor: "Roger L. Omanson"
+      drive_id: "1rwiZ4nwdIVCdsdcnNQjIMfmPanaFFa8R"
+      caminho_md: "/dados/study-agent/data/biblioteca/bibliologia/01-variantes-textuais-nt-omanson.md"
+      tamanho_pdf_original: "30 MB"
+      tamanho_md: "3.5 MB"
+      linhas_md: 42122
+      status: "indexado"
+      download_em: "2026-09-09T21:12:00Z"
+      convertido_em: "2026-09-09T21:25:00Z"
+      topicos:
+        - "Crítica textual"
+        - "Variantes textuais do NT"
+        - "Transmissão do texto bíblico"
+        - "Manuscritos gregos"
+        - "Famílias textuais (Alexandrino, Bizantino, Ocidental)"
+    - id: 2
+      titulo: "A Estrutura e Teologia dos Salmos"
+      drive_id: "1rwk1rzsVJUvdFnwdKWQD_OCia8oUK8rn"
+      caminho_md: "/dados/study-agent/data/biblioteca/bibliologia/02-estrutura-teologia-salmos.md"
+      tamanho_pdf_original: "91 MB"
+      tamanho_md: "1.6 MB"
+      linhas_md: 16079
+      status: "indexado"
+      download_em: "2026-09-09T21:12:00Z"
+      convertido_em: "2026-09-09T21:25:00Z"
+      topicos:
+        - "Estrutura literária dos Salmos"
+        - "Teologia dos Salmos"
+        - "Gêneros psalmicos (lamento, hino, sabedoria, real, etc)"
+        - "Cristologia nos Salmos"
+        - "Editora Cultura Cristã"
+    - id: 3
+      titulo: "Como Ler a Bíblia Livro por Livro"
+      drive_id: "1j2n4wCu44CJzeX9EBWJi2JnrrIZRTbgl"
+      caminho_md: "/dados/study-agent/data/biblioteca/bibliologia/03-como-ler-a-biblia-livro-por-livro.md"
+      tamanho_pdf_original: "17 MB"
+      tamanho_md: "1.9 MB"
+      linhas_md: 22264
+      status: "indexado"
+      download_em: "2026-09-09T21:12:00Z"
+      convertido_em: "2026-09-09T21:25:00Z"
+      topicos:
+        - "Introdução a cada livro bíblico"
+        - "Panorama AT e NT"
+        - "Guia de leitura"
+        - "Contexto por livro"
+        - "Estrutura por livro"
+    - titulo: Chapters in the History of New Testament Textual Criticism
+      autor: Bruce M. Metzger
+      idioma: en
+      formato_original: pdf
+      caminho_md: /dados/study-agent/data/biblioteca/bibliologia/Chapters-History-NT-Textual-Criticism-Bruce-Metzger.md
+      caminho_original: /dados/study-agent/data/biblioteca/bibliologia/Chapters in the History of New Testament Textual Criticism (Bruce M. Metzger) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+      tamanho_md: 15.2 MB
+      linhas_md: 7725
+      status: indexado
+      download_em: 2026-09-13
+      convertido_em: 2026-09-13
+      processado_via: pdftotext
+      zlib_id: 1215571
+      zlib_hash: 78d06b
+      topicos:
+        - Crítica textual do NT
+        - História da transmissão do NT
+        - Variantes textuais
+        - Manuscritos
+        - Metzger
+        - Companion to Omanson 'Variantes Textuais do NT' (já em kb-bibliologia como Omanson)
+      nota: "Item #038 da wishlist (biblioteca canônica sugerida). Em vez de 'Textual Criticism of the NT' (que não achou), baixei o volume histórico de Metzger — complementa Omanson com perspectiva histórica."
+    - titulo: Are the New Testament Documents Reliable?
+      autor: F. F. Bruce
+      idioma: en
+      formato_original: pdf
+      caminho_md: /dados/study-agent/data/biblioteca/bibliologia/New-Testament-Documents-Reliable-FF-Bruce.md
+      caminho_original: /dados/study-agent/data/biblioteca/bibliologia/are the new testament documents reliable (F.F. BRUCE., M.A) (z-library.sk, 1lib.sk, z-lib.sk).pdf
+      tamanho_md: 6.6 MB
+      linhas_md: 4248
+      status: indexado
+      download_em: 2026-09-13
+      convertido_em: 2026-09-13
+      processado_via: pdftotext
+      zlib_id: 119898276
+      zlib_hash: c0af75
+      topicos:
+        - Crítica textual do NT
+        - Confiabilidade histórica
+        - Manuscritos
+        - Bruce
+      nota: "Item #017 da wishlist (retried). 1ª tentativa falhou (zip corrompido); 2ª tentativa com ID alternativo (PDF) funcionou. **VERSÃO SUBSTITUÍDA em 2026-09-13 16:53:** o PDF original do z-lib era escaneado (OCR ruim — saída do pdftotext tinha lixo de espaçamento). Willian extraiu o zip localmente em `_corrupted/` (3 arquivos: PDF 753 KB, EPUB 232 KB, MOBI 312 KB) — o PDF extraído pelo Willian é uma versão digital (não escaneada) com texto limpo. Substituí o .md pelo pdftotext do PDF do Willian (4248 linhas limpas, vs. 4369 linhas ilegíveis do z-lib)."
+      arquivos_alternativos:
+        - "data/biblioteca/_corrupted/The New Testament Documents_ Ar - F.F. Bruce.epub (232 KB) — extraído pelo Willian do zip local"
+        - "data/biblioteca/_corrupted/The New Testament Documents_ Ar - F.F. Bruce.mobi (312 KB) — extraído pelo Willian do zip local"
+        - "data/biblioteca/_corrupted/The New Testament Documents_ Ar - F.F. Bruce.pdf (753 KB) — extraído pelo Willian do zip local (USADO PARA .md)"

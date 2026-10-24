@@ -1,0 +1,936 @@
+tags:
+- teologia
+- teologia-sistematica
+- sistematica
+- doutrina
+- reformada
+knowledge_base_teologia_sistematica:
+  version: '1.0'
+  tipo: Teologia Sistemática
+  descricao: Dogmática reformada, teologia sistemática clássica — Bavinck, Calvino,
+    Chaoper
+  total_volumes: 109
+  created_at: '2026-09-10T01:00:00Z'
+  origem: Drive / 1. Fides / Teologia Sistemática (12prKoHf9bDRf7VOs5XeuScuNgqdb_xQv)
+  destino: /dados/study-agent/data/biblioteca/teologia-sistematica/
+  atualizado_em: '2026-09-29T22:30:00-03:00'
+  atualizado_por: bibliotecario (consolidacao auditoria)
+  materiais:
+  - titulo: 'The Pleasures of God: Meditations on God''s Delight in Being God'
+    autor: Piper, John
+    idioma: English
+    formato_original: epub
+    caminho_md: /biblioteca/teologia-sistematica/The Pleasures of God Meditations
+      on Gods Delight in Being God (John Piper [Piper, John]) (z-library.sk, 1lib.sk,
+      z-.md
+    tamanho_md: 634 KB
+    linhas_md: 4360
+    conversao: markitdown
+    status: indexado
+    fonte: Z-Library (2026-09-25)
+    download_em: '2026-09-25'
+  - titulo: Abortion_ A Rational Look at an - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Abortion_ A Rational Look
+      at an - R.C. Sproul.md
+    tamanho_md: 334 KB
+    linhas_md: 3871
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Antropologia-Biblica-Juan-Luis-Lorda-ES
+    caminho_md: data/biblioteca/teologia-sistematica/Antropologia-Biblica-Juan-Luis-Lorda-ES.md
+    tamanho_md: 635 KB
+    linhas_md: 14922
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Are These the Last Days__ 20 (C - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Are These the Last Days__
+      20 (C - R.C. Sproul.md
+    tamanho_md: 64 KB
+    linhas_md: 1471
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Fundamentos
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Fundamentos.md
+    tamanho_md: 787 KB
+    linhas_md: 21061
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Vol-1-Prolegomena-epub
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-1-Prolegomena-epub.md
+    tamanho_md: 2208 KB
+    linhas_md: 13973
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Vol-1
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-1.md
+    tamanho_md: 2294 KB
+    linhas_md: 39253
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Vol-2-Deus-Criacao-epub
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-2-Deus-Criacao-epub.md
+    tamanho_md: 2216 KB
+    linhas_md: 14776
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Vol-2
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-2.md
+    tamanho_md: 2309 KB
+    linhas_md: 38243
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Vol-3
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-3.md
+    tamanho_md: 2304 KB
+    linhas_md: 39149
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck-Dogmatica-Reformada-Vol-4
+    caminho_md: data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-4.md
+    tamanho_md: 3103 KB
+    linhas_md: 64767
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Believing God_ Twelve Biblical - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Believing God_ Twelve Biblical
+      - R.C. Sproul.md
+    tamanho_md: 265 KB
+    linhas_md: 1569
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Instituicao-Completa-epub
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Instituicao-Completa-epub.md
+    tamanho_md: 3699 KB
+    linhas_md: 48811
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Instituicao-Tomo-1
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Instituicao-Tomo-1.md
+    tamanho_md: 1282 KB
+    linhas_md: 7027
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Instituicao-Tomo-2
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Instituicao-Tomo-2.md
+    tamanho_md: 2335 KB
+    linhas_md: 7995
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Institutas-Soares-Castro
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Institutas-Soares-Castro.md
+    tamanho_md: 4056 KB
+    linhas_md: 22940
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Institutas-Vol-1-Calvinus
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-1-Calvinus.md
+    tamanho_md: 596 KB
+    linhas_md: 2849
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Institutas-Vol-2
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-2.md
+    tamanho_md: 779 KB
+    linhas_md: 3821
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Institutas-Vol-3
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-3.md
+    tamanho_md: 1302 KB
+    linhas_md: 5428
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Calvino-Institutas-Vol-4
+    caminho_md: data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-4.md
+    tamanho_md: 1379 KB
+    linhas_md: 10691
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Can I Be Sure I'm Saved__ 7 (Cr - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Can I Be Sure I'm Saved__
+      7 (Cr - R.C. Sproul.md
+    tamanho_md: 81 KB
+    linhas_md: 1743
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Can I Have Joy in My Life_ 12 ( - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Can I Have Joy in My Life_
+      12 ( - R.C. Sproul.md
+    tamanho_md: 59 KB
+    linhas_md: 476
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Can I Know God's Will__ 4 (Cruc - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Can I Know God's Will__ 4
+      (Cruc - R.C. Sproul.md
+    tamanho_md: 125 KB
+    linhas_md: 2496
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Can I Lose My Salvation__ 22 (C - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Can I Lose My Salvation__
+      22 (C - R.C. Sproul.md
+    tamanho_md: 77 KB
+    linhas_md: 1757
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Can I Trust the Bible__ 2 (Cruc - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Can I Trust the Bible__ 2
+      (Cruc - R.C. Sproul.md
+    tamanho_md: 113 KB
+    linhas_md: 2274
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Chaoper-Teologia-Sistematica-Vol-1-2
+    caminho_md: data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-1-2.md
+    tamanho_md: 2498 KB
+    linhas_md: 39097
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Chaoper-Teologia-Sistematica-Vol-3-4
+    caminho_md: data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-3-4.md
+    tamanho_md: 2507 KB
+    linhas_md: 38848
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Chaoper-Teologia-Sistematica-Vol-5-6
+    caminho_md: data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-5-6.md
+    tamanho_md: 2086 KB
+    linhas_md: 31634
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Chaoper-Teologia-Sistematica-Vol-7-8
+    caminho_md: data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-7-8.md
+    tamanho_md: 970 KB
+    linhas_md: 22412
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Chosen by God - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Chosen by God - R.C. Sproul.md
+    tamanho_md: 296 KB
+    linhas_md: 12603
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Criacao-Consumacao-Reino-VanGroningen-Vol2
+    caminho_md: data/biblioteca/teologia-sistematica/Criacao-Consumacao-Reino-VanGroningen-Vol2.md
+    tamanho_md: 1471 KB
+    linhas_md: 22209
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Criacao-Consumacao-Reino-Vos
+    caminho_md: data/biblioteca/teologia-sistematica/Criacao-Consumacao-Reino-Vos.md
+    tamanho_md: 1936 KB
+    linhas_md: 46147
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Defending Your Faith_ An Introd - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Defending Your Faith_ An
+      Introd - R.C. Sproul.md
+    tamanho_md: 317 KB
+    linhas_md: 1547
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Does God Control Everything__ 1 - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Does God Control Everything__
+      1 - R.C. Sproul.md
+    tamanho_md: 75 KB
+    linhas_md: 514
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Does Prayer Change Things__ 3 ( - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Does Prayer Change Things__
+      3 ( - R.C. Sproul.md
+    tamanho_md: 106 KB
+    linhas_md: 2374
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Essential Truths of the Christi - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Essential Truths of the Christi
+      - R.C. Sproul.md
+    tamanho_md: 429 KB
+    linhas_md: 6119
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Everyone's a Theologian_ An Int - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Everyone's a Theologian_
+      An Int - R.C. Sproul.md
+    tamanho_md: 691 KB
+    linhas_md: 13140
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Faith Alone_ The Evangelical Do - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Faith Alone_ The Evangelical
+      Do - R.C. Sproul.md
+    tamanho_md: 19 KB
+    linhas_md: 941
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Five Things Every Christian Nee - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Five Things Every Christian
+      Nee - R.C. Sproul.md
+    tamanho_md: 146 KB
+    linhas_md: 3193
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: God's Love_ How the Infinite Go - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/God's Love_ How the Infinite
+      Go - R.C. Sproul.md
+    tamanho_md: 344 KB
+    linhas_md: 2617
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Gods Empowering Presence The Holy Spirit in the Letters of Paul (Gordon
+      D. Fee [Fee Gordon D.]) (z-library.sk 1lib
+    caminho_md: data/biblioteca/teologia-sistematica/Gods Empowering Presence
+      The Holy Spirit in the Letters of Paul (Gordon D. Fee [Fee Gordon D.]) (z-library.sk
+      1lib.md
+    tamanho_md: 3112 KB
+    linhas_md: 60624
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: How Can I Develop a Christian C - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/How Can I Develop a Christian
+      C - R.C. Sproul.md
+    tamanho_md: 70 KB
+    linhas_md: 1508
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: How Should I Live in This World - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/How Should I Live in This
+      World - R.C. Sproul.md
+    tamanho_md: 122 KB
+    linhas_md: 2466
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: How to Read the Bible for All Its Worth Fourth Edition — Zondervan English
+      - Gordon D. Fee  Douglas Stuart 2014 (
+    caminho_md: data/biblioteca/teologia-sistematica/How to Read the Bible for
+      All Its Worth Fourth Edition — Zondervan English - Gordon D. Fee  Douglas Stuart 2014
+      (.md
+    tamanho_md: 691 KB
+    linhas_md: 6881
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: John (St. Andrew's Expositional - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/John (St. Andrew's Expositional
+      - R.C. Sproul.md
+    tamanho_md: 871 KB
+    linhas_md: 14775
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Knowing Scripture (R. C. Sproul)
+    caminho_md: data/biblioteca/teologia-sistematica/Knowing Scripture (R. C.
+      Sproul).md
+    tamanho_md: 255 KB
+    linhas_md: 1900
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Knowing Scripture - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Knowing Scripture - R.C.
+      Sproul.md
+    tamanho_md: 237 KB
+    linhas_md: 2239
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Last-Things-Paul-Helm
+    caminho_md: data/biblioteca/teologia-sistematica/Last-Things-Paul-Helm.md
+    tamanho_md: 244 KB
+    linhas_md: 1008
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: New Geneva Introduction to the - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/New Geneva Introduction to
+      the - R.C. Sproul.md
+    tamanho_md: 366 KB
+    linhas_md: 9243
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Not a Chance_ The Myth of Chanc - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Not a Chance_ The Myth of
+      Chanc - R.C. Sproul.md
+    tamanho_md: 22 KB
+    linhas_md: 1136
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Pilgrim-Theology-Michael-Horton
+    caminho_md: data/biblioteca/teologia-sistematica/Pilgrim-Theology-Michael-Horton.md
+    tamanho_md: 1287 KB
+    linhas_md: 11203
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Redemption-Accomplished-Applied-John-Murray
+    caminho_md: data/biblioteca/teologia-sistematica/Redemption-Accomplished-Applied-John-Murray.md
+    tamanho_md: 428 KB
+    linhas_md: 2633
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Romans - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Romans - R.C. Sproul.md
+    tamanho_md: 1099 KB
+    linhas_md: 5590
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Sproul-Sola-Gratia-PT
+    caminho_md: data/biblioteca/teologia-sistematica/Sproul-Sola-Gratia-PT.md
+    tamanho_md: 412 KB
+    linhas_md: 6071
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Systematic-Theology-Wayne-Grudem
+    caminho_md: data/biblioteca/teologia-sistematica/Systematic-Theology-Wayne-Grudem.md
+    tamanho_md: 3941 KB
+    linhas_md: 56441
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: TS-Reformed_Dogmatics_-Complet_-Z-Library-.epub
+    caminho_md: data/biblioteca/teologia-sistematica/TS-Reformed_Dogmatics_-Complet_-Z-Library-.epub.md
+    tamanho_md: 3136 KB
+    linhas_md: 24153
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Taste of Heaven_ Worship in the - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Taste of Heaven_ Worship
+      in the - R.C. Sproul.md
+    tamanho_md: 241 KB
+    linhas_md: 1214
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Teologia Bíblia Antigo e Novo Testamentos (Geerhardus Vos)
+    caminho_md: data/biblioteca/teologia-sistematica/Teologia Bíblia Antigo e
+      Novo Testamentos (Geerhardus Vos).md
+    tamanho_md: 1221 KB
+    linhas_md: 33195
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Teologia-Sistematica-Louis-Berkhof
+    caminho_md: data/biblioteca/teologia-sistematica/Teologia-Sistematica-Louis-Berkhof.md
+    tamanho_md: 2510 KB
+    linhas_md: 55596
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Consequence of Ideas - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Consequence of Ideas
+      - R.C. Sproul.md
+    tamanho_md: 362 KB
+    linhas_md: 2671
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Holiness of God - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Holiness of God - R.C.
+      Sproul.md
+    tamanho_md: 284 KB
+    linhas_md: 5065
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Holiness of God — Tyndale House Publishers English - R. C. Sproul
+      [Sproul R. C.] 1984 (z-library.sk 1lib.sk
+    caminho_md: data/biblioteca/teologia-sistematica/The Holiness of God — Tyndale
+      House Publishers English - R. C. Sproul [Sproul R. C.] 1984 (z-library.sk 1lib.sk.md
+    tamanho_md: 366 KB
+    linhas_md: 2619
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Prayer of the Lord - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Prayer of the Lord -
+      R.C. Sproul.md
+    tamanho_md: 182 KB
+    linhas_md: 3495
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Promises of God_ Discoverin - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Promises of God_ Discoverin
+      - R.C. Sproul.md
+    tamanho_md: 313 KB
+    linhas_md: 3340
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Spirit of Revival - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Spirit of Revival - R.C.
+      Sproul.md
+    tamanho_md: 307 KB
+    linhas_md: 2011
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Truth of the Cross - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Truth of the Cross -
+      R.C. Sproul.md
+    tamanho_md: 173 KB
+    linhas_md: 3775
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: The Work of Christ_ What the Ev - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/The Work of Christ_ What
+      the Ev - R.C. Sproul.md
+    tamanho_md: 242 KB
+    linhas_md: 2969
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Verdades Essenciais da Fé Cristã 2º Caderno - R.C. Sproul —, —, Portuguese
+      - Unknown Author — (z-library.sk, 1lib.s
+    caminho_md: data/biblioteca/teologia-sistematica/Verdades Essenciais da Fé
+      Cristã 2º Caderno - R.C. Sproul —, —, Portuguese - Unknown Author — (z-library.sk,
+      1lib.s.md
+    tamanho_md: 182 KB
+    linhas_md: 2428
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What Can I Do With My Guilt__ 9 - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What Can I Do With My Guilt__
+      9 - R.C. Sproul.md
+    tamanho_md: 72 KB
+    linhas_md: 671
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What Does It Mean to Be Born Ag - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What Does It Mean to Be Born
+      Ag - R.C. Sproul.md
+    tamanho_md: 79 KB
+    linhas_md: 1673
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What Is Faith__ 8 (Crucial Ques - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What Is Faith__ 8 (Crucial
+      Ques - R.C. Sproul.md
+    tamanho_md: 78 KB
+    linhas_md: 1676
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What Is Repentance_ 18  (Crucia - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What Is Repentance_ 18  (Crucia
+      - R.C. Sproul.md
+    tamanho_md: 47 KB
+    linhas_md: 1143
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What Is the Relationship betwee - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What Is the Relationship
+      betwee - R.C. Sproul.md
+    tamanho_md: 66 KB
+    linhas_md: 1526
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What is Baptism__ 11 (Crucial Q - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What is Baptism__ 11 (Crucial
+      Q - R.C. Sproul.md
+    tamanho_md: 76 KB
+    linhas_md: 1612
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What is Reformed Theology__ Und - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What is Reformed Theology__
+      Und - R.C. Sproul.md
+    tamanho_md: 413 KB
+    linhas_md: 4159
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What is The Church__ 17 (Crucia - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What is The Church__ 17 (Crucia
+      - R.C. Sproul.md
+    tamanho_md: 76 KB
+    linhas_md: 1683
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What is The Lord's Supper__ 16  - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What is The Lord's Supper__
+      16  - R.C. Sproul.md
+    tamanho_md: 73 KB
+    linhas_md: 1661
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What is the Great Commission__ - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What is the Great Commission__
+      - R.C. Sproul.md
+    tamanho_md: 64 KB
+    linhas_md: 1501
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: What is the Trinity__ 10 (Cruci - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/What is the Trinity__ 10
+      (Cruci - R.C. Sproul.md
+    tamanho_md: 74 KB
+    linhas_md: 694
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Who Is Jesus__ 1  (Crucial Ques - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Who Is Jesus__ 1  (Crucial
+      Ques - R.C. Sproul.md
+    tamanho_md: 135 KB
+    linhas_md: 2625
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Who is the Holy Spirit__ 13 (Cr - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Who is the Holy Spirit__
+      13 (Cr - R.C. Sproul.md
+    tamanho_md: 84 KB
+    linhas_md: 1838
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Willing to Believe - R.C. Sproul
+    caminho_md: data/biblioteca/teologia-sistematica/Willing to Believe - R.C.
+      Sproul.md
+    tamanho_md: 11 KB
+    linhas_md: 638
+    status: indexado_auto
+    fonte: catalogacao_auto_auditoria_2026-09-29
+    nota: adicionado na auditoria — revisar metadados
+  - titulo: Bavinck Dogmatica Reformada Fundamentos
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Fundamentos.md
+    linhas_md: 21061
+    tamanho_md: 787 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Bavinck Dogmatica Reformada Vol 1 Prolegomena epub
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-1-Prolegomena-epub.md
+    linhas_md: 13973
+    tamanho_md: 2208 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Bavinck Dogmatica Reformada Vol 1
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-1.md
+    linhas_md: 39253
+    tamanho_md: 2302 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Bavinck Dogmatica Reformada Vol 2 Deus Criacao epub
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-2-Deus-Criacao-epub.md
+    linhas_md: 14776
+    tamanho_md: 2216 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Bavinck Dogmatica Reformada Vol 2
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-2.md
+    linhas_md: 38243
+    tamanho_md: 2312 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Bavinck Dogmatica Reformada Vol 3
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-3.md
+    linhas_md: 39149
+    tamanho_md: 2308 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Bavinck Dogmatica Reformada Vol 4
+    autor: Herman Bavinck
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Bavinck-Dogmatica-Reformada-Vol-4.md
+    linhas_md: 64767
+    tamanho_md: 3112 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Instituicao Completa epub
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Instituicao-Completa-epub.md
+    linhas_md: 48811
+    tamanho_md: 3699 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Instituicao Tomo 1
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Instituicao-Tomo-1.md
+    linhas_md: 7027
+    tamanho_md: 1282 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Instituicao Tomo 2
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Instituicao-Tomo-2.md
+    linhas_md: 7995
+    tamanho_md: 2335 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Institutas Soares Castro
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Institutas-Soares-Castro.md
+    linhas_md: 22940
+    tamanho_md: 4057 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Institutas Vol 1 Calvinus
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-1-Calvinus.md
+    linhas_md: 2849
+    tamanho_md: 596 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Institutas Vol 2
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-2.md
+    linhas_md: 3821
+    tamanho_md: 779 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Institutas Vol 3
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-3.md
+    linhas_md: 5428
+    tamanho_md: 1302 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Calvino Institutas Vol 4
+    autor: João Calvino
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Calvino-Institutas-Vol-4.md
+    linhas_md: 10691
+    tamanho_md: 1379 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Chaoper Teologia Sistematica Vol 1 2
+    autor: Lewis S. Chaoper
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-1-2.md
+    linhas_md: 39097
+    tamanho_md: 2501 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Chaoper Teologia Sistematica Vol 3 4
+    autor: Lewis S. Chaoper
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-3-4.md
+    linhas_md: 38848
+    tamanho_md: 2510 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Chaoper Teologia Sistematica Vol 5 6
+    autor: Lewis S. Chaoper
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-5-6.md
+    linhas_md: 31634
+    tamanho_md: 2087 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Chaoper Teologia Sistematica Vol 7 8
+    autor: Lewis S. Chaoper
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Chaoper-Teologia-Sistematica-Vol-7-8.md
+    linhas_md: 22412
+    tamanho_md: 971 KB
+    status: indexado
+    fonte: Z-Library (via Drive)
+  - titulo: Antropología Bíblica — De Adán a Cristo
+    autor: Juan Luis Lorda
+    editora: Palabra
+    ano: 2005
+    idioma: es
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Antropologia-Biblica-Juan-Luis-Lorda-ES.md
+    linhas_md: 14922
+    tamanho_md: 636 KB
+    status: indexado
+    fonte: Z-Library (local /home/willianmendesf/Downloads/Books)
+    topicos:
+    - Antropología teológica
+    - Antropología bíblica
+    - Doctrina del hombre
+    - Creación, caída, redención
+    - Teología sistemática
+  - titulo: Criação e Consumação, vol. II — O Reino, a Aliança e o Mediador
+    autor: Gerard Van Groningen
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Criacao-Consumacao-Reino-VanGroningen-Vol2.md
+    tamanho_md: 1.5 MB
+    linhas_md: 22208
+    status: indexado
+    adicionada_em: 2026-09-13
+    processado_via: pdftotext
+    topicos:
+    - Escatologia reformada
+    - Reino de Deus
+    - Escatologia amilenar
+    - Phillips
+    nota: 'Correção 2026-09-25: a KB atribuía a Richard D. Phillips/Vos; o PDF é Van
+      Groningen, Criação e Consumação vol. II (O Reino, a Aliança e o Mediador).'
+  - titulo: Teologia Sistemática de Berkhof
+    autor: Louis Berkhof
+    idioma: PT
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Teologia-Sistematica-Louis-Berkhof.md
+    caminho_original: /dados/study-agent/data/biblioteca/teologia-sistematica/Teologia-Sistematica-Louis-Berkhof.epub
+    linhas_md: 55596
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    processado_via: markitdown
+    zlib_id: 12346546
+    zlib_hash: 0ea9c8
+    topicos:
+    - Teologia sistemática reformada
+    - Clássico da tradição
+    - Síntese em um volume
+    - Compêndio de Bavinck
+  - titulo: Redemption Accomplished and Applied
+    autor: John Murray
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Redemption-Accomplished-Applied-John-Murray.md
+    caminho_original: /dados/study-agent/data/biblioteca/teologia-sistematica/Redemption
+      Accomplished and Applied (Murray, John) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 204 KB
+    linhas_md: 2633
+    status: indexado
+    download_em: 2026-09-11
+    convertido_em: 2026-09-11
+    zlib_id: 11553051
+    zlib_hash: 97f05f
+    processado_via: markitdown
+    topicos:
+    - Soteriologia reformada
+    - Ordo salutis
+    - Expição
+    - Murray
+    - Clássico Westminster
+  - titulo: 'Systematic Theology: An Introduction to Biblical Doctrine'
+    autor: Wayne Grudem
+    idioma: en
+    formato_original: pdf
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Systematic-Theology-Wayne-Grudem.md
+    caminho_original: /dados/study-agent/data/biblioteca/teologia-sistematica/Systematic
+      Theology An Introduction to Biblical Doctrine (Wayne Grudem) (z-library.sk,
+      1lib.sk, z-lib.sk).pdf
+    tamanho_md: 6.2 MB
+    linhas_md: 56440
+    status: indexado
+    download_em: 2026-09-13
+    convertido_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 753374
+    zlib_hash: e10f33
+    topicos:
+    - Teologia sistemática evangelical
+    - Grudem
+    - Grande referência
+    - Complementa Berkhof (clássico reformado) e Murray (soteriologia)
+    nota: 'Item #011 da wishlist (retried). 1ª tentativa (epub 2.3 MB) falhou (zip
+      vazio); 2ª tentativa (PDF 6.2 MB) com ID alternativo funcionou via xhtml parser.'
+  - titulo: Sola Gratia
+    autor: R. C. Sproul
+    idioma: pt-BR
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Sproul-Sola-Gratia-PT.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Sola gratia
+      —, Editora Cultura Cristã, Portuguese - R.C. Sproul 2021 (z-library.sk, 1lib.sk,
+      z-lib.sk).epub
+    tamanho_md: 1.9 MB
+    linhas_md: 6071
+    status: indexado
+    adicionado_em: 2026-09-13
+    processado_via: xhtml_parser
+    zlib_id: 22056329
+    zlib_hash: 105beb
+    topicos:
+    - Sola Gratia (uma das cinco solas)
+    - Sproul
+    - Cultura Cristã (PT-BR)
+    - Para TCul e Teol Sist do JMC
+  - titulo: Pilgrim Theology — Core Doctrines for Christian Disciples
+    autor: Michael Horton
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Pilgrim-Theology-Michael-Horton.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/Pilgrim Theology
+      Core Doctrines for Christian Disciples (Michael Horton) (z-library.sk, 1lib.sk,
+      z-lib.sk).epub
+    tamanho_md: 1.3M
+    linhas_md: 11202
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Teologia sistemática (versão condensada/didática do Horton)
+    - Reformada
+    - Michael Horton
+  - titulo: The Last Things
+    autor: Paul Helm
+    idioma: en
+    formato_original: epub
+    caminho_md: /dados/study-agent/data/biblioteca/teologia-sistematica/Last-Things-Paul-Helm.md
+    caminho_original: /dados/study-agent/data/biblioteca/_incoming/The Last Things
+      (Paul Helm [Helm, Paul]) (z-library.sk, 1lib.sk, z-lib.sk).epub
+    tamanho_md: 248K
+    linhas_md: 1007
+    status: indexado
+    adicionado_em: 2026-09-16
+    processado_via: markitdown
+    topicos:
+    - Escatologia
+    - Paul Helm
+    - Teologia reformada

@@ -1,0 +1,51 @@
+{
+  "version": 1,
+  "jobs": [
+    {
+      "id": "3cbc41ab1154e75f",
+      "name": "Rotina diaria: commit + pus...",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 6 * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Rotina diaria: commit + push do sub-repo data/ (sem audio). Roda o /home/study-agent/data/commit-data-diario.sh.\n\nAo terminar, responda de forma breve: o que foi enviado e que ficou salvo no repositorio. Nao precisa detalhar arquivo por arquivo nem mostrar comandos.\n\nCron em UTC: 06:00 UTC = 03:00 SP.",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "nextRunAtMs": 1792908000000,
+        "lastRunAtMs": 1792821600157,
+        "lastStatus": "ok"
+      },
+      "createdAtMs": 1792537777168,
+      "updatedAtMs": 1792821622246,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "ff78ebb31148637c",
+      "name": "🕖 São 19:00 BRT (cron em UT...",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 22 * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "🕖 São 19:00 BRT (cron em UTC: 22:00). Disparar /home/study-agent/data/estudos/notas/portugues-aulas-diarias/enviar-aula.sh — a próxima aula pendente do curso de Português da Portuga. Mp3 deve chegar no chat em ~1 min.",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "nextRunAtMs": 1792879200000,
+        "lastRunAtMs": 1792620000458,
+        "lastStatus": "ok"
+      },
+      "createdAtMs": 1792594324125,
+      "updatedAtMs": 1792620140952,
+      "deleteAfterRun": false
+    }
+  ]
+}
