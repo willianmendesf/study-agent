@@ -297,6 +297,11 @@ dele; senão → pool inteiro) e responda usando só o que está nesse escopo.
 O usuário curou a biblioteca `data/biblioteca/` de propósito. Responder de conhecimento geral ignorando
 esse material derrota o objetivo do Study-Agent.
 
+> **Exceção (Regra 9.5):** quando o objeto do estudo é **um texto a ser interpretado** (passagem bíblica,
+> fonte primária, texto clássico), a ancoragem acontece **depois** da leitura própria — a Etapa 0
+> (exegese/hermenêutica do texto, **sem consultar nenhum autor**) vem antes de qualquer comentário.
+> Ver **Regra 9.5**.
+
 > **Reforço automático:** o hook `UserPromptSubmit` (`.claude/settings.json` →
 > `.claude/hooks/inventario-biblioteca.sh`) injeta em **toda mensagem** o inventário atual de
 > `data/biblioteca/` + perfil + especialistas. Você vê essa lista fresca a cada turno — não há desculpa
@@ -334,6 +339,63 @@ do domínio):
 
 Vale também para os especialistas: um especialista responde **a partir da sua fatia** da biblioteca
 (as KBs cujas tags casam), citando-as, e sinaliza quando precisa sair do escopo dele.
+
+## Regra 9.5 — Etapa 0: a leitura própria vem ANTES do diálogo com os autores
+
+**O problema que esta regra resolve.** Quando a IA busca a biblioteca (comentários, teses, a posição de
+outro exegeta) **antes** de ler o texto, o estudo fica invertido: a leitura própria deixa de existir — o
+que o autor do texto diz é filtrado e deformado pelo que os outros já disseram, e a "exegese" vira
+repetição do comentário alheio. Ordem invertida = hermenêutica sem exegese.
+
+**Onde a regra se aplica.** Quando o **objeto do estudo é um texto a ser interpretado** — passagem bíblica,
+fonte primária (carta, discurso, lei, relato), texto filosófico clássico, ou qualquer documento cujo
+sentido o aluno precisa *aprender a ler*. Ou seja: quando a entrega é uma **interpretação**, não uma
+resposta factual.
+
+**Onde NÃO se aplica.** Quando a pergunta é factual ("quando Grudem publicou X?", "qual a definição de
+justificação em Calvino?") — aí a Regra 9 vale inteira: busca na biblioteca primeiro, responde ancorado.
+A Regra 9.5 nunca autoriza responder "de cabeça".
+
+**As duas etapas (obrigatórias, nesta ordem):**
+
+- **Etapa 0 — Leitura própria.** A IA lê **o texto** e constrói a interpretação **sozinha**, a partir do
+  texto: estrutura, observação, léxico/gramática, sentido, contexto, tese, aplicação. **Nenhum autor é
+  consultado sobre o texto.** O que a IA produz aqui é o **plano de leitura** (roteiro de exegese e
+  hermenêutica) — e ela o entrega **antes** de abrir qualquer comentário.
+- **Etapa 1 — Diálogo com a tradição e os autores.** Só depois da Etapa 0 fechada: comentários,
+  teses doutrinais, história da interpretação, posição da confissão, reviews de outros exegetas. A
+  Etapa 1 **confronta** (concorda / diverge / corrige) a leitura própria — ela não a substitui nem a
+  reescreve.
+
+**O que PODE ser consultado na Etapa 0 (ferramentas, não opiniões):**
+o texto em(original) e nas traduções; crítica textual e aparato; gramática/morfologia/sintaxe; verbetes
+de léxico (o que a palavra significa); concordâncias/listas de palavras; fatos históricos, geográficos e
+cronológicos; o **corpus do próprio texto** (para correlação canônica — é Escritura, não autor); e o
+**método** (como se faz exegese — não o que um autor diz sobre *esta* passagem).
+
+**O que NÃO PODE ser consultado na Etapa 0 (opiniões de terceiros):**
+comentários sobre a passagem (qualquer autor, qualquer série); teses/sistemáticas/doutrinas usadas para
+**derivar** o sentido do texto; história da interpretação (patrística, reforma, exegese contemporânea);
+resenhas e interpretações de outros exegetas; relatórios de exegese anteriores da própria biblioteca
+(`data/estudos/notas/**/exegese-*.md`) — inclusive os seus.
+
+**Como isso se aplica na prática:**
+- **Hermes** (exegese bíblica) — o protocolo de 10 módulos é reestagiado em Etapa 0 / 1 / 2
+  (v. `data/perfil/especialistas/hermes.yaml`, `etapas:`).
+- **Estudo de texto em geral** (`estudo-fluxo-03-aprender`) — quando o objeto é um texto a interpretar,
+  o "Processo" começa pela Etapa 0 e só depois ancora na biblioteca (ver o SKILL.md).
+- **Especialistas-ferramenta** (Kritikos = crítica textual/línguas, Histōr = contexto histórico, Hermeneia =
+  método interpretativo, Homologia = padrão confessional) — na Etapa 0 eles entregam **insumo de
+  ferramenta** (o que o texto diz, com que lexicon, em que contexto). A *opinião* deles sobre a
+  passagem só entra na Etapa 1.
+- **Regra 9 continua valendo em tudo o que for fato** (datas, léxico, histórico, doutrina) e **integralmente
+  na Etapa 1** — inclusive a exigência de citar a fonte e de confirmar citação literal com
+  `buscar.py --verificar`.
+
+**Trava prática:** se a IA já leu o comentário antes de fechar a leitura própria, ela **não pode
+entregar a Etapa 0 contaminada** — deve declarar isso ("consultei X antes; minha leitura própria já
+está enviesada") e entregar a Etapa 1 com a nota de contaminação. Nunca fingir leitura própria depois
+de ter lido os outros.
 
 ## Regra 10 — Barreiras defensivas (vale para qualquer modelo, inclusive os menores)
 

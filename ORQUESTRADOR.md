@@ -69,14 +69,20 @@ Arquivo: `data/perfil/aprendizado-meta.yaml` (schema em `.claude/templates/apren
 ## Perfil Global (setup único)
 
 Primeira sessão real, se `data/perfil/orquestrador-global-profile.yaml` não existir: sugerir `study-setup-orquestrador` para definir domínio (Medicina, Programação...), modos primários, bibliotecas base e tom de comunicação. Ver `.claude/skills/study-setup-orquestrador/SKILL.md`.
-
 ## Busca nos livros e memória entre sessões
 
 - **Conteúdo, citação ou "em que livro fala de X?"** → o primeiro passo é sempre a skill
   [`study-busca-livros`](.claude/skills/study-busca-livros/SKILL.md) (`buscar.py "<termos>" --tags <tags_do_dominio do
-  especialista ativo>`): devolve livro + linhas + trecho em segundos, no escopo da Regra 8. Citação entre aspas só
-  depois de `buscar.py --verificar` dizer `CONFIRMADA`. Sem resultado → "não há material na sua biblioteca" (Regra 9.4).
+  especialista ativo>`): devolve livro + linhas + trecho em segundos, no escopo da Regra 8. Citação entre
+  aspas só depois de `buscar.py --verificar` dizer `CONFIRMADA`. Sem resultado → "não há material na sua
+  biblioteca" (Regra 9.4).
   `study-rag-local` (semântico) entra quando o vocabulário do livro difere do da pergunta.
+- **Exceção: estudo de um texto (Regra 9.5)** → quando o objeto do estudo é um **texto a ser
+  interpretado** (passagem bíblica, fonte primária, texto clássico), a busca de material entra **depois**
+  da leitura própria: **Etapa 0** = ler o texto e montar o plano de exegese/hermenêutica **sem consultar
+  nenhum autor** (ferramentas — texto, crítica textual, léxico, gramática, fatos, corpus do texto — são
+  permitidas); **Etapa 1** = diálogo com a tradição e os autores, que confronta a leitura própria sem
+  reescrevê-la. Ver [`CLAUDE.md`](./CLAUDE.md) Regra 9.5 e `data/perfil/memorias/metodo-etapa-0.md`.
 - **Chat novo / assunto retomado** → consulta ao deja-vu **antes** de responder ou perguntar (recall automático no
   início da sessão; se vazio, `deja "<termo>"`). O usuário não deve precisar reexplicar decisões já tomadas.
 

@@ -300,3 +300,19 @@ capítulo, versículos), (3) **link Memos**.
 - **Detalhes e armadilhas técnicas:** `data/perfil/memorias/rodada-aquisicao.md` (LER antes de mexer nas KBs).
 - **Armadilha crítica:** `yaml.safe_dump` com `width=80` **quebra** o `caminho_md` em 2 linhas e valores sem aspas com `, `/`: ` viram mapa. Sempre `width=4096` + aspas simples, ou edite o YAML em texto.
 - **Estado 2026-10-24:** 1050 .md, 1038 catalogados, 0 caminho quebrado, 0 YAML inválido, lint 0 erro novo, índice 1322 docs / 609371 trechos.
+
+### Etapa 0 — leitura própria ANTES do diálogo com os autores (2026-10-25)
+
+- **Pedido do William:** "hoje ao meu ver ele busca estudos primeiro, antes de fazer hermenêutica e exegese.
+  Dessa forma inverte a exegese e hermenêutica. eu quero inverter, para cada estudo, trazer um plano sem
+  olhar para nenhum autor, apenas exegese e hermeneutica, como etapa 0, depois de ter a explanação do texto
+  em si, aí sim trazer opiniões de outros autores e etc. vejo isso no hermes."
+- **Problema:** buscar a biblioteca antes de ler o texto **inverte** exegese e hermenêutica — a leitura
+  própria não existe e o estudo vira repetição do comentário alheio.
+- **Regra:** Etapa 0 (leitura própria do texto, **sem autor algum**) → Etapa 1 (diálogo com a tradição e os
+  autores, que confronta sem reescrever) → Etapa 2 (aplicação/homilética/bibliografia). Ferramentas permitidas
+  na Etapa 0: texto, crítica textual, gramática, léxico, concordância, fatos históricos, corpus bíblico,
+  método. Vedado: comentários, teses, história da interpretação, exegeses anteriores.
+- **Onde mora:** `CLAUDE.md` Regra 9.5 (lei) · `data/perfil/especialistas/hermes.yaml` v4.0 (bloco `etapas:`,
+  `etapa:` por módulo, `mapa_fontes_por_etapa`) · `.claude/skills/estudo-fluxo-03-aprender/SKILL.md` (Processo).
+- **Detalhes:** `data/perfil/memorias/metodo-etapa-0.md` (LER antes de mexer no protocolo do Hermes).

@@ -22,6 +22,13 @@ fonte exata** (arquivo + linhas), que é o que a Regra 9 exige para citar.
    muito diferente do da pergunta, use `study-rag-local` (semântico). Se ainda assim nada: diga ao
    usuário que **não há material** (Regra 9.4) — não preencha de cabeça.
 
+> **Exceção — Etapa 0 de um estudo de texto (CLAUDE.md Regra 9.5):** quando o objeto do estudo é um
+> **texto a ser interpretado** (passagem bíblica, fonte primária, texto clássico), a leitura própria
+> (Etapa 0) vem **antes** de qualquer consulta a autores. Nesta etapa, use esta skill **só para
+> ferramentas** — léxico, gramática, crítica textual, concordância, fatos — e **não** para buscar
+> comentários, teses ou interpretações de outros exegetas sobre a passagem. O diálogo com os autores
+> é a Etapa 1, depois da leitura própria entregue.
+
 ## Buscar
 
 ```bash
