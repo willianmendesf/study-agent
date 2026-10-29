@@ -43,6 +43,24 @@
 - **Reload:** matar `picoclaw gateway` (PID em `ps aux | grep gateway`); o launcher (PID 205) reinicia sozinho. `config.json` é relida no boot.
 - **Sintoma de estouro:** o usuário recebe a string literal "I've reached `max_tool_iterations` without a final response. Increase `max_tool_iterations` in config.json if this task needs more tool steps." — significa que a IA ficou sem chamadas de ferramenta antes de conseguir fechar a resposta em texto. Solução: subir o limite, reiniciar o gateway, retomar.
 
+### Provedor de voz — o que roda de verdade (William perguntou 2026-10-29 20:45 BRT)
+- **Provedor PRIMÁRIO das 9 personas femininas: edge-tts (Microsoft), voz `pt-BR-FranciscaNeural`.**
+  Biblioteca Python `edge-tts` 7.3.1, sem API key. Não depende de LXC nenhuma — só de internet.
+  Personas: hermeneia, eusebeia, darshan, kerux, literato, portuga, dialektikos, aporia, zetesis.
+- **Provedor das 10 personas masculinas: Speaches LXC 140, voz `faber` (Piper pt-BR).**
+  Personas: hermes, homologia, histor, kritikos, rhetor, kairos, anglista, bereiano, areopago, antropos.
+- **⚠️ Speaches (LXC 140) OFFLINE desde 2026-10-29 20:40 BRT** — LXC desligada (ARP `FAILED`),
+  não é serviço parado. Caiu junto com 26 (Orbit), 113 (Piper), 115 (PhreshOS), 209.
+- **Cascata de fallback IMPLEMENTADA 2026-10-29 20:45 BRT** (antes era só documentada):
+  `faber → antonio (pt-BR-AntonioNeural)` · `Francisca → thalita (pt-BR-ThalitaNeural)`.
+  Liga/desliga com `TTS_CASCATA=0|1` (default ligada). Probe de saúde antecipado
+  (`/v1/models`, 1x por processo) decide a troca ANTES do loop de chunks.
+- **Divergência YAML × script CORRIGIDA 2026-10-29:** os 9 yamls femininas declaravam
+  Kokoro/`pf_dora` enquanto o script usava Francisca desde 2026-10-12. Fonte de verdade agora:
+  `data/perfil/memorias/tts-regras.md` § 8.
+- **Arquivos canônicos:** mapa de voz = `data/perfil/memorias/audio.md` · engenharia =
+  `data/perfil/memorias/tts-regras.md` (v1.2) · script = `data/perfil/scripts/tts-synth.py`.
+
 ### TTS — usar `--texto-md`, NUNCA `--texto` direto (regra 2026-10-12, expandida)
 - **Arquivo:** `data/perfil/scripts/tts-synth.py` tem DOIS modos:
   - `--texto "..."` — modo cru, manda o texto literal pro TTS. **Errado pra devocionais/aulas**: lê markdown em voz alta ("asterisco asterisco", "travessão", etc.) e perde vinheta, pausas, marcador de devagar na citação bíblica.
