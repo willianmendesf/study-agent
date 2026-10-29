@@ -99,8 +99,11 @@ Mapa de voz (Plano C — alterna M/F):
 
 - **faber (piper pt-BR, masculino grave)** — exegetas/doutrinadores/gestores/críticos:
   hermes, homologia, histor, kritikos, rhetor, kairos, anglista, bereiano, areopago, antropos.
-- **pf_dora (Kokoro pt-BR, feminino suave)** — mediadoras/devocionais/leitoras/escritoras:
+- **Francisca (edge-tts pt-BR, feminino suave)** — mediadoras/devocionais/leitoras/escritoras:
   hermeneia, eusebeia, darshan, kerux, literato, portuga, dialektikos, aporia, zetesis.
+  - ⚠️ 2026-10-29: o Speaches (LXC 140) está OFFLINE (LXC desligada). As 10 personas masculinas
+    (`faber`) caem no fallback `antonio` (edge-tts) via cascata automática do `tts-synth.py`.
+    `pf_dora` (Kokoro) só voltará a existir quando o Speaches voltar.
 - **bibliotecário:** `audio.enabled = false` (apenas técnico, não fala).
 
 ### 7.3 Comandos diretos (referência — não usar toda hora)
