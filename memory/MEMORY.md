@@ -183,44 +183,61 @@
 
 ---
 
-## 📌 TL;DR obrigatório em tudo (decisão do William 2026-10-30)
+## 📌 TL;DR — só nas conversas do Telegram (decisão do William 2026-10-30)
 
 **Pedido literal:** "aplica à rotina, resumos e mensagem gerais o conceito de TL;DR — isso no
 contexto de conversas no telegram."
 
-**A regra (CLAUDE.md Regra 10.5):** qualquer entrega com mais de uma linha de conteúdo começa
-por um TL;DR de **1 a 3 frases**, que entrega o **resultado** (não o processo), **antes** do
-desenvolvimento.
+**Correção (mesma noite, logo depois):** "não filho o TL;DR é somente pra conversa no telegram
+apenas para telegram".
 
-**Onde:**
-- **Rotinas** → `tldr:` no frontmatter + `RESUMO — <frase>` na primeira linha da capa do Telegram.
-- **Resumos/estudos** (`data/estudos/**`) → seção `## TL;DR` logo após o H1 + `tldr:` no frontmatter.
-- **Mensagens gerais no Telegram** → bloco `RESUMO —` como primeiro bloco, antes dos detalhes.
+**REGRA DEFINITIVA:** o TL;DR é **da conversa do Telegram, e só dela**. Não é padrão de arquivo.
 
-**Onde NÃO entra:** no áudio do devocional — o `limpar_tts.py` remove a seção (senão o TL;DR era
-lido no lugar da citação bíblica). **Exceção:** série de português, onde o TL;DR é a versão
-escrita da PERGUNTA DO DIA e **é** lido.
+**Onde (Telegram apenas):**
+- **Mensagem do Telegram** (resposta, relatório de turno, aviso) → bloco `RESUMO —` como
+  **primeiro bloco**, antes dos detalhes.
+- **Capa textual de rotina enviada ao Telegram** (devocional, aula PT) → `RESUMO — <frase>`
+  na **primeira linha**, antes do título.
 
-**Bug novo descoberto e corrigido (2026-10-30) no `limpar_tts.py`:**
-1. O limpador tratava o **primeiro parágrafo longo** como citação bíblica → com TL;DR no topo, o
-   áudio lia "Do <livro>: <TL;DR>" devagar e a citação real ficava sem preâmbulo. Corrigido com
-   `_dividir_tldr()` (separa a seção antes do `_limpar_md`).
+**Onde NÃO entra (o limite da regra):**
+- **Não** nos arquivos de estudo (`data/estudos/**`) — nem `## TL;DR` no corpo, nem `tldr:` no
+  frontmatter. Os arquivos seguem o formato próprio de cada série.
+- **Não** nos posts do Memos (leitura corrida, não conversa).
+- **Não** na documentação interna (CLAUDE.md, MEMORY.md, data/perfil/**).
+- **Não** no áudio.
+
+**Por que só no Telegram:** o Telegram é onde o William lê **em fluxo**, no celular, e precisa
+saber em dois segundos se vale abrir o resto. O `.md` e o Memos são leitura corrida — resumo no
+topo de um estudo de 3 páginas só empurra o conteúdo.
+
+**Onde mora a regra:** CLAUDE.md Regra 10.5 (fonte de verdade) ·
+`data/perfil/orquestrador-global-profile.yaml → formato_resposta`.
+
+**Lição de escopo (2026-10-30):** eu ampliei o pedido ("rotinas, resumos e mensagens gerais" →
+arquivos + frontmatter + Memos) e o William corrigiu: "apenas para telegram". **Antes de
+transformar um pedido de conversa em padrão de ARQUIVO, confirmar o escopo.** A parte que era
+só do Telegram eu já tinha feito; a parte que invadiu os arquivos foi revertida.
+
+**Bugs que a investigação revelou (mantidos, são reais):**
+1. `limpar_tts.py` tratava o primeiro parágrafo longo como citação bíblica → agora tem
+   `_indice_secao_texto()`/estrutura, e a série PT tem tratamento próprio.
 2. A vinheta "Bom dia. Sou Eusebeia" estava **hardcoded** — aparecia nas aulas da Portuga.
-   Agora parametrizada por `persona:` do frontmatter, e a série de português não recebe vinheta
-   (a aula já tem ABERTURA própria no corpo).
-3. Os marcadores técnicos da série PT (`**ABERTURA — 5-10s**`, `**PERGUNTA DO DIA**`…) eram lidos
-   em voz alta. Agora removidos antes do `_limpar_md` (o `_limpar_md` tira o `**`, então o filtro
-   tem que rodar ANTES).
+   Agora é derivada da `persona:` do frontmatter; a série PT não recebe vinheta (a aula já tem
+   ABERTURA própria no corpo).
+3. Os marcadores técnicos da série PT (`**ABERTURA — 5-10s**`, `**PERGUNTA DO DIA**`…) eram
+   lidos em voz alta. Removidos por `_remover_marcadores_secao_pt()` — que roda **ANTES** do
+   `_limpar_md()`, porque o `_limpar_md` tira o `**` e o padrão deixaria de casar.
 
-**Armadilhas do ambiente (aprendidas hoje):**
+**Armadilhas do ambiente (aprendidas em 2026-10-30):**
 - O `awk` desta LXC é **mawk**: **não** suporta `{1,3}` em regex. Usar `^#+` em vez de `^#{1,3}`.
 - Ao gravar strings com `:` ou `/` via shell/heredoc, os separadores às vezes saem trocados
-  (viram `;`). Por isso o regex do header TL;DR aceita **qualquer separador não-alfanumérico**:
-  `^#{1,3}\s*TL\s*[^A-Za-z0-9]?\s*DR\s*$`.
+  (viram `;`).
+- YAML: valor de frontmatter com aspas duplas internas quebra o parser → usar block scalar
+  (`>-`) ou aspas simples.
 
-**Estado da aplicação (2026-10-30):** 13 devocionais + 110 aulas de português receberam
-`## TL;DR` + `tldr:` no frontmatter. Validados 0 falhas (TL;DR fora do áudio do devocional,
-dentro do da aula PT, sem markdown vazado).
+**Estado (2026-10-30):** a aplicação nos arquivos foi REVERTIDA (123 arquivos restaurados ao
+estado sem TL;DR, YAML validado, 0 falhas). Lint: 0 erro novo.
+
 
 ---
 
