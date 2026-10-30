@@ -16,12 +16,12 @@
         "to": "916214383"
       },
       "state": {
-        "nextRunAtMs": 1792908000000,
-        "lastRunAtMs": 1792821600157,
+        "nextRunAtMs": 1793426400000,
+        "lastRunAtMs": 1793340000154,
         "lastStatus": "ok"
       },
       "createdAtMs": 1792537777168,
-      "updatedAtMs": 1792821622246,
+      "updatedAtMs": 1793340082913,
       "deleteAfterRun": false
     },
     {
@@ -39,12 +39,12 @@
         "to": "916214383"
       },
       "state": {
-        "nextRunAtMs": 1792879200000,
-        "lastRunAtMs": 1792620000458,
+        "nextRunAtMs": 1793484000000,
+        "lastRunAtMs": 1793397600194,
         "lastStatus": "ok"
       },
       "createdAtMs": 1792594324125,
-      "updatedAtMs": 1792620140952,
+      "updatedAtMs": 1793397813325,
       "deleteAfterRun": false
     },
     {
@@ -62,10 +62,34 @@
         "to": "916214383"
       },
       "state": {
-        "nextRunAtMs": 1792909800000
+        "nextRunAtMs": 1793428200000,
+        "lastRunAtMs": 1793341800131,
+        "lastStatus": "ok"
       },
       "createdAtMs": 1792850852841,
-      "updatedAtMs": 1792850852841,
+      "updatedAtMs": 1793347087639,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "b26063fc711ef674",
+      "name": "Publica no Memos os documen...",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "13 13 * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Publica no Memos os documentos de avaliacao vocacional IPB que ficaram pendentes (a Memos estava fora da janela 05h-23h BRT e deu timeout).\n\nExecuta:\n  bash /home/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh --file \"data/estudos/notas/vocacao-ministerial/01-questionario-autoavaliacao-vocacional.md\" --visibility PRIVATE --tags \"grupo/estudo/teologia,tipo/nota,vocacao,ministerio,ipb,study-agent\"\n  bash /home/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh --file \"data/estudos/notas/vocacao-ministerial/04-banco-de-perguntas-comite-vocacao.md\" --visibility PRIVATE --tags \"grupo/estudo/teologia,tipo/nota,vocacao,ministerio,ipb,study-agent\"\n  bash /home/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh --file \"data/estudos/notas/vocacao-ministerial/06-simulacao-entrevista-vocacao.md\" --visibility PRIVATE --tags \"grupo/estudo/teologia,tipo/exercicio,vocacao,ministerio,ipb,study-agent\"\n  bash /home/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh --file \"data/estudos/notas/vocacao-ministerial/08-matriz-cobertura-e-qualidade.md\" --visibility PRIVATE --tags \"grupo/estudo/teologia,tipo/nota,vocacao,ministerio,ipb,study-agent\"\n  bash /home/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh --file \"data/estudos/notas/auditoria-especialistas/01-auditoria-constituicao-especialistas.md\" --visibility PRIVATE --tags \"grupo/estudo/teologia,tipo/nota,especialistas,auditoria,study-agent\"\n\nAo terminar, responda de forma breve: quais memos foram publicados (com o ID) e quais falharam. Nao precisa detalhar arquivo por arquivo nem mostrar comandos.\n\nCron em UTC: 13:13 UTC = 10:13 BRT (dentro da janela do Memos, 05h-23h BRT).",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "lastRunAtMs": 1793285345696,
+        "lastStatus": "ok"
+      },
+      "createdAtMs": 1793244761586,
+      "updatedAtMs": 1793317319870,
       "deleteAfterRun": false
     }
   ]

@@ -1,0 +1,29 @@
+{
+  "key": "agent:cron-ff78ebb31148637c-f442ff13-392f-4671-84fa-0d6aa27c3b62",
+  "summary": "",
+  "skip": 0,
+  "count": 14,
+  "created_at": "2026-10-27T22:00:01.834863051Z",
+  "updated_at": "2026-10-27T22:14:13.877204693Z",
+  "scope": {
+    "version": 1,
+    "agent_id": "main",
+    "channel": "telegram",
+    "account": "default",
+    "dimensions": [
+      "chat"
+    ],
+    "values": {
+      "chat": "direct:916214383"
+    }
+  },
+  "aliases": [
+    "agent:main:main",
+    "agent:main:direct:cron",
+    "agent:main:telegram:direct:cron",
+    "agent:main:telegram:default:direct:cron",
+    "agent:main:direct:916214383",
+    "agent:main:telegram:direct:916214383",
+    "agent:main:telegram:default:direct:916214383"
+  ]
+}
