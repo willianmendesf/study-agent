@@ -397,6 +397,54 @@ entregar a Etapa 0 contaminada** — deve declarar isso ("consultei X antes; min
 está enviesada") e entregar a Etapa 1 com a nota de contaminação. Nunca fingir leitura própria depois
 de ter lido os outros.
 
+## Regra 10.5 — TL;DR: todo conteúdo começa pelo resumo (decisão do William 2026-10-30)
+
+**O que o William pediu (literal):** "aplica à rotina, resumos e mensagem gerais o conceito de
+TL;DR — isso no contexto de conversas no telegram."
+
+**A regra:** qualquer entrega que tenha mais do que uma linha de conteúdo começa com um
+**TL;DR** — um resumo de 1 a 3 frases que entrega o resultado, **antes** do desenvolvimento.
+
+**Onde o TL;DR é obrigatório:**
+
+| Contexto | Como aparece |
+|---|---|
+| **Rotinas** (devocional diário, aula de português, rodadas de biblioteca, commits) | No **frontmatter** do arquivo (`tldr: "..."`) + na **capa textual** do Telegram (primeira linha, antes do título) |
+| **Resumos** (devocional, aula, estudo, exegese, mapa conceitual) | Seção `## TL;DR` no topo do `.md`, **logo após o H1** e **antes** de `## Texto` |
+| **Mensagens gerais no Telegram** (resposta a pergunta, relatório de turno, aviso) | Bloco `RESUMO —` ou `TL;DR` como **primeiro bloco** da mensagem, antes dos detalhes |
+| **Arquivos de estudo** (`data/estudos/**`) | Seção `## TL;DR` no topo + campo `tldr:` no frontmatter |
+
+**Como escrever um TL;DR bom:**
+- **1 a 3 frases.** Se passou de 3 frases, não é TL;DR — é resumo; se coube em 1, melhor.
+- **Entrega o resultado, não o processo.** "O bookorbit está fora do ar, as 10 personas masculinas
+  caem no fallback Antonio" (bom) — "Pesquisei o pipeline, vi que estava fora, testei o fallback"
+  (ruim — isso é relato, não resumo).
+- **Diz o que isso significa para quem lê.** Um TL;DR que não muda nada para o leitor é decoration.
+- **Sem jargão desnecessário.** Se o termo técnico não é o ponto, use o termo comum.
+- **Nunca inventa.** O TL;DR resume o que vem abaixo — não pode afirmar nada que o corpo não sustente.
+
+**Onde o TL;DR NÃO entra:**
+- **Não** no áudio do devocional. O `limpar_tts.py` remove a seção `## TL;DR` antes de sintetizar
+  (implementado 2026-10-30) — senão o TL;DR era lido no lugar da citação bíblica.
+- **Não** no meio de um texto corrido que já é curto (uma frase de confirmação, uma pergunta sim/não).
+- **Não** como substituto da citação da fonte (Regra 9 continua valendo: o corpo ancora e cita).
+
+**Exceção conhecida — série de português:** a `## TL;DR` da aula corresponde à
+**PERGUNTA DO DIA** (que já é lida em voz alta na abertura). Nesse caso, a seção `## TL;DR` no `.md`
+é a **versão escrita** da pergunta, e ela **é** lida no áudio. O `limpar_tts.py` só remove a seção
+`## TL;DR` quando o arquivo **não** tem a marca de série de português — ver `serie: portugues-aulas-diarias`
+no frontmatter. Documentado em `data/perfil/memorias/tts-regras.md` § 15.
+
+**Formato no Telegram (sem markdown pesado, conforme padrão-telegram):**
+
+```
+RESUMO — <uma frase com o resultado>
+
+<desenvolvimento, em blocos CAIXA ALTA + travessão>
+
+Próximo passo: <uma frase>
+```
+
 ## Regra 10 — Barreiras defensivas (vale para qualquer modelo, inclusive os menores)
 
 Modelos menores esquecem etapas silenciosamente (KB sem `tags`, YAML quebrado, `caminho_md` que não existe,

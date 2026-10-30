@@ -36,8 +36,13 @@ Ensina o tópico de forma progressiva baseado nos materiais organizados. Respond
 6. Oferece exemplos — se o conceito envolver processo, relação entre partes, hierarquia ou sequência
    de passos, desenhar com `mermaid-diagrams` (`.claude/skills/mermaid-diagrams/`) em vez de só texto
 7. Sugere próximo conceito
+8. **Fecha com o TL;DR** (CLAUDE.md Regra 10.5): todo material entregue (resumo, estudo,
+   exegese, mapa) começa pelo resumo — no `.md`, seção `## TL;DR` logo após o H1 e campo
+   `tldr:` no frontmatter; na mensagem do Telegram, bloco `RESUMO —` na primeira linha.
 
 ## Saída
+- **TL;DR primeiro** (CLAUDE.md Regra 10.5): 1 a 3 frases entregando o resultado, antes do
+  desenvolvimento. No Telegram, é o bloco `RESUMO —` na abertura da mensagem.
 - Resposta com citações
 - Ligações entre conceitos
 - Sugestão de aprofundamento

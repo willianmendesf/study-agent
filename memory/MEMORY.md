@@ -183,6 +183,47 @@
 
 ---
 
+## 📌 TL;DR obrigatório em tudo (decisão do William 2026-10-30)
+
+**Pedido literal:** "aplica à rotina, resumos e mensagem gerais o conceito de TL;DR — isso no
+contexto de conversas no telegram."
+
+**A regra (CLAUDE.md Regra 10.5):** qualquer entrega com mais de uma linha de conteúdo começa
+por um TL;DR de **1 a 3 frases**, que entrega o **resultado** (não o processo), **antes** do
+desenvolvimento.
+
+**Onde:**
+- **Rotinas** → `tldr:` no frontmatter + `RESUMO — <frase>` na primeira linha da capa do Telegram.
+- **Resumos/estudos** (`data/estudos/**`) → seção `## TL;DR` logo após o H1 + `tldr:` no frontmatter.
+- **Mensagens gerais no Telegram** → bloco `RESUMO —` como primeiro bloco, antes dos detalhes.
+
+**Onde NÃO entra:** no áudio do devocional — o `limpar_tts.py` remove a seção (senão o TL;DR era
+lido no lugar da citação bíblica). **Exceção:** série de português, onde o TL;DR é a versão
+escrita da PERGUNTA DO DIA e **é** lido.
+
+**Bug novo descoberto e corrigido (2026-10-30) no `limpar_tts.py`:**
+1. O limpador tratava o **primeiro parágrafo longo** como citação bíblica → com TL;DR no topo, o
+   áudio lia "Do <livro>: <TL;DR>" devagar e a citação real ficava sem preâmbulo. Corrigido com
+   `_dividir_tldr()` (separa a seção antes do `_limpar_md`).
+2. A vinheta "Bom dia. Sou Eusebeia" estava **hardcoded** — aparecia nas aulas da Portuga.
+   Agora parametrizada por `persona:` do frontmatter, e a série de português não recebe vinheta
+   (a aula já tem ABERTURA própria no corpo).
+3. Os marcadores técnicos da série PT (`**ABERTURA — 5-10s**`, `**PERGUNTA DO DIA**`…) eram lidos
+   em voz alta. Agora removidos antes do `_limpar_md` (o `_limpar_md` tira o `**`, então o filtro
+   tem que rodar ANTES).
+
+**Armadilhas do ambiente (aprendidas hoje):**
+- O `awk` desta LXC é **mawk**: **não** suporta `{1,3}` em regex. Usar `^#+` em vez de `^#{1,3}`.
+- Ao gravar strings com `:` ou `/` via shell/heredoc, os separadores às vezes saem trocados
+  (viram `;`). Por isso o regex do header TL;DR aceita **qualquer separador não-alfanumérico**:
+  `^#{1,3}\s*TL\s*[^A-Za-z0-9]?\s*DR\s*$`.
+
+**Estado da aplicação (2026-10-30):** 13 devocionais + 110 aulas de português receberam
+`## TL;DR` + `tldr:` no frontmatter. Validados 0 falhas (TL;DR fora do áudio do devocional,
+dentro do da aula PT, sem markdown vazado).
+
+---
+
 ## 📱 Formato de resposta no Telegram
 
 Definido em **2026-10-02**, após aprovação do estudo de 1 João 2:12-17.
