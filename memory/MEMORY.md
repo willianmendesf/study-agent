@@ -539,16 +539,22 @@ capítulo, versículos), (3) **link Memos**.
      fraca). Corrigido: degradada `-0.55`, título exato `+0.30`.
   3. `conferir-estante-william.py` lia o YAML por regex e falhava no formato do
      `safe_dump` — agora usa o parser.
-- **🚨 BLOQUEIO ATUAL — BookOrbit (LXC 26) sem permissão de upload:**
-  - SSH **não autentica** (falta a chave `~/.ssh/biblioteca_orbit` nesta LXC).
-  - **Mas a API HTTP funciona.** Rota descoberta no bundle do app:
-    `POST /api/v1/libraries/{id}/upload` (multipart/form-data, campo `file`),
-    login em `POST /api/v1/auth/login`.
-  - Script pronto: `scripts/orbit-upload.py --file X.epub --autor "Nome"`.
-  - Conta `study-agent` criada (id=2) — **precisa da permissão `library_upload`**
-    (hoje é VIEWER). **Ação do William:** promover a editor na biblioteca
-    "Minha Biblioteca" no app BookOrbit (~30 s).
-  - Reenvio dos 31 ebooks parados: `python3 scripts/reenviar-incoming-orbit.py`.
+- **🚨 BLOQUEIO ATUAL — BookOrbit (LXC 26) sem permissão de upload:** → **RESOLVIDO 2026-11-05 14:49 BRT.**
+  - William concedeu a permissão `library_upload` à conta `study-agent` (id=2).
+  - **O nível do papel na biblioteca continua "viewer", mas a permissão global
+    `library_upload` basta** — o upload funciona. Não é preciso promover a
+    editor.
+  - **Fila enviada com sucesso: 30 ebooks, 931 → 961 livros** na "Minha
+    Biblioteca". `_incoming/` vazio.
+  - **Bug corrigido (commit `c334a16`):** `reenviar-incoming-orbit.py` fazia
+    **login por arquivo** (subprocess por item) → o **throttler** do BookOrbit
+    devolveu **429** a partir do 4º arquivo (3 subiram, 27 falharam).
+    Agora: **1 login para a fila** (via `importlib.util`), re-login em 401,
+    **backoff exponencial** em 429, `sleep(0.4)` entre uploads.
+  - **Regra:** API com sessão → 1 token para a fila inteira; subprocess por item
+    só se o script for realmente isolado. Testar sempre o rate limit.
+  - SSH **não voltou** (chave `~/.ssh/biblioteca_orbit` continua ausente). O
+    caminho HTTP é o oficial agora.
   - **Regra:** o ebook original NUNCA fica versionado em `data/`; só apaga local
     DEPOIS do upload confirmado.
 - **Estado 2026-11-05 12:38 BRT — BookOrbit e Memos VOLTARAM:**
@@ -565,6 +571,30 @@ capítulo, versículos), (3) **link Memos**.
   - **Ação pendente do William (~30 s no app):** promover `study-agent` a editor em
     "Minha Biblioteca" → destrava `scripts/orbit-upload.py` e
     `python3 scripts/reenviar-incoming-orbit.py` (31 ebooks).
+- **Estado 2026-11-05 14:45 BRT — reenvio AUTOMÁTICO funcionando (4 bugs corrigidos):**
+  - **O job do picoclaw `a2d3266abfa5141d` foi DESABILITADO.** Ele agendava um
+    **turno de LLM** a cada 15 min (custo de tokens + resposta no Telegram).
+    `cron` do picoclaw **não agenda shell** — `command` é restrito a canais internos
+    ("scheduling command execution is restricted to internal channels").
+  - **Agora roda pelo crontab do SISTEMA** (usuário `willian`):
+    `*/15 * * * * /home/willian/study-agent/scripts/reenvio-orbit-automatico.sh >> \
+     /home/willian/study-agent/data/perfil/bibliotecario/logs/reenvio-orbit-cron.log 2>&1`
+    → execução direta, **zero tokens, zero turno de LLM**. Provado: disparou 14:45:01 UTC.
+  - **Regra durável:** tarefa shell pura e repetitiva → **crontab do sistema**, não
+    `cron` do picoclaw. `cron` do picoclaw = turno de LLM.
+  - **NUNCA testar permissão criando objeto real** (bug que corrigi): o `--check`
+    subia um arquivo de 1 byte na biblioteca → virava livro-lixo quando a permissão
+    fosse concedida. Agora: POST de upload **sem o campo `file`** → **403** = sem
+    permissão, **400** = permissão OK. Nada gravado. `bookCount` segue 931.
+  - **NUNCA notificar a cada execução** (spam): `scripts/orbit-notificar.py` notifica
+    o Telegram **só quando o status MUDA** (estado em
+    `data/perfil/bibliotecario/orbit-estado.json`, gitignored). Usa **curl** — o
+    `urllib` desta LXC demora >60s e o `exec` corta em 60s.
+  - `pdfinfo` **não existe nesta LXC** → autor de PDF via **pypdf** + fallback por
+    prefixo do nome (`AUTOR_POR_PREFIXO`). Resultado: **0 ebook sem autor**.
+  - Dedup por **md5** (`TESTE-Crime-e-Castigo` = cópia byte-a-byte do Dostoievski);
+    o duplicado só é apagado **depois** que o original sobe com sucesso.
+  - Fila: 31 arquivos → **30 ebooks**, 95 MB, todos com autor.
 - **Estado 2026-11-05 14:22 BRT — envio IMPOSSÍVEL sem ação do William no app:**
   - **Todas as rotas de escrita testadas e bloqueadas** (não é bug, é permissão):
     `POST /libraries/1/upload` → 403 `library_upload` · `POST /libraries` → 403
