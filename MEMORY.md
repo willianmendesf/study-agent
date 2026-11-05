@@ -120,3 +120,84 @@ Função `vazamentos()` detecta as 5 formas de vazamento.
 
 **Estado do Memos (medido):** 142 memos meus · **44 tags** · 0 tag numérica ·
 0 linha órfã · 245 memos da Fabiana **intactos**.
+
+
+---
+
+## 📌 Avaliação vocacional IPB — especialista Dokímia + motor de rodadas (2026-11-05 21:20)
+
+**Pedido do William:** "eu estava fazendo um processo com uma banca avaliadora, para
+avaliação com o presbiterio ano que vem, ele estava me treinando... minha ideia era criar
+outro especialista pra isso... como podemos retomar e ter esses exercicios, de perguntas
+avaliacao retomados e continuos? tem algum resquício, histórico ou info disso por ai? ou
+se perdeu?"
+
+**RESPOSTA: NÃO SE PERDEU.** A série `data/estudos/notas/vocacao-ministerial/` está
+**íntegra** (9 docs · 52 perguntas do comitê · 22 perguntas de simulação em rounds ·
+matriz de 27 itens da Ficha de Avaliação). O `deja` estava vazio, mas o `data/` tinha
+tudo. **O que faltava era a MÁQUINA** — foi isso que foi construído.
+
+### O especialista `dokimia` (δοκιμή = exame, prova)
+
+`data/perfil/especialistas/dokimia.yaml` — o **22º** especialista.
+
+**Nome:** δοκιμή é a palavra grega da **ordenação por prova** na Igreja primitiva.
+Não é invenção — é o termo técnico do processo que o William enfrenta.
+
+**4 serviços:** diagnóstico da Ficha (27 itens) · treino simulado em rounds · crítica de
+coerência entre rodadas · correção de simulado.
+
+**REGRA QUE O DEFINE:** **nunca emite veredito de aprovação.** O veredito é do
+presbíterio. Fundamento: `Manual_do_Candidato.md` linha 601 — *"Declaração que não possa
+ser comprovada é inidônea."*
+
+**Fronteiras:** `homologia`=cânon / `dokimia`=prova · `kerux`=mensagem / `dokimia`=portador
+· `rhetor`=oratória livre / `dokimia`=oratória **adversarial** · `mnemos`=método /
+`dokimia`=critério. Voz `faber` (fallback `antonio` — Speaches segue offline).
+
+**Como acionar:** `use dokimia` · `dokímia` · `simulador de comitê de vocação`.
+
+### O motor — `scripts/dokimia-motor.py`
+
+```bash
+python3 scripts/dokimia-motor.py --rodada       # sorteia a rodada
+python3 scripts/dokimia-motor.py --relatorio    # a régua atual
+python3 scripts/dokimia-motor.py --status
+```
+
+**5 mecanismos:** (1) sorteia o round **pelo que está mais fraco** (não pelo divertido) ·
+(2) sorteia perguntas do banco + variações, marcadas `[CONSELHO]` (conta para a nota) vs
+`[AGENTE]` (prepara, não dá nota) · (3) sorteia o **tempo** (comitê real: 60-90 min) ·
+(4) devolve o critério do comitê · (5) registra respostas e mede **coerência**.
+
+**Estado:** `data/perfil/bibliotecario/dokimia-estado.json` (gitignored).
+
+### A régua medida hoje
+
+🟢 forte **2** · 🟡 parcial **12** · 🔴 ausente **8** (de 22 itens lidos).
+**Os 8 ausentes = a fila:** I.4 competência · I.6 estilo de vida · II.1 amabilidade ·
+II.2 criatividade · II.3 adaptabilidade · II.7 disciplina · III.1 comunicação da Palavra ·
+**III.2 evangelização (zero evidência)**.
+⚠️ **Quatro desses saem de FALAR de si com número/data/fruto — não de estudar mais.**
+
+**Onde parou:** rounds 1-3 respondidos (out/2026); **4, 5 e 6 nunca feitos**. O motor
+sorteia o **Round 5** como prioridade.
+
+### Bugs que custaram tempo (revisar antes de criar especialista)
+
+1. **Parser da matriz pegava a coluna errada** — a 3ª é *cobertura do banco*; a nota do
+   candidato é a **5ª** ("Sua nota").
+2. **YAML do especialista quebrado 2×** — `--ipb-admissao` (hífen duplo), `confissional`
+   (s extra), `Leadership` (tag que não existe no pool). **Sempre** validar com
+   `yaml.safe_load` + cruzar as tags com o pool real.
+3. **`consultas_biblioteca` → o lint exige `consulta_biblioteca`** (exato).
+4. **`relacionamentos.yaml`: `interage_com` só aceita ESPECIALISTAS** — não pode apontar
+   para `bibliotecario_memos`. Usar chave sibling.
+
+### Memória canônica
+`data/perfil/memorias/avaliacao-vocacional-retomada.md` (este turno) ·
+`data/perfil/memorias/avaliacao-vocacional-ipb.md` (a série original, 26-29/out/2026).
+**Protocolo:** `data/estudos/notas/vocacao-ministerial/10-protocolo-de-retomada.md`
+→ `memos/jJN6Pipa2Sgygc9PpvwUjB` (tag `#estudo-ipb`).
+
+**Commits:** `c04febf` · `778fd29` · `fb73d9e` (data) · `a061b53` (repo).
