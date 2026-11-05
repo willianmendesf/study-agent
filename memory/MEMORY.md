@@ -622,3 +622,17 @@ capítulo, versículos), (3) **link Memos**.
     corrompidos, aprova os bons).
 - **Cota real:** 3 contas × 10 = **30/dia** (a 4a, `zlib`, não autentica).
   Reseta à **meia-noite UTC (21h BRT)**. Busca não gasta cota; só download.
+- **🚨 `cota()` MENTIA (2026-11-05 15:05):** devolvia `lim = ... or 10` quando
+  a resposta era inválida → o pipeline achava que tinha 10 downloads. A conta
+  `zlib` **nunca existiu** no YAML (só há zlib2/3/4) → 10 falhas "Please
+  login". **Corrigido: resposta inválida = 0.**
+- **Rampa de ficção — pipeline corrigido e automatizado (2026-11-05 15:15):**
+  - 4 bugs: cota falsa · estado vazio (re-baixaria 30 livros) · cobertura de
+    título exigia PT **e** EN · upload ao Orbit com login por arquivo.
+  - **NOVO CAMPO `titulos_alt`** no catálogo: alias de título PT (ex.: "A Wise
+    Blood" → "Sangue Sábio"). 9/9 validados.
+  - **NOVO SCRIPT `scripts/semear-estado-pipeline.py`:** cruza catálogo ×
+    acervo × KB (parser YAML) e marca o que já existe. Idempotente.
+  - **Cron do sistema:** `15 0 * * *` → `scripts/rodada-ficcao-cron.sh 12`
+    (00:15 UTC = 21:15 BRT, 15 min após o reset da cota).
+  - Notificação só quando o total do dia muda (`rodada-ficcao-notificar.py`).
