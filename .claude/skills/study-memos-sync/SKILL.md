@@ -46,26 +46,42 @@ Skill que posta **material de estudo consolidado** no **Memos** (servidor pessoa
 - Dumps > 100 KB (o limite efetivo do Memos é **108.192 bytes**)
 - Credenciais, tokens, paths absolutos sensíveis
 
-## Taxonomia de tags (VALIDADA — 2026-11-05)
+## Taxonomia de tags (VALIDADA — 2026-11-05 20:30)
 
-**Cinco eixos hierárquicos.** O Memos cria a tag-pai automaticamente
-(`#estudo/literatura` gera também `estudo`), então a hierarquia funciona nativamente.
+**UM eixo só: `#trilha`.** Mais o marcador `#study-agent`. Nada mais.
 
-| eixo | obrigatório | valores |
-|---|---|---|
-| `estudo/<area>` | sim (1) | `teologia` · `curriculo` · `portugues` · `literatura` · `producao` · `geral` |
-| `tipo/<forma>` | sim (1) | `plano` · `ficha` · `resumo` · `exegese` · `devocional` · `guia` · `indice` · `mapa` · `simulado` · **`gabarito`** · `transcricao` · `relatorio` · `nota` · `aula` · `exercicio` |
-| `fonte/<programa>` | opcional | `ipb-candidatura` · `seminario-jmc` · `ebd-ipbf` · `ebdi` · `hermeneia` |
-| `livro/<livro bíblico>` | opcional | `joao` · `1-joao` · `romanos` · `efesios` · `filemon` · `tito` · `salmos` … |
-| `serie/<módulo>` | opcional | `devocionais-diarios` · `portugues-aulas-diarias` · `oracao-confissao-e-adoracao` |
-| `persona/<especialista>` | opcional | `hermes` · `hermeneia` · `eusebeia` · `literato` · `portuga` |
+**Por que 1 eixo:** o **título do memo já diz a forma** — "AULA 20", "Devocional 13",
+"Gabarito Quiz M1", "Plano de leitura". Taggear por forma é redundante com o título.
+O que o título **não** diz é **a trilha** — a que assunto o material pertence.
+É aí que a tag ganha utilidade: "onde está o material da prova?", "onde está a aula 15?".
 
-Mais **`#study-agent`** em todo memo do flow (é o marcador de origem).
+> **Histórico:** a taxonomia anterior tinha 5 eixos (`estudo/`, `tipo/`, `fonte/`,
+> `livro/`, `serie/`, `persona/`) e gerou **44 tags distintas** em 142 memos.
+> `estudo/teologia` estava em 81 dos 142 → não filtrava nada. Trocada por 8 trilhas
+> com **cobertura 143/143 (100%)**. Plano: `data/estudos/notas/memos-curadoria/plano-tags-memos.md`.
+
+| tag | o que entra |
+|---|---|
+| `#devocional` | devocional diário — Salmos, Provérbios, adoração e confissão |
+| `#exegese` | estudo bíblico — exegese, Etapa 0/1, contextualização, guias |
+| `#aulas-portugues` | trilha de Português — aula 01→20 |
+| `#plano-estudo` | planos, grades, roadmaps, roteiros (EBD/EBDI, currículo) |
+| `#estudo-ipb` | preparação p/ a prova — comitê, autoavaliação, relatórios, questões |
+| `#simulados` | as provas em si — para **fazer** |
+| `#rampa-leitura` | rampa de ficção — o que ler, em que ordem |
 
 **Exemplo real:**
 ```
-#estudo/teologia #tipo/exegese #livro/1-joao #persona/hermes #study-agent
+#study-agent #exegese
 ```
+
+**O que NÃO vai para o Memos (decisão do William, 2026-11-05):**
+- **Gabarito de prova.** O gabarito fica com o IAM (`data/estudos/exercicios/gabaritos/`).
+  O Memos tem a **prova, sem resposta**. O IAM corrige e informa o que errou e como acertar.
+  → **NUNCA postar gabarito.** NUNCA postar `<details>Gabarito</details>`.
+- Decisão · plano de curadoria/organização · diagnóstico de bug · log de pipeline ·
+  relato de commit · conversa de turno · memória do agente.
+  (Isso fica no `data/` e vai só para o commit.)
 
 **NÃO USE:**
 
@@ -97,8 +113,9 @@ classificar por menção casual a outro livro).
 | **o path não repete `memos/`** | `/api/v1/memos/memos/<uid>` → 404 | o path é `/api/v1/memos/<uid>` |
 | **hashtag em qualquer linha vira tag** | `bloco **#182**` → tag `182`; `(#gama)` → tag `gama`; `#mu/nu` → tags `mu` **e** `mu/nu` | no corpo, `#` só pode ser título markdown. Use `nº 182` |
 | **linha de tags antiga no meio do corpo** | continua gerando tags para sempre | remover **todas** as linhas de tags, não só a última |
-| **`<details>` não renderiza** | o `<details><summary>Gabarito</summary>` vira texto puro → **o gabarito aparece** | remover o gabarito antes de postar simulado, ou marcar como spoiler |
+| **`<details>` não renderiza** | o `<details><summary>Gabarito</summary>` vira texto puro → **o gabarito aparece** | **NUNCA poste gabarito.** Ele fica no `data/estudos/exercicios/gabaritos/` e o IAM corrige |
 | **"✅" na linha da opção** | marca a resposta **na prova**, fora de qualquer `<details>` | limpar o "✅" de toda linha `- X) ... ✅` |
+| **"✅" decorativo** | `✅` também é usado como "presente/OK" (`✅ No acervo`, `✅ Metadados`, `1:1-4 ✅`) | **NÃO remova às cegas** — quebra catálogo e comentário bíblico. Remova só o `✅` que está em linha de alternativa de prova |
 | **tabela-resposta** `\| # \| Resposta \| …` | sobrevive à extração (não está dentro de `<details>`) | mover a tabela para o memo do gabarito |
 | **`pageSize=200` estoura o timeout** | 45s → 0 bytes no tailnet | usar `pageSize=50` |
 | **`pageToken` sem URL-encoding** | `invalid page token: illegal base64 data` | `quote(token, safe='')` |
@@ -129,7 +146,7 @@ A skill **lê** esse arquivo; nunca imprime o PAT; nunca escreve o PAT em log.
 bash .claude/skills/study-memos-sync/bin/memos-post.sh \
   --file "data/estudos/notas/ficcao-rampa-leitura/06-plano-consolidado.md" \
   --visibility PRIVATE \
-  --tags "estudo/literatura,tipo/plano,study-agent"
+  --tags "study-agent,rampa-leitura"
 ```
 
 ### Dry-run (não posta, só mostra o JSON)
@@ -160,7 +177,7 @@ Headers:
 Body (POST):
 ```json
 {
-  "content": "# título\n\ncorpo markdown aqui...\n\n#estudo/teologia #tipo/nota #study-agent",
+  "content": "# título\n\ncorpo markdown aqui...\n\n#study-agent #exegese",
   "visibility": "PRIVATE"
 }
 ```
