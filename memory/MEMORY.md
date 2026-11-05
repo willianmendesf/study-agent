@@ -482,3 +482,74 @@ capítulo, versículos), (3) **link Memos**.
 - **Onde mora:** `CLAUDE.md` Regra 9.5 (lei) · `data/perfil/especialistas/hermes.yaml` v4.0 (bloco `etapas:`,
   `etapa:` por módulo, `mapa_fontes_por_etapa`) · `.claude/skills/estudo-fluxo-03-aprender/SKILL.md` (Processo).
 - **Detalhes:** `data/perfil/memorias/metodo-etapa-0.md` (LER antes de mexer no protocolo do Hermes).
+## 🔧 Path do repo nesta LXC (2026-11-05)
+
+- **Problema:** scripts e jobs do cron ainda apontavam para `/home/study-agent/...` (instalação
+  original), mas nesta LXC o workspace é `/home/willian/study-agent`. O
+  `commit-data-diario.sh` falhou com `cd: /home/study-agent/data: No such file or directory`.
+- **Correção:** `data/commit-data-diario.sh` agora resolve o repo por `BASH_SOURCE` →
+  `$SCRIPT_DIR`, com fallback `$HOME/study-agent/data` → `/home/study-agent/data`.
+  O job do cron `3cbc41ab1154e75f` (commit+push diário do data/) foi corrigido para
+  `/home/willian/study-agent/data/commit-data-diario.sh`.
+- **Padrão já usado (não repetir o bug):** `memos-post.sh`, `rodada-diaria.sh` e
+  `enviar-aula.sh` já resolvem o root por `dirname "${BASH_SOURCE[0]}"` — seguir o mesmo
+  padrão em qualquer script novo. **Nunca hardcodar `/home/...` em script de repo.**
+- **Estado:** commit `c385811` (data: cota diaria 2026-11-05) pushed para
+  `git@github.com:willianmendesf/data.git` (branch master). Lint: 0 erro novo.
+
+## 🔧 Rodada diária de aquisição — cliente z-library sem node (2026-11-05)
+
+- **Problema:** `zlib-local.py` chamava o MCP `zlib-mcp@0.1.2` via `npx`.
+  **Não há node/npx nesta LXC** → a FASE 1 da rodada baixava ZERO material e o
+  log dizia "cota esgotada" (a exceção era engolida pelo `conta_com_cota()`).
+  Falha silenciosa disfarçada de saturação.
+- **Correção:** `zlib-local.py` reescrito com **eAPI nativa via curl** (sem node).
+  Descoberta de domínio só aceita quem responde `success:1` numa busca real
+  (o `z-lib.sk` responde 307 → DiamWall).
+- **Cliente canônico do z-library NESTA LXC:** `scripts/zlib-api.py` (mesma eAPI;
+  subcomandos `domains/limits/search/formats/download`).
+- **Contas:** só existem `zlib2`, `zlib3`, `zlib4` no cache
+  `~/.zlib-mcp/.account-env-cache.json`; a conta **principal (`zlib`) vem do YAML**
+  `data/perfil/bibliotecario/zlib-credentials.yaml`. As duas fontes precisam ser
+  **mescladas** — se o YAML só entra quando o cache está vazio, perde-se
+  10 downloads/dia de cota.
+- **Cota:** `remaining = downloads_limit - downloads_today`, reseta à meia-noite
+  UTC. **Busca não gasta cota; só download.** Teste decisivo de cota real:
+  `/eapi/book/<id>/<hash>/file` → `allowDownload` + mensagem do z-library.
+- **Detalhes e armadilhas:** `data/perfil/memorias/rodada-aquisicao.md`
+  (rodada 2026-11-05 — bugs P/Q/S/T: npx ausente, conta principal fora, path
+  dobrado `data/data/`, ROOT por BASH_SOURCE relativo).
+
+## 📚 Aquisição de ficção em ESCALA — pipeline data-driven (2026-11-05)
+
+- **Pergunta do William:** "ainda tenho milhares de outros livros para catalogar,
+  eu fiz apenas alguns" → a solução é **catálogo data-driven**, não script.
+- **Motor:** `scripts/pipeline-aquisicao.py` (busca → seleciona → baixa → converte →
+  cataloga → Orbit). **Catálogo:** `data/perfil/bibliotecario/catalogo-ficcao.yaml`
+  (**84 obras**). Gerador: `scripts/gerar-catalogo-ficcao.py`.
+  **Rodada:** `data/perfil/bibliotecario/rodada-ficcao.sh --max 12`
+  (cron `28282e3435bb544f`, 07:15 UTC = 04:15 BRT).
+- **Para adicionar livro:** acrescenta entrada no YAML (ou na fonte) e regenera.
+  **Não há código para mudar.** É o que permite escalar para milhares.
+- **Volume composto → obra separada:** 9 volumes da estante → 16 obras unitárias.
+- **3 bugs reais corrigidos (ver `data/perfil/memorias/rodada-aquisicao.md`):**
+  1. `zlib-api.py limits` mostrava `remaining=limit` (o limite) em vez do que
+     sobrava — dizia 10 com a cota esgotada.
+  2. A seleção escolhia a **adaptação** em vez da obra (penalidade degradada
+     fraca). Corrigido: degradada `-0.55`, título exato `+0.30`.
+  3. `conferir-estante-william.py` lia o YAML por regex e falhava no formato do
+     `safe_dump` — agora usa o parser.
+- **🚨 BLOQUEIO ATUAL — BookOrbit (LXC 26) sem permissão de upload:**
+  - SSH **não autentica** (falta a chave `~/.ssh/biblioteca_orbit` nesta LXC).
+  - **Mas a API HTTP funciona.** Rota descoberta no bundle do app:
+    `POST /api/v1/libraries/{id}/upload` (multipart/form-data, campo `file`),
+    login em `POST /api/v1/auth/login`.
+  - Script pronto: `scripts/orbit-upload.py --file X.epub --autor "Nome"`.
+  - Conta `study-agent` criada (id=2) — **precisa da permissão `library_upload`**
+    (hoje é VIEWER). **Ação do William:** promover a editor na biblioteca
+    "Minha Biblioteca" no app BookOrbit (~30 s).
+  - Reenvio dos 31 ebooks parados: `python3 scripts/reenviar-incoming-orbit.py`.
+  - **Regra:** o ebook original NUNCA fica versionado em `data/`; só apaga local
+    DEPOIS do upload confirmado.
+- **Cota real:** 3 contas × 10 = **30/dia** (a 4a, `zlib`, não autentica).
+  Reseta à **meia-noite UTC (21h BRT)**. Busca não gasta cota; só download.
