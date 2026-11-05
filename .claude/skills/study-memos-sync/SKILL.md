@@ -1,110 +1,112 @@
 ---
 name: study-memos-sync
-description: Envia planos de estudo, resumos de leitura, mapas conceituais textuais, listas de tópicos e relatórios para o Memos (memos.ison-duck.ts.net), onde o aluno lê pelo app. Use quando o usuário disser "manda pro memos", "envia pro memos", "posta no memos", "quero ler no app", ou após gerar qualquer conteúdo textual de estudo (plano, resumo, relatório). NÃO envia gráficos/imagens, PDFs crus, _corrupted, _incoming, _extracted, dumps > 200 KB.
+description: Envia planos de estudo, resumos de leitura, mapas conceituais textuais, listas de tópicos e relatórios para o Memos (memos.ison-duck.ts.net), onde o aluno lê pelo app. Use quando o usuário disser "manda pro memos", "envia pro memos", "posta no memos", "quero ler no app", ou após gerar qualquer conteúdo textual de estudo (plano, resumo, relatório). NÃO envia gráficos/imagens, PDFs crus, _corrupted, _incoming, _extracted, dumps > 100 KB, nem decisões/memórias/logs (esses ficam só no data/).
 ---
 
 # study-memos-sync
 
-Skill que posta conteúdo de estudo (planos, resumos, mapas textuais, relatórios) no **Memos** (servidor pessoal `memos.ison-duck.ts.net`), onde o aluno lê no app mobile/desktop.
+Skill que posta **material de estudo consolidado** no **Memos** (servidor pessoal
+`memos.ison-duck.ts.net`), onde o William lê no app mobile/desktop.
+
+> **Regra do William (2026-11-05):** o Memos é a **biblioteca de leitura**.
+> Entra material consolidado (plano, resumo, ficha, mapa, guia, devocional,
+> exegese, índice, simulado). **NUNCA** entra decisão, diagnóstico de bug, log de
+> pipeline, relato de commit, conversa de turno ou memória do agente — isso fica
+> só em `data/` e vai só para o commit.
+> Fonte de verdade: `data/perfil/memorias/memos-curadoria.md`.
+
+---
 
 ## Quando usar
 
-- Usuário pedir: "manda pro memos", "envia pro memos", "posta no memos", "quero ler no app", "sincroniza com memos".
+- Usuário pedir: "manda pro memos", "envia pro memos", "posta no memos",
+  "quero ler no app", "sincroniza com memos".
 - Após gerar conteúdo textual de estudo (ver "O que enviar").
-- Orquestrador, ao final de fluxo de estudo (futuro): chama automaticamente.
+- **Curadoria** (re-tag, dedup, limpeza): `scripts/curador-memos.py`.
 
-## O que enviar (regra geral)
+## O que enviar
 
 **SIM (texto, leitura comum no app):**
 
 - Planos de estudo gerados (`plano-de-estudo-<tema>.md`)
 - Resumos de leitura (`resumo-<livro>.md`)
-- Mapas conceituais textuais (Mermaid → export pra markdown tableada, não a imagem)
+- Mapos conceituais textuais (Mermaid → markdown tableado, não imagem)
+- Fichas de leitura e fichas 8-pastas
 - Listas de tópicos estruturadas
-- Anotações pessoais de aula/aula-show
-- Relatórios de quiz/prova (sem revelar gabarito)
+- Relatórios de quiz/prova (sem revelar gabarito — ver "Armadilha do gabarito")
 - Índices e referências de módulos
-- Flashcards em texto (frente/verso)
+- Devocionais, exegeses, guias de bolso
 
 **NÃO:**
 
-- Gráficos (PNG, SVG, Mermaid renderizado) — Memos não renderiza bem e o app mobile é ruim com imagens
+- Decisões, logs, diagnóstico de bug, conversa, memória do agente
+- Gráficos (PNG, SVG, Mermaid renderizado) — o Memos não renderiza bem
 - PDFs crus (binário)
-- `_corrupted/`, `_incoming/`, `_extracted/`, `_to_organize/` (são áreas técnicas, não conteúdo final)
-- Dumps > 200 KB (Memos não é substituto de KB; serve pra leitura leve)
+- `_corrupted/`, `_incoming/`, `_extracted/`, `_to_organize/` (áreas técnicas)
+- Dumps > 100 KB (o limite efetivo do Memos é **108.192 bytes**)
 - Credenciais, tokens, paths absolutos sensíveis
+
+## Taxonomia de tags (VALIDADA — 2026-11-05)
+
+**Cinco eixos hierárquicos.** O Memos cria a tag-pai automaticamente
+(`#estudo/literatura` gera também `estudo`), então a hierarquia funciona nativamente.
+
+| eixo | obrigatório | valores |
+|---|---|---|
+| `estudo/<area>` | sim (1) | `teologia` · `curriculo` · `portugues` · `literatura` · `producao` · `geral` |
+| `tipo/<forma>` | sim (1) | `plano` · `ficha` · `resumo` · `exegese` · `devocional` · `guia` · `indice` · `mapa` · `simulado` · `transcricao` · `relatorio` · `nota` · `aula` · `exercicio` |
+| `fonte/<programa>` | opcional | `ipb-candidatura` · `seminario-jmc` · `ebd-ipbf` · `ebdi` · `hermeneia` |
+| `livro/<livro bíblico>` | opcional | `joao` · `1-joao` · `romanos` · `efesios` · `filemon` · `tito` · `salmos` … |
+| `serie/<módulo>` | opcional | `devocionais-diarios` · `portugues-aulas-diarias` · `oracao-confissao-e-adoracao` |
+| `persona/<especialista>` | opcional | `hermes` · `hermeneia` · `eusebeia` · `literato` · `portuga` |
+
+Mais **`#study-agent`** em todo memo do flow (é o marcador de origem).
+
+**Exemplo real:**
+```
+#estudo/teologia #tipo/exegese #livro/1-joao #persona/hermes #study-agent
+```
+
+**NÃO USE:**
+
+- Tags genéricas tipo `mes-2026-10`, `nota-de-estudo`, `tipo-plano`
+- **Tags numéricas** (`182`, `140`, `16`, `31`) — ids de lista de aquisição. O
+  Memos extrai hashtag de **qualquer** linha do corpo, então `#182` no meio de
+  uma frase vira tag. Escreva `nº 182`.
+- Tags técnicas de perfil/orquestrador (regras do kairos, checklists) — não
+  pertencem ao Memos
+- Tags repetidas em quase todas as memos (perde poder de filtragem)
+
+**Regra de ouro da classificação:** a **tag antiga é mais confiável que o texto**.
+O texto só entra como fallback, e só o título + 3 primeiras linhas (para não
+classificar por menção casual a outro livro).
 
 ## Formato do memo
 
-- **Título** (`# ` na primeira linha) — claro, com prefixo quando fizer sentido
-  - Ex: `# estudo/hermeneia/1joao — Plano semana 3`
-  - Ex: `# resumo: As Formas Elementares (Durkheim)`
-- **Corpo** — markdown limpo, sem lixo (sem paths absolutos, sem códigos de erro, sem YAML bruto)
-- **Tags** — via hashtag no final OU `;` na primeira linha (Memos aceita ambos)
-  - Convenção: `#estudo/<especialista>/<modulo>` (ex.: `#estudo/hermeneia`, `#estudo/kairos`)
-  - Adicionar `#study-agent` em todos os memos do flow
-- **Visibilidade** — PRIVATE por padrão. O usuário muda no app se quiser público.
+- **Título** (`# ` na primeira linha) — claro, sem emoji decorativo
+- **Corpo** — markdown limpo, sem paths absolutos, sem códigos de erro, sem YAML bruto
+- **Tags** — hashtag no fim do corpo, em uma linha só
+- **Visibilidade** — PRIVATE por padrão
 
-## Taxonomia de tags (regra aprendida 2026-10-01)
+## Armadilhas do Memos (testadas de verdade — 2026-11-05)
 
-**Cinco eixos**, combináveis:
+| armadilha | comportamento real | o que fazer |
+|---|---|---|
+| **`tags` não é campo editável** | `PATCH {"tags": [...]}` → `invalid update path: tags` | re-tagar = **reescrever o `content`** com a linha de hashtags nova |
+| **o uid tem sufixo completo** | `memos/3ER2zYRdjebVPMZirzG8G5` → usar `3ER2zYRdjebVPMZirz` dá 404 | usar o `name` **sem** o prefixo `memos/`, e com o sufixo inteiro |
+| **o path não repete `memos/`** | `/api/v1/memos/memos/<uid>` → 404 | o path é `/api/v1/memos/<uid>` |
+| **hashtag em qualquer linha vira tag** | `bloco **#182**` → tag `182`; `(#gama)` → tag `gama`; `#mu/nu` → tags `mu` **e** `mu/nu` | no corpo, `#` só pode ser título markdown. Use `nº 182` |
+| **linha de tags antiga no meio do corpo** | continua gerando tags para sempre | remover **todas** as linhas de tags, não só a última |
+| **`<details>` não renderiza** | o `<details><summary>Gabarito</summary>` vira texto puro → **o gabarito aparece** | remover o gabarito antes de postar simulado, ou marcar como spoiler |
+| **a tag-pai é criada sozinha** | `#estudo/literatura` → tags `estudo` + `estudo/literatura` | não postar `estudo` à mão |
+| **o Memos é compartilhado** | há memos de outro usuário/projeto na mesma instância | nunca re-taguear, nunca apagar memo de outro `creator` |
 
-1. **`#grupo/<X>`** (sempre 1) — área ampla
-   - `#grupo/estudo/teologia` — exegese, devocionais, hermenêutica, notas bíblicas
-   - `#grupo/estudo/curriculo` — planos de curso/aula/programa (IPB Candidatura, seminário, EBD)
-   - `#grupo/estudo/lingua` — gramática/sintaxe/redação
-   - `#grupo/estudo/literatura` — teoria/crítica literária
-   - `#grupo/gestao/tempo` — gestão pessoal (NÃO regras técnicas do kairos)
-
-2. **`#tipo/<X>`** (sempre 1) — forma do conteúdo
-   - `#tipo/plano` — plano de aula, plano de estudo, roadmap, descoberta
-   - `#tipo/mapa` — mapa conceitual textual
-   - `#tipo/exegese` — exegese de porção bíblica
-   - `#tipo/devocional` — reflexão devocional
-   - `#tipo/simulado` — prova/simulado
-   - `#tipo/relatorio` — relatório de quiz/resultado
-   - `#tipo/guia` — guia de bolso, manual
-   - `#tipo/esboco` — esboço expositivo
-   - `#tipo/indice` — índice, catálogo, grade curricular
-   - `#tipo/nota` — nota livre, resumo de leitura, anotações
-
-3. **`#fonte/<X>`** (opcional) — quando faz parte de um programa/curso estruturado
-   - `#fonte/ipb-candidatura`
-   - `#fonte/seminario-jmc`
-   - `#fonte/ebd-ipbf`
-   - `#fonte/hermeneia`
-
-4. **`#livro/<X>`** (opcional) — livro bíblico sendo estudado
-   - `#livro/oseias`
-   - `#livro/1-joao`
-   - `#livro/joao`
-   - `#livro/romanos`
-
-5. **`#modulo/<X>`** (opcional) — módulo do edital IPB
-   - `#modulo/m1-portugues`
-   - `#modulo/m2-redacao`
-   - `#modulo/m3-literatura`
-   - `#modulo/m4-ingles`
-   - `#modulo/m5-simbolos`
-   - `#modulo/m6-at`
-   - `#modulo/m7-nt`
-   - `#modulo/m8-revisao`
-
-**NÃO USE:**
-- Tags genéricas tipo `study-agent`, `mes-2026-10`, `tipo-plano`, `nota-de-estudo`
-- Tags repetidas em quase todas as memos (perde poder de filtragem)
-- Tags técnicas de perfil/orquestrador (regras do kairos, checklists do bibliotecário) — não pertencem ao Memos
-
-**Exemplo real (memo "Exegese 1 João 2:12-17 — Hermes"):**
-```
-#grupo/estudo/teologia #tipo/exegese #livro/1-joao
-```
+**Memos liga das 05:00 às 23:00 BRT** (fora disso dá timeout — não é falha de DNS).
 
 ## Configuração
 
 URL + PAT ficam em `data/config-backup/memos/memos.env` (chmod 600, versionável no `data/`).
 
-Estrutura:
 ```
 data/config-backup/memos/memos.env:
   MEMOS_URL=http://memos.ison-duck.ts.net/
@@ -118,28 +120,28 @@ A skill **lê** esse arquivo; nunca imprime o PAT; nunca escreve o PAT em log.
 ### Postar um arquivo .md como memo
 
 ```bash
-bash /home/opencode/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh \
-  --file "data/estudos/plano-de-estudo-1joao.md" \
+bash .claude/skills/study-memos-sync/bin/memos-post.sh \
+  --file "data/estudos/notas/ficcao-rampa-leitura/06-plano-consolidado.md" \
   --visibility PRIVATE \
-  --tags "estudo/hermeneia,study-agent"
+  --tags "estudo/literatura,tipo/plano,study-agent"
 ```
 
-### Postar texto direto
+### Dry-run (não posta, só mostra o JSON)
 
 ```bash
-bash /home/opencode/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh \
-  --content "# Resumo: Durkheim cap. 7
-
-Conteúdo do resumo aqui..." \
-  --visibility PRIVATE \
-  --tags "estudo/antropos,study-agent"
+bash .claude/skills/study-memos-sync/bin/memos-post.sh --dry-run --file "..."
 ```
 
-### Dry-run (não posta, só mostra o JSON que seria enviado)
+### Curadoria (o Bibliotecário é o dono do Memos)
 
 ```bash
-bash /home/opencode/study-agent/.claude/skills/study-memos-sync/bin/memos-post.sh --dry-run --file "..."
+python3 scripts/curador-memos.py --auditar          # só relata
+python3 scripts/curador-memos.py --aplicar          # re-tagueia (só do Study-Agent)
+python3 scripts/curador-memos.py --dedup --limpar    # apaga cópias e lixo técnico
 ```
+
+**Backup antes de qualquer escrita:**
+`data/perfil/bibliotecario/backups-memos/memos-<data>.json`
 
 ## API Memos
 
@@ -152,17 +154,8 @@ Headers:
 Body (POST):
 ```json
 {
-  "content": "# título\n\ncorpo markdown aqui...",
+  "content": "# título\n\ncorpo markdown aqui...\n\n#estudo/teologia #tipo/nota #study-agent",
   "visibility": "PRIVATE"
-}
-```
-
-Body com resource list (para anexos futuros):
-```json
-{
-  "content": "...",
-  "visibility": "PRIVATE",
-  "resources": []
 }
 ```
 
@@ -181,21 +174,26 @@ Resposta (201 Created):
 ## Travas
 
 - **PAT em log?** Nunca. Script usa `set +x`; erros vão pra stderr sem o valor.
-- **Confirmação antes de postar**: a skill **não confirma** — é parte do fluxo do orquestrador. Se o usuário quiser confirmar antes, use `--dry-run` e peça confirmação explícita.
-- **Deduplicação**: a skill não dedupa. Se rodar 2x com mesmo conteúdo, vai criar 2 memos. (Futuro: usar `POST /api/v1/memos:list` com filtro para checar antes.)
-- **Rate limit**: Memos não documenta limite público, mas use com bom senso (não poste em loop).
+- **Confirmação antes de postar**: a skill **não confirma** — é parte do fluxo do
+  orquestrador. Se o usuário quiser confirmar antes, use `--dry-run`.
+- **Deduplicação**: a skill não dedupa. Use `scripts/curador-memos.py --dedup`.
+- **Rate limit**: Memos não documenta limite público, mas use com bom senso.
+- **Tempo de resposta**: o tailnet é lento — a listagem de 380 memos leva ~30 s.
+  Use `--max-time 90` no curl, não 25.
 
 ## Troubleshooting
 
 | Erro | Causa | Solução |
 |---|---|---|
 | `401 Unauthorized` | PAT inválido/expirado | Rotacionar em Settings → My Access Tokens → Revoke + novo; atualizar `memos.env` |
-| `Connection refused` | URL errada ou VM off | `curl -v http://memos.ison-duck.ts.net/` |
+| `Connection refused` / timeout | URL errada, VM off, ou **fora da janela 05-23h BRT** | `curl -v http://memos.ison-duck.ts.net/`; checar `TZ=America/Sao_Paulo date` |
 | `JSON parse error` | Memos retornou HTML (proxy/login page) | Verificar URL sem trailing slash |
-| Arquivo > 200 KB | Conteúdo grande demais | Quebrar em memos por seção; ou só guardar em KB local |
+| `404` no PATCH | uid truncado ou `memos/` repetido no path | `/api/v1/memos/<uid>` com o sufixo completo |
+| `invalid update path: tags` | tentando editar o campo `tags` | reescrever o `content` com hashtags novas |
+| Arquivo > 100 KB | conteúdo grande demais | quebrar em seções; ou só guardar em KB local |
 
 ## Rotação do PAT
 
-`Settings → My Access Tokens → Revoke` + criar novo. Atualizar `data/config-backup/memos/memos.env` e commitar.
+`Settings → My Access Tokens → Revoke` + criar novo. Atualizar `data/config-backup/memos/memos.env` e comitar.
 
 Recomendado: rotacionar pelo menos 1× ao ano, ou imediatamente se exposto em chat/log.
