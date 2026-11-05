@@ -54,7 +54,7 @@ Skill que posta **material de estudo consolidado** no **Memos** (servidor pessoa
 | eixo | obrigatório | valores |
 |---|---|---|
 | `estudo/<area>` | sim (1) | `teologia` · `curriculo` · `portugues` · `literatura` · `producao` · `geral` |
-| `tipo/<forma>` | sim (1) | `plano` · `ficha` · `resumo` · `exegese` · `devocional` · `guia` · `indice` · `mapa` · `simulado` · `transcricao` · `relatorio` · `nota` · `aula` · `exercicio` |
+| `tipo/<forma>` | sim (1) | `plano` · `ficha` · `resumo` · `exegese` · `devocional` · `guia` · `indice` · `mapa` · `simulado` · **`gabarito`** · `transcricao` · `relatorio` · `nota` · `aula` · `exercicio` |
 | `fonte/<programa>` | opcional | `ipb-candidatura` · `seminario-jmc` · `ebd-ipbf` · `ebdi` · `hermeneia` |
 | `livro/<livro bíblico>` | opcional | `joao` · `1-joao` · `romanos` · `efesios` · `filemon` · `tito` · `salmos` … |
 | `serie/<módulo>` | opcional | `devocionais-diarios` · `portugues-aulas-diarias` · `oracao-confissao-e-adoracao` |
@@ -98,10 +98,16 @@ classificar por menção casual a outro livro).
 | **hashtag em qualquer linha vira tag** | `bloco **#182**` → tag `182`; `(#gama)` → tag `gama`; `#mu/nu` → tags `mu` **e** `mu/nu` | no corpo, `#` só pode ser título markdown. Use `nº 182` |
 | **linha de tags antiga no meio do corpo** | continua gerando tags para sempre | remover **todas** as linhas de tags, não só a última |
 | **`<details>` não renderiza** | o `<details><summary>Gabarito</summary>` vira texto puro → **o gabarito aparece** | remover o gabarito antes de postar simulado, ou marcar como spoiler |
+| **"✅" na linha da opção** | marca a resposta **na prova**, fora de qualquer `<details>` | limpar o "✅" de toda linha `- X) ... ✅` |
+| **tabela-resposta** `\| # \| Resposta \| …` | sobrevive à extração (não está dentro de `<details>`) | mover a tabela para o memo do gabarito |
+| **`pageSize=200` estoura o timeout** | 45s → 0 bytes no tailnet | usar `pageSize=50` |
+| **`pageToken` sem URL-encoding** | `invalid page token: illegal base64 data` | `quote(token, safe='')` |
 | **a tag-pai é criada sozinha** | `#estudo/literatura` → tags `estudo` + `estudo/literatura` | não postar `estudo` à mão |
 | **o Memos é compartilhado** | há memos de outro usuário/projeto na mesma instância | nunca re-taguear, nunca apagar memo de outro `creator` |
 
 **Memos liga das 05:00 às 23:00 BRT** (fora disso dá timeout — não é falha de DNS).
+Listagem completa (~387 memos) leva **~70s** → rodar em **background**, nunca no
+`exec` (que corta em 60s).
 
 ## Configuração
 

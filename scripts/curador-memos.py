@@ -152,25 +152,41 @@ def carregar_env():
         raise SystemExit(2)
 
 
-def api(method, path, body=None, timeout=45):
+def api(method, path, body=None, timeout=45, retries=2):
     args = ["curl", "-sS", "--max-time", str(timeout), "-X", method,
             f"{URL}{path}", "-H", f"Authorization: Bearer {PAT}"]
     if body is not None:
         args += ["-H", "Content-Type: application/json",
                  "--data-binary", json.dumps(body, ensure_ascii=False)]
-    r = subprocess.run(args, capture_output=True, text=True)
-    try:
-        return json.loads(r.stdout)
-    except Exception:
-        return {"_raw": r.stdout, "_err": r.stderr}
+    last = {}
+    for tentativa in range(retries + 1):
+        r = subprocess.run(args, capture_output=True, text=True)
+        try:
+            return json.loads(r.stdout)
+        except Exception:
+            last = {"_raw": r.stdout, "_err": r.stderr}
+            if tentativa < retries:
+                time.sleep(3 * (tentativa + 1))
+    return last
 
 
 def listar():
+    """Lista paginada. pageSize pequeno: pageSize=200 estoura o timeout de 45s
+    no tailnet (medido 2026-11-05: 45.0s -> 0 bytes).
+    O pageToken precisa de URL-encoding: tem '+' e '=' que viram lixo
+    (erro medido: 'invalid page token: illegal base64 data')."""
+    from urllib.parse import quote
     todos, token = [], ""
+    pagina = 0
     while True:
-        url = f"/api/v1/memos?pageSize=200" + (f"&pageToken={token}" if token else "")
-        d = api("GET", url)
-        todos.extend(d.get("memos", []))
+        pagina += 1
+        url = f"/api/v1/memos?pageSize=50" + (f"&pageToken={quote(token, safe='')}" if token else "")
+        d = api("GET", url, timeout=90)
+        if "memos" not in d:
+            sys.stderr.write(f"ERRO ao listar (pagina {pagina}): "
+                             f"{str(d)[:200]}\n")
+            break
+        todos.extend(d["memos"])
         token = d.get("nextPageToken", "")
         if not token or len(todos) > 2000:
             break
