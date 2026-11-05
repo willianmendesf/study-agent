@@ -56,12 +56,23 @@ UA = "Mozilla/5.0 (Android 12; Mobile)"
 # todas as contas" e nao baixava NADA, enquanto 10 downloads/dia ficavam
 # parados. A ordem nao importa (o pipeline escolhe a primeira com cota).
 #
-# ATENCAO (2026-11-05, 15:10): a conta `zlib` NUNCA EXISTIU no YAML de
-# credenciais (so ha zlib2/3/4). O `cota()` devolvia 10 por default quando a
-# resposta era invalida -> falso positivo de cota. Corrigido: resposta
-# invalida = 0. A conta `zlib` fica na lista para quando as credenciais
-# forem cadastradas; ate la ela nao consome nada.
-CONTAS = ["zlib", "zlib2", "zlib3", "zlib4"]
+# A lista de contas NAO e' fixa: e' derivada das credenciais existentes
+# (cache + YAML mesclados). Assim, uma conta nova cadastrada por login
+# (scripts/zlib-reconectar.py) entra no rodizio AUTOMATICAMENTE, sem
+# preciso editar codigo.
+# BUG (2026-11-05): a lista fixa ["zlib","zlib2","zlib3","zlib4"] ignorava
+# contas novas. E `cota()` devolvia 10 por default quando a resposta era
+# invalida -> falso positivo de cota. Corrigido: resposta invalida = 0.
+CONTAS_FIXAS = ["zlib", "zlib2", "zlib3", "zlib4"]
+
+
+def contas_ativas(envs):
+    """Contas com credencial, na ordem de uso (as fixas primeiro, depois as novas)."""
+    ordem = [a for a in CONTAS_FIXAS if a in envs]
+    ordem += sorted(a for a in envs if a not in CONTAS_FIXAS)
+    return ordem
+
+
 MIN_BYTES = 60_000
 MIN_LINHAS = 200
 
@@ -585,8 +596,9 @@ def main():
     INCOMING.mkdir(parents=True, exist_ok=True)
 
     # ---- cotas por conta ----
-    cotas = {a: cota(a, envs) for a in CONTAS}
-    print("cota por conta: " + ", ".join(f"{a}={cotas[a]}" for a in CONTAS))
+    contas = contas_ativas(envs)
+    cotas = {a: cota(a, envs) for a in contas}
+    print("cota por conta: " + ", ".join(f"{a}={cotas[a]}" for a in contas))
     if all(c <= 0 for c in cotas.values()) and not args.dry:
         # A BUSCA nao gasta cota — so o download. Em --dry seguimos mesmo assim,
         # para validar a selecao de candidatos sem gastar nada.
@@ -608,13 +620,16 @@ def main():
             continue
 
         # ---- 1. busca (PT primeiro, depois sem filtro) ----
-        conta = next((a for a in CONTAS if cotas.get(a, 0) > 0), None)
+        conta = next((a for a in contas if cotas.get(a, 0) > 0), None)
         if not conta and not args.dry:
             print("!! cota esgotou no meio do lote")
             break
         # em --dry nao ha conta com cota: usa a primeira so para BUSCAR
         # (busca nao gasta cota; so o download gasta).
-        busca_conta = conta or CONTAS[0]
+        busca_conta = conta or (contas[0] if contas else None)
+        if not busca_conta:
+            print("!! nenhuma conta com credencial — nada a fazer")
+            return 1
 
         queries = [f"{it['titulo']} {it['autor']}".strip()]
         if it["titulo_en"]:

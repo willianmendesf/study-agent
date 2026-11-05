@@ -48,24 +48,32 @@ ORDER = ["zlib", "zlib2", "zlib3", "zlib4"]
 # credenciais
 # --------------------------------------------------------------------------
 def load_accounts():
+    """Contas do z-library: MESCLA cache + YAML (nunca um OU o outro).
+
+    BUG (2026-11-05): o YAML so' era lido quando o cache estava VAZIO. Mas o
+    cache tem 3 contas (zlib2/3/4) e o YAML tem as mesmas 3 — e a conta
+    PRINCIPAL (`zlib`) nao estava em nenhum dos dois. Resultado: `zlib`
+    falhava com "sem credenciais", e uma conta nova cadastrada so' no YAML
+    nunca entrava enquanto o cache existisse. Agora os dois sao sempre
+    mesclados (o cache tem precedencia, por ser o mais recente).
+    """
     envs = {}
     if CACHE.exists():
         try:
-            envs = json.load(open(CACHE))
+            envs.update(json.load(open(CACHE)))
         except Exception:
-            envs = {}
-    if not envs:
-        try:
-            txt = CREDS_YAML.read_text(encoding="utf-8")
-        except Exception:
-            return {}
-        blocks = txt.split("- alias:")
-        for i, b in enumerate(blocks[1:]):
-            rid = re.search(r"remix_id:\s*'?([0-9]+)'?", b)
-            rkey = re.search(r"remix_key:\s*'?([A-Za-z0-9]+)'?", b)
-            if rid and rkey and i < len(ORDER):
-                envs[ORDER[i]] = {"ZLIB_REMIX_ID": rid.group(1),
-                                  "ZLIB_REMIX_KEY": rkey.group(1)}
+            pass
+    try:
+        txt = CREDS_YAML.read_text(encoding="utf-8")
+    except Exception:
+        return envs
+    for bloco in txt.split("- alias:")[1:]:
+        alias = bloco.split("\n")[0].strip().strip("'\"")
+        rid = re.search(r"remix_id:\s*'?([0-9]+)'?", bloco)
+        rkey = re.search(r"remix_key:\s*'?([A-Za-z0-9]+)'?", bloco)
+        if alias and rid and rkey:
+            envs.setdefault(alias, {"ZLIB_REMIX_ID": rid.group(1),
+                                    "ZLIB_REMIX_KEY": rkey.group(1)})
     return envs
 
 
