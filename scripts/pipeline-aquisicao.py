@@ -591,21 +591,32 @@ def main():
         kb = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"])
 
         # ---- 5. Orbit (ebook original vai pro app de leitura; NAO fica no repo) ----
+        # Caminho 1 (preferido): API HTTP do BookOrbit (sem SSH).
+        # Caminho 2 (fallback): rsync por SSH, se a chave existir nesta LXC.
         orbit = "pulado"
         if not args.sem_orbit:
-            r = subprocess.run(["bash", str(ORBIT_DIR / "biblioteca-push.sh"),
-                                "--autor", it["autor"] or "_unorganized", str(ebook)],
-                               capture_output=True, text=True, timeout=300)
-            orbit = "ok" if r.returncode == 0 else "falhou"
-            if orbit == "falhou":
-                print(f"[ORBIT-FALHOU] {ebook.name}: {r.stderr[-200:]}")
-                log("orbit_falhou", arquivo=ebook.name, erro=r.stderr[-300:])
+            r = subprocess.run([sys.executable, str(ROOT / "scripts" / "orbit-upload.py"),
+                                "--file", str(ebook), "--autor", it["autor"] or ""],
+                               capture_output=True, text=True, timeout=900)
+            out = (r.stdout or "") + (r.stderr or "")
+            if r.returncode == 0:
+                orbit = "ok"
             else:
-                # so apaga o original DEPOIS do push confirmado
+                # fallback: tenta o rsync antigo
+                rr = subprocess.run(["bash", str(ORBIT_DIR / "biblioteca-push.sh"),
+                                     "--autor", it["autor"] or "_unorganized", str(ebook)],
+                                    capture_output=True, text=True, timeout=300)
+                orbit = "ok" if rr.returncode == 0 else "falhou"
+                out += "\n[rsync] " + (rr.stderr or "")[-200:]
+            if orbit == "ok":
+                # so apaga o original DEPOIS do push/upload confirmado
                 try:
                     ebook.unlink()
                 except OSError:
                     pass
+            else:
+                print(f"[ORBIT-FALHOU] {ebook.name}: {out[-220:]}")
+                log("orbit_falhou", arquivo=ebook.name, erro=out[-300:])
 
         estado[s] = {"status": "adquirido", "data": time.strftime("%Y-%m-%d"),
                      "ebook": ebook.name, "md": str(destino.relative_to(ROOT)),
