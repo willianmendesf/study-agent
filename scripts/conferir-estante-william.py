@@ -47,15 +47,30 @@ for linha in TXT.read_text(encoding="utf-8").splitlines():
                         p[3].strip() if len(p) > 3 else "")
 
 # --- yaml ---
+# O YAML pode estar em 2 formatos: com indentacao de lista do gerador manual
+# ("  - id: 1") ou do `yaml.safe_dump` ("- id: 1", sem indentacao). E as
+# entradas ganharam campos extras (`no_acervo_study_agent`, `acervo_integridade`,
+# `acervo`). Por isso a leitura e' feita com o PARSER, nao com regex.
 yml_txt = YML.read_text(encoding="utf-8")
 yml = {}
-for m in re.finditer(
-        r"  - id: (\d+)\n    titulo: '((?:[^']|'')*)'\n    autor: '((?:[^']|'')*)'"
-        r"(?:\n    detalhes: '((?:[^']|'')*)')?", yml_txt):
-    i = int(m.group(1))
-    yml[i] = (m.group(2).replace("''", "'"),
-              m.group(3).replace("''", "'"),
-              (m.group(4) or "").replace("''", "'"))
+try:
+    import yaml as _yaml
+    _d = _yaml.safe_load(yml_txt) or {}
+    for _lv in (_d.get("livros") or []):
+        yml[int(_lv["id"])] = (str(_lv.get("titulo") or ""),
+                               str(_lv.get("autor") or ""),
+                               str(_lv.get("detalhes") or ""))
+except Exception as _e:
+    print(f"[YAML] falha ao parsear: {_e}")
+if not yml:
+    # fallback: regex tolerante a indentacao
+    for m in re.finditer(
+            r"^\s*- id: (\d+)\n\s*titulo: '((?:[^']|'')*)'\n\s*autor: '((?:[^']|'')*)'"
+            r"(?:\n\s*detalhes: '((?:[^']|'')*)')?", yml_txt, re.M):
+        i = int(m.group(1))
+        yml[i] = (m.group(2).replace("''", "'"),
+                  m.group(3).replace("''", "'"),
+                  (m.group(4) or "").replace("''", "'"))
 
 # --- markdown ---
 md = {}
