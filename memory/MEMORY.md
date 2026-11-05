@@ -356,6 +356,10 @@ Definido em **2026-10-02**, após aprovação do estudo de 1 João 2:12-17.
 
 ## 📤 Memos — integração ao fluxo (decisão 2026-10-04)
 
+> **ATUALIZADO 2026-11-05 18:10 BRT** — o Memos foi curado de verdade. Leia o
+> bloco "Memos — curadoria" abaixo ANTES de postar qualquer coisa. A skill
+> `study-memos-sync` foi reescrita com a taxonomia validada e as armadilhas reais.
+
 **Regra durável:** todo conteúdo textual de estudo gerado pelo study-agent deve, **ao final do turno**, ser enviado para o Memos do William (`memos.ison-duck.ts.net`) via skill `study-memos-sync`, **além** de catalogado em `data/estudos/`.
 
 **Fluxo padrão ao final de cada turno com conteúdo gerado:**
@@ -636,3 +640,140 @@ capítulo, versículos), (3) **link Memos**.
   - **Cron do sistema:** `15 0 * * *` → `scripts/rodada-ficcao-cron.sh 12`
     (00:15 UTC = 21:15 BRT, 15 min após o reset da cota).
   - Notificação só quando o total do dia muda (`rodada-ficcao-notificar.py`).
+
+### Z-Library — conta 1 (`zlib`) reconectada via backup GPG (2026-11-05 16:35 BRT)
+
+- **Pergunta do William:** "vc nao me passou o nome, ou email qualquer info pra mim saber
+  qual é a primeira conta, ou me passa das 3 que estão conectadas, pra mim identificar
+  qual falta" — ele não tinha como identificar qual conta faltava sem os e-mails.
+- **As 4 contas do z-library (estado real, medido):**
+  | # | alias | e-mail | id | status 2026-11-05 16:35 |
+  |---|---|---|---|---|
+  | 1 | `zlib` (principal) | willianmendesf.study@gmail.com | 31625441 | **RECONECTADA** 0/10 (cota intacta) |
+  | 2 | `zlib2` | robertinho1190@gmail.com | 50552134 | OK 10/10 (gastou) |
+  | 3 | `zlib3` | ipbfcomunicacao@gmail.com | 50552224 | OK 10/10 (gastou) |
+  | 4 | `zlib4` | osannaisjornal@gmail.com | 50552432 | OK 10/10 (gastou) |
+- **A conta 1 NUNCA esteve desconectada.** A credencial estava no backup GPG
+  (`data/config-backup/.secret/credentials.tar.gpg.bak-20260924-193157`), dentro do
+  `dot-config/opencode/opencode.json` antigo (bloco `mcp.zlib`), com `remix_key` em
+  claro. Só não estava gravada no cache/YAML ativos.
+- **Senha GPG:** a senha que o William mandou (#1 das 2) abre **o `.bak` de 2026-09-24**,
+  **não** o arquivo atual. A #2 não abre nenhum dos dois. → **Testar sempre contra
+  o arquivo atual E os `.bak-*`.**
+- **Caminho de reconexão usado:** `scripts/zlib-reconectar.py` via `importlib` →
+  grava cache `~/.zlib-mcp/.account-env-cache.json` + YAML
+  `data/perfil/bibliotecario/zlib-credentials.yaml` (gitignored). **Não** dá para
+  reconectar a conta 1 por login e-mail+senha (foi criada via `criado_via =
+  cookie_navegador`).
+- **Cota real voltou a 40/dia** (era 30/dia).
+- **Regra durável:** **antes de declarar uma credencial "perdida", descriptografar o
+  backup GPG e procurar.** O `.tar.gpg` é a fonte de verdade das credenciais que
+  sumiram do ambiente — e está **versionado** no repo `data/`.
+- **Detalhes:** `data/perfil/memorias/rodada-aquisicao.md` → seção "BUG U RESOLVIDO".
+
+---
+
+## 📚 Memos — curadoria (William, 2026-11-05 17:20-18:10 BRT)
+
+**Pedido literal:** "o memos ta um caos pra mim usar hoje" + 3 perguntas:
+(1) quem é o dono da organização/tags do Memos, (2) as tags estão um caos,
+(3) o bibliotecário precisa mandar um plano de reorganização. E: "você ta
+enviando pro memos conversas e memórias, decisões e etc — não é esse o objetivo.
+O objetivo é enviar pra ele materiais consolidados, conteúdo que agregue e
+auxilie nos estudos, resumos, planos de estudos e etc, nada de lixo de decisões,
+pensamentos, conversas. Isso fica local no data e apenas vai pro commit."
+
+### As 3 respostas
+
+1. **DONO: era NINGUÉM.** A skill `study-memos-sync` só sabia postar — ninguém
+   curava, re-tagueava ou limpava. Agora o **Bibliotecário** é o dono (bloco
+   `curadoria_memos` em `data/perfil/especialistas/bibliotecario.yaml`).
+2. **TAGS: 144 distintas → 43.** Medido, não opinado.
+3. **PLANO:** implementado e executado (não só plano).
+
+### Estado real medido (API, 2026-11-05)
+
+| | antes | depois |
+|---|---|---|
+| memos do Study-Agent | 136 | 131 |
+| tags distintas | **144** | **43** |
+| tags numéricas (id de lista) | 60+ | **0** |
+| linhas de tags órfãs no corpo | 137 | **0** |
+| duplicatas | 4 | 0 |
+
+### 🚨 O MEMOS É COMPARTILHADO
+
+**245 dos 381 memos NÃO são do Study-Agent** — são de `users/fabianafrancaf`
+(projeto de fisioterapia: cardiologia, ortopedia, pediatria, neuropediatria,
+saúde da mulher). **NUNCA** re-taguear, reescrever ou apagar memo de outro
+`creator`. Isso quase aconteceu: 9 memos da Fabiana carregavam a tag
+`study-agent` e seriam reescritos pelo `--aplicar`. A trava de dono foi
+adicionada em `scripts/curador-memos.py` (5 pontos: `classificar`, `dedup`,
+`lixo`, `--aplicar`, `--higienizar`).
+
+### Taxonomia validada (hierarquia FUNCIONA nativamente)
+
+Probe controlado: `#estudo/literatura #tipo/plano` → tags `estudo`,
+`estudo/literatura`, `tipo`, `tipo/plano`. **O Memos cria a tag-pai sozinho.**
+
+- `estudo/<area>` — teologia · curriculo · portugues · literatura · producao · geral
+- `tipo/<forma>` — plano · ficha · resumo · exegese · devocional · guia · indice ·
+  mapa · simulado · transcricao · relatorio · nota · aula · exercicio
+- `fonte/<programa>` · `livro/<livro bíblico>` · `serie/<módulo>` ·
+  `persona/<especialista>` — opcionais
+- `#study-agent` sempre
+
+**Regra de ouro:** a tag antiga é mais confiável que o texto (o texto só entra
+como fallback, e só título + 3 primeiras linhas — senão "Tito" vira "judas").
+
+### As 6 armadilhas do Memos (testadas de verdade)
+
+1. **`tags` NÃO é campo editável** — `PATCH {"tags":[...]}` → `invalid update path`.
+   Re-tagar = reescrever o `content` com a linha de hashtags nova.
+2. **O uid tem sufixo completo** — `memos/3ER2zYRdjebVPMZirzG8G5` →
+   usar `3ER2zYRdjebVPMZirz` dá 404.
+3. **O path não repete `memos/`** — `/api/v1/memos/memos/<uid>` → 404.
+4. **Hashtag em QUALQUER linha do corpo vira tag** — `bloco **#182**` → tag `182`;
+   `(#gama)` → tag `gama`; `#mu/nu` → tags `mu` **e** `mu/nu`. No corpo, `#` só
+   pode ser título markdown. Escrever `nº 182`.
+5. **`<details>` NÃO renderiza** → o `<details><summary>Gabarito</summary>` vira
+   texto puro e o **gabarito do simulado fica visível**. Os 12 simulados no Memos
+   estão com a resposta marcada (✅). Postar simulado **sem** o gabarito.
+6. **Memos liga das 05:00 às 23:00 BRT** — fora disso dá timeout (não é DNS).
+   Listar os 380 memos leva ~30 s (tailnet lento): usar `--max-time 90`.
+
+### O que NUNCA entra no Memos (decisão do William)
+
+Decisão, diagnóstico de bug, log de pipeline, relato de commit, conversa de
+turno, memória do agente. **Isso fica só no `data/` e vai só para o commit.**
+
+O que entra: plano, resumo, ficha, mapa, guia, devocional, exegese, índice,
+simulado, relatório de quiz.
+
+**O que o William ESPERA ENCONTRAR:** uma nota limpa, objetiva, com a ORDEM (o
+que antes, o que depois), as ETAPAS, e a disponibilidade de cada item (físico,
+digital, ou os dois). **Não** um histórico de notas de trabalho.
+
+### A nota da rampa de ficção (exemplo do que ele pediu)
+
+`data/estudos/notas/ficcao-rampa-leitura/06-plano-consolidado.md` →
+`memos/BJbihQLgaTBrunPfJxU52j`. Uma só nota com: os 10 títulos em ordem, o que
+cada um tem (físico / digital / ambos), as 4 etapas por livro, o mapa dos 5
+degraus e os 4 fronts de aquisição. As 4 notas antigas da rampa ganharam o
+prefixo "⚠️ Nota técnica (anexo)" e foram re-tagueadas como `tipo/indice`.
+
+### Ferramenta
+
+`scripts/curador-memos.py` — `--auditar` (só relata) · `--aplicar` (re-tagueia,
+só do Study-Agent) · `--dedup` · `--limpar`.
+Backup: `data/perfil/bibliotecario/backups-memos/memos-<data>.json`.
+
+### Detalhe que salva tempo
+
+**Título igual NÃO é duplicata.** Os 7 "Devocional de 7 Dias" são 7 dias
+diferentes (DIA 1 Sl 51 … DIA 7 Sl 143). Só considerar duplicata quando o
+**md5 do corpo sem a linha de tags** coincide.
+
+### Commits
+
+`6d89511` (data) · `be7a9a6` (repo study-agent) — ambos pushados.
