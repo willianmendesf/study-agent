@@ -43,3 +43,8 @@ data/
 
 # resíduo de execução de skill que não deve ir pro framework nem pro repo pessoal
 .claude/skills/study-audio-capture/.tmp-transcricao/
+
+# biblio-mcp (2026-11-05): build local do servidor MCP de aquisicao.
+# NAO versionar: 63 MB de node_modules + dist/ — reproduzivel com:
+#   cd .tools/biblio-mcp && npm install && npm run build
+.tools/
