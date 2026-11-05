@@ -50,7 +50,18 @@ ESTADO = ROOT / "data" / "perfil" / "bibliotecario" / "pipeline-estado.json"
 
 DOM = "z-lib.gd"
 UA = "Mozilla/5.0 (Android 12; Mobile)"
-CONTAS = ["zlib2", "zlib3", "zlib4"]
+# BUG (2026-11-05): a conta principal `zlib` (que vem do
+# `zlib-credentials.yaml`) estava FORA desta lista — so entravam zlib2/3/4, que
+# ja estavam com cota esgotada. Resultado: o pipeline via "cota esgotada em
+# todas as contas" e nao baixava NADA, enquanto 10 downloads/dia ficavam
+# parados. A ordem nao importa (o pipeline escolhe a primeira com cota).
+#
+# ATENCAO (2026-11-05, 15:10): a conta `zlib` NUNCA EXISTIU no YAML de
+# credenciais (so ha zlib2/3/4). O `cota()` devolvia 10 por default quando a
+# resposta era invalida -> falso positivo de cota. Corrigido: resposta
+# invalida = 0. A conta `zlib` fica na lista para quando as credenciais
+# forem cadastradas; ate la ela nao consome nada.
+CONTAS = ["zlib", "zlib2", "zlib3", "zlib4"]
 MIN_BYTES = 60_000
 MIN_LINHAS = 200
 
@@ -122,6 +133,50 @@ def log(ev, **kw):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+# --- sessao unica do BookOrbit (2026-11-05) --------------------------------
+# O upload por arquivo com `subprocess` fazia LOGIN do zero a cada ebook e o
+# throttler do BookOrbit devolvia 429 a partir do 4o arquivo. Aqui: UM token
+# para a rodada toda (dura 15 min), re-login em 401 e backoff em 429.
+_ORBIT_TOKEN = {"tok": None, "mod": None}
+
+
+def _carregar_orbit_upload():
+    """Importa scripts/orbit-upload.py como modulo (sem subprocess)."""
+    if _ORBIT_TOKEN["mod"] is None:
+        try:
+            import importlib.util
+            caminho = ROOT / "scripts" / "orbit-upload.py"
+            spec = importlib.util.spec_from_file_location("orbit_upload", caminho)
+            mod = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(mod)
+            _ORBIT_TOKEN["mod"] = mod
+        except Exception as e:
+            print(f"[ORBIT] nao foi possivel carregar o modulo de upload: {e}")
+            return None
+    return _ORBIT_TOKEN["mod"]
+
+
+def _token_sessao(up, forcar=False):
+    """Devolve um token valido. Re-login em 429 (backoff) ou 401 (forcar)."""
+    if _ORBIT_TOKEN["tok"] and not forcar:
+        return _ORBIT_TOKEN["tok"]
+    for tentativa in range(1, 7):
+        try:
+            tok, _u = up.login()
+            _ORBIT_TOKEN["tok"] = tok
+            return tok
+        except SystemExit as e:
+            msg = str(e)
+            if "429" in msg:
+                espera = min(60, 5 * tentativa)
+                print(f"[ORBIT] 429 no login; aguardando {espera}s "
+                      f"(tentativa {tentativa}/6)")
+                time.sleep(espera)
+                continue
+            raise
+    raise SystemExit("ERRO: nao foi possivel autenticar no BookOrbit.")
+
+
 def carregar_estado():
     if ESTADO.exists():
         try:
@@ -179,14 +234,27 @@ def curl(args, timeout=60):
 # z-library
 # ---------------------------------------------------------------------------
 def cota(acct, envs):
+    """Downloads que ainda restam nesta conta.
+
+    BUG (2026-11-05): quando o `curl` falhava (conta inexistente, rede, JSON
+    invalido), a funcao devolvia o DEFAULT `lim=10`, `hoje=0` -> "10
+    restantes". Isso era um FALSO POSITIVO: a conta `zlib` (que constava na
+    lista CONTAS) NUNCA EXISTIU no YAML de credenciais, e o pipeline acreditava
+    ter 10 downloads. Ao baixar, o z-library respondia "Please login" e o
+    lote inteiro falhava — 10 falhas em vez de um aviso claro de cota.
+
+    Agora: resposta invalida => 0 (sem cota). E so se desconta quando o
+    download REALMENTE happened.
+    """
     out = curl([f"https://{DOM}/eapi/user/profile", "-H", f"User-Agent: {UA}",
                 "-b", cookie(acct, envs)], timeout=30)
     try:
         u = json.loads(out).get("user", {})
-        lim = u.get("downloads_limit") or 10
+        lim = u.get("downloads_limit") or 0
         hoje = u.get("downloads_today") or 0
         return max(0, lim - hoje)
     except Exception:
+        # resposta invalida / conta inexistente -> SEM cota (nao 10!)
         return 0
 
 
@@ -205,7 +273,7 @@ def busca(query, acct, envs, lang=None, limit=30):
     return d.get("books", [])
 
 
-def melhor_candidato(books, titulo_pt, autor_pt, titulo_en=""):
+def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None):
     """Escolhe o melhor candidato. Pontua: cobertura do titulo, cobertura do
     autor, bonus de titulo literal, bonus de formato, penalidade de coletanea
     e de edicao degradada.
@@ -216,10 +284,22 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en=""):
 
     O score e' uma media ponderada, entao fica em [0, 1]; o limiar 0.55
     significa "pelo menos metade do titulo e metade do autor casam".
+
+    BUG 2 (2026-11-05): a cobertura usava a UNIAO dos tokens do titulo PT e
+    do titulo EN. O resultado era que NENHUMA das duas formas casava: o
+    livro "Sangue Sabio" (traducao PT de "A Wise Blood") pontuava 0, e o
+    catalogo era marcado como "sem candidato". Agora a cobertura e' o MAXIMO
+    entre as variantes (PT, EN e titulos alternativos), nao a uniao. Com o
+    alias "Sangue Sabio", a cobertura PT = 2/2 = 1.0.
+
+    BUG 3 (2026-11-05): o bonus de "titulo literal contido" (+0.22) era
+    um bonus GLOBAL — valia para QUALQUER titulo, mesmo quando o titulo
+    procurado nao tinha nada a ver. Agora so conta se o titulo procurado
+    (ou um alias) estiver de fato contido no titulo do candidato.
     """
-    alvo = toks(titulo_pt) | toks(titulo_en)
+    variantes = [v for v in ([titulo_pt, titulo_en] + list(titulos_alt or []))
+                 if v and len(v.strip()) > 2]
     alv_a = toks(autor_pt)
-    tpl = norm(titulo_pt)
     best, best_s = None, -99
     for b in books:
         raw = b.get("title", "") or ""
@@ -244,11 +324,24 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en=""):
             pen += 0.20
         t = toks(raw)
         a = toks(aut_raw)
-        cov = len(alvo & t) / max(1, len(alvo))
+        # cobertura = MAXIMO entre as variantes do titulo (PT, EN, aliases)
+        cov = 0.0
+        contido = False
+        for var in variantes:
+            tv = toks(var)
+            if not tv:
+                continue
+            c = len(tv & t) / len(tv)
+            if c > cov:
+                cov = c
+            nv = norm(var)
+            if len(nv) > 6 and nv in norm(raw):
+                contido = True
         cov_a = len(alv_a & a) / max(1, len(alv_a))
         # score = media ponderada das partes, menos penalidade
         s = cov * 0.62 + cov_a * 0.28 - pen
-        if len(tpl) > 6 and tpl in norm(raw):
+        # bonus de titulo literal: so se o titulo PROCURADO estiver contido
+        if contido:
             s += 0.22
         # bonus de formato: epub > pdf > mobi
         s += {"epub": 0.10, "pdf": 0.04, "azw3": 0.03, "mobi": 0.02}.get(ext, 0.0)
@@ -261,7 +354,7 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en=""):
         # bonus de titulo EXATO (sem sufixo de edicao): o texto integral
         # da obra, sem comentario nem bilingue. Vale mais que o bonus de
         # formato, porque o que o acervo quer e' o livro, nao a apparatus.
-        if norm(raw) == tpl:
+        if norm(raw) in {norm(v) for v in variantes}:
             s += 0.30
         if s > best_s:
             best, best_s = b, s
@@ -436,6 +529,7 @@ def normaliza_item(it):
         "ano": it.get("ano") or it.get("year") or "",
         "subpasta": it.get("subpasta") or "outros",
         "titulo_en": it.get("titulo_en") or it.get("title_en") or "",
+        "titulos_alt": it.get("titulos_alt") or it.get("titulo_alt") or [],
     }
 
 
@@ -525,13 +619,21 @@ def main():
         queries = [f"{it['titulo']} {it['autor']}".strip()]
         if it["titulo_en"]:
             queries.append(f"{it['titulo_en']} {it['autor']}".strip())
+        # aliases: a mesma obra com OUTRO titulo em PT (traducao diferente).
+        # BUG (2026-11-05): a busca parava na PRIMEIRA query que devolvia
+        # resultado, mesmo sem o candidato certo — e a cobertura unia PT+EN.
+        # Agora acumula os resultados de TODAS as queries (busca nao gasta cota)
+        # e deixa o `melhor_candidato` escolher entre as variantes.
+        for alt in it.get("titulos_alt") or []:
+            queries.append(f"{alt} {it['autor']}".strip())
         books = []
         for q in queries:
-            books = busca(q, busca_conta, envs, lang="portuguese")
-            if not books:
-                books = busca(q, busca_conta, envs, lang=None)
-            if books:
-                break
+            r = busca(q, busca_conta, envs, lang="portuguese")
+            if not r:
+                r = busca(q, busca_conta, envs, lang=None)
+            for b in r:
+                if b not in books:
+                    books.append(b)
         if not books:
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
                          "motivo": "sem resultado na busca"}
@@ -541,7 +643,8 @@ def main():
             falhas += 1
             continue
 
-        cand, score = melhor_candidato(books, it["titulo"], it["autor"], it["titulo_en"])
+        cand, score = melhor_candidato(books, it["titulo"], it["autor"],
+                                       it["titulo_en"], it.get("titulos_alt"))
         if not cand:
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
                          "motivo": f"nenhum candidato acima do limiar (melhor {score})",
@@ -593,30 +696,43 @@ def main():
         # ---- 5. Orbit (ebook original vai pro app de leitura; NAO fica no repo) ----
         # Caminho 1 (preferido): API HTTP do BookOrbit (sem SSH).
         # Caminho 2 (fallback): rsync por SSH, se a chave existir nesta LXC.
+        #
+        # SESSAO UNICA (2026-11-05): o upload usava `subprocess` por arquivo,
+        # e cada subprocess fazia LOGIN do zero. O BookOrbit tem throttler no
+        # POST /api/v1/auth/login -> 429 a partir do 4o arquivo (3 subiram, 27
+        # falharam na fila de 31). Agora: UM login para a rodada toda, re-login
+        # em 401 e backoff em 429.
         orbit = "pulado"
         if not args.sem_orbit:
-            r = subprocess.run([sys.executable, str(ROOT / "scripts" / "orbit-upload.py"),
-                                "--file", str(ebook), "--autor", it["autor"] or ""],
-                               capture_output=True, text=True, timeout=900)
-            out = (r.stdout or "") + (r.stderr or "")
-            if r.returncode == 0:
-                orbit = "ok"
+            up = _carregar_orbit_upload()
+            if up is None:
+                orbit = "falhou"
             else:
-                # fallback: tenta o rsync antigo
-                rr = subprocess.run(["bash", str(ORBIT_DIR / "biblioteca-push.sh"),
-                                     "--autor", it["autor"] or "_unorganized", str(ebook)],
-                                    capture_output=True, text=True, timeout=300)
-                orbit = "ok" if rr.returncode == 0 else "falhou"
-                out += "\n[rsync] " + (rr.stderr or "")[-200:]
-            if orbit == "ok":
-                # so apaga o original DEPOIS do push/upload confirmado
-                try:
-                    ebook.unlink()
-                except OSError:
-                    pass
-            else:
-                print(f"[ORBIT-FALHOU] {ebook.name}: {out[-220:]}")
-                log("orbit_falhou", arquivo=ebook.name, erro=out[-300:])
+                tok = _token_sessao(up)
+                st_up, d_up = up.upload(ebook, tok, folder_id=1,
+                                       autor=it["autor"] or "")
+                if st_up == 401:
+                    tok = _token_sessao(up, forcar=True)
+                    st_up, d_up = up.upload(ebook, tok, folder_id=1,
+                                           autor=it["autor"] or "")
+                if st_up == 429:
+                    time.sleep(10)
+                    st_up, d_up = up.upload(ebook, tok, folder_id=1,
+                                           autor=it["autor"] or "")
+                if st_up in (200, 201):
+                    orbit = "ok"
+                else:
+                    orbit = "falhou"
+                    print(f"[ORBIT-FALHOU] {ebook.name}: HTTP {st_up} "
+                          f"{json.dumps(d_up, ensure_ascii=False)[:180]}")
+                    log("orbit_falhou", arquivo=ebook.name, erro=str(d_up)[:300])
+                if orbit == "ok":
+                    # so apaga o original DEPOIS do push/upload confirmado
+                    try:
+                        ebook.unlink()
+                    except OSError:
+                        pass
+                time.sleep(0.4)   # folga entre uploads
 
         estado[s] = {"status": "adquirido", "data": time.strftime("%Y-%m-%d"),
                      "ebook": ebook.name, "md": str(destino.relative_to(ROOT)),

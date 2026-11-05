@@ -103,6 +103,39 @@ TITULO_EN = {
 GAP_IDIOMA = {14, 20, 30, 37}
 
 # ---------------------------------------------------------------------------
+# 3. ALIASES de titulo — a mesma obra com OUTRO titulo em PT.
+# ---------------------------------------------------------------------------
+# BUG (2026-11-05): 4 obras do catalogo foram marcadas "sem candidato acima
+# do limiar" porque o z-library publica a obra com um titulo PT DIFERENTE do
+# catalogo:
+#   - "A Wise Blood" (Flannery O'Connor) -> no z-library: "Sangue Sabio"
+#   - "Retratos" (Joyce, Dubliners)       -> "Retrato do Artista quando Jovem"
+#   - "A Utopia" (Conrad)                  -> "sob o Olho do Ocidente"
+#   - "Nostradamus: O Segredo das Centurias" -> "O Segredo das Centurias"
+# A cobertura do titulo exigia PT **e** EN ao mesmo tempo, e nenhuma das
+# formas casava. Agora o pipeline aceita ALIASES: a mesma obra procurada
+# pelo nome que ela tem no acervo brasileiro.
+# Chave: (titulo, autor) normalizados. Valor: lista de titulos alternativos.
+TITULOS_ALT = {
+    ("a wise blood", "flannery o'connor"): ["Sangue Sábio"],
+    ("retratos", "james joyce"): ["Retrato do Artista quando Jovem",
+                                  "Um Retrato do Artista quando Jovem"],
+    ("a utopia", "joseph conrad"): ["Sob o Olho do Ocidente",
+                                    "Under Western Eyes"],
+    ("nostradamus: o segredo das centúrias", "pellos c. plavgo"):
+        ["O Segredo das Centúrias", "Nostradamus"],
+    ("o morro dos ventos uivantes", "emily brontë"):
+        ["Wuthering Heights"],
+    ("o pequeno príncipe", "antoine de saint-exupéry"):
+        ["O Principezinho"],
+    ("o poder e a glória", "graham greene"): ["A Potência e a Glória"],
+    ("o problema da dor", "c. s. lewis"): ["O Problema do Sofrimento"],
+    ("o sol também se levanta", "ernest hemingway"):
+        ["The Sun Also Rises", "Também o Sol Se Levanta"],
+}
+
+
+# ---------------------------------------------------------------------------
 # 2. Complementares (rampa #140-#144 + trilha crista + degrau 5)
 #    (titulo, autor, prioridade, subpasta, titulo_en, tags, ano)
 # ---------------------------------------------------------------------------
@@ -174,6 +207,15 @@ def sem_acento(s):
                    if not unicodedata.combining(c))
 
 
+# indice normalizado (sem acento, minusculo) dos aliases. As chaves de
+# TITULOS_ALT sao escritas como aparecem no YAML, mas a busca usa a forma
+# normalizada — assim nao depende da grafia ("Emily Brontë" vs "Bronte").
+ALIASES_NORM = {
+    (sem_acento(t).lower().strip(), sem_acento(a).lower().strip()): v
+    for (t, a), v in TITULOS_ALT.items()
+}
+
+
 def esc(s):
     """Escapa para YAML de forma segura (aspas simples, como o resto do repo)."""
     return "'" + str(s).replace("'", "''") + "'"
@@ -185,7 +227,7 @@ def main():
     itens = []
     vistos = set()
 
-    def add(tit, aut, prio, sub, ten, tags, ano, origem, nota=""):
+    def add(tit, aut, prio, sub, ten, tags, ano, origem, nota="", alt=None):
         chave = (sem_acento(tit).lower().strip(), sem_acento(aut).lower().strip())
         if chave in vistos:
             return
@@ -197,6 +239,14 @@ def main():
         }
         if ten:
             bloco["titulo_en"] = ten
+        # alias: a mesma obra pode ter outro titulo no acervo PT.
+        # A chave e' normalizada (sem acento, minuscula) no momento do uso, para
+        # nao depender da grafia exata ("Emily Brontë" vs "Emily Bronte").
+        alt_final = list(alt or []) + list(
+            ALIASES_NORM.get((sem_acento(tit).lower().strip(),
+                              sem_acento(aut).lower().strip()), []))
+        if alt_final:
+            bloco["titulos_alt"] = alt_final
         if origem:
             bloco["origem"] = origem
         if nota:
@@ -256,6 +306,8 @@ def main():
             linhas.append(f"    ano: {it['ano']}")
         if it.get("titulo_en"):
             linhas.append(f"    titulo_en: {esc(it['titulo_en'])}")
+        if it.get("titulos_alt"):
+            linhas.append(f"    titulos_alt: [{', '.join(esc(t) for t in it['titulos_alt'])}]")
         if it.get("origem"):
             linhas.append(f"    origem: {esc(it['origem'])}")
         if it.get("nota"):
