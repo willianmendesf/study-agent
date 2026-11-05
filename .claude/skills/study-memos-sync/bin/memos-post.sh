@@ -9,7 +9,15 @@
 # manter (raro; só se o memo for justamente um dump de metadados).
 set -euo pipefail
 
-REPO="/home/opencode/study-agent/data"
+# O repo pode estar em /home/opencode/study-agent (instalacao antiga) ou em
+# /home/willian/study-agent (instalacao atual). Resolve automaticamente.
+REPO="${STUDY_AGENT_REPO:-}"
+if [ -z "$REPO" ]; then
+  for cand in /home/willian/study-agent /home/opencode/study-agent /home/study-agent; do
+    if [ -d "$cand/data" ]; then REPO="$cand/data"; break; fi
+  done
+fi
+[ -n "$REPO" ] || REPO="/home/willian/study-agent/data"
 ENV_FILE="$REPO/config-backup/memos/memos.env"
 
 if [[ ! -f "$ENV_FILE" ]]; then

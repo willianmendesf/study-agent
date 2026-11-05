@@ -183,6 +183,96 @@
 
 ---
 
+---
+
+## 📚 Rampa de leitura de ficção (projeto novo — 2026-11-05)
+
+- **Pedido literal do William:** "Eu quero começar a ler literatura de ficção... Quero uma leitura
+  de livros pequenos e fáceis para mais complexos e maiores. Consegue buscar uma lista de livros
+  e etc, assim que eu estiver listado os que eu já tenho em casa eu te passo."
+- **O que foi entregue:**
+  - Plano da rampa (5 degraus) em `data/estudos/notas/ficcao-rampa-leitura/01-rampa-de-leitura.md`
+  - Wishlist #140-#144 em `data/biblioteca/lista-aquisicao.md` (contos curtos; romances
+    Austen/Brontë/Flaubert/Twain/Eco/Dostoiévski/Eliot/Melville/Tolstói; **gap crítico de
+    idioma** — traduções PT-BR dos 6 clássicos do acervo, que estão em inglês; trilha
+    literatura cristã; degrau 5 romanesco experimental)
+- **Método (ancorado no acervo, não de memória):** Adler/Van Doren *Como Ler Livros*
+  (4 níveis de leitura — linha 513 do .md) + Reinke *Lit!* ("A má leitura da ficção ocorre
+  quando os leitores esperam aprender proposições, ou explorar uma tese" — linha 2244).
+  Corolário: na ficção **não se caça tese**; caça-se pessoa, situação e consequência.
+- **Os 4 serviços que o IAM prestará por livro:** ficha de leitura (.md com resumo por
+  capítulo, vocabulário, o que observar, 3-5 perguntas, 2 cruzamentos) · sessão guiada com
+  o especialista `literato` · quiz de compreensão (motor já existente em
+  `data/estudos/exercicios/`) · publicação no Memos + áudio.
+- **Estado:** ATUALIZADO 2026-11-05 01:47 — a lista de casa **chegou** (58 títulos).
+  Cruzamento rodado; ver seção "Rampa de leitura — estante de casa (2026-11-05)" abaixo.
+
+## 📚 Rampa de leitura — estante de casa, 58 livros (2026-11-05)
+
+- **Pedido do William:** mandou a lista do que já tem em casa (CSV + texto, 58 títulos).
+- **Achado que mudou o plano:** ele já tem em PT-BR **quase toda a rampa** que o plano de
+  2026-11-05 mandava baixar. Os degraus 1 e 2 estão **completos na estante dele**.
+- **Documentos canônicos:**
+  - Ficha legível + tabela por eixo: `data/biblioteca/literatura/estante-william-58-livros.md`
+  - Dados estruturados (58 itens, com `eixo`): `data/perfil/bibliotecario/estante-william.yaml`
+  - Cruzamento detalhado: `data/estudos/notas/ficcao-rampa-leitura/02-cruzamento-lista-de-casa.md`
+  - Script reprodutível: `scripts/registrar-estante-william.py` + `scripts/baixar-rampa-ficcao.py`
+- **Números:** 54/58 só na estante dele · 1 no acervo do agente em PT (Dom Quixote) ·
+  6 clássicos do acervo em inglês (Dante, Dostoiévski, Tolstói, Agostinho ×2, Dickens) ·
+  1 mulher autora em 58 (Beauvoir) · **zero ficção cristã** na estante.
+- **Buracos na estante dele:** Dostoiévski (zero) · Tolstói (zero) · Austen/Melville/
+  George Eliot/George Orwell/Woolf/Joyce/Twain (zero) · nenhuma cristã
+  (Chesterton, Lewis, Bunyan, Greene, O'Connor).
+- **Armadilha técnica (2026-11-05):** o pipeline `zlib-mcp` via `npx` **NÃO roda nesta
+  LXC** (não há node/npx). O caminho que funciona é **eAPI direto via curl** em
+  `https://z-lib.gd/eapi/...` (só `z-lib.gd` responde; `z-lib.sk`/`.se`/`.li` dão 000).
+  Credenciais: `~/.zlib-mcp/.account-env-cache.json` (zlib2/3/4) + conta principal no
+  `data/perfil/bibliotecario/zlib-credentials.yaml`. Cota: 4 contas × 10 = 40/dia,
+  reseta 00:00 UTC.
+- **Seleção de candidato no z-library:** penalizar `Box`/`Coleção`/`Grandes Obras`
+  (multi-volume) e `PDF`; preferir EPUB com título PT literal e autor batendo.
+  Script: `scripts/tmp_selecionar_v2.py` (função `melhor2`).
+- **Lacuna real do acervo:** os 6 clássicos de `literatura-mundial-classica/` estão em
+  **inglês** (exceto Dom Quixote, que é PT-BR). Isso é problema para a prova de Literatura
+  da IPB (em português) e para citação literal (Regra 9).
+
+## 📚 Rampa de ficção — lote de 30 traduções PT-BR (2026-11-05, 02:00-03:00)
+
+- **O que aconteceu:** a janela noturna rodou o lote de aquisição
+  (`scripts/baixar-rampa-ficcao.py` + `scripts/finalizar-rampa.py`) e
+  **30 obras entraram no acervo em português**, todas em
+  `data/biblioteca/literatura-mundial-classica/`: Dostoiévski (5) · Tolstói (3) ·
+  Austen (2) · Dickens (3) · Orwell (2) · Twain (2) · Eliot · Melville · Shelley ·
+  Woolf · Agostinho (2) · Dante · Homero · Virgílio · Goethe · Proust · Flaubert.
+- **Efeito na rampa:** degraus 3 e 4 **completos**. A lacuna de idioma do acervo
+  (6 clássicos em inglês) **sumiu**. 8 dos 58 da estante agora também estão no acervo.
+- **Documento vigente:** `data/estudos/notas/ficcao-rampa-leitura/03-cruzamento-pos-lote.md`
+  (o 02-cruzamento é o quadro ANTIGO).
+- **4 BUGS REAIS encontrados e corrigidos na causa** (não no sintoma):
+  1. **Conteúdo trocado (grave):** `A Revolução dos Animais` estava com o **texto do 1984**.
+     Causa: `epub2md.py` não suportava `.mobi` → o finalizador caía no fallback e
+     reaproveitava o `.md` de outro livro. **Correção:** novo `mobi2txt.py`
+     (`data/perfil/bibliotecario/biblioteca-orbit/`) + suporte a `.mobi/.azw/.azw3/.prc`
+     no `epub2md.py`. Biblioteca `mobi` (pip) instalada como caminho primário.
+  2. **Arquivo apagado:** o `.md` do 1984 sumia entre execuções (`unlink()` + `move()`
+     deixa janela sem arquivo). **Correção:** `shutil.move(..., copy_function=os.replace)`.
+  3. **Validação por título restrita:** `conteudo_confere()` só olhava os primeiros
+     60.000 chars; EPUBs sem folha de rosto só citam o próprio título no apêndice/posfácio.
+     **Correção:** busca no texto inteiro.
+  4. **Metadados da KB defasados:** `tamanho_md`/`linhas_md` de 34 entradas gravados no
+     1º passe (antes da normalização de OCR). **Correção:** recálculo pelos valores reais.
+- **Lição sobre o `mobi`:** a lib `mobi` (pip) resolve MOBI→HTML; meu decodificador
+  PalmDOC próprio falhou (branch 0x80-0xBF = dist 2 bytes / len 1 byte; 0xC0-0xFF =
+  len 2 bytes / dist 1 byte — inverti os dois). **Use a lib, não reescreva o formato.**
+- **Auditorias permanentes:** `scripts/rampa-ficcao/` (KB, conteúdo por obra, reavaliação
+  da estante) + `scripts/conferir-estante-william.py`. Resultado: 30/30 obras com o
+  conteúdo correto, KB íntegra, lint 0 erro novo.
+- **Memos inacessível** neste turno (`Could not resolve host: memos.ison-duck.ts.net`) —
+  tailnet fora. **Corrigi o `memos-post.sh`**, que tinha o path fixo `/home/opencode/...`;
+  agora resolve o repo sozinho.
+
+---
+
 ## 📌 TL;DR — só nas conversas do Telegram (decisão do William 2026-10-30)
 
 **Pedido literal:** "aplica à rotina, resumos e mensagem gerais o conceito de TL;DR — isso no
