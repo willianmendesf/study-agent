@@ -41,7 +41,17 @@ DOMAINS = [
 ]
 
 UA = "Mozilla/5.0 (Android 12; Mobile)"
-ORDER = ["zlib", "zlib2", "zlib3", "zlib4"]
+# Contas conhecidas, em ordem de PRIORIDADE. A lista NAO e' fixa: e' derivada
+# das credenciais reais (cache + YAML), entao conta nova entra sozinha.
+CONTAS_FIXAS = ["zlib", "zlib2", "zlib3", "zlib4"]
+
+
+def accounts_ordered():
+    """Contas com credencial: fixas primeiro, depois as novas (alfabetica)."""
+    envs = load_accounts()
+    ordem = [a for a in CONTAS_FIXAS if a in envs]
+    ordem += sorted(a for a in envs if a not in CONTAS_FIXAS)
+    return ordem
 
 
 # --------------------------------------------------------------------------
@@ -188,7 +198,7 @@ def cmd_domains(a):
 
 
 def cmd_limits(a):
-    accs = [a.conta] if a.conta else list(load_accounts().keys())
+    accs = [a.conta] if a.conta else accounts_ordered()
     for acc in accs:
         d = api_get("/eapi/user/profile", acc)
         u = d.get("user") or {}
