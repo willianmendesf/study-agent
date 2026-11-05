@@ -129,6 +129,34 @@ def upload(ebook: Path, token: str, folder_id=None, autor=""):
         return 0, {"message": f"{type(e).__name__}: {str(e)[:200]}"}
 
 
+def _probe_upload_sem_arquivo(token: str):
+    """POST de upload SEM o campo 'file' — nao grava nada no BookOrbit.
+
+    Serve para distinguir "sem permissao" (403) de "com permissao" (400 por
+    arquivo ausente). Antes (2026-11-05) o probe subia um arquivo de 1 byte e
+    deixava um livro-lixo na biblioteca quando a permissao era concedida.
+    """
+    boundary = "----studyagent-probe" + uuid.uuid4().hex
+    body = (f"--{boundary}\r\n"
+            f'Content-Disposition: form-data; name="semarquivo"\r\n\r\n'
+            f"probe\r\n--{boundary}--\r\n").encode("utf-8")
+    req = urllib.request.Request(
+        f"{ORBIT_URL}/api/v1/libraries/{LIB_ID}/upload", data=body, method="POST")
+    req.add_header("Content-Type", f"multipart/form-data; boundary={boundary}")
+    req.add_header("Authorization", f"Bearer {token}")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return r.status, json.loads(r.read().decode("utf-8"))
+    except urllib.error.HTTPError as e:
+        b = e.read().decode("utf-8", "ignore")
+        try:
+            return e.code, json.loads(b)
+        except Exception:
+            return e.code, {"message": b[:300]}
+    except Exception as e:
+        return 0, {"message": f"{type(e).__name__}: {str(e)[:200]}"}
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--file")
@@ -153,16 +181,41 @@ def main():
                   f"pastas={[f['path'] for f in l.get('folders', [])]}")
 
     if args.check:
-        # upload de arquivo mínimo para checar a permissão (1 byte)
-        tmp = Path("/tmp/_orbit_probe.bin")
-        tmp.write_bytes(b"probe")
-        st, d = upload(tmp, token, folder_id=1)
-        tmp.unlink(missing_ok=True)
-        print(f"  teste de upload -> HTTP {st}: {str(d)[:200]}")
-        if st == 403:
+        # CHECAGEM SOMENTE LEITURA (2026-11-05).
+        # Antes: subia um arquivo de 1 byte ("probe") na pasta /books para
+        # testar a permissao -> quando a permissao fosse concedida, esse
+        # probe virava um livro-lixo permanente na biblioteca (931 -> 932).
+        # Agora o teste e' um POST de upload SEM o campo "file": o servidor
+        # rejeita por FALTA DE PERMISSAO (403) antes de qualquer gravacao,
+        # e se a permissao existir responde 400 (arquivo ausente) sem criar
+        # livro. NADA e' gravado em nenhum dos dois casos.
+        st_me, me = _get_json(f"{ORBIT_URL}/api/v1/auth/me", token, timeout=20)
+        perms = (me.get("permissions") or []) if isinstance(me, dict) else []
+        print(f"  permissoes da conta: {perms if perms else '(nenhuma global)'}")
+
+        nivel = None
+        if st == 200 and isinstance(libs, list):
+            for l in libs:
+                if str(l.get("id")) == str(LIB_ID):
+                    nivel = (l.get("accessLevel") or "").lower()
+        print(f"  biblioteca alvo {LIB_ID}: acesso={nivel}")
+
+        st_probe, d_probe = _probe_upload_sem_arquivo(token)
+        print(f"  probe de escrita (sem arquivo) -> HTTP {st_probe}: "
+              f"{str(d_probe)[:160]}")
+
+        if st_probe == 403:
             print("  >> FALTA a permissao 'library_upload' nesta conta.")
             return 3
-        return 0 if st in (200, 201) else 1
+        if st_probe in (400, 422):
+            # Chegou na validacao do arquivo => a permissao de escrita EXISTE.
+            print("  >> permissao de escrita LIBERADA (upload pode seguir).")
+            return 0
+        if st_probe in (200, 201):
+            print("  >> permissao de escrita LIBERADA.")
+            return 0
+        print("  >> nao foi possivel determinar o acesso; upload bloqueado.")
+        return 3
 
     if not args.file:
         ap.error("--file e obrigatorio (ou use --check)")

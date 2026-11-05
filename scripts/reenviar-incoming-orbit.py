@@ -21,6 +21,7 @@ Uso:
   python3 scripts/reenviar-incoming-orbit.py --check    # so testa a permissao
 """
 import argparse
+import hashlib
 import json
 import re
 import subprocess
@@ -34,6 +35,38 @@ UPLOAD = ROOT / "scripts" / "orbit-upload.py"
 LOG = ROOT / "data" / "perfil" / "bibliotecario" / "logs" / "orbit-reenvio.jsonl"
 
 EXTS = {".epub", ".pdf", ".mobi", ".azw3", ".azw", ".prc", ".fb2"}
+
+# Fallback de autor por prefixo do nome do arquivo.
+# 2026-11-05: PDF e MOBI nao tem dc:creator nos metadados — o script mandava
+#Virgilio-A-Eneida.pdf e Orwell-A-Revolucao-dos-Animais.mobi como
+# "_unorganized" (sem autor, sem pasta). A fila foi montada pelo
+# scripts/finalizar-rampa.py com o padrao "<Autor>-<Titulo>.<ext>".
+AUTOR_POR_PREFIXO = {
+    "Agostinho": "Agostinho de Hipona",
+    "Austen": "Jane Austen",
+    "Brontë": "Charlotte Brontë",
+    "Dante": "Dante Alighieri",
+    "Dickens": "Charles Dickens",
+    "Dostoievski": "Fiódor Dostoiévski",
+    "Eliot": "George Eliot",
+    "Flaubert": "Gustave Flaubert",
+    "Goethe": "Johann Wolfgang von Goethe",
+    "Homero": "Homero",
+    "Melville": "Herman Melville",
+    "Orwell": "George Orwell",
+    "Proust": "Marcel Proust",
+    "Shelley": "Mary Shelley",
+    "Tolstoi": "Lev Tolstói",
+    "Twain": "Mark Twain",
+    "Virgilio": "Virgílio",
+    "Woolf": "Virginia Woolf",
+}
+
+
+def autor_por_nome(p: Path) -> str:
+    """Autor inferido do prefixo do nome do arquivo ('Austen-Emma.epub')."""
+    prefixo = p.stem.split("-")[0].strip()
+    return AUTOR_POR_PREFIXO.get(prefixo, "")
 
 
 def autor_do_ebook(p: Path) -> str:
@@ -51,10 +84,20 @@ def autor_do_ebook(p: Path) -> str:
         except Exception:
             pass
     elif ext == ".pdf":
-        r = subprocess.run(["pdfinfo", str(p)], capture_output=True, text=True)
-        m = re.search(r"^Author:\s*(.+)$", r.stdout or "", re.M)
-        if m:
-            return m.group(1).strip()
+        # 2026-11-05: `pdfinfo` (poppler-utils) NAO existe nesta LXC — o
+        # fallback silencioso mandava o PDF para "_unorganized". Usa pypdf.
+        try:
+            import pypdf
+            r = pypdf.PdfReader(str(p))
+            meta = r.metadata or {}
+            autor = str(meta.get("/Author") or "").strip()
+            if autor:
+                return autor
+            titulo = str(meta.get("/Title") or "").strip()
+            if titulo:
+                return titulo
+        except Exception:
+            pass
     return ""
 
 
@@ -87,12 +130,36 @@ def main():
     if not arquivos:
         print("nada em _incoming/ para reenviar")
         return 0
+
+    # DEDUPLICACAO POR CONTEUDO (2026-11-05).
+    # A fila tinha 'TESTE-Crime-e-Castigo.epub' e 'Dostoievski-Crime-e-Castigo.epub'
+    # byte-a-byte identicos (mesmo md5) — subiria o mesmo livro 2x no app.
+    # O duplicado NAO e' enviado. Ele so e' apagado do disco DEPOIS que o
+    # original for enviado com sucesso (nada se perde se o upload falhar).
+    vistos: dict[str, Path] = {}
+    dups: dict[Path, Path] = {}   # duplicado -> original
+    for p in arquivos:
+        try:
+            h = hashlib.md5(p.read_bytes()).hexdigest()
+        except OSError:
+            continue
+        if h in vistos:
+            dups[p] = vistos[h]
+        else:
+            vistos[h] = p
+    for dup, orig in dups.items():
+        print(f"[dedup] {dup.name} e' copia identica de {orig.name} — "
+              f"nao sera enviado")
+        log("dedup_detectado", arquivo=dup.name, igual_a=orig.name)
+    if dups:
+        arquivos = [p for p in arquivos if p not in dups]
+
     total = sum(p.stat().st_size for p in arquivos)
     print(f"{len(arquivos)} ebook(s) em _incoming/ ({total//1024//1024} MB)\n")
 
     ok = falhou = 0
     for p in arquivos:
-        autor = autor_do_ebook(p) or "_unorganized"
+        autor = autor_do_ebook(p) or autor_por_nome(p) or "_unorganized"
         if args.dry:
             print(f"[dry] {p.name} ({p.stat().st_size//1024} KB) autor={autor}")
             continue
@@ -108,6 +175,17 @@ def main():
                     pass
             print(f"[OK] {p.name} -> Orbit (autor={autor})")
             log("reenviado", arquivo=p.name, autor=autor)
+            # Duplicados byte-a-byte deste arquivo: agora que o original
+            # subiu com sucesso, o duplicado pode ser apagado do disco.
+            for dup, orig in dups.items():
+                if orig == p:
+                    try:
+                        dup.unlink()
+                        print(f"[dedup] {dup.name} removido (copia identica "
+                              f"de {p.name}, ja enviado)")
+                        log("dedup_removido", arquivo=dup.name, original=p.name)
+                    except OSError:
+                        pass
         else:
             falhou += 1
             msg = (r.stdout + r.stderr)[-220:]
