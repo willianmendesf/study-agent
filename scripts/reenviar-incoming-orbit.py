@@ -22,10 +22,12 @@ Uso:
 """
 import argparse
 import hashlib
+import importlib.util
 import json
 import re
 import subprocess
 import sys
+import time
 import zipfile
 from pathlib import Path
 
@@ -108,6 +110,14 @@ def log(ev, **kw):
         f.write(json.dumps(rec, ensure_ascii=False) + "\n")
 
 
+def _carregar_orbit_upload():
+    """Importa scripts/orbit-upload.py como modulo (sessao unica, 1 login)."""
+    spec = importlib.util.spec_from_file_location("orbit_upload", UPLOAD)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--dry", action="store_true")
@@ -157,16 +167,63 @@ def main():
     total = sum(p.stat().st_size for p in arquivos)
     print(f"{len(arquivos)} ebook(s) em _incoming/ ({total//1024//1024} MB)\n")
 
+    # SESSAO UNICA (2026-11-05, bug corrigido).
+    # Antes: cada arquivo era enviado por um `subprocess` que fazia LOGIN do
+    # zero -> 30 logins seguidos. O BookOrbit tem throttler no
+    # POST /api/v1/auth/login e responded 429 (Too Many Requests) a partir do
+    # 4o arquivo: 3 subiram, 27 falharam. Agora: UM login para a fila toda
+    # (o token dura 15 min), re-login apenas se o token expirar (401), e
+    # backoff exponencial em 429.
+    ou = _carregar_orbit_upload()
+    token = None
+    tentativas_login = 0
+
+    def obter_token():
+        nonlocal token, tentativas_login
+        if token:
+            return token
+        for tentativa in range(1, 7):
+            try:
+                token, _user = ou.login()
+                print(f"[sessao] login OK (tentativa {tentativa})")
+                return token
+            except SystemExit as e:
+                msg = str(e)
+                if "429" in msg:
+                    espera = min(60, 5 * tentativa)
+                    print(f"[sessao] 429 no login; aguardando {espera}s "
+                          f"(tentativa {tentativa}/6)")
+                    time.sleep(espera)
+                    continue
+                raise
+        raise SystemExit("ERRO: nao foi possivel autenticar no BookOrbit "
+                         "(429 persistente).")
+
     ok = falhou = 0
     for p in arquivos:
         autor = autor_do_ebook(p) or autor_por_nome(p) or "_unorganized"
         if args.dry:
             print(f"[dry] {p.name} ({p.stat().st_size//1024} KB) autor={autor}")
             continue
-        r = subprocess.run([sys.executable, str(UPLOAD), "--file", str(p),
-                            "--autor", autor],
-                           capture_output=True, text=True, timeout=900)
-        if r.returncode == 0:
+
+        if token is None:
+            token = obter_token()
+
+        st, d = ou.upload(p, token, folder_id=1, autor=autor)
+        # 401 = token expirou (15 min) -> re-login e tenta uma vez mais.
+        if st == 401:
+            print(f"[sessao] token expirou em {p.name}; renovando...")
+            token = None
+            token = obter_token()
+            st, d = ou.upload(p, token, folder_id=1, autor=autor)
+        # 429 no upload -> backoff e um retry.
+        if st == 429:
+            espera = 10
+            print(f"[upload] 429 em {p.name}; aguardando {espera}s")
+            time.sleep(espera)
+            st, d = ou.upload(p, token, folder_id=1, autor=autor)
+
+        if st in (200, 201):
             ok += 1
             if not args.manter:
                 try:
@@ -175,8 +232,6 @@ def main():
                     pass
             print(f"[OK] {p.name} -> Orbit (autor={autor})")
             log("reenviado", arquivo=p.name, autor=autor)
-            # Duplicados byte-a-byte deste arquivo: agora que o original
-            # subiu com sucesso, o duplicado pode ser apagado do disco.
             for dup, orig in dups.items():
                 if orig == p:
                     try:
@@ -188,13 +243,14 @@ def main():
                         pass
         else:
             falhou += 1
-            msg = (r.stdout + r.stderr)[-220:]
-            print(f"[FALHOU] {p.name}: {msg}")
+            msg = json.dumps(d, ensure_ascii=False)[:220]
+            print(f"[FALHOU] {p.name}: HTTP {st} {msg}")
             log("reenvio_falhou", arquivo=p.name, erro=msg)
-            if "403" in msg and "library_upload" in msg:
-                print(">> FALTA a permissao 'library_upload'. Os arquivos locais "
-                      "foram PRESERVADOS. Pare aqui.")
+            if st == 403:
+                print(">> FALTA a permissao 'library_upload'. Os arquivos "
+                      "locais foram PRESERVADOS. Pare aqui.")
                 break
+        time.sleep(0.4)   # folga entre uploads (o app tambem tem throttler)
 
     if not args.dry:
         restantes = len([p for p in INCOMING.iterdir()
