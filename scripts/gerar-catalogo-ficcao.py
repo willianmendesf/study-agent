@@ -132,6 +132,12 @@ TITULOS_ALT = {
     ("o problema da dor", "c. s. lewis"): ["O Problema do Sofrimento"],
     ("o sol também se levanta", "ernest hemingway"):
         ["The Sun Also Rises", "Também o Sol Se Levanta"],
+    # Eça de Queiroz: o z-library publica com grafia variaca.
+    ("a capital", "eça de queiroz"): ["A Capital", "A Capital (Eça de Queiroz)"],
+    ("o conde de abranhos", "eça de queiroz"): ["O Conde de Abranhos", "Conde de Abranhos"],
+    ("alves & c.ª", "eça de queiroz"): ["Alves & Cia", "Alves & C.ª", "Alves e Cia"],
+    ("o mandarim", "eça de queiroz"): ["O Mandarim"],
+    ("a perdição", "eça de queiroz"): ["A Perdição", "A Perdição"],
 }
 
 
@@ -185,6 +191,24 @@ COMPLEMENTARES = [
      "Wise Blood", ["literatura", "ficcao-crista", "ingles"], 1952),
     ("Sangue Bom", "Flannery O'Connor", "media", "ingles",
      "Good Country People", ["literatura", "ficcao-crista", "ingles"], 1955),
+    # --- rampa de leitura do William (ordem consolidada, nota 06) ---
+    # "A Capital" e' o PRIMEIRO livro da rampa. O William tem o Volume III das
+    # Obras de Eça de Queiroz em casa (E58), mas a edicao digital permite
+    # leitura por tela (celular na rua) e citacao literal — o material de
+    # prova da IPB precisa do texto, nao do Sumario do volume.
+    ("A Capital", "Eça de Queiroz", "alta", "portugues",
+     "A Capital", ["literatura", "romance", "canon-literario", "portugues",
+                   "rampa-leitura", "primeiro-da-rampa"], 1893),
+    # --- lacunas do Eca: as tres "Obras" da estante sao ANTOLOGIAS. As
+    # obras unidades nao estao no acervo digital, entao entram no catalogo.
+    ("O Conde de Abranhos", "Eça de Queiroz", "alta", "portugues",
+     "O Conde de Abranhos", ["literatura", "conto", "canon-literario", "portugues"], 1893),
+    ("Alves & C.ª", "Eça de Queiroz", "media", "portugues",
+     "Alves & C.ª", ["literatura", "conto", "canon-literario", "portugues"], 1892),
+    ("O Mandarim", "Eça de Queiroz", "alta", "portugues",
+     "O Mandarim", ["literatura", "conto", "canon-literario", "portugues"], 1894),
+    ("A Perdição", "Eça de Queiroz", "media", "portugues",
+     "A Perdição", ["literatura", "conto", "canon-literario", "portugues"], 1894),
     # --- gap de idioma: classicos do acervo so em ingles ---
     ("Oliver Twist", "Charles Dickens", "alta", "anglo-saxoes",
      "Oliver Twist", ["literatura", "romance", "canon-literario", "ingles", "gap-idioma"], 1838),

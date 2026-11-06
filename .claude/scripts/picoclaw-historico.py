@@ -106,7 +106,7 @@ def gravar(destino, conteudo):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--workspace", default="/home/study-agent")
+    ap.add_argument("--workspace", default=str(Path(__file__).resolve().parents[2]))
     ap.add_argument("--home", default=str(Path.home()))
     a = ap.parse_args()
     ws = Path(a.workspace)

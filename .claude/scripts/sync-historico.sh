@@ -1,7 +1,7 @@
 #!/bin/bash
 # Commita e sobe data/historico/ (so essa pasta) para o repositorio data. Chamado a cada 5 min pelo
 # picoclaw-historico.service. Sem chave autorizada no GitHub, apenas commita localmente e tenta de novo no proximo ciclo.
-WS="${WS:-/home/study-agent}"
+WS="${WS:-$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)}"
 cd "$WS/data" 2>/dev/null || exit 0
 exec 9>/tmp/sync-historico.lock
 flock -n 9 || exit 0

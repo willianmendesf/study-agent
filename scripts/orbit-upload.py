@@ -116,8 +116,14 @@ def upload(ebook: Path, token: str, folder_id=None, autor=""):
     req = urllib.request.Request(url, data=bytes(body), method="POST")
     req.add_header("Content-Type", f"multipart/form-data; boundary={boundary}")
     req.add_header("Authorization", f"Bearer {token}")
+    # BUG (2026-11-06): o timeout era 600 s. Com o BookOrbit OFFLINE (LXC 26
+    # desligada), cada arquivo travava 10 MINUTOS esperando a conexao — a
+    # rodada inteira ficava pendurada e o `exec` do agente cortava. Agora:
+    # 45 s (upload local e' rapido; 45 s ja' cobre rede lenta) e o chamador
+    # trata o erro sem derrubar a rodada — o ebook fica em `_incoming/` e o
+    # cron de 15 min reenvia quando o Orbit voltar.
     try:
-        with urllib.request.urlopen(req, timeout=600) as r:
+        with urllib.request.urlopen(req, timeout=45) as r:
             return r.status, json.loads(r.read().decode("utf-8"))
     except urllib.error.HTTPError as e:
         b = e.read().decode("utf-8", "ignore")

@@ -1,0 +1,21 @@
+# ── Reenvio automatico: ebooks de _incoming/ para o BookOrbit ──
+# Substitui o job do picoclaw (que rodava um TURNO DE LLM a cada 15 min).
+# Execucao direta: sem tokens, sem turno de LLM, sem spam no Telegram.
+# A notificacao so sai quando o STATUS MUDA (scripts/orbit-notificar.py).
+*/15 * * * * /home/willian/study-agent/scripts/reenvio-orbit-automatico.sh >> /home/willian/study-agent/data/perfil/bibliotecario/logs/reenvio-orbit-cron.log 2>&1
+# ── ROTADA DO BIBLIOTECARIO (2026-11-06) ──
+# Wrapper UNIFICADO que substitui o job "rodada-ficcao-cron.sh".
+# Roda as 5 fases em sequencia, num unico processo:
+#   1. levantamento de gaps (nao gasta cota)
+#   2. aquisicao de ficcao no z-library (8 contas, cota de 80/dia)
+#   3. catalogo + reindexe + lint
+#   4. reenvio dos ebooks ao BookOrbit (app de leitura)
+#   5. notificacao no Telegram (so quando o total muda — sem spam)
+#
+# POR QUE 00:15 UTC (21:15 BRT): a cota do z-library reseta a meia-noite UTC.
+# Espera 15 min para o servico liberar as contas.
+#
+# PERMISSOES: roda como `willian`. O `data/` foi chown'd (ver
+# scripts/liberar-permissoes.sh) — antes disso o cron disparava e MORRIA
+# no redirect do log (root-only). Nao voltar para root.
+15 0 * * * /home/willian/study-agent/scripts/rodada-bibliotecario.sh 12 2 >> /home/willian/study-agent/data/perfil/bibliotecario/logs/rodada-bibliotecario-cron.log 2>&1

@@ -310,6 +310,51 @@ def busca(query, acct, envs, lang=None, limit=30):
     return d.get("books", [])
 
 
+# ---------------------------------------------------------------------------
+# variantes de AUTOR (2026-11-06)
+# ---------------------------------------------------------------------------
+# BUG (2026-11-06): a busca por "A Capital Eça de Queiroz" (grafia do
+# catalogo) nao devolvia NENHUM resultado no z-library, porque o site's
+# indice usa "Eça de Queirós" (com acento no final). Resultado: a obra
+# ficava sem candidato e o pipeline baixava a obra ERRADA mais adiante
+# (puxou "Pena Capital", de Robert Wilson, que continha a palavra "capital").
+#
+# A correcao e' na BUSCA: gera variantes do autor (com/sem acento, ordem
+# invertida, so o sobrenome) e tenta cada uma ate achar resultado.
+# A busca nao gasta cota do z-library — so o download gasta.
+# ---------------------------------------------------------------------------
+def variantes_autor(autor):
+    """Variantes de grafia do autor para a busca no z-library."""
+    out = []
+    a = (autor or "").strip()
+    if not a:
+        return out
+    out.append(a)
+    # Eça de Queiroz -> Eça de Queirós (o z-library usa o acento no final)
+    if a.lower().endswith("queiroz"):
+        out.append(a[:-len("queiroz")] + "Queirós")
+    # invertida: "Eça de Queiroz" -> "Queiroz, Eça de"
+    partes = a.split()
+    if len(partes) > 2:
+        out.append(f"{partes[-1]}, {' '.join(partes[:-1])}")
+    # so o sobrenome
+    if len(partes) > 1:
+        out.append(partes[-1])
+        out.append(partes[0])
+    # sem acento (busca as vezes indexa assim)
+    sem = unicodedata.normalize("NFKD", a).encode("ascii", "ignore").decode()
+    if sem != a:
+        out.append(sem)
+    # dedup preservando ordem
+    vistos, res = set(), []
+    for v in out:
+        k = norm(v)
+        if k and k not in vistos:
+            vistos.add(k)
+            res.append(v)
+    return res
+
+
 def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None):
     """Escolhe o melhor candidato. Pontua: cobertura do titulo, cobertura do
     autor, bonus de titulo literal, bonus de formato, penalidade de coletanea
@@ -393,6 +438,24 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
         # formato, porque o que o acervo quer e' o livro, nao a apparatus.
         if norm(raw) in {norm(v) for v in variantes}:
             s += 0.30
+        # BUG (2026-11-06): o bonus de "contido" (+0.22) dava o MESMO valor
+        # para "A Capital" (titulo EXATO) e para "Pena Capital" (que contem
+        # "capital" como substring). Resultado: a obra errada vencia, e o
+        # pipeline baixou "Pena Capital" (de Robert Wilson) em vez de
+        # "A Capital" (de Eça de Queiroz). Agora:
+        #   - contido por SUBSTRING so conta se o titulo procurado nao
+        #     existir como titulo exato entre os candidatos (ou seja, so
+        #     quando nao ha opcao melhor);
+        #   - o bonus de titulo EXATO (+0.30) ja cobre o caso correto.
+        if contido and norm(raw) not in {norm(v) for v in variantes}:
+            # so nao penaliza se o token extra do candidato nao forma
+            # uma palavra INTEIRA diferente no titulo procurado
+            s += 0.08
+        # BUG (2026-11-06): autor que nao casa e' sinal forte de obra errada.
+        # "Pena Capital" (Robert Wilson) tinha cov_a = 0.00 e mesmo assim
+        # passou pelo limiar. Agora, autor totalmente ausente derruba o score.
+        if cov_a == 0.0 and len(alv_a) > 0:
+            s -= 0.40
         if s > best_s:
             best, best_s = b, s
     if best and best_s >= 0.55:
@@ -646,7 +709,14 @@ def main():
             continue
 
         # ---- 1. busca (PT primeiro, depois sem filtro) ----
-        conta = next((a for a in contas if cotas.get(a, 0) > 0), None)
+        # BUG (2026-11-06): o pipeline escolhia SEMPRE a primeira conta com
+        # cota (`next(...)`), o que DRENAVA as contas em sequencia (zlib ->
+        # zlib2 -> ...): as 80 cotas/dia saiam numa rajada so no começo da
+        # rodada, e nao espalhadas. Agora escolhe a conta com MAIS cota
+        # restante (empate -> ordem de prioridade), o que espalha o consumo
+        # e mantem as 8 contas vivas ao longo do dia.
+        candidatas = [a for a in contas if cotas.get(a, 0) > 0]
+        conta = max(candidatas, key=lambda a: cotas.get(a, 0)) if candidatas else None
         if not conta and not args.dry:
             print("!! cota esgotou no meio do lote")
             break
@@ -667,6 +737,17 @@ def main():
         # e deixa o `melhor_candidato` escolher entre as variantes.
         for alt in it.get("titulos_alt") or []:
             queries.append(f"{alt} {it['autor']}".strip())
+        # BUG (2026-11-06): variantes de GRAFIA do AUTOR. O z-library indexa
+        # "Eça de Queirós"; o catalogo tem "Eça de Queiroz". A query com a
+        # grafia errada nao devolvia NADA e a obra ficava orfa. Agora cada
+        # titulo e buscado tambem com as variantes do autor.
+        for tq in ([it["titulo"]] + list(it.get("titulos_alt") or [])):
+            if not tq:
+                continue
+            for av in variantes_autor(it["autor"]):
+                q = f"{tq} {av}".strip()
+                if q not in queries:
+                    queries.append(q)
         books = []
         for q in queries:
             r = busca(q, busca_conta, envs, lang="portuguese")
@@ -675,6 +756,14 @@ def main():
             for b in r:
                 if b not in books:
                     books.append(b)
+            # BUG (2026-11-06): parava na PRIMEIRA query que devolvia
+            # resultado. A 1a query ("A Capital Eça de Queiroz") devolve 30
+            # resultados RUINS (biografias, dicionarios, "Eça de Queiroz"
+            # como titulo) e a obra boa so aparecia na variante "Queirós".
+            # Com o break, "Pena Capital" (que continha a palavra "capital")
+            # vencia. Agora ACUMULA todas as queries — a busca nao gasta cota
+            # do z-library (so o download gasta) e o `melhor_candidato` decide
+            # sobre o conjunto completo.
         if not books:
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
                          "motivo": "sem resultado na busca"}
