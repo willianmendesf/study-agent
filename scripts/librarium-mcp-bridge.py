@@ -12,6 +12,19 @@ Librarium (http://192.168.15.201/api/v1) com o PAT `lbrm_pat_*` do IAM e
 expõe os mesmos tools ao picoclaw, via stdio.
 
 Credenciais: data/perfil/bibliotecario/librarium-creds.json (gitignored).
+
+🚨 REGRA DE ESCRITA (2026-11-06, William)
+------------------------------------------
+Qualquer sistema externo do William: **LEITURA é livre. ESCRITA só com
+APROVAÇÃO EXPLÍCITA, turno a turno.** (Ele está catalogando a estante dele
+pessoalmente no Librarium; curadoria automática por mim destrói o trabalho
+dele.)
+
+Consequência PRÁTICA neste bridge: as ferramentas de escrita ficam
+**BLOQUEADAS por padrão** e só destravam com `LIBRARIUM_ALLOW_WRITE=1` na
+variável de ambiente — o que eu NUNCA vou setar sozinho. O token `pat` do
+IAM é escopo `full`; o token `pat_william` (instance_admin) é
+**SOMENTE LEITURA** — nunca usar os poderes de admin dele.
 """
 from __future__ import annotations
 
@@ -32,6 +45,23 @@ CREDS = os.environ.get(
 )
 
 mcp = MCPServer("librarium")
+
+# 🚨 ESCRITA TRAVADA POR PADRÃO (2026-11-06, William).
+# O William está catalogando a estante dele pessoalmente. ESCRITA no Librarium
+# só com APROVAÇÃO EXPLÍCITA dele, turno a turno. Destravar com
+# LIBRARIUM_ALLOW_WRITE=1 — que eu NUNCA seto por conta própria.
+_WRITE_OK = os.environ.get("LIBRARIUM_ALLOW_WRITE") == "1"
+
+
+def _bloqueado(acao: str) -> str:
+    return _fmt({
+        "_erro": "escrita bloqueada",
+        "_acao": acao,
+        "_regra": ("Librarium: leitura livre, escrita só com aprovação explícita "
+                   "do William (2026-11-06). Para destravar, defina "
+                   "LIBRARIUM_ALLOW_WRITE=1 no ambiente do picoclaw."),
+        "_como_aguardar": "Peça ao William: 'pode escrever no Librarium nesta tarefa?'",
+    })
 
 
 def _token() -> str:
@@ -184,6 +214,8 @@ def add_book_by_isbn(
     short_story_collection | poetry | artbook | magazine | anthology | ...
     book_format: paperback | hardcover | ebook | audiobook | comic | box_set.
     A metadata/capa entram de forma assíncrona."""
+    if not _WRITE_OK:
+        return _bloqueado("add_book_by_isbn")
     mt_id = _media_type_id(media_type)
     if not mt_id:
         return _fmt({"_error": f"media_type desconhecido: {media_type}",
@@ -200,24 +232,32 @@ def add_book_by_isbn(
 def set_read_status(book_id: str, status: str) -> str:
     """Marca o estado de leitura: unread | reading | read | did_not_finish.
     O estado pertence à OBRA, não ao exemplar — marcar lido marca em todos."""
+    if not _WRITE_OK:
+        return _bloqueado("set_read_status")
     return _fmt(_api("PUT", f"/books/{book_id}/me", {"read_status": status}))
 
 
 @mcp.tool()
 def set_rating(book_id: str, rating: int | None) -> str:
     """Nota do usuário: 1-10 (meia estrela, ou seja 1,5 = 3). None limpa."""
+    if not _WRITE_OK:
+        return _bloqueado("set_rating")
     return _fmt(_api("PUT", f"/books/{book_id}/me", {"rating": rating}))
 
 
 @mcp.tool()
 def mark_favorite(book_id: str, is_favorite: bool = True) -> str:
     """Marca (ou desmarca) o livro como favorito do usuário."""
+    if not _WRITE_OK:
+        return _bloqueado("mark_favorite")
     return _fmt(_api("PUT", f"/books/{book_id}/me", {"is_favorite": is_favorite}))
 
 
 @mcp.tool()
 def remove_book(library_id: str, book_id: str) -> str:
     """Remove um livro da biblioteca (apaga o registro de catálogo)."""
+    if not _WRITE_OK:
+        return _bloqueado("remove_book")
     return _fmt(_api("DELETE", f"/libraries/{library_id}/books/{book_id}"))
 
 
@@ -229,6 +269,8 @@ def write_review(
     is_favorite: bool | None = None,
 ) -> str:
     """Anotações (privadas) e avaliação (visível aos membros) de um livro."""
+    if not _WRITE_OK:
+        return _bloqueado("write_review")
     payload = {k: v for k, v in (
         ("notes", notes), ("review", review), ("is_favorite", is_favorite)
     ) if v is not None}
