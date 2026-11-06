@@ -199,6 +199,28 @@ COMPLEMENTARES = [
     ("A Capital", "Eça de Queiroz", "alta", "portugues",
      "A Capital", ["literatura", "romance", "canon-literario", "portugues",
                    "rampa-leitura", "primeiro-da-rampa"], 1893),
+    # --- #184: PROVA DE LITERATURA IPB (prioridade MAXIMA) -----------------
+    # O Manual do Aspirante nomeia as obras de leitura obrigatoria da prova de
+    # Literatura Brasileira, e a LISTA MUDA A CADA ANO. Medido nos 4 Manuais
+    # (2023 v1, 2024 v5, 2025 v3, 2026 v2). O Manual de 2027 ainda nao existe
+    # -> a estrategia e ter TODOS os titulos ja usados.
+    # Ja no acervo: A Hora da Estrela, Memorias Postumas, Policarpo Quaresma,
+    # Santidade (Ryle). Faltam os 5 de baixo + O Pequeno Principe.
+    ("A Moreninha", "Joaquim Manuel de Macedo", "maxima", "brasileira",
+     "A Moreninha", ["literatura", "romance", "brasileira", "prova-ipb",
+                     "leitura-obrigatoria"], 1844),
+    ("Clarissa", "Érico Veríssimo", "maxima", "brasileira",
+     "Clarissa", ["literatura", "romance", "brasileira", "prova-ipb",
+                  "leitura-obrigatoria"], 1937),
+    ("O Quinze", "Rachel de Queiroz", "maxima", "brasileira",
+     "O Quinze", ["literatura", "romance", "brasileira", "prova-ipb",
+                  "leitura-obrigatoria"], 1933),
+    ("Com Vergonha do Evangelho", "John MacArthur", "alta", "teologia",
+     "The Gospel According to Jesus", ["teologia", "apologetica", "prova-ipb",
+                                       "leitura-obrigatoria"], 1988),
+    ("Nossa Suficiência em Cristo", "John MacArthur", "alta", "teologia",
+     "The Fulfillment of the Law", ["teologia", "apologetica", "prova-ipb",
+                                    "leitura-obrigatoria"], 1991),
     # --- lacunas do Eca: as tres "Obras" da estante sao ANTOLOGIAS. As
     # obras unidades nao estao no acervo digital, entao entram no catalogo.
     ("O Conde de Abranhos", "Eça de Queiroz", "alta", "portugues",

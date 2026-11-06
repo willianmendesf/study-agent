@@ -77,7 +77,10 @@ MIN_BYTES = 60_000
 MIN_LINHAS = 200
 
 # prioridade -> peso na ordem de processamento
-PESO = {"alta": 0, "media": 1, "baixa": 2}
+# "maxima" (2026-11-06): leituras OBRIGATORIAS da prova de Literatura da IPB
+# (bloco #184). precisam entrar ANTES de tudo — o Manual de 2027 ainda nao
+# existe, entao a estrategia e ter todos os titulos ja usados entre 2023-2026.
+PESO = {"maxima": 0, "alta": 1, "media": 2, "baixa": 3}
 
 # extensoes que o Orbit aceita (e que o epub2md sabe converter)
 EXT_OK = {"epub", "pdf", "mobi", "azw3", "azw", "prc", "fb2"}
@@ -433,6 +436,25 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
         # titulo muito curto e generico demais -> nao confia
         if len(t) < 2:
             s -= 0.35
+        # BUG (2026-11-06): HOMONIMO por sufixo editorial. "O Estrangeiro"
+        # (Camus) casava com "O Estrangeiro (Manga)" (Camoes) — score 0.62,
+        # PASSAVA o limiar e o pipeline baixaria a obra errada. Mesma classe
+        # do bug que trocou "A Revolucao dos Animais" pelo 1984.
+        # Regra: se o AUTOR procurado nao casa (cov_a baixa) e o titulo do
+        # candidato carrega um sufixo que indica outra obra (manga,HQ,
+        # ilustrado, adaptado, resumo, guia, iniciacao, volume), a obra
+        # errada nao pode passar.
+        # (normaliza o titulo ANTES do regex: "Manga" acento no fim quebrava
+        #  o padrao — bug do proprio regex, do tipo "casa mas nao deveria")
+        raw_norm = "".join(
+            c for c in unicodedata.normalize("NFD", raw)
+            if unicodedata.category(c) != "Mn").lower()
+        sufixo_outra_obra = re.search(
+            r"\(\s*(manga|hq|graphic|ilustr\w*|adapt\w*|resum\w*|guia|inicia\w*|"
+            r"coment\w*|ilustrado|colorido|adaptado|vers[aã]o|para o teatro)\s*\)",
+            raw_norm, re.I)
+        if sufixo_outra_obra and cov_a < 0.5:
+            s -= 0.75
         # bonus de titulo EXATO (sem sufixo de edicao): o texto integral
         # da obra, sem comentario nem bilingue. Vale mais que o bonus de
         # formato, porque o que o acervo quer e' o livro, nao a apparatus.
@@ -667,7 +689,7 @@ def main():
     def ordem(it):
         st = estado.get(slug(it["titulo"], it["autor"]), {})
         tentado = 1 if st.get("tentado") else 0
-        return (PESO.get(it["prioridade"], 1), tentado, it["titulo"])
+        return (PESO.get(it["prioridade"], 9), tentado, it["titulo"])
     itens.sort(key=ordem)
 
     if args.status:
