@@ -140,8 +140,25 @@ def slug(titulo, autor):
 def log(ev, **kw):
     rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "event": ev, **kw}
     LOG.parent.mkdir(parents=True, exist_ok=True)
-    with LOG.open("a", encoding="utf-8") as f:
-        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    # BUG (2026-11-06): o arquivo de log e' `-rw-r--r-- root root` num diretorio
+    # `root root` — o usuario `willian` (uid 1000) que roda o cron NAO consegue
+    # abrir em modo append. O `log()` estourava PermissionError e derrubava a
+    # rodada. Agora: tenta o LOG canonico; se nao der, grava no fallback do
+    # usuario (TMP_LOG) e nunca interrompe o pipeline por causa de log.
+    linha = json.dumps(rec, ensure_ascii=False) + "\n"
+    try:
+        with LOG.open("a", encoding="utf-8") as f:
+            f.write(linha)
+        return
+    except (PermissionError, OSError):
+        pass
+    try:
+        fallback = Path.home() / ".cache" / "study-agent" / "pipeline-aquisicao.jsonl"
+        fallback.parent.mkdir(parents=True, exist_ok=True)
+        with fallback.open("a", encoding="utf-8") as f:
+            f.write(linha)
+    except (PermissionError, OSError):
+        pass  # log e' acessorio: nunca derruba a rodada
 
 
 # --- sessao unica do BookOrbit (2026-11-05) --------------------------------
@@ -217,7 +234,16 @@ def creds():
             pass
     yml = ROOT / "data" / "perfil" / "bibliotecario" / "zlib-credentials.yaml"
     if yml.exists():
-        txt = yml.read_text(encoding="utf-8")
+        # BUG (2026-11-06): o YAML pode existir e ser ILEGIVEL pelo usuario que
+        # roda o cron (uid 1000 `willian` x arquivo `-rw------- root root`).
+        # O `read_text()` estourava PermissionError e matava a rodada INTEIRA
+        # (o cache sozinho era suficiente: tem as 8 contas). Agora a falha de
+        # leitura vira "YAML indisponivel" e o pipeline segue so com o cache.
+        try:
+            txt = yml.read_text(encoding="utf-8")
+        except (PermissionError, OSError) as e:
+            log("credenciais", yaml_indisponivel=str(e))
+            txt = ""
         for bloco in txt.split("- alias:")[1:]:
             alias = bloco.split("\n")[0].strip().strip("'\"")
             rid = re.search(r"remix_id:\s*'?([0-9]+)'?", bloco)
