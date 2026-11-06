@@ -64,10 +64,29 @@ def _bloqueado(acao: str) -> str:
     })
 
 
-def _token() -> str:
+def _creds() -> dict:
     with open(CREDS, encoding="utf-8") as fh:
-        c = json.load(fh)
-    tok = c.get("pat") or c.get("access_token")
+        return json.load(fh)
+
+
+def _token(escrita: bool = False) -> str:
+    """Token do PAT.
+
+    LEITURA  → `pat_william` (conta do William). É a única que enxerga o
+               acervo real: o `iam-agente` não é membro de nenhuma biblioteca
+               e devolve lista vazia.
+    ESCRITA  → `pat` (conta `iam-agente`, escopo próprio). NUNCA usar o token
+               do William para escrita — é `instance_admin` (books:delete,
+               library:delete, admin:users:*).
+
+    A escrita só chega aqui se `LIBRARIUM_ALLOW_WRITE=1` estiver setado, o que
+    exige aprovação explícita do William (ver bloco da regra no topo).
+    """
+    c = _creds()
+    if not escrita:
+        tok = c.get("pat_william") or c.get("pat") or c.get("access_token")
+    else:
+        tok = c.get("pat") or c.get("access_token")
     if not tok:
         raise RuntimeError(f"sem PAT em {CREDS}")
     return tok
@@ -77,7 +96,7 @@ def _api(method: str, path: str, body: dict | None = None) -> object:
     url = BASE + (path if path.startswith("/") else f"/{path}")
     data = json.dumps(body).encode() if body is not None else None
     req = urllib.request.Request(url, data=data, method=method)
-    req.add_header("Authorization", f"Bearer {_token()}")
+    req.add_header("Authorization", f"Bearer {_token(escrita=method != 'GET')}")
     req.add_header("X-Librarium-Client", "mcp")
     if data:
         req.add_header("Content-Type", "application/json")
