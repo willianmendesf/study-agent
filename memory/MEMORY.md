@@ -869,3 +869,42 @@ persistido em `/data/mcp-token` — não há rota na API que o exponha. Testados
 "Você ganhou um novo local pra gerenciar" = **acesso ao local**, não
 **mandato para escrever nele**. Interpretar corretamente desde a primeira vez
 evita criar, catalogar e testar escrita onde o dono está trabalhando.
+
+---
+
+## 🔑 Librarium — dois tokens, NÃO um (medido 2026-11-06 02:45 BRT)
+
+**O William mandou o PAT `lbrm_pat_YLqX…ToYt` e disse "o token do mcp é o mesmo".
+Não é.** Provado por código-fonte + curl:
+
+| token | é o quê | onde entra | tenho? |
+|---|---|---|---|
+| `lbrm_pat_*` | PAT da **API REST** | picoclaw → API REST | ✅ (o dele, `pat_william`) |
+| `lbrm_mcp_*` | token de **ENTRADA** do MCP (43 chars base62) | picoclaw → `:8090/mcp` | ❌ vive no container (LXC 201) |
+
+**Por que a confusão é natural:** `GET /api/v1/me/api-tokens` mostra o token dele
+com `name: "mcp"` — porque é o mesmo que o container usa como
+`LIBRARIUM_ACCESS_TOKEN` (de SAÍDA). O token de ENTRADA é outro segredo, gerado
+no 1º boot do container, persistido em `/data/mcp-token`.
+
+**Código-fonte (FireBall1725/librarium-mcp):**
+- `cmd/mcp/main.go:64` → `mux.Handle("/mcp", requireBearer(cfg.MCPToken, …))`
+- `internal/config/config.go:22` → `MCPTokenPrefix = "lbrm_mcp_"`, len 43
+- `requireBearer` só aceita `Authorization: Bearer <MCPToken>` (const-time)
+
+**Regraderivada:** NÃO registrar o MCP nativo `:8090/mcp` no picoclaw. As
+ferramentas de escrita dele (`add_book_by_isbn`, `set_read_status`, `set_rating`,
+`write_review`, `create_loan`, `mark_loan_returned`, `delete_loan`) **não têm
+trava possível do meu lado** — o gate é o "per-call approval prompt" do cliente
+MCP. A **ponte stdio** (`scripts/librarium-mcp-bridge.py`) é o único caminho
+onde eu controlo o gate → escrita travada por padrão.
+
+**Como conseguir o `lbrm_mcp_*` (se ele quiser o nativo):** no LXC 201 →
+`cat /data/mcp-token` · `docker logs librarium-mcp` (banner do 1º boot) ·
+ou setar `LIBRARIUM_MCP_TOKEN` no compose (env tem precedência sobre o
+arquivo). Eu não tenho SSH nesse LXC (root e willian → `Permission denied`).
+
+**Estado ao vivo (leitura, PAT dele):** 118 livros · 109 autores · 2 libs
+("Literatura Comum" 60, "Literatura Cristã" 58) · `iam-agente` não é membro de
+nenhuma. "Estante de casa" → **404** (ele deletou).
+
