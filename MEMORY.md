@@ -201,3 +201,52 @@ sorteia o **Round 5** como prioridade.
 → `memos/jJN6Pipa2Sgygc9PpvwUjB` (tag `#estudo-ipb`).
 
 **Commits:** `c04febf` · `778fd29` · `fb73d9e` (data) · `a061b53` (repo).
+
+---
+
+## 🚨 REGRA TRANSVERSAL — CAMINHO ABSOLUTO NO `write_file` (2026-11-06 20:00)
+
+**Sintoma:** `write_file` com path relativo (`data/estudos/...`) grava em
+`/var/lib/picoclaw/data/...` — **fora do repositório**. O arquivo "não existe"
+no workspace logo depois de ser escrito, e o `write_file` reporta sucesso.
+
+**Causa:** o picoclaw resolve o path relativo contra o cwd do *processo*
+(`/var/lib/picoclaw`), não contra o workspace declarado.
+
+**Regra:** `write_file` → **sempre path ABSOLUTO**
+(`/home/willian/study-agent/data/...`). `exec` → path relativo funciona normal.
+**Verificar depois de escrever:** `ls` no caminho esperado antes de seguir.
+
+## 🐛 REGRA — Varrer CARACTERES ESTRANHOS DEPOIS DE GERAR .md DE ESTUDO (2026-11-06 20:05, reforçada 20:40)
+
+Reincidência do bug de 2026-11-05 (caracteres chineses vazando no meio do
+português). Sempre rodar depois de escrever um `.md` de estudo:
+```python
+pat = re.compile(r'[\u4e00-\u9fff\u3040-\u30ff\uac00-\ud7af]')
+```
+**E:** em vocabulário e citações, **contar** a palavra no texto antes de
+afirmar que ela existe no livro.
+
+### Reforço de 2026-11-06 20:40 — o bug NÃO é só CJK
+
+Na ficha de leitura de *A Capital!* o `write_file` injetou **7 trechos
+corrompidos** de **4 idiomas**: CJK ("未见", "召开", "封", "读到", "两"), cirílico
+("чашка"), inglês ("Builders", "Singleton", "platform") e **português partido**
+("Incorrecto", "de两层"). O CJK puro pegaria só 5 deles.
+
+**Detector correto** (pega qualquer letra não-latina, em qualquer alfabeto):
+```python
+import unicodedata
+for i, line in enumerate(s.split('\n'), 1):
+    for ch in line:
+        if ord(ch) < 128: continue
+        if unicodedata.category(ch).startswith('L') and ch.isalpha():
+            if 'LATIN' not in unicodedata.name(ch, '?'):
+                print(i, repr(ch), '|', line[:120]); break
+```
+Rodar até dar **0 suspeitas**. Corrigir à mão e **re-varre**.
+
+**Corolário do mesmo turno:** `buscar.py --verificar` é **mais estrito que o olho** —
+3 das 38 citações da ficha **não casaram** e foram convertidas em paráfrase.
+**Toda** citação entre aspas que vai para o Memos passa por `--verificar`; se não
+casar, **não vai entre aspas**.
