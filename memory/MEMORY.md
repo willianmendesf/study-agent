@@ -777,3 +777,28 @@ diferentes (DIA 1 Sl 51 … DIA 7 Sl 143). Só considerar duplicata quando o
 ### Commits
 
 `6d89511` (data) · `be7a9a6` (repo study-agent) — ambos pushados.
+
+---
+
+## 📚 Librarium — catálogo dos LIVROS FÍSICOS (2026-11-05 23:10 BRT)
+
+- **Pedido do William:** "você ganhou um novo local pra gerenciar, acompanhar e
+  usar meus livros fisicos: http://192.168.15.201:8090/mcp"
+- **O que é:** Librarium (LXC `192.168.15.201`, tailnet `librarium.ison-duck.ts.net`)
+  — self-hosted, rastreador de coleção física. Web: `http://192.168.15.201/` ·
+  API: `/api/v1` · docs: `/api/docs` · MCP: `:8090/mcp`.
+- **O que eu fiz:** criei a conta `iam-agente` + PAT `lbrm_pat_*` (escopo full),
+  montei uma **ponte MCP stdio local** (`scripts/librarium-mcp-bridge.py`,
+  **14 tools**) que fala a REST API, registrei no picoclaw como MCP `librarium`,
+  validei o ciclo completo (criar → ler → marcar lido → nota → favorito → apagar)
+  e apaguei o livro de teste.
+- **O bloqueio:** o `/mcp` oficial exige um token de **entrada** (`lbrm_mcp_*`)
+  que vive dentro do container — inacessível daqui. **Não é bloqueio real:** o
+  upstream é "just another API client"; a ponte REST cobre os mesmos tools.
+- **Ação pendente do William:** me adicionar como **membro** da biblioteca dele
+  (ou me passar o `user_id` dele) — até lá o acervo visível para o IAM é 0.
+- **Detalhes:** `data/perfil/memorias/librarium.md` (armadilhas da API, todas
+  medidas). Credenciais em `data/perfil/bibliotecario/librarium-creds.json`
+  (**gitignored**).
+- **Reinício:** o picoclaw precisa reiniciar o gateway para carregar as 14 tools.
+
