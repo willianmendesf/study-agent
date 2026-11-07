@@ -447,17 +447,24 @@ def cataloga(destino, titulo, autor, tags, ano, fonte):
     return "catalogado"
 
 
-def frontmatter(titulo, autor, tags, ano):
+def frontmatter(titulo, autor, tags, ano, idioma="Portuguese"):
+    """Frontmatter do .md.
+
+    BUG (2026-11-07): o `idioma` era fixo em "Portuguese", mas a 2a via
+    (libgen) pode trazer a obra em INGLES (a traducao PT nao existia). O
+    frontmatter dizia "Portuguese" sobre um texto em ingles — o acervo
+    mentia sobre o proprio idioma. Agora o idioma vem do CANDIDATO real.
+    """
     t = ", ".join('"%s"' % x for x in (tags or ["ficcao"]))
     return ("---\n"
             "titulo: \"%s\"\n"
             "autor: \"%s\"\n"
-            "idioma: Portuguese\n"
+            "idioma: %s\n"
             "tipo: livro\n"
             "tags: [%s]\n"
             "ano: \"%s\"\n"
             "origem: pipeline-biblio-mcp\n"
-            "---\n\n" % (titulo, autor, t, ano))
+            "---\n\n" % (titulo, autor, idioma, t, ano))
 
 
 def subir_orbit(ebook, autor=""):
@@ -623,13 +630,39 @@ def main():
         else:
             ebook, info = baixa_zlib(cand, INCOMING / s)
         if not ebook:
-            estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
-                         "motivo": "download falhou: %s" % info}
-            salvar_estado(estado)
-            print("[DOWNLOAD-FALHOU] %s: %s" % (it["titulo"], info))
-            log("download_falhou_biblio", titulo=it["titulo"], erro=info)
-            falhas += 1
-            continue
+            # BUG (2026-11-07): quando o z-library tem COTA mas o DOWNLOAD
+            # falha (cota real esgotada na conta, downloadLink expirado,
+            # link quebrado), a 2a via NAO caia para o libgen — que e' justamente
+            # a fonte SEM COTA. A obra era marcada "falhou" e a cota do dia
+            # se perdia. Agora: se o download do z-library falhar, tenta o
+            # libgen ANTES de desistir.
+            if fonte == "zlib" and not args.dry:
+                print("[zlib] download falhou p/ %s (%s) — tentando libgen "
+                      "(fonte sem cota)" % (it["titulo"], info))
+                b3 = []
+                for q in queries:
+                    b3 += busca_biblio(q)
+                    if b3:
+                        break
+                if b3:
+                    cand3, score3 = melhor_candidato(
+                        b3, it["titulo"], it["autor"],
+                        it["titulo_en"], it.get("titulos_alt"))
+                    if cand3 and score3 >= 0.55:
+                        ebook3, info3 = baixa_biblio(cand3, INCOMING / s)
+                        if ebook3:
+                            ebook, info, fonte = ebook3, info3, "biblio"
+                            cand = cand3
+                            print("[biblio] recuperado via libgen: %s (%s)"
+                                  % (it["titulo"], info3))
+            if not ebook:
+                estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
+                             "motivo": "download falhou: %s" % info}
+                salvar_estado(estado)
+                print("[DOWNLOAD-FALHOU] %s: %s" % (it["titulo"], info))
+                log("download_falhou_biblio", titulo=it["titulo"], erro=info)
+                falhas += 1
+                continue
         if fonte == "zlib":
             cota = max(0, cota - 1)
 
@@ -647,7 +680,11 @@ def main():
 
         # ---- catalogacao + frontmatter ----
         st_cat = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"], fonte)
-        destino.write_text(frontmatter(it["titulo"], it["autor"], it["tags"], it["ano"])
+        # idioma REAL do candidato (a 2a via pode trazer a obra em ingles)
+        cand_lang = str((cand.get("lang") or cand.get("language") or "")).lower()
+        idioma = "Portuguese" if ("portugu" in cand_lang or not cand_lang) else (
+            "English" if "english" in cand_lang else cand_lang.title())
+        destino.write_text(frontmatter(it["titulo"], it["autor"], it["tags"], it["ano"], idioma)
                            + destino.read_text(encoding="utf-8"), encoding="utf-8")
 
         # ---- orbit ----
