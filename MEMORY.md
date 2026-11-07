@@ -53,6 +53,30 @@
   **Correção:** detectar o arquivo **novo** no `dest_dir` (antes/depois da conversão).
 - **Detalhes:** `data/perfil/memorias/zlibrary-pipeline.md`.
 
+### 🚨🚨 A fase 1 da aquisição ficou MORTA 3 dias (2026-11-07) — NameError silencioso
+
+- **O que houve:** `rodape-aquisicao.py` usava `len(ACCOUNTS)`, constante
+  renomeada para `ACCOUNTS_FIXAS` quando a lista de contas virou dinâmica
+  (função `contas()`) no commit `999a0a1` (2026-11-05). O `NameError` derrubava
+  a FASE 1 no **primeiro gap**; a rodada "terminava" e seguia para a fase 2,
+  sem comprar nada. **3 rodadas com 0 aquisição silenciosa.**
+- **Agravante:** o `rodada-diaria.sh` (fases 0/1/2 — gaps **teológicos**) não
+  estava em **NENHUM cron**. Só a `rodada-ficcao.sh` rodava. E ela diz no
+  próprio cabeçalho que "complementa a `rodada-diaria.sh`".
+- **Correções:** `ACCOUNTS` → `contas_com_cota()` (nova: lista TODAS as contas
+  com cota, cada uma tentada 1× — a antiga re-tentava a mesma conta N vezes);
+  cada gap isolado em try/except (um gap quebrado não derruba os demais);
+  `epub2md.py` com fallback `pdftotext` → `pypdf` (**esta LXC não tem
+  poppler** — 5 PDFs foram baixados e perdidos); reparo do trailer
+  `/Encrypt null` (o pypdf se recusava a ler).
+- **Novo:** `scripts/rodada-bibliotecario.sh` tem FASE 2b que chama o
+  `rodada-diaria.sh` e **detecta traceback** (rc=99) — fase morta não pode
+  mais passar em silêncio.
+- **Regra durável:** *o wrapper que roda no cron deve chamar TODAS as fases e
+  detectar traceback.* Script que "termina bem" com sub-fase morta é pior
+  que script que falha — o log mostra o FIM e ninguém olha.
+- **Detalhes:** `data/perfil/memorias/rodada-aquisicao.md` § 2026-11-07.
+
 ### Rotina diária de aquisição — 2026-10-25: downloads podem ser apagados por sessão concorrente
 - **Armadilha:** a rotina `rodada-diaria.sh` (fase 1) e a rotina de restauro/higienização
   do acervo NÃO podem rodar em paralelo. A segunda reescreve a biblioteca inteira e
