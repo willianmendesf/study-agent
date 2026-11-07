@@ -42,6 +42,14 @@
 - **Regra durável:** em turnos de **debug iterativo** (regras de substituição, validação de markdown, ajuste de prompt), evitar ciclo `edit_file` + `exec` menor que 3 linhas. Quando puder, **acumular vários ajustes num único `write_file` overwrite** e testar 1x no fim.
 - **Reload:** matar `picoclaw gateway` (PID em `ps aux | grep gateway`); o launcher (PID 205) reinicia sozinho. `config.json` é relida no boot.
 - **Sintoma de estouro:** o usuário recebe a string literal "I've reached `max_tool_iterations` without a final response. Increase `max_tool_iterations` in config.json if this task needs more tool steps." — significa que a IA ficou sem chamadas de ferramenta antes de conseguir fechar a resposta em texto. Solução: subir o limite, reiniciar o gateway, retomar.
+- **Sintoma par (2026-11-06 21:26):** o turno **passa de 100 iterações** e o
+  último `exec` dá **erro** (ex.: `git commit` → `insufficient permission for
+  adding an object`) → o turno **encerra sem nenhuma mensagem final**. O log
+  mostra zero eventos entre o erro e a próxima mensagem do usuário — e ele
+  **re-pergunta** ("sim, etapa 3" de novo, 1 h depois). **Regra:** erro de
+  ferramenta **não substitui** a resposta final. **Sempre** fechar com texto
+  mesmo com o commit falhado ("feito, commit falhou por X, corrigindo"), e
+  retomar o push no turno seguinte.
 
 ### Provedor de voz — o que roda de verdade (William perguntou 2026-10-29 20:45 BRT)
 - **Provedor PRIMÁRIO das 9 personas femininas: edge-tts (Microsoft), voz `pt-BR-FranciscaNeural`.**
@@ -908,3 +916,90 @@ arquivo). Eu não tenho SSH nesse LXC (root e willian → `Permission denied`).
 ("Literatura Comum" 60, "Literatura Cristã" 58) · `iam-agente` não é membro de
 nenhuma. "Estante de casa" → **404** (ele deletou).
 
+
+---
+
+## 📚 Rampa de ficção — degrau 0 medido: Sherlock Holmes (2026-11-07 01:30-02:10 BRT)
+
+**Pedido do William (3 pedidos):** (1) "reformular a lista de leitura, esse capital do Eça é
+bem difícil linguísticamente, vamos de livros menores e linguagem fácil" (2) "tem as obras de
+Sherlock digital?" (3) "levante o que eu preciso entender sobre essa obra, contexto histórico,
+do texto e etc".
+
+**Resposta 1 — a rampa JÁ estava reformulada** (nota 09, de 2026-11-06): o Eça já tinha sido
+tirado do 1º lugar. O que faltava era **medir** o Sherlock que ocupava o degrau 0.
+
+**Resposta 2 — Sherlock: 3 lugares ao mesmo tempo.**
+- 📕 **Estante física**: "Sherlock Holmes: Romances (Volume I)", id `667e5b67-42a1-449f-8e4d-1ab981e14e29`
+  (biblioteca "Literatura Comum" no Librarium).
+- 💻 **Digital no celular**: **JÁ ESTAVA no BookOrbit** — descobri porque o upload respondeu
+  **HTTP 409 "arquivo já existe"**. Não foi download novo.
+- 💻 **Acervo do agente (novo)**: `data/biblioteca/literatura-mundial-classica/portugues/Doyle-As-Aventuras-de-Sherlock-Holmes.md`
+  (Zahar 2012, trad. Maria Luiza X. de A. Borges, 581 KB, 3.688 linhas).
+
+**Resposta 3 — a nota 11** (`data/estudos/notas/ficcao-rampa-leitura/11-levantamento-sherlock-holmes.md`,
+memo `memos/eKKVYG9weVxChLc5VN3xFU`).
+
+### 🟢 A MEDIÇÃO (o dado que decide)
+
+**Sherlock score 6,48 — 5º mais fácil de 59 obras.** *A Capital* = 11,6 (11º mais difícil).
+Palavras raras caem de **4,7% → 1,8%**. A decisão do William de tirar o Eça está **confirmada
+pelos números**.
+
+| | Sherlock | A Capital | Orgulho e Preconceito |
+|---|---|---|---|
+| p/frase | 19,0 | 19,9 | 16,9 |
+| % palavra rara | **1,8** | 4,7 | 0,5 |
+| score | **6,48** | 11,6 | 7,52 |
+
+**Método:** o MESMO da nota 10 (script `/tmp/raridade.py` + `/tmp/legibilidade.py`, corpus de
+referência de 420 obras). Promovidos a `scripts/raridade.py` e `scripts/legibilidade.py`.
+Criei também `scripts/medir-dificuldade.py` (versão autocontida) e `scripts/mapa-contos.py`.
+
+**Mapa dos 12 contos (linhas reais do arquivo, não memória):** cada conto tem 27–39 páginas
+(6.421–9.142 palavras). Ficção = linhas **24–3193**; 3194–3688 é material editorial da Zahar.
+Contagem real: "Holmes" 460× · "Watson" 79× · "inspetor" 30× · *observa* 41 · *observou* 37 ·
+*deduz* 21 · *deduzi* 17.
+
+### Contexto histórico (o que o texto provou)
+
+- Narrado **em 1ª pessoa pelo Watson** (não é omnisciência).
+- **1879** primeiro conto (Doyle escrevia enquanto estudava medicina) · **1887** *Um Estudo em
+  Vermelho* · **janeiro 1891** funda a *Strand Magazine* · **julho 1891** sai *"Escândalo na
+  Boêmia"* com 10 ilustrações de **Sidney Paget** · **jul/1891–jun/1892** um conto por mês ·
+  **14/out/1892** o livro (George Newnes, 104 ilustrações de Paget).
+- **A ordem do livro NÃO é cronológica** — a Strand publicava caso a caso, sem continuidade.
+- **Inspiration real: Dr. Joseph Bell** (cirurgião em Edimburgo, 1877) — observava o paciente e
+  deduzia quem era. Sherlock é Bell com vocação de detetive; **Watson é o próprio Doyle**.
+- **Gênero: romance policial**, nascido em **abril/1841** com Poe (*Graham's Magazine*).
+  **Fair play**: (1) a solução está no livro desde o início (releitura mostra o quanto você
+  desatentou); (2) todas as pistas estão presentes; (3) Holmes explica no final **só com o que
+  já disse/fez**.
+- Doyle escolheu **"A Banda Malhada"** como o seu favorito dos doze.
+
+### 🐛 3 bugs corrigidos no caminho
+
+1. **Gerador de caracteres (3ª vez no dia)** — o `write_file` injetou **10 corrompções** na nota 11
+   (CJK 怀/抱/侦/探/苏/堵, hangul유의, cirílico ев). Corrigidas + detector de non-latin
+   rodado até 0. **Regra já vigente: SEMPRE varrer CJK depois de gerar .md de estudo.**
+2. **`mapa-contos.py` não achava os títulos** — o EPUB traz small-caps ("A L\n IGA DOS\nABEÇAS"),
+   e o sumário no topo enganava o matcher. **Solução: casar pelo título real em caixa alta
+   fragmentada, e mapear por script (nunca por memória).**
+3. **Vocabulário inventado** — eu tinha escrito "lenda", "soirée", "paletot", "botica" no
+   glossário. **Contando no texto: 0 aparições.** Reescrito só com o que o texto usa de fato:
+   charuto 15 · carruagem 19 · cocheiro 13 · Windibank 20 · hansom 6 · rapé 5 · dote 3.
+   **Lição: em vocabulário, CONTAR antes de afirmar.**
+
+### Outros achados do turno
+
+- **BookOrbit**: o `POST /upload` com nome repetido → **409**. Serve como **teste de existência**
+  sem criar lixo (melhor que o probe de 1 byte que já gerou bug).
+- **O catalogador automático** joga na KB pela **pasta**, e `literatura-mundial-classica/portugues/`
+  foi para `kb-portugues` (14→13) — corrigi movendo a entrada para `kb-literatura-mundial-classica`
+  (16→17) com `yaml.safe_dump(width=4096)`.
+- **EPUB some da `_incoming/`** entre execuções (rotina de limpeza) — **re-baixar** quando
+  preciso para subir ao Orbit.
+- **Cota z-library real hoje**: 8 contas × 10 = **67 downloads disponíveis** (medido).
+
+**Commits:** `9f288ab` (data: Sherlock + nota 11 + KBs) · `808ef5f` (data: nota 09 atualizada) ·
+`2441154` (repo: scripts). Todos pushados. Lint: 0 erro novo.
