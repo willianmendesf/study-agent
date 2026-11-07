@@ -1003,3 +1003,121 @@ Contagem real: "Holmes" 460× · "Watson" 79× · "inspetor" 30× · *observa* 4
 
 **Commits:** `9f288ab` (data: Sherlock + nota 11 + KBs) · `808ef5f` (data: nota 09 atualizada) ·
 `2441154` (repo: scripts). Todos pushados. Lint: 0 erro novo.
+
+---
+
+## 2026-11-07 11:20-12:10 BRT — Rampa de leitura v3 (PROPOSTA, aguardando aprovação)
+
+**Pedido literal do William:** "No caso isso mudaria a rampa né? No sentido de ler
+literatura mundial, ficção e etc, esses são de fato o melhor caminho para começar? E os
+livros mais fáceis, tanto intelectualmente quanto linguísticamente? De ordem de livro?
+**Confirme antes de fazer ou mexer em qualquer coisa.**"
+
+**REGRA APLICADA:** NADA foi mexido. Sem reescrita da nota 09, sem nova nota no repo,
+sem post no Memos, sem alteração de catálogo/lista. Entreguei só a PROPOSTA medida.
+
+**O que foi medido (novo, 99 obras — o acervo cresceu com Sherlock completo + Poe + IPB):**
+- **LING** (0-20, menor = mais fácil) — mesmo método da nota 10.
+- **SUBORD** (% de frases com conectivo causal/condicional) — NOVO: proxy de dificuldade
+  de INFERÊNCIA (é o que separa "fácil de ler" de "fácil de entender").
+- **DENS** (nomes próprios/1.000 palavras) — quantos personagens o leitor segura de uma vez.
+- **TAM** (sessões de 25 min ≈ 12.500 palavras).
+- Poe medido **conto por conto** (o volume antológico mede 14,26 só porque tem 90 obras +
+  biografia + 19 poemas — media o container, não o texto que ele lê).
+
+**Scripts:** `/tmp/medir14.py`, `/tmp/medir15.py`, `/tmp/medir_poe2.py` (saídas em /tmp).
+Prazo de promoção para `scripts/`: pendente da aprovação.
+
+**7 ACHADOS que mudam a rampa (medidos, não opinados):**
+1. **Poe é degrau 0, não degrau 2.** Por conto: "Nunca aposte a cabeça com o diabo" 5,80 ·
+   "Senhora Zenóbia" 6,24 · "Hop-Frog" 6,49 · "Os assassinatos na Rua Morgue" 6,81 ·
+   "Bon-Bon" 7,14 · "Manuscrito encontrado numa garrafa" 7,17. Poe é a MATRIZ do policial
+   (Duplein → Holmes) e o mais fácil de tudo.
+2. **5 das 6 obras "mais fáceis" do acervo são TEATRO, não narrativa** (Ibsen 3,78 ·
+   Molière 4,55 · O'Neill 5,47 · Tchekhov "As Três Irmãs" 5,77 · Schiller 6,28). A métrica
+   de linguisticidade PREMIA o teatro (frases de rubrica curtas). Teatro não treina prosa
+   → fora da rampa de leitura (ficar como trilha paralela, se ele quiser).
+3. **Entre romances/prosa, os mais fáceis são:** A Hora da Estrela 5,43 · Clarissa 5,68 ·
+   O Quinze 6,69 · Dom Casmurro 6,74 · A Moreninha 7,63 · Tom Sawyer 6,32.
+4. **Clássico é LING ≠ INTELLECTUAL.** Clarissa: LING 5,68 + SUBORD 37,8% (a mais baixa
+   do acervo) = dos mais fáceis nos DOIS eixos. Memórias Póstumas de Brás Cubas: LING
+   11,14 ok mas SUBORD 63,6% + 1.198 nomes = o romance brasileiro mais pesado de
+   INTERPRETAR. Policarpo Quaresma: LING 9,38 mas 2.376 nomes próprios (25/1k).
+5. **Sherlock é facile de verdade, e a ordem interna é medível:** Signo dos Quatro 6,87 ·
+   Cão dos Baskerville 6,58 · Estudo em Vermelho 6,51 · Último Adeus 6,73 · Vale do
+   Medo 7,05 · Volta 7,14 · Aventuras 7,34 · Memórias 7,73 (sub 54-65%).
+6. **O eixo brasileiro é o mais acessível** — e é a PROVA (Literatura Brasileira IPB,
+   20 questões). Manual 2027 ainda não existe → ler os 8 títulos usados entre 2023-2026.
+7. **6 obras do acervo estão em INGLÊS** (A Wise Blood, Confessions, Brothers Karamazov,
+   War and Peace, City of God, Divine Comedy) — a métrica de subordinação falha nelas
+   (conectivos em inglês) e elas não servem à rampa em PT-BR.
+
+**PENDENTE DE DECISÃO DO WILLIAM (3 pontos):**
+1. **O Caso Final de Sherlock Holmes (1927)** — sem tradução PT-BR (medido: 8 buscas no
+   z-library, só EN/ES/FR/IT). Recomendação: PULAR (os 48 casos que ele tem cobrem o
+   cânone principal; o Case-Book é a ponta mais fraca). Alternativa: edição em inglês.
+2. **Teatro entra ou não na rampa?** Recomendação: fora (trilha paralela separada).
+3. **Ordem dentro do Sherlock:** por DIFICULDADE (Signo dos Quatro primeiro — é o "piloto"
+   da série, escrito para apresentar Holmes aos EUA) ou por CRONOLOGIA DE PUBLICAÇÃO
+   (Estudo em Vermelho, 1887, primeiro)? Recomendação: por dificuldade.
+
+**REGRA GRAVADA:** "Confirme antes de fazer ou mexer em qualquer coisa" — vale para
+qualquer mudança na rampa (nota 09, catálogo, lista de aquisição, Memos). Proposta
+primeiro, execução só depois do ok.
+
+**Estado:** nada alterado no repo. Commits pendentes (a nota 14 só entra depois do ok).
+
+---
+
+## 📚 Rampa de leitura — v3 MEDIDA + TRAVA + estado de leitura (2026-11-07 12:05-13:10 BRT)
+
+**Regra que o William fixou (durable):**
+> "quando eu comecar a ler, o que eu estiver lendo, independente da posicao ajustada,
+> continua marcado que estou lendo"
+
+→ **A rampa e o estado sao 2 CAMADAS SEPARADAS.** A rampa pode reordenar a cada
+novidade; o estado **nao**. `em_leitura` so sai por 2 eventos: concluir (`lido`)
+ou abandonar (`abandonado`, com motivo). **Desistir nao e fracasso** — e dado,
+fica no historico, e a rampa **nao insiste**.
+
+**1º LIVRO TRAVADO: *O Último Adeus de Sherlock Holmes* (1917)** — RAMPA 6,77.
+O 1º conto, *"O Detetive Moribundo"*, e o mais facil de todo o canon do Sherlock
+(RAMPA 6,21 · 4.714 pal · ~40 min).
+
+**A metrica (4 eixos, corpus de 420 obras, comparavel com a nota 10):**
+`RAMPA = 0,35·LING + 0,40·SUBORD + 0,25·CARGA`
+- LING = densidade sintatica + morfologica + vocab. raro + tamanho
+- **SUBORD = % de frases com conectivo causal/condicional** (o eixo mais pesado) —
+  e o que separa "facil de ler" de "facil de entender". Foi o *A Capital* que provou.
+- CARGA = nomes proprios por 1.000 palavras
+
+**Regra do Sherlock:** ordem por **UNIDADE** (conto/capitulo), nao por livro.
+96 unidades medidas. Por livro inteiro o *Estudo em Vermelho* parece facil; por
+unidade ele e o 7o de 8. O romance dilui capitulos dificeis na media.
+
+**Poe:** 52 contos medidos (o VOLUME mede 14,26 — mede o container, nao o que se le).
+Comeca pelo *Rua Morgue* (RAMPA 6,05).
+
+**Arquivos:**
+- `data/estudos/notas/ficcao-rampa-leitura/14-rampa-v3-medida.md` → Memos `memos/QbUuM4dLTSVEoeeee4qitx`
+- `data/estudos/notas/ficcao-rampa-leitura/estado-leitura.yaml` (YAML puro, validado)
+
+### 🐛 Lição que custou a rampa v2 (NÃO REPETIR)
+
+**O detector de idioma classificava FRANCÊS como português** → o *Germinal* ficou
+em **1º lugar** da rampa v2. `scripts/detectar-idioma.py` (6 idiomas por stopwords,
+PT/EN/FR/ES/IT/DE) → *Germinal* = FR, *A Religiosa* = **ES**, 5 em EN.
+**Regra: um ranking de dificuldade so vale se o filtro de idioma for testado contra
+casos negativos.**
+
+**Desafio tecnico resolvido:** os EPUBs da Zahar fragmentam TUDO (rotulo do sumario
+em 2 linhas, titulos em small-caps partidos, sumario com titulos partidos).
+Solucao: **squash global** (so letras, sem acento, minuscula) + mapa char→linha.
+→ 96/96 unidades do Sherlock, 52 contos do Poe.
+
+**3 arquivos corrompidos no acervo (PENDENTE, nao mexi):**
+`outros/idiota-fiodor-dostoievski.md` e `outros/anna-karenina-liev-tolstoi.md` sao
+**bytes nulos**; `Cervantes-Dom-Quixote.md` tem **104 tracebacks** (nao e o D.Q.).
+
+**Commits:** `1c6913c` (data) · `c52f169` (repo) — pushados. Lint: 0 erro novo.
+
