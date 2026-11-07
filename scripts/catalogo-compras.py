@@ -29,6 +29,7 @@ import sys
 import unicodedata
 import urllib.parse
 import urllib.request
+import time
 from concurrent.futures import ThreadPoolExecutor
 from pathlib import Path
 
@@ -80,18 +81,53 @@ def tokens(s: str):
     return set(t for t in norm(s).split() if t and t not in PALAVRAS_PARADA)
 
 
-def searxng(query: str, limit: int = 12, lang="pt-BR"):
+SUSPENSO = re.compile(r"Suspenso|demasiadas solicita|CAPTCHA|Too Many", re.I)
+
+
+def searxng(query: str, limit: int = 12, lang="pt-BR", tentativas=3):
+    """Busca no SearXNG local COM BACKOFF.
+
+    Bug medido (2026-11-07): quando o engine aggregator satura (google cse
+    'demasiadas solicitacoes'), a API responde HTTP 200 com `results: []` e um
+    `unresponsive_engines` avisando. Sem backoff, a rodada inteira produz
+    ZERO links e parece 'sem_link' — falso negativo. Aqui detectamos a
+    suspensao e esperamos antes de desistir.
+    """
+    # ENGINE FIXO = bing.
+    # Bug medido (2026-11-07): o aggregator padrao traria google cse + brave +
+    # duckduckgo + wikipedia, e os 4 caem em "demasiadas solicitacoes" / CAPTCHA
+    # quando a cota do IP estoura. A API responde HTTP 200 com results: [] — um
+    # falso negativo silencioso que fazia a rodada marcar TUDO como sem_link.
+    # O bing responde normalmente (10 resultados) mesmo com os outros caidos.
     params = urllib.parse.urlencode(
-        {"format": "json", "q": query, "language": lang, "safesearch": 0}
+        {"format": "json", "q": query, "language": lang, "safesearch": 0,
+         "engines": "bing"}
     )
     url = f"{SEARXNG}?{params}"
-    try:
-        with urllib.request.urlopen(url, timeout=25) as r:
-            data = json.loads(r.read().decode("utf-8", "replace"))
-        return data.get("results", []) or []
-    except Exception as e:  # noqa
-        sys.stderr.write(f"[searxng falhou] {query}: {e}\n")
-        return []
+    espera = 8
+    for tentativa in range(tentativas):
+        try:
+            with urllib.request.urlopen(url, timeout=25) as r:
+                data = json.loads(r.read().decode("utf-8", "replace"))
+            res = data.get("results", []) or []
+            suspensos = data.get("unresponsive_engines") or []
+            if res:
+                return res
+            if suspensos and tentativa < tentativas - 1:
+                sys.stderr.write(
+                    f"[searxng suspenso, aguardando {espera}s] {query[:50]}\n")
+                time.sleep(espera)
+                espera *= 2
+                continue
+            return res
+        except Exception as e:  # noqa
+            sys.stderr.write(f"[searxng falhou] {query}: {e}\n")
+            if tentativa < tentativas - 1:
+                time.sleep(espera)
+                espera *= 2
+                continue
+            return []
+    return []
 
 
 def casar(obra_toks, autor_toks, texto: str) -> float:
