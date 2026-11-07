@@ -73,6 +73,36 @@ FAL=$(grep -oE "[0-9]+ falha\(s\)" "$FICCAO_OUT" | grep -oE "^[0-9]+" | tail -1)
 ADQ=${ADQ:-0}; FAL=${FAL:-0}
 rm -f "$FICCAO_OUT"
 
+# --- FASE 2b: aquisicao TEOLOGICA dirigida por gap (rodada-diaria.sh) -------
+# POR QUE ESTA FASE EXISTE (2026-11-07): o `rodada-diaria.sh` (fases 0/1/2
+# — gaps TEOLOGICOS) NAO estava em nenhum cron. So a `rodada-ficcao.sh`
+# rodava. Resultado: desde 2026-11-05 (commit 999a0a1) a aquisicao por gap
+# TEOLOGICO estava MORTA por um NameError (`ACCOUNTS` nao existia mais) e
+# ninguem percebeu — o crash aparecia no log, mas a rodada "terminava" e
+# seguia. Aqui a fase roda MESMO, e o wrapper DETECTA o crash.
+log "--- FASE 2b: aquisicao por gap teologico (rodada-diaria.sh) ---"
+GAP_OUT="$LOG_DIR/.rodada-gap.$$.out"
+if [[ -f "$ROOT/data/perfil/bibliotecario/rodada-diaria.sh" ]]; then
+  bash "$ROOT/data/perfil/bibliotecario/rodada-diaria.sh" --max "$MAX_GAP" \
+    >"$GAP_OUT" 2>&1
+  GAP_RC=$?
+  tail -40 "$GAP_OUT" | tee -a "$LOG"
+  # --- ALERTA DE CRASH (a FASE 1 do rodape morria com traceback) ---
+  if grep -qE "^Traceback|NameError|KeyError|ModuleNotFoundError" "$GAP_OUT"; then
+    log "!!! FASE 2b CRASHOU (rc=$GAP_RC) — aquisicao por gap teologico NAO rodou"
+    grep -E "NameError|KeyError|ModuleNotFoundError|^Traceback" "$GAP_OUT" \
+      | head -5 | tee -a "$LOG"
+    GAP_RC=99
+  else
+    GAP_ADQ=$(grep -oE "TOTAL adquirido: [0-9]+" "$GAP_OUT" | grep -oE "[0-9]+" | tail -1)
+    log "FASE 2b ok: ${GAP_ADQ:-0} material(is) por gap teologico"
+  fi
+else
+  log "rodada-diaria.sh ausente — fase pulada"
+  GAP_RC=1
+fi
+rm -f "$GAP_OUT"
+
 # --- FASE 3: catalogo + reindexe + lint -------------------------------------
 log "--- FASE 3: catalogo + reindexe + lint ---"
 for s in "catalogar-automatico.py" "reconstruir-kbs.py"; do
@@ -99,5 +129,5 @@ python3 "$ROOT/scripts/rodada-ficcao-notificar.py" --falhas "$FAL" 2>&1 \
   | tail -6 | tee -a "$LOG"
 NOTIF_RC=$?
 
-log "=== FIM: $ADQ adquirido(s) | $FAL falha(s) | ficcao_rc=$FICCAO_RC | notif_rc=$NOTIF_RC ==="
+log "=== FIM: $ADQ adquirido(s) ficcao | $FAL falha(s) | gap_rc=$GAP_RC | ficcao_rc=$FICCAO_RC | notif_rc=$NOTIF_RC ==="
 exit 0
