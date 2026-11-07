@@ -477,6 +477,9 @@ def main():
                      f"--titulo \"{ex['titulo']}\" --autor \"{ex['autor']}\""),
         })
 
+    via_2b.sort(key=lambda e: (0 if e["origem"] == "declarado" else 1,
+                                e["titulo"].lower()))
+
     doc = {
         "tipo": "triagem-aquisicao",
         "descricao": (
