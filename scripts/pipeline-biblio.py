@@ -128,9 +128,25 @@ def toks(s):
 
 
 def slug(titulo, autor):
-    t = "-".join(toks(titulo)[:8]) or "obra"
-    a = "-".join(toks(autor)[:3])
-    return (t + ("-" + a if a else "")).strip("-")
+    """Slug CANONICO — identico ao de pipeline-aquisicao.py.
+
+    BUG (2026-11-07): este script usava um formato PROPRIO
+    ("tokens truncados, minusculos"), enquanto o pipeline principal usava
+    "Titulo-Autor" com maiusculas. Os DOIS gravam no mesmo
+    `pipeline-estado.json` — entao uma obra ja ADQUIRIDA pelo z-library
+    aparecia como "pendente" para a 2a via (biblio/libgen) e era re-baixada,
+    gastando cota e criando duplicata. Alem disso, cada "falhou" do
+    pipeline-biblio poluia o estado com chaves que o pipeline principal
+    nunca lia.
+    REGRA: quem grava no estado tem de usar a MESMA chave. Alterou o
+    formato do slug? Migre o estado (scripts/migrar-estado-pipeline.py).
+    """
+    s = sem_acento(f"{titulo} - {autor}")
+    s = s.replace("—", "-").replace("–", "-")
+    s = re.sub(r"[^\w\s-]", "", s)
+    s = re.sub(r"[\s_]+", "-", s)
+    s = re.sub(r"-{2,}", "-", s).strip("-")
+    return s[:70].strip("-")
 
 
 def carregar_estado():

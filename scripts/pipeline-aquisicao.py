@@ -556,20 +556,44 @@ def cataloga(destino, titulo, autor, tags, ano):
     txt = KB.read_text(encoding="utf-8")
     if rel in txt:
         return "ja-catalogado"
-    tags_yaml = ", ".join(tags)
-    linha = (f"  - titulo: LT {titulo} - {autor}\n"
-             f"    caminho_md: {rel}\n"
-             f"    tamanho_md: {destino.stat().st_size // 1024} KB\n"
-             f"    linhas_md: {destino.read_text(encoding='utf-8', errors='ignore').count(chr(10))}\n"
-             "    idioma: Portuguese\n"
+
+    def yq(s):
+        """Valor YAML seguro: sempre entre aspas simples, com o ' escapado.
+
+        BUG (2026-11-07): o titulo era interpolado CRU no YAML. Uma obra com
+        dois-pontos no titulo ("Nostradamus: O Segredo das Centurias")
+        produzia `- titulo: LT Nostradamus: O Segredo...` — YAML INVALIDO,
+        e a KB inteira deixava de carregar. O lint acusou 1 erro novo. Agora
+        todo valor passa por aspas simples.
+        """
+        s = str(s or "").replace("'", "''")
+        return f"'{s}'"
+
+    tags_yaml = ", ".join(yq(t) for t in tags)
+    linha = (f"  - titulo: {yq('LT ' + titulo + ' - ' + autor)}\n"
+             f"    caminho_md: {yq(rel)}\n"
+             f"    tamanho_md: {yq(str(destino.stat().st_size // 1024) + ' KB')}\n"
+             f"    linhas_md: {yq(destino.read_text(encoding='utf-8', errors='ignore').count(chr(10)))}\n"
+             f"    idioma: {yq('Portuguese')}\n"
              f"    tags: [{tags_yaml}]\n"
-             f"    ano: {ano}\n"
-             "    status: indexado_auto\n"
-             "    origem: pipeline-aquisicao-escala\n")
+             f"    ano: {yq(ano)}\n"
+             f"    status: {yq('indexado_auto')}\n"
+             f"    origem: {yq('pipeline-aquisicao-escala')}\n")
     m = re.search(r"^knowledge_base_literatura:\n(?:.*\n)*?\s*materiais:\n", txt, re.M)
     if not m:
         return "falha-bloco-kb"
     KB.write_text(txt[:m.end()] + linha + txt[m.end():], encoding="utf-8")
+
+    # VERIFICA: a KB tem que continuar valendo depois da insercao. Uma KB
+    # quebrada derruba o acervo inteiro (a busca nos livros para de
+    # funcionar), entao nao confia no sucesso do write — confere.
+    try:
+        import yaml as _yaml
+        _yaml.safe_load(KB.read_text(encoding="utf-8"))
+    except Exception as e:
+        # reverte: a KB quebrada e' pior que a obra nao catalogada
+        KB.write_text(txt, encoding="utf-8")
+        return f"falha-yaml-revertido: {str(e)[:80]}"
     return "catalogado"
 
 
@@ -845,6 +869,18 @@ def main():
                                destino.read_text(encoding="utf-8"), encoding="utf-8")
         kb = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"])
 
+        # ---- 4b. GRAVA O ESTADO ANTES DO ORBIT ----
+        # BUG (2026-11-07): o `estado[s] = {...}` vinha DEPOIS do upload ao
+        # Orbit. A LXC do BookOrbit caiu e a excecao abortou a rodada com o
+        # download JA feito e a cota JA gasta — o estado ficava sem registro
+        # e a obra voltava a "pendente" (re-compra na rodada seguinte).
+        # REGRA: o estado e' a memoria do pipeline. Grava-se assim que a obra
+        # esta no acervo; o Orbit e' apenas o destino de leitura no celular.
+        estado[s] = {"status": "adquirido", "data": time.strftime("%Y-%m-%d"),
+                     "ebook": ebook.name, "md": str(destino.relative_to(ROOT)),
+                     "kb": kb, "orbit": "pendente", "score": score}
+        salvar_estado(estado)
+
         # ---- 5. Orbit (ebook original vai pro app de leitura; NAO fica no repo) ----
         # Caminho 1 (preferido): API HTTP do BookOrbit (sem SSH).
         # Caminho 2 (fallback): rsync por SSH, se a chave existir nesta LXC.
@@ -860,24 +896,46 @@ def main():
             if up is None:
                 orbit = "falhou"
             else:
-                tok = _token_sessao(up)
-                st_up, d_up = up.upload(ebook, tok, folder_id=1,
-                                       autor=it["autor"] or "")
-                if st_up == 401:
-                    tok = _token_sessao(up, forcar=True)
+                # BUG (2026-11-07): o upload ao Orbit era a UNICA etapa sem
+                # protecao. A LXC do BookOrbit caiu ("No route to host") e a
+                # excecao do `login()` ABATIA a rodada inteira — DEPOIS do
+                # download e da conversao, ou seja, DEPOIS de a cota do
+                # z-library ja ter sido gasta. Resultado real: o "Germinal"
+                # foi baixado (3 MB), convertido e gravado no acervo, mas o
+                # estado NAO foi gravado (o `estado[s] = {...}` vem DEPOIS
+                # do upload) — a obra ficaria "pendente" e seria re-comprada
+                # na rodada seguinte, gastando cota de novo.
+                # CORRECAO: o Orbit e' um COMPLEMENTO (destino de leitura no
+                # celular). Falhar nele nao pode derrubar o que ja foi
+                # acquisitionado. O ebook fica no `_incoming/` e o cron
+                # `reenvio-orbit-automatico.sh` manda depois.
+                try:
+                    tok = _token_sessao(up)
                     st_up, d_up = up.upload(ebook, tok, folder_id=1,
                                            autor=it["autor"] or "")
-                if st_up == 429:
-                    time.sleep(10)
-                    st_up, d_up = up.upload(ebook, tok, folder_id=1,
-                                           autor=it["autor"] or "")
-                if st_up in (200, 201):
-                    orbit = "ok"
-                else:
+                    if st_up == 401:
+                        tok = _token_sessao(up, forcar=True)
+                        st_up, d_up = up.upload(ebook, tok, folder_id=1,
+                                               autor=it["autor"] or "")
+                    if st_up == 429:
+                        time.sleep(10)
+                        st_up, d_up = up.upload(ebook, tok, folder_id=1,
+                                               autor=it["autor"] or "")
+                    if st_up in (200, 201):
+                        orbit = "ok"
+                    else:
+                        orbit = "falhou"
+                        print(f"[ORBIT-FALHOU] {ebook.name}: HTTP {st_up} "
+                              f"{json.dumps(d_up, ensure_ascii=False)[:180]}")
+                        log("orbit_falhou", arquivo=ebook.name, erro=str(d_up)[:300])
+                except Exception as e:
+                    # Orbit fora do ar: segue a rodada. O ebook fica no
+                    # `_incoming/` para o reenvio automatico.
                     orbit = "falhou"
-                    print(f"[ORBIT-FALHOU] {ebook.name}: HTTP {st_up} "
-                          f"{json.dumps(d_up, ensure_ascii=False)[:180]}")
-                    log("orbit_falhou", arquivo=ebook.name, erro=str(d_up)[:300])
+                    print(f"[ORBIT-FALHOU] {ebook.name}: {type(e).__name__}: "
+                          f"{str(e)[:160]} — rodada segue (ebook fica no "
+                          f"_incoming/ para o reenvio automatico)")
+                    log("orbit_falhou", arquivo=ebook.name, erro=str(e)[:300])
                 if orbit == "ok":
                     # so apaga o original DEPOIS do push/upload confirmado
                     try:
@@ -886,10 +944,12 @@ def main():
                         pass
                 time.sleep(0.4)   # folga entre uploads
 
-        estado[s] = {"status": "adquirido", "data": time.strftime("%Y-%m-%d"),
-                     "ebook": ebook.name, "md": str(destino.relative_to(ROOT)),
-                     "kb": kb, "orbit": orbit, "score": score}
-        salvar_estado(estado)
+        # ---- 6. atualiza o estado com o resultado real do Orbit ----
+        # (o registro "adquirido" ja foi gravado ANTES do upload, para que
+        #  a queda do BookOrbit nunca perca uma obra ja acquisitionada)
+        if orbit != "pulado":
+            estado[s]["orbit"] = orbit
+            salvar_estado(estado)
         baixados += 1
         print(f"[OK] {it['titulo']} -> {destino.relative_to(ROOT)} "
               f"({destino.stat().st_size//1024} KB, KB={kb}, Orbit={orbit})")
