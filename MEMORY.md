@@ -346,13 +346,55 @@ e ia direto de "não está no acervo" → "escanear o físico". Propus escanear 
 Das **92** obras que eu tinha na fila de "escanear", **49 TINHAM ebook** e só **43**
 eram escaneáveis. **Erro em mais da metade da fila, na direção cara.**
 
-### CARPEAUX — verificado de fato
+### CARPEAUX — 🚨 A VERIFICAÇÃO "PROVADA" ESTAVA PROVANDO O CONTRÁRIO
 
-z-library: 8 contas × 4 queries → 0 casamentos (só *As 100 mensagens de Jesus* e
-*100 obras musicales* — obras diferentes). Amazon: existe página do autor
-(`B0799SCYQM`) com 15 ebooks do Carpeaux, **mas "100 Obras Básicas para Reler" não
-está**; busca direta = *"Nenhum resultado"*. → `sem_digital_compravel` → escanear
-é certo, agora **provado**.
+**O que eu escrevi aqui (e era ERRADO):** que "100 Obras Básicas para Reler"
+era o livro físico do William, que não tinha digital, e por isso "escanear é
+certo, agora **provado**".
+
+**O que é verdade (2026-11-07, 2ª rodada):**
+- **"100 obras básicas para reler" NÃO É UM LIVRO.** É o **título de uma LISTA**
+  de 100 obras — a **Lista D** dos cânones que o William enviou. O Carpeaux é o
+  **AUTOR** da lista, não o título dela.
+- A "verificação" (8 contas × 6 queries = 0 casamentos) provava que o **livro
+  inteiro não existe** — e eu li isso como "o livro existe mas não tem digital".
+  **Esse é o furo:** um veredito `sem_digital_compravel` sobre um título que não
+  é obra não significa nada.
+- **O que o William tem em casa (medido no Librarium):** o **box de 10 volumes**
+  da *História da Literatura Ocidental*, série homônima, biblioteca "Literatura
+  Comum" (A Literatura Greco-Latina · A Idade Média · O Renascimento e a Reforma ·
+  O Barroco e o Classicismo · O Iluminismo e a Revolução · O Romantismo · O
+  Realismo, o Naturalismo e o Parnasianismo · Fin du Siècle · O Modernismo ·
+  As Tendências Contemporâneas).
+- **A via correta:** ebook PT-BR (z-library `2779874`, epub, 4 vols em 1, LeYa/
+  Senado Federal 2011). **Baixado, convertido (6,2 MB, 89.084 linhas),
+  catalogado** em `biblioteca/literatura-mundial-classica/Carpeaux-Historia-da-
+  Literatura-Ocidental.md`. **Não escanear.**
+
+**REGRA que daí nasce:** *um rótulo de lista de leitura não é um livro.* Antes
+de tratar qualquer título como obra, verificar se **existe como obra**. E: um
+veredito negativo de "não há digital" **só diz algo** se o objeto existir.
+
+### Os 5 bugs de causa (corrigidos 2026-11-07)
+
+1. `verificar-digital-compravel.py` **nunca lia as filas "aguardando
+   verificação"** (só as já classificadas) → físicos que a triagem mandava
+   verificar ficavam para sempre sem verificação.
+2. `indexar_acervo()` media cobertura contra o `core` do **título principal** →
+   um volume único que cobre N exemplares físicos (o box do Carpeaux) **nunca
+   casava** → os 10 iam para "escanear". Agora o frontmatter aceita `volumes:`
+   e cada volume vira base válida (core por base). **11/11 casaram depois.**
+3. `_frontmatter()` devolvia 2 valores em 2 caminhos de erro → `ValueError`.
+4. Inventário do Librarium desatualizado: **118** de **204** livros (a API
+   pagina em **25**, não em 100 — e o fetch usava `limit=100`).
+5. **As Listas C e D NÃO são idênticas** (eu escrevi que eram): interseção de
+   **24** títulos (76 só em C, 71 só em D) → são **4 cânones**, não 3. O erro
+   tinha se propagado para `canones-referidos-listas-leitura.md`,
+   `lista-aquisicao.md` e a nota 15.
+
+**LIÇÃO (a mais cara do dia):** *verificar se existe* e *verificar se existe
+digital* são perguntas diferentes — e a 2ª é inútil se a 1ª falhou. Corrigi
+tudo na causa, não no sintoma.
 
 ### Ferramentas
 
