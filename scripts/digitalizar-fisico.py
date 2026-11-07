@@ -121,6 +121,91 @@ def frontmatter(titulo, autor, slug, palavras, paginas):
     )
 
 
+# ---------------------------------------------------------------- catalogacao
+
+KB_MATERIAIS = {
+    # slug da obra -> (arquivo KB, tag do material)
+    "leitura": ("data/biblioteca/global/kb-leitura-formacao.yaml", "leitura"),
+}
+
+
+def _kb_destination(titulo, autor, slug):
+    """Escolhe a KB onde o material digitalizado entra.
+
+    Regra: por tema..Default -> kb-material-pessoal (o guarda-chuva dos
+    exemplares digitalizados). Uma KB tem que existir e ser valida.
+    """
+    p = ROOT / "data/biblioteca/global/kb-material-pessoal.yaml"
+    if p.exists():
+        return p, "material-pessoal"
+    return None, None
+
+
+def catalogar(md: Path, titulo, autor, slug, palavras, paginas):
+    """Registra o .md na KB (Regra 2 da trava: KB nova/editada precisa de
+    tags, itens em `materiais:` e `caminho_md` existente).
+
+    Se a KB nao existir, NAO cria arquivo invalido: avisa e devolve None.
+    """
+    import yaml
+    kb_path, tag = _kb_destination(titulo, autor, slug)
+    if kb_path is None or not kb_path.exists():
+        print("[catalogar] KB nao encontrada — material gravado mas NAO catalogado",
+              file=sys.stderr)
+        return None
+    try:
+        doc = yaml.safe_load(kb_path.read_text(encoding="utf-8")) or {}
+    except Exception as e:
+        print(f"[catalogar] KB ilegivel ({e}) — nao catalogado", file=sys.stderr)
+        return None
+
+    chaves = [k for k in doc if isinstance(doc.get(k), dict)
+              and "materiais" in (doc.get(k) or {})]
+    if not chaves:
+        print("[catalogar] KB sem bloco de materiais — nao catalogado", file=sys.stderr)
+        return None
+    raiz = chaves[0]
+    kb = doc[raiz]
+    materiais = kb.get("materiais") or []
+
+    caminho_rel = "./" + str(md.relative_to(ROOT))
+    for m in materiais:
+        if (m.get("caminho_md") or "").strip() == caminho_rel:
+            print(f"[catalogar] ja presente na KB ({raiz})", file=sys.stderr)
+            return kb_path
+
+    tamanho = md.stat().st_size
+    kb_mb = f"{tamanho/1024:.0f} KB"
+    with md.open(encoding="utf-8", errors="replace") as fh:
+        linhas = sum(1 for _ in fh)
+
+    materiais.append({
+        "titulo": titulo,
+        "autor": autor or "",
+        "idioma": "Portuguese",
+        "formato_original": "fisico-digitalizado",
+        "caminho_md": caminho_rel,
+        "tamanho_md": kb_mb,
+        "linhas_md": linhas,
+        "conversao": "ocr-tesseract-por",
+        "status": "indexado",
+        "fonte": "exemplar fisico digitalizado (William)",
+        "download_em": _hoje(),
+        "palavras_aprox": palavras,
+        "paginas_estimadas": paginas,
+    })
+    kb["materiais"] = materiais
+    kb["total_volumes"] = len(materiais)
+    doc[raiz] = kb
+    kb_path.write_text(
+        "# KB gerada automaticamente — nao editar a mao\n"
+        + yaml.safe_dump(doc, allow_unicode=True, sort_keys=False, width=4096),
+        encoding="utf-8")
+    print(f"[catalogar] catalogado em {kb_path.relative_to(ROOT)} "
+          f"({raiz}, {len(materiais)} materiais)", file=sys.stderr)
+    return kb_path
+
+
 def _hoje():
     import datetime
     return datetime.date.today().isoformat()
@@ -198,6 +283,9 @@ def processar(slug, titulo, autor, destino_subpasta="digitalizados"):
         r = subprocess.run([sys.executable, str(norm), str(md)],
                            capture_output=True, text=True)
         print(f"[normalizar] {r.stdout.strip() or r.stderr.strip()}", file=sys.stderr)
+
+    # catalogacao na KB (o docstring promete; antes nao fazia)
+    catalogar(md, titulo, autor, slug, palavras, paginas)
 
     print(f"[digitalizar] OK -> {md}  ({palavras} palavras, {paginas} paginas)")
     return md
