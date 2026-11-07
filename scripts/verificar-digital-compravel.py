@@ -307,6 +307,29 @@ def carregar_fila():
             "origem": e.get("origem"),
             "onde": e.get("onde"),
         })
+    # BUG 2026-11-07: as filas "AGUARDANDO VERIFICACAO" nunca entravam na fila
+    # do verificador — so as ja-classificadas. Resultado: os fisicos que a
+    # triagem marcou como "verificar antes de escanear" ficavam para sempre
+    # sem verificacao (o Carpeaux ficou assim). A verificacao e o que decide
+    # escanear-vs-comprar-digital: sem ela, a triagem nao anda.
+    for chave in ("via_3b_aguardando_verificacao",):
+        for e in (doc.get("vias", {}).get(chave) or []):
+            ex = e.get("exemplar_fisico") or {}
+            fila.append({
+                "titulo": e.get("titulo"),
+                "autor": e.get("autor") or "",
+                "slug": None,
+                "origem": "gap",
+                "onde": ex.get("biblioteca"),
+            })
+    for e in (doc.get("via_2b_aguardando_verificacao") or []):
+        fila.append({
+            "titulo": e.get("titulo"),
+            "autor": e.get("autor") or "",
+            "slug": e.get("slug"),
+            "origem": e.get("origem"),
+            "onde": e.get("onde"),
+        })
     return fila
 
 

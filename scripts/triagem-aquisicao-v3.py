@@ -160,20 +160,33 @@ def _frontmatter(caminho: Path):
     try:
         txt = caminho.read_text(encoding="utf-8", errors="replace")
     except Exception:
-        return "", ""
+        return "", "", []
     if not txt.startswith("---"):
-        return "", ""
+        return "", "", []
     fim = txt.find("\n---", 3)
     if fim < 0:
-        return "", ""
+        return "", "", []
     fm = txt[3:fim]
     out = {}
     for chave in ("titulo", "title", "autor", "author"):
         m = re.search(r"^" + chave + r"\s*:\s*(.+?)\s*$", fm, re.M | re.I)
         if m:
             out[chave] = m.group(1).strip().strip('"').strip("'")
+    # TITULOS ALTERNATIVOS / VOLUMES (bug real de 2026-11-07): um volume
+    # unico no acervo cobre N exemplares fisicos diferentes ("A Idade Media",
+    # "O Romantismo", ... sao partes do mesmo "Historia da Literatura
+    # Ocidental"). Sem isso, os exemplares fisicos NAO casavam com o acervo
+    # digital e a triagem os mandava para "escanear" — errado, o digital
+    # existe e cobre o volume.
+    vols = []
+    m = re.search(r"^volumes:\s*$((?:\s*-\s*.+\n?)+)", fm, re.M)
+    if m:
+        for ln in m.group(1).splitlines():
+            v = re.sub(r"^\s*-\s*", "", ln).strip().strip('"').strip("'")
+            if v:
+                vols.append(v)
     return (out.get("titulo") or out.get("title") or "",
-            out.get("autor") or out.get("author") or "")
+            out.get("autor") or out.get("author") or "", vols)
 
 
 def indexar_acervo():
@@ -187,17 +200,25 @@ def indexar_acervo():
     for p in BIB.rglob("*.md"):
         if "/_incoming/" in str(p):
             continue
-        tit_fm, aut_fm = _frontmatter(p)
+        tit_fm, aut_fm, vols = _frontmatter(p)
         bases = set()
         if tit_fm:
             bases.add(norm(tit_fm))
         bases.add(norm(p.stem.replace("-", " ")))
+        # cada volume declarado no frontmatter e uma "base" valida
+        for v in vols:
+            bases.add(norm(v))
         bases = {b for b in bases if b}
         reg = {"caminho": str(p.relative_to(DATA)), "autor": aut_fm,
-               "titulo": tit_fm or p.stem, "core": core_tokens(tit_fm or p.stem)}
+               "titulo": tit_fm or p.stem, "vols": vols}
         for b in bases:
+            # o "core" e calculado POR BASE: um volume ("A Idade Media") tem
+            # core proprio, diferente do core do livro ("Historia da
+            # Literatura Ocidental"). Sem isso, casar_acervo() media cobertura
+            # contra o core do titulo principal e nunca casava.
+            reg_b = dict(reg, core=core_tokens(b))
             if b not in idx or (not idx[b]["autor"] and reg["autor"]):
-                idx[b] = reg
+                idx[b] = reg_b
     return idx
 
 
