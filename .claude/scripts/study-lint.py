@@ -116,7 +116,7 @@ for p in sorted(glob.glob(os.path.join(D, 'perfil', 'especialistas', '*.yaml')))
     miss = [t for t in tg if str(t) not in pool]
     if miss and pool: warn(f'esp:{n}:tags-sem-kb', f'tags sem nenhuma KB no pool: {miss}')
     txt_sp = open(p, encoding='utf8').read()
-    for cp in sorted(set(re.findall(r'data/[A-Za-z0-9_\-./]+\.(?:yaml|md|json|sh)', txt_sp))):
+    for cp in sorted(set(re.findall(r'data/[A-Za-z0-9_\-./]+\.(?:yaml|md|jsonl|json|sh)', txt_sp))):
         if '<' in cp or '*' in cp: continue
         if not os.path.exists(os.path.join(ROOT, cp)): err(f'esp:{n}:path:{cp}', 'especialista cita arquivo inexistente')
     g = ghost_skills(txt_sp)
