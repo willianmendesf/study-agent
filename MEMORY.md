@@ -274,3 +274,96 @@ Rodar até dar **0 suspeitas**. Corrigir à mão e **re-varre**.
 3 das 38 citações da ficha **não casaram** e foram convertidas em paráfrase.
 **Toda** citação entre aspas que vai para o Memos passa por `--verificar`; se não
 casar, **não vai entre aspas**.
+
+## 📚 Rampa de leitura — v4 + TRAVA do 1º livro (2026-11-07, decisão do William)
+
+**Regras que o William fixou (duráveis):**
+> "português, Sherlock por dificuldade, num futuro por cronologia" ·
+> "travar o primeiro e não mudar, quando novas informações chegarem" ·
+> "quando eu começar a ler, o que eu estiver lendo, independente da posição ajustada,
+> continua marcado que estou lendo" ·
+> "não é pra seguir as listas, segue a sua análise; a lista tem mais por fim"
+
+**1º LIVRO TRAVADO: *O Último Adeus de Sherlock Holmes* (1917)** — RAMPA 6,77.
+1º conto: **"O Detetive Moribundo"** (RAMPA 6,21 · 4.714 pal · ~40 min).
+O 1º degrau = Sherlock **por dificuldade** (cronologia só depois). Poe = degrau 1.
+
+**As 4 listas de cânone (Raízes / Olavo de Carvalho / Munir Nasser / Carpeaux):**
+- Listas C e D são **idênticas** → são **3 cânones**, não 4.
+- **331 obras canônicas distintas** → **319 agrupadas**: 32 no acervo digital ·
+  **12 só na estante física** (Dom Quixote, O Processo, O Vermelho e o Negro, Tartufo,
+  O Estrangeiro, Germinal, Swann, Dorian Gray, Novelas Exemplares, Tom Jones, Mattia
+  Pascal, Histórias Extraordinárias) · 275 em nenhum dos dois.
+- **Prova:** cânones de prosa no acervo têm mediana RAMPA **7,58** vs **7,31** dos
+  não-cânones; metade dos cânones está em 8,0+ contra 16%. **Cânone = topo da trilha.**
+- As listas **não** mandam na ordem: entram como **contraprova** + **reveladoras de gap**.
+
+**Arquivos canônicos:** `data/estudos/notas/ficcao-rampa-leitura/15-rampa-v4-canonicos.md`
+(Memos `memos/maPbBBJTBvSJMe4VZBta5A`) · `estado-leitura.yaml` (**gerado por script**,
+não editar à mão) · `data/biblioteca/canones-referidos-listas-leitura.md` (as 4 listas) ·
+`data/biblioteca/lista-aquisicao.md` bloco **#186**.
+
+**Regra do matcher (aprendida 2026-11-07):** um cruzamento por título **só vale se o
+AUTOR entrar no critério** — sem isso "O Capital" (Marx) casou com *A Capital* (Eça) e
+"Poesias" (6 autores) colapsou em 1 registro. Obra **sem** autor exige casamento exato.
+
+**Lição do *A Capital*:** RAMPA 7,92 = 50º de 70 em dificuldade. A desistência dele
+bateu com o número — a medição **valida** a decisão dele, não o contrário.
+
+**Commits:** `dc200ef` (data) · `e2a1356` (scripts) — pushados. Lint 0 erro novo.
+
+---
+
+## 🚨 REGRA — VIA DE AQUISIÇÃO: 4 VIAS, E ESCANEAR É A ÚLTIMA (2026-11-07 14:00)
+
+**Correção literal do William (2ª rodada):**
+> "antes de propor eu escanear, deveria ter buscado se tem pra comprar dele digital/ebook,
+> escanear é se não tiver como comprar digital/ebook."
+
+**ERRO que eu cometi:** a triagem v2 pulava a etapa "existe digital **COMPRÁVEL**?"
+e ia direto de "não está no acervo" → "escanear o físico". Propus escanear o Carpeaux
+**sem** ter procurado ebook na Amazon/Kindle.
+
+### A REGRA (4 vias, inviolável — a ordem é o que importa)
+
+1. Já existe digital **no acervo** → **usar**. Não comprar, não escanear.
+2. Não tem no acervo, mas **existe digital COMPRÁVEL** (z-library, Amazon/Kindle,
+   Mercado Livre) → **COMPRAR O DIGITAL**. Não escanear.
+3. **Verificado** que não existe digital comprável, mas o William tem físico → **escanear**.
+4. Nem digital nem físico → comprar/baixar.
+
+**Duas travas da etapa 3 (as que impedem o erro de voltar):**
+- **Sem verificação CONCLUSIVA, não escaneia.** Veredito `indeterminado` (falha de
+  rede/engine) deixa a obra em `aguardando_verificacao` — **fora** da fila de scan.
+  Falha de busca NUNCA vira "sem digital".
+- **O idioma conta.** Ebook em espanhol/inglês **não** substitui o exemplar PT-BR:
+  a triagem marca o aviso e o scan continua sendo o caminho para o acervo PT-BR.
+
+### O NÚMERO (medido, não opinado)
+
+93 verificações reais (z-library eAPI + SearXNG), **0 indeterminadas**:
+**50 existe digital comprável · 43 não existe.**
+Das **92** obras que eu tinha na fila de "escanear", **49 TINHAM ebook** e só **43**
+eram escaneáveis. **Erro em mais da metade da fila, na direção cara.**
+
+### CARPEAUX — verificado de fato
+
+z-library: 8 contas × 4 queries → 0 casamentos (só *As 100 mensagens de Jesus* e
+*100 obras musicales* — obras diferentes). Amazon: existe página do autor
+(`B0799SCYQM`) com 15 ebooks do Carpeaux, **mas "100 Obras Básicas para Reler" não
+está**; busca direta = *"Nenhum resultado"*. → `sem_digital_compravel` → escanear
+é certo, agora **provado**.
+
+### Ferramentas
+
+`scripts/verificar-digital-compravel.py` (etapa 2, busca real, veredito + data/hora) ·
+`scripts/triagem-aquisicao-v3.py` (4 vias) ·
+`data/perfil/bibliotecario/digital-compravel.jsonl` (estado da etapa 2) ·
+nota `data/estudos/notas/biblioteca/17-via-de-aquisicao-e-digitalizacao.md` ·
+serviço "Triagem de aquisição" em `data/perfil/especialistas/bibliotecario.yaml`.
+
+**Commits:** `34f50a0` (repo) · `b8c25c6` (data) — pushados. Lint 0 erro novo.
+
+**LIÇÃO:** *Pipeline bem feito não substitui a pergunta certa.* A v2 rodou limpa,
+o relatório ficou consistente, os números fecharam — e a premissa estava errada.
+Faltava **uma** pergunta no fluxo, e ela custava 49 digitalizações desnecessárias.
