@@ -65,6 +65,8 @@ LOJAS = [
     ]),
 ]
 
+ENGINES = ["yahoo", "bing", "yandex", "360search"]
+
 PALAVRAS_PARADA = {
     "de", "da", "do", "das", "dos", "a", "o", "e", "em", "para", "com",
     "the", "of", "and",
@@ -84,59 +86,71 @@ def tokens(s: str):
 SUSPENSO = re.compile(r"Suspenso|demasiadas solicita|CAPTCHA|Too Many", re.I)
 
 
-def searxng(query: str, limit: int = 12, lang="pt-BR", tentativas=3):
-    """Busca no SearXNG local COM BACKOFF.
+def searxng(query: str, limit: int = 12, lang="pt-BR", tentativas=2):
+    """Busca no SearXNG local, MULTI-ENGINE, so aceitando "sem resultado"
+    depois que TODOS os engines falharem.
 
-    Bug medido (2026-11-07): quando o engine aggregator satura (google cse
-    'demasiadas solicitacoes'), a API responde HTTP 200 com `results: []` e um
-    `unresponsive_engines` avisando. Sem backoff, a rodada inteira produz
-    ZERO links e parece 'sem_link' — falso negativo. Aqui detectamos a
-    suspensao e esperamos antes de desistir.
+    Medido em 2026-11-07 (cota do IP do SearXNG esgotada):
+      google cse -> "demasiadas solicitacoes" (0 res)  [era o que trazia loja]
+      brave      -> suspenso        | duckduckgo -> CAPTCHA
+      qwant      -> acesso negado   | seznam     -> tempo esgotado
+      bing       -> 10 res, mas SO paginas informativas (0 loja)
+      yahoo      -> 7 res, 5 loja   <-- O QUE TRAZ PAGINA DE PRODUTO
+      yandex     -> 15 res, 0-2 loja
+      360search  -> 7 res, 0-1 loja
+
+    A API responde HTTP 200 com results: [] e unresponsive_engines avisando
+    — falso negativo silencioso que fazia a rodada marcar TUDO como sem_link.
     """
-    # ENGINE FIXO = bing.
-    # Bug medido (2026-11-07): o aggregator padrao traria google cse + brave +
-    # duckduckgo + wikipedia, e os 4 caem em "demasiadas solicitacoes" / CAPTCHA
-    # quando a cota do IP estoura. A API responde HTTP 200 com results: [] — um
-    # falso negativo silencioso que fazia a rodada marcar TUDO como sem_link.
-    # O bing responde normalmente (10 resultados) mesmo com os outros caidos.
-    params = urllib.parse.urlencode(
-        {"format": "json", "q": query, "language": lang, "safesearch": 0,
-         "engines": "bing"}
-    )
-    url = f"{SEARXNG}?{params}"
-    espera = 8
+    espera = 6
+    vistos = set()
     for tentativa in range(tentativas):
-        try:
-            with urllib.request.urlopen(url, timeout=25) as r:
-                data = json.loads(r.read().decode("utf-8", "replace"))
-            res = data.get("results", []) or []
-            suspensos = data.get("unresponsive_engines") or []
-            if res:
-                return res
-            if suspensos and tentativa < tentativas - 1:
-                sys.stderr.write(
-                    f"[searxng suspenso, aguardando {espera}s] {query[:50]}\n")
-                time.sleep(espera)
-                espera *= 2
+        for eng in ENGINES:
+            params = urllib.parse.urlencode(
+                {"format": "json", "q": query, "language": lang,
+                 "safesearch": 0, "engines": eng}
+            )
+            url = f"{SEARXNG}?{params}"
+            try:
+                with urllib.request.urlopen(url, timeout=25) as r:
+                    data = json.loads(r.read().decode("utf-8", "replace"))
+            except Exception as e:  # noqa
+                sys.stderr.write(f"[searxng falhou {eng}] {query[:40]}: {e}\n")
                 continue
-            return res
-        except Exception as e:  # noqa
-            sys.stderr.write(f"[searxng falhou] {query}: {e}\n")
-            if tentativa < tentativas - 1:
-                time.sleep(espera)
-                espera *= 2
-                continue
-            return []
+            achados = []
+            for res in data.get("results", []) or []:
+                u = res.get("url") or ""
+                if u and u not in vistos:
+                    vistos.add(u)
+                    achados.append(res)
+            if achados:
+                return achados
+        if tentativa < tentativas - 1:
+            sys.stderr.write(
+                f"[searxng sem resultado, aguardando {espera}s] {query[:50]}\n")
+            time.sleep(espera)
+            espera *= 2
     return []
 
 
+
 def casar(obra_toks, autor_toks, texto: str) -> float:
-    """Score de aderencia do resultado ao titulo/autor procurados."""
+    """Score de aderencia do resultado ao titulo/autor procurados.
+
+    Calibrado em 2026-11-07: o autor e EXIGIDO quando a obra tem autor
+    (o Bing devolve paginas informativas que citam o titulo sem citar o
+    autor, e sem essa exigencia o catalogo enche de falso positivo).
+    """
     t = set(tokens(texto))
     if not t:
         return 0.0
     cov_titulo = len(obra_toks & t) / max(1, len(obra_toks))
-    cov_autor = len(autor_toks & t) / max(1, len(autor_toks)) if autor_toks else 0.0
+    if autor_toks:
+        cov_autor = len(autor_toks & t) / max(1, len(autor_toks))
+        if cov_autor == 0.0:
+            return 0.0
+    else:
+        cov_autor = 0.0
     return round(0.72 * cov_titulo + 0.28 * cov_autor, 3)
 
 
@@ -156,10 +170,13 @@ def buscar_item(item):
     autor_toks = tokens(autor)
     # variantes de titulo (ex.: "Morre de Ivan Illicht" -> "Morte de Ivan Ilyitch")
     variantes = item.get("variantes") or [titulo]
+    # Bing ignora aspas e operadores site: — entao a query leva o TERMO DE
+    # LOJA no corpo, que e o que faz ele devolver pagina de produto.
     consultas = []
     for v in [titulo] + list(variantes)[:2]:
-        consultas.append(f'"{v}" {autor} livro comprar')
-    consultas.append(f'site:amazon.com.br "{titulo}" {autor}')
+        consultas.append(f"{v} {autor} livro comprar amazon")
+        consultas.append(f"{v} {autor} comprar livro brasileiro")
+    consultas.append(f"{titulo} {autor} epub onde comprar")
 
     achados = {}
     for q in consultas:
@@ -171,8 +188,9 @@ def buscar_item(item):
             if not c:
                 continue
             chave, nome, _ = c
-            score = casar(obra_toks, autor_toks, (r.get("title") or "") + " " + (r.get("content") or ""))
-            if score < 0.34:
+            texto = (r.get("title") or "") + " " + (r.get("content") or "")
+            score = casar(obra_toks, autor_toks, texto)
+            if score < 0.55:
                 continue
             atual = achados.get(chave)
             if atual is None or score > atual["score"]:
@@ -256,7 +274,18 @@ def main():
         for item, achados in ex.map(buscar_item, sel):
             chave = (item.get("titulo"), item.get("autor"))
             if not achados and chave in existentes:
-                achados = {l["loja"]: l for l in existentes[chave]}
+                # normaliza o formato retomado (o YAML antigo nao tem
+                # "titulo_loja", tem "titulo_anuncio")
+                achados = {}
+                for l in existentes[chave]:
+                    achados[l["loja"]] = {
+                        "loja": l["loja"],
+                        "loja_nome": l.get("loja_nome", l["loja"]),
+                        "url": l["url"],
+                        "titulo_loja": l.get("titulo_anuncio") or l.get("titulo_loja") or "",
+                        "score": l.get("score_aderencia", 0.0),
+                        "snippet": l.get("snippet", ""),
+                    }
             resultados.append((item, achados))
             status = "OK" if achados else "sem_link"
             print(f"  {status:9} {item.get('titulo')} — {item.get('autor')}", file=sys.stderr)

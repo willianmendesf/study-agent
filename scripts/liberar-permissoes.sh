@@ -63,7 +63,14 @@ for d in "$ROOT"/data/biblioteca/*/; do
   [[ -d "$d" ]] || continue
   chown -R "$USUARIO:$GRUPO" "$d" 2>/dev/null
 done
-echo "  chown  data/biblioteca/*/"
+# BUG (2026-11-08): o glob `*/` so pegava SUBDIRETORIOS. Os arquivos soltos
+# na raiz de data/biblioteca/ (ex.: `canones-referidos-listas-leitura.md`,
+# `catalogo-compras.md`, `lista-aquisicao.md`) ficavam root:root — e o
+# `catalogar-automatico.py` CRASHAVA com PermissionError ao ler um deles,
+# derrubando a FASE 2 da rodada (os 3 orfaos nunca entravam nas KBs).
+find "$ROOT/data/biblioteca" -maxdepth 1 -type f \
+  ! -name '*.git*' -exec chown "$USUARIO:$GRUPO" {} + 2>/dev/null
+echo "  chown  data/biblioteca/*/ + arquivos da raiz"
 
 # --- 3. credenciais: legivel (leitura), nao gravavel ------------------------
 CREDS="$ROOT/data/perfil/bibliotecario/zlib-credentials.yaml"
@@ -105,21 +112,42 @@ fi
 
 echo ""
 echo "=== VERIFICACAO (testa escrita real) ==="
+# BUG (2026-11-08): o probe de "data/perfil/perfis.md" usava o arquivo REAL
+# como alvo de `touch` + `rm -f`. Cada execucao do script APAGAVA o indice de
+# especialistas — e o lint acusou "esp:bibliotecario:path:data/perfil/perfis.md
+# (especialista cita arquivo inexistente)" na rodada de 2026-11-08.
+# REGRA: NUNCA usar um arquivo real como alvo de probe. Todo alvo precisa ser
+# um arquivo temporario descartavel (`.probe`), criado e removido no mesmo
+# passo. Para testar um arquivo que JA existe, apenas verificamos se ele
+# esta gravavel (`test -w`), sem tocar nele.
 falhas=0
-for p in \
-  "$ROOT/data/perfil/bibliotecario/logs/.probe" \
-  "$ROOT/data/biblioteca/_incoming/.probe" \
-  "$ROOT/data/biblioteca/global/.probe" \
-  "$ROOT/data/perfil/bibliotecario/.probe" \
-  "$ROOT/data/perfil/.probe" \
-  "$ROOT/data/perfil/perfis.md" \
-  "$ROOT/data/.indice/.probe" \
-  "$ROOT/data/biblioteca/literatura-mundial-classica/.probe"
+for d in \
+  "$ROOT/data/perfil/bibliotecario/logs" \
+  "$ROOT/data/biblioteca/_incoming" \
+  "$ROOT/data/biblioteca/global" \
+  "$ROOT/data/perfil/bibliotecario" \
+  "$ROOT/data/perfil" \
+  "$ROOT/data/.indice" \
+  "$ROOT/data/biblioteca/literatura-mundial-classica"
 do
-  if sudo -u "$USUARIO" touch "$p" 2>/dev/null; then
-    rm -f "$p"; echo "  OK      ${p#$ROOT/}"
+  probe="$d/.probe"
+  if sudo -u "$USUARIO" touch "$probe" 2>/dev/null; then
+    rm -f "$probe"; echo "  OK      ${d#$ROOT/}/"
   else
-    echo "  BLOQ.   ${p#$ROOT/}"; falhas=$((falhas+1))
+    echo "  BLOQ.   ${d#$ROOT/}/"; falhas=$((falhas+1))
+  fi
+done
+
+# Arquivos REAIS: apenas conferem se estao gravaveis — nunca sao tocados.
+for f in \
+  "$ROOT/data/perfil/perfis.md" \
+  "$ROOT/data/biblioteca/lista-aquisicao.md"
+do
+  [[ -f "$f" ]] || continue
+  if sudo -u "$USUARIO" test -w "$f" 2>/dev/null; then
+    echo "  OK      ${f#$ROOT/} (gravavel)"
+  else
+    echo "  BLOQ.   ${f#$ROOT/} (nao gravavel)"; falhas=$((falhas+1))
   fi
 done
 
