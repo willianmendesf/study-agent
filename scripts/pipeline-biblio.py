@@ -57,6 +57,55 @@ BIB = ROOT / "data" / "biblioteca"
 KB = BIB / "global" / "kb-literatura-mundial-classica.yaml"
 EPUB2MD = ROOT / "data" / "perfil" / "bibliotecario" / "biblioteca-orbit" / "epub2md.py"
 
+# ---------------------------------------------------------------------------
+# P1/P2 — GATES DUROS (2026-11-08). O lint nao ve conteudo: estes dois
+# gates sao o que impede o acervo de mentir.
+# ---------------------------------------------------------------------------
+try:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from detectar_idioma import diagnostico as _diag_idioma
+except Exception:                                   # sem detector: nao quebra
+    _diag_idioma = None
+
+
+def similar(a, b):
+    """Similaridade de duas strings normalizadas (0..1)."""
+    import difflib
+    return difflib.SequenceMatcher(None, norm(a), norm(b)).ratio()
+
+
+def titulo_confere(titulo_cand, variantes):
+    """O candidato e' a MESMA obra que procuramos?
+
+    BUG (2026-11-08): "Sangue Bom" (Good Country People) casou com "Sangue
+    Sabio" (que e' A Wise Blood) — 1 token em comum num titulo de 2, e o
+    score passou. Cobertura por token SO nao prova identidade de obra.
+
+    Gate DURO: igualdade, substring, contencao de TODOS os tokens
+    significativos, ou similaridade >= 0.85.
+    """
+    c = norm(titulo_cand)
+    if not c:
+        return False
+    for v in variantes or []:
+        if not v or len(str(v).strip()) <= 2:
+            continue
+        n = norm(v)
+        if not n:
+            continue
+        if c == n:
+            return True
+        if len(n) > 4 and n in c:
+            return True
+        tv = [t for t in n.split() if len(t) > 2]
+        tc = set(c.split())
+        if tv and all(t in tc for t in tv):
+            return True
+        if similar(n, c) >= 0.85:
+            return True
+    return False
+
+
 MIN_BYTES = 20000
 MIN_LINHAS = 120
 
@@ -113,8 +162,12 @@ def log(ev, **kw):
 
 def sem_acento(s):
     import unicodedata
-    return "".join(c for c in unicodedata.normalize("NFD", s or "")
-                   if unicodedata.category(c) != "Mn")
+    # P4 (2026-11-08): NFKD (como o pipeline principal). Antes era NFD, que
+    # mantem o 'ª' -> "Alves-Cª-Eca-de-Queiroz" (2a via) contra
+    # "Alves-Ca-Eca-de-Queiroz" (1a via): DUAS chaves para a MESMA obra no
+    # mesmo estado, e dois arquivos no acervo.
+    return "".join(c for c in unicodedata.normalize("NFKD", s or "")
+                   if not unicodedata.combining(c))
 
 
 def norm(s):
@@ -323,6 +376,13 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
         aut = norm(b.get("author"))
         s = 0.0
 
+        # P1 (2026-11-08): GATE DURO DE TITULO, antes de qualquer pontuacao.
+        # Sem ele, "Sangue Bom" casava com "Sangue Sabio" (= A Wise Blood)
+        # por 1 token em comum — e o pipeline baixava a OUTRA obra.
+        if not titulo_confere(b.get("title") or "",
+                              [titulo_pt, titulo_en] + list(titulos_alt or [])):
+            continue
+
         # cobertura do titulo (max entre PT / EN / aliases)
         cov = 0.0
         for alvo in [alvo_pt, alvo_en] + alvos_alt:
@@ -403,6 +463,14 @@ def converte(ebook, titulo, autor, tags, ano, subpasta):
                           % (gerado.stat().st_size // 1024, linhas))
         if not conteudo_confere(txt, titulo):
             return None, "conteudo-divergente: titulo '%s' nao aparece no texto" % titulo
+        # P2 (2026-11-08): GATE DE IDIOMA no TEXTO. A rampa e' PT-BR; um
+        # exemplar em espanhol/ingles NAO substitui o PT-BR. Foi exatamente
+        # o que aconteceu com "Alves & C.a": a 2a via trouxe a edicao
+        # ESPANOLA e ela foi gravada em .../portugues/.
+        if _diag_idioma is not None:
+            diag = _diag_idioma(txt)
+            if not diag.startswith("pt"):
+                return None, "idioma-nao-pt (%s) — a rampa e' PT-BR" % diag
         dest_dir = BIB / "literatura-mundial-classica" / subpasta
         dest_dir.mkdir(parents=True, exist_ok=True)
         destino = dest_dir / ("%s.md" % slug(titulo, autor))
@@ -412,7 +480,9 @@ def converte(ebook, titulo, autor, tags, ano, subpasta):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-def cataloga(destino, titulo, autor, tags, ano, fonte):
+def cataloga(destino, titulo, autor, tags, ano, fonte, idioma="Portuguese"):
+    """P3 (2026-11-08): o `idioma` na KB era fixo em 'Portuguese' — a KB
+    MENTIA sobre o acervo (edicao espanhola gravada como portuguesa)."""
     rel = ("./data/biblioteca/literatura-mundial-classica/"
            + str(destino.relative_to(BIB / "literatura-mundial-classica")))
     if not KB.exists():
@@ -425,7 +495,7 @@ def cataloga(destino, titulo, autor, tags, ano, fonte):
              "    caminho_md: %s\n"
              "    tamanho_md: %d KB\n"
              "    linhas_md: %d\n"
-             "    idioma: Portuguese\n"
+             "    idioma: %s\n"
              "    tags: [%s]\n"
              "    ano: %s\n"
              "    status: indexado_auto\n"
@@ -433,7 +503,7 @@ def cataloga(destino, titulo, autor, tags, ano, fonte):
              "    fonte_aquisicao: %s\n"
              % (titulo, autor, rel, destino.stat().st_size // 1024,
                 destino.read_text(encoding="utf-8", errors="ignore").count("\n"),
-                tags_yaml, ano, fonte))
+                idioma, tags_yaml, ano, fonte))
     # BUG (2026-11-05): o regex procurava a chave "knowledge_base_literatura",
     # mas a KB real se chama "knowledge_base_literatura_mundial_classica" ->
     # o cataloga() retornava "falha-bloco-kb" e a obra NUNCA entrava na KB
@@ -679,7 +749,18 @@ def main():
             continue
 
         # ---- catalogacao + frontmatter ----
-        st_cat = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"], fonte)
+        _idioma_txt = "Portuguese"
+        try:
+            _d = _diag_idioma(destino.read_text(encoding="utf-8", errors="ignore")) \
+                if _diag_idioma else "pt"
+            _idioma_txt = ("Portuguese" if _d.startswith("pt") else
+                           "English" if _d.startswith("en") else
+                           "Spanish" if _d.startswith("es") else
+                           "French" if _d.startswith("fr") else
+                           "Italian" if _d.startswith("it") else "Portuguese")
+        except Exception:
+            pass
+        st_cat = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"], fonte, _idioma_txt)
         # idioma REAL do candidato (a 2a via pode trazer a obra em ingles)
         cand_lang = str((cand.get("lang") or cand.get("language") or "")).lower()
         idioma = "Portuguese" if ("portugu" in cand_lang or not cand_lang) else (

@@ -109,17 +109,29 @@ GAP_IDIOMA = {14, 20, 30, 37}
 # do limiar" porque o z-library publica a obra com um titulo PT DIFERENTE do
 # catalogo:
 #   - "A Wise Blood" (Flannery O'Connor) -> no z-library: "Sangue Sabio"
-#   - "Retratos" (Joyce, Dubliners)       -> "Retrato do Artista quando Jovem"
 #   - "A Utopia" (Conrad)                  -> "sob o Olho do Ocidente"
 #   - "Nostradamus: O Segredo das Centurias" -> "O Segredo das Centurias"
 # A cobertura do titulo exigia PT **e** EN ao mesmo tempo, e nenhuma das
 # formas casava. Agora o pipeline aceita ALIASES: a mesma obra procurada
 # pelo nome que ela tem no acervo brasileiro.
 # Chave: (titulo, autor) normalizados. Valor: lista de titulos alternativos.
+#
+# BUG (2026-11-08): "Retratos" (Joyce) tinha como alias "Retrato do Artista
+# quando Jovem" — que e' UMA OUTRA OBRA (o romance). O alias foi herdado de
+# uma suposicao errada e na rodada de 2026-11-08 fez o pipeline baixar o
+# ROMANCE para a vaga que pedia DUBLINERS (contos). O acervo ficou com o
+# livro errado, e o "Retratos" (Dubliners) continuou pendente.
+# REGRA: um alias tem de ser o MESMO livro com outro titulo. "Retratos" (que
+# no acervo brasileiro = Dublineses) nao pode apontar para "Retrato do
+# Artista". Corrigido: o alias correto de Dublineses e' "Dublineses".
 TITULOS_ALT = {
     ("a wise blood", "flannery o'connor"): ["Sangue Sábio"],
-    ("retratos", "james joyce"): ["Retrato do Artista quando Jovem",
-                                  "Um Retrato do Artista quando Jovem"],
+    ("retratos", "james joyce"): ["Dublineses"],
+    # "Good Country People" (1955) e' um CONTO, que no PT-BR esta dentro
+    # de "Contos completos" (Flannery O'Connor). Sem este alias, o pipeline
+    # nao achava o titulo PT e baixava "Sangue Sabio" (= A Wise Blood).
+    ("sangue bom", "flannery o'connor"): ["Contos completos",
+                                          "Belas Personas"],
     ("a utopia", "joseph conrad"): ["Sob o Olho do Ocidente",
                                     "Under Western Eyes"],
     ("nostradamus: o segredo das centúrias", "pellos c. plavgo"):
@@ -189,6 +201,11 @@ COMPLEMENTARES = [
      "The Power and the Glory", ["literatura", "ficcao-crista", "ingles"], 1940),
     ("A Wise Blood", "Flannery O'Connor", "media", "ingles",
      "Wise Blood", ["literatura", "ficcao-crista", "ingles"], 1952),
+    # BUG (2026-11-08): "Good Country People" (1955) e' um CONTO. O PT-BR
+    # dele esta dentro de "Contos completos" (Flannery O'Connor) — nao como
+    # um livro separado. O pipeline procurava o titulo PT e nao achava, e
+    # acabava baixando "Sangue Sabio" (que e' A Wise Blood, outra obra).
+    # Alias corrigido para o volume PT-BR onde o conto esta.
     ("Sangue Bom", "Flannery O'Connor", "media", "ingles",
      "Good Country People", ["literatura", "ficcao-crista", "ingles"], 1955),
     # --- rampa de leitura do William (ordem consolidada, nota 06) ---

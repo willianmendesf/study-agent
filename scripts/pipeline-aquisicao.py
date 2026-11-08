@@ -113,6 +113,55 @@ STOP = {"o", "a", "os", "as", "de", "do", "da", "dos", "das", "e", "em", "no", "
 
 
 # ---------------------------------------------------------------------------
+# P1/P2 — GATES DUROS (2026-11-08). O lint nao ve conteudo: estes dois
+# gates sao o que impede o acervo de mentir.
+# ---------------------------------------------------------------------------
+try:
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from detectar_idioma import diagnostico as _diag_idioma
+except Exception:                                   # sem detector: nao quebra
+    _diag_idioma = None
+
+
+def similar(a, b):
+    """Similaridade de duas strings normalizadas (0..1)."""
+    import difflib
+    return difflib.SequenceMatcher(None, norm(a), norm(b)).ratio()
+
+
+def titulo_confere(titulo_cand, variantes):
+    """O candidato e' a MESMA obra que procuramos?
+
+    BUG (2026-11-08): "Sangue Bom" (Good Country People) casou com "Sangue
+    Sabio" (que e' A Wise Blood) — 1 token em comum num titulo de 2, e o
+    score passou. Cobertura por token SO nao prova identidade de obra.
+
+    Gate DURO: igualdade, substring, contencao de TODOS os tokens
+    significativos, ou similaridade >= 0.85.
+    """
+    c = norm(titulo_cand)
+    if not c:
+        return False
+    for v in variantes or []:
+        if not v or len(str(v).strip()) <= 2:
+            continue
+        n = norm(v)
+        if not n:
+            continue
+        if c == n:
+            return True
+        if len(n) > 4 and n in c:
+            return True
+        tv = [t for t in n.split() if len(t) > 2]
+        tc = set(c.split())
+        if tv and all(t in tc for t in tv):
+            return True
+        if similar(n, c) >= 0.85:
+            return True
+    return False
+
+
+# ---------------------------------------------------------------------------
 # helpers
 # ---------------------------------------------------------------------------
 def sem_acento(s):
@@ -389,6 +438,12 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
     for b in books:
         raw = b.get("title", "") or ""
         aut_raw = b.get("author", "") or ""
+        # P1 (2026-11-08): GATE DURO DE TITULO, antes de qualquer pontuacao.
+        # "Sangue Bom" (Good Country People) casava com "Sangue Sabio"
+        # (= A Wise Blood) por 1 token em comum — e o pipeline baixava a
+        # OUTRA obra. A cobertura por token nao prova identidade de obra.
+        if not titulo_confere(raw, variantes):
+            continue
         ext = (b.get("extension") or "").lower()
         lang = (b.get("language") or "").lower()
         # formato aceito
@@ -541,6 +596,14 @@ def converte(ebook, titulo, autor, tags, ano, subpasta):
                           f"{linhas} lin) — extraicao provavelmente falhou")
         if not conteudo_confere(txt, titulo):
             return None, f"conteudo-divergente: titulo '{titulo}' nao aparece no texto"
+        # P2 (2026-11-08): GATE DE IDIOMA no TEXTO. A rampa e' PT-BR; um
+        # exemplar em espanhol/ingles NAO substitui o PT-BR. Foi exatamente
+        # o que aconteceu com "Alves & C.a": a 2a via trouxe a edicao
+        # ESPANOLA e ela foi gravada em .../portugues/.
+        if _diag_idioma is not None:
+            diag = _diag_idioma(txt)
+            if not diag.startswith("pt"):
+                return None, f"idioma-nao-pt ({diag}) — a rampa e' PT-BR"
         dest_dir = BIB / "literatura-mundial-classica" / subpasta
         dest_dir.mkdir(parents=True, exist_ok=True)
         destino = dest_dir / f"{slug(titulo, autor)}.md"
@@ -550,8 +613,13 @@ def converte(ebook, titulo, autor, tags, ano, subpasta):
         shutil.rmtree(tmp, ignore_errors=True)
 
 
-def cataloga(destino, titulo, autor, tags, ano):
-    """Insere na KB global de literatura. Idempotente por caminho_md."""
+def cataloga(destino, titulo, autor, tags, ano, idioma="Portuguese"):
+    """Insere na KB global de literatura. Idempotente por caminho_md.
+
+    P3 (2026-11-08): o `idioma` era fixo em 'Portuguese' — a KB MENTIA
+    sobre o proprio acervo (uma edicao espanhola gravada como portuguesa).
+    Agora vem do texto real.
+    """
     rel = f"./data/biblioteca/literatura-mundial-classica/{destino.relative_to(BIB / 'literatura-mundial-classica')}"
     txt = KB.read_text(encoding="utf-8")
     if rel in txt:
@@ -574,7 +642,7 @@ def cataloga(destino, titulo, autor, tags, ano):
              f"    caminho_md: {yq(rel)}\n"
              f"    tamanho_md: {yq(str(destino.stat().st_size // 1024) + ' KB')}\n"
              f"    linhas_md: {yq(destino.read_text(encoding='utf-8', errors='ignore').count(chr(10)))}\n"
-             f"    idioma: {yq('Portuguese')}\n"
+             f"    idioma: {yq(idioma)}\n"
              f"    tags: [{tags_yaml}]\n"
              f"    ano: {yq(ano)}\n"
              f"    status: {yq('indexado_auto')}\n"
@@ -867,7 +935,19 @@ def main():
             destino.write_text(frontmatter(it["titulo"], it["autor"], it["tags"],
                                            it["ano"]) +
                                destino.read_text(encoding="utf-8"), encoding="utf-8")
-        kb = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"])
+        # P3: idioma REAL, medido no texto (nao no metadado do candidato)
+        idioma_real = "Portuguese"
+        try:
+            _d = _diag_idioma(destino.read_text(encoding="utf-8", errors="ignore")) \
+                if _diag_idioma else "pt"
+            idioma_real = ("Portuguese" if _d.startswith("pt") else
+                           "English" if _d.startswith("en") else
+                           "Spanish" if _d.startswith("es") else
+                           "French" if _d.startswith("fr") else
+                           "Italian" if _d.startswith("it") else "Portuguese")
+        except Exception:
+            pass
+        kb = cataloga(destino, it["titulo"], it["autor"], it["tags"], it["ano"], idioma_real)
 
         # ---- 4b. GRAVA O ESTADO ANTES DO ORBIT ----
         # BUG (2026-11-07): o `estado[s] = {...}` vinha DEPOIS do upload ao
