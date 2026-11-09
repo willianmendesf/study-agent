@@ -299,13 +299,29 @@ def cota_zlib():
 
     Formato real medido (2026-11-05):
       "  zlib2: today=0 limit=10 remaining=10 err="
+
+    BUG (2026-11-09): quando o z-library caia, o `zlib-api.py limits` ficava
+    sondando 18 dominios e o `subprocess.run(..., timeout=120)` estourava
+    `TimeoutExpired` — que NAO era tratado. A 2a via SEM COTA (libgen), que
+    existe JUSTAMENTE para quando o z-library falha, MORREU com traceback
+    justo no dia em que era necessaria. Agora o timeout e' tratado e a cota
+    vira 0 com aviso — a via alternativa SEGUE funcionando.
     """
-    r = subprocess.run([sys.executable, str(ZLIB_API), "limits"],
-                       capture_output=True, text=True, timeout=120)
+    try:
+        r = subprocess.run([sys.executable, str(ZLIB_API), "limits"],
+                           capture_output=True, text=True, timeout=120)
+        stdout = r.stdout or ""
+    except subprocess.TimeoutExpired:
+        print("[biblio] zlib-api limits estourou o timeout (z-library "
+              "provavelmente fora do ar) — seguindo sem cota", flush=True)
+        return 0, "z-library inacessivel (timeout)"
+    except Exception as e:
+        print("[biblio] zlib-api limits falhou: %s" % e, flush=True)
+        return 0, "z-library inacessivel (%s)" % e
     total = 0
     linhas = []
     for m in re.finditer(r"(\S+):\s*today=(\d+)\s+limit=(\d+)\s+remaining=(\d+)",
-                         r.stdout or ""):
+                         stdout):
         alias, _today, _limit, rem = m.groups()
         total += int(rem)
         linhas.append("%s=%s" % (alias, rem))

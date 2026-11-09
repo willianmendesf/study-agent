@@ -49,6 +49,64 @@ LOG = ROOT / "data" / "perfil" / "bibliotecario" / "logs" / "pipeline-aquisicao.
 ESTADO = ROOT / "data" / "perfil" / "bibliotecario" / "pipeline-estado.json"
 
 DOM = "z-lib.gd"
+# BUG (2026-11-09): o dominio do z-library era FIXO (`z-lib.gd`). Quando ele
+# cai (deixou de responder em 2026-11-09), TODO o pipeline parava — e, pior,
+# a `cota()` devolvia 0 (resposta invalida = "sem cota"), o que imprimia
+# "cota esgotada em todas as contas" e encerrava a rodada com um LIXO que
+# PARECE cota real. Agora o dominio e' DESCOBERTO em runtime, com a mesma
+# politica do `zlib-api.py`: so vale o dominio que devolve `success:1` numa
+# busca REAL (o `z-lib.sk` responde 307 -> DiamWall, nao serve).
+DOMINIOS_CANDIDATOS = [
+    "z-lib.gd", "z-lib.sk", "z-lib.se", "z-lib.li", "z-lib.la", "z-lib.cz",
+    "z-lib.su", "z-lib.es", "z-lib.fm", "z-lib.rs", "z-lib.org", "z-lib.net",
+    "z-lib.io", "z-lib.lc", "z-lib.rs", "zlib.sk", "zlib.cz", "zlib.li",
+]
+_CACHE_DOM = None
+_PROBE_FEITO = False
+
+
+def _dominio_vivo(timeout=12):
+    """Descobre um dominio do z-library que responda um search REAL.
+
+    So' e' aceito o dominio que devolve `success:1` numa busca de teste.
+    Retorna None se nenhum responder (rede down / z-library fora).
+
+    BUG (2026-11-09): a sondagem rodava a CADA chamada (8 contas x 18
+    dominios x 12 s = ~28 min de espera). Agora o resultado (positivo OU
+    negativo) e' cacheado: o probe happens UMA vez por processo.
+    """
+    global _CACHE_DOM, DOM, _PROBE_FEITO
+    if _PROBE_FEITO:
+        return _CACHE_DOM
+    _PROBE_FEITO = True
+    for d in DOMINIOS_CANDIDATOS:
+        if _search_ok(d, timeout=timeout):
+            _CACHE_DOM = d
+            DOM = d
+            print("[zlib] dominio ativo: %s" % d, flush=True)
+            return d
+    print("[zlib] NENHUM dominio do z-library respondeu (rede ou "
+          "z-library fora do ar)", flush=True)
+    return None
+
+
+def _search_ok(dominio, query="Dumbo", timeout=12):
+    """True se o dominio responde um search REAL (`success:1`)."""
+    try:
+        r = subprocess.run(
+            ["curl", "-sS", "--max-time", str(timeout), "-X", "POST",
+             f"https://{dominio}/eapi/book/search", "-H", f"User-Agent: {UA}",
+             "--data-urlencode", f"message={query}", "--data-urlencode", "limit=1"],
+            capture_output=True, text=True, timeout=timeout + 8)
+        return '"success":1' in (r.stdout or "")
+    except Exception:
+        return False
+
+
+def dominio_ativo():
+    """Dominio em uso (descobre se preciso)."""
+    d = _dominio_vivo()
+    return d or DOM
 UA = "Mozilla/5.0 (Android 12; Mobile)"
 # BUG (2026-11-05): a conta principal `zlib` (que vem do
 # `zlib-credentials.yaml`) estava FORA desta lista — so entravam zlib2/3/4, que
@@ -334,21 +392,36 @@ def cota(acct, envs):
 
     Agora: resposta invalida => 0 (sem cota). E so se desconta quando o
     download REALMENTE happened.
+
+    BUG (2026-11-09): "resposta invalida => 0" confundia DUAS coisas
+    diferentes: (a) a conta nao tem cota e (b) o z-library esta FORA DO AR.
+    Em 2026-11-09 o `z-lib.gd` ficou inalcanceavel e as 8 contas voltaram
+    "cota=0" — a rodada imprimiu "cota esgotada em todas as contas" e PAROU,
+    Como se a cota tivesse sido gasta. O real era: a rede estava down.
+    Agora a funcao devolve `(cota, erro)`: o erro distingue "sem cota" de
+    "z-library inacessivel", e o chamador so aborta por cota REAL.
     """
-    out = curl([f"https://{DOM}/eapi/user/profile", "-H", f"User-Agent: {UA}",
+    dom = dominio_ativo()
+    out = curl([f"https://{dom}/eapi/user/profile", "-H", f"User-Agent: {UA}",
                 "-b", cookie(acct, envs)], timeout=30)
+    if out is None or not out.strip():
+        return 0, "z-library inacessivel (sem resposta)"
     try:
-        u = json.loads(out).get("user", {})
-        lim = u.get("downloads_limit") or 0
-        hoje = u.get("downloads_today") or 0
-        return max(0, lim - hoje)
+        d = json.loads(out)
     except Exception:
-        # resposta invalida / conta inexistente -> SEM cota (nao 10!)
-        return 0
+        return 0, "resposta invalida do z-library"
+    if not d.get("success"):
+        # o z-library respondeu, mas NEGOU (conta invalida / cota zerada)
+        return 0, d.get("error") or "sem cota"
+    u = d.get("user") or {}
+    lim = u.get("downloads_limit") or 0
+    hoje = u.get("downloads_today") or 0
+    return max(0, lim - hoje), ""
 
 
 def busca(query, acct, envs, lang=None, limit=30):
-    args = [f"https://{DOM}/eapi/book/search", "-H", f"User-Agent: {UA}",
+    dom = dominio_ativo()
+    args = [f"https://{dom}/eapi/book/search", "-H", f"User-Agent: {UA}",
             "-b", cookie(acct, envs), "-d", f"message={query}&limit={limit}"]
     if lang:
         args += ["-d", f"languages[]={lang}"]
@@ -542,7 +615,8 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
 
 def baixa(book, acct, envs, destino):
     bid, bh = book.get("id"), book.get("hash")
-    out = curl([f"https://{DOM}/eapi/book/{bid}/{bh}/file", "-H", f"User-Agent: {UA}",
+    dom = dominio_ativo()
+    out = curl([f"https://{dom}/eapi/book/{bid}/{bh}/file", "-H", f"User-Agent: {UA}",
                 "-b", cookie(acct, envs)], timeout=45)
     try:
         d = json.loads(out)
@@ -800,9 +874,33 @@ def main():
 
     # ---- cotas por conta ----
     contas = contas_ativas(envs)
-    cotas = {a: cota(a, envs) for a in contas}
+    cotas = {}
+    erros_cota = {}
+    # Se a sondagem de dominio ja provou que o z-library esta fora do ar,
+    # nao adianta sondar as 8 contas (30 s cada = 4 min de espera): o erro
+    # e' de REDE, e' o mesmo para todas.
+    if _dominio_vivo() is None:
+        print("!! z-library INALCANCAVEL (nenhum dominio respondeu) — a rodada "
+              "nao pode distinguir cota de rede. Nenhum download tentado.")
+        print("   -> a 2a via SEM COTA (libgen) segue no log da rodada.")
+        return 2
+    for a in contas:
+        c, err = cota(a, envs)
+        cotas[a] = c
+        if err:
+            erros_cota[a] = err
     print("cota por conta: " + ", ".join(f"{a}={cotas[a]}" for a in contas))
     if all(c <= 0 for c in cotas.values()) and not args.dry:
+        # BUG (2026-11-09): abortava por "cota esgotada" MESMO quando o
+        # z-library estava fora do ar (todas as contas davam 0 por falha de
+        # rede, nao por cota). Agora so aborta se a falha NAO for de rede.
+        if erros_cota and all(("inacessivel" in e) or ("invalida" in e)
+                              for e in erros_cota.values()):
+            print("!! z-library INALCANCAVEL (%s) — a rodada nao pode "
+                  "distinguir cota de rede. Nenhum download tentado."
+                  % "; ".join(sorted(set(erros_cota.values()))))
+            print("   -> a 2a via SEM COTA (libgen) segue no log da rodada.")
+            return 2
         # A BUSCA nao gasta cota — so o download. Em --dry seguimos mesmo assim,
         # para validar a selecao de candidatos sem gastar nada.
         print("!! cota esgotada em todas as contas — nada a baixar agora "
@@ -820,7 +918,23 @@ def main():
             continue
         if st.get("tentado") and st.get("status") == "falhou" and not args.titulo:
             # ja falhou uma vez: nao repete no mesmo dia (cota e precious)
-            continue
+            #
+            # BUG (2026-11-09): o comentario diz "no mesmo dia", mas o
+            # codigo nao comparava a DATA — qualquer falha (inclusive uma
+            # falha de REDE, que nao e' culpa da obra) bloqueava a obra
+            # PARA SEMPRE. As 46 falhas do catalogo estavam travadas desde
+            # 2026-11-06 e nenhuma voltaria a ser tentada. Agora so' bloqueia
+            # se a tentativa for do MESMO DIA (e nao for uma falha de rede).
+            hoje = time.strftime("%Y-%m-%d")
+            tentativa = st.get("tentado")
+            motivo = (st.get("motivo") or "")
+            falha_de_rede = ("download falhou: download falhou" in motivo
+                             or "z-library inacessivel" in motivo
+                             or "sem resposta" in motivo)
+            if tentativa == hoje and not falha_de_rede:
+                continue
+            # se a tentativa e' de hoje mas foi FALHA DE REDE, nao bloqueia:
+            # a obra nao e' responsavel e o dia ainda comeca.
 
         # ---- 1. busca (PT primeiro, depois sem filtro) ----
         # BUG (2026-11-06): o pipeline escolhia SEMPRE a primeira conta com
