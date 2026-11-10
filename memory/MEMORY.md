@@ -508,6 +508,15 @@ capítulo, versículos), (3) **link Memos**.
   padrão em qualquer script novo. **Nunca hardcodar `/home/...` em script de repo.**
 - **Estado:** commit `c385811` (data: cota diaria 2026-11-05) pushed para
   `git@github.com:willianmendesf/data.git` (branch master). Lint: 0 erro novo.
+- **⚠️ REINCIDÊNCIA 2026-11-10:** o **path errado também estava na MENSAGEM do
+  cron** (job `ff78ebb31148637c`, aula de Português 19:00 BRT), não só em
+  script. O path nunca foi corrigido na migração → o job quebraria sozinho.
+  **Corrigido** (backup + `cron add` novo `32f8b231fc55fc05` + `cron remove`
+  do antigo). **Regra:** todo cron que cite path → `ls` o path antes de rodar;
+  `picoclaw cron` **não tem edição** → só `add` (novo) e `remove` (antigo).
+- **Regra de execução de cron com script longo:** `nohup ... > log 2>&1 &`
+  e consultar o log. O `exec` do picoclaw corta em **300 s** e o TTS sozinho
+  leva ~276 s (aula de Português #25 levou 4:36 no total).
 
 ## 🔧 Rodada diária de aquisição — cliente z-library sem node (2026-11-05)
 
