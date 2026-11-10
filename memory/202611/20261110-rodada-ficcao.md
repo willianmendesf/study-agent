@@ -9,10 +9,10 @@ novo, corrigir a causa antes de encerrar.
 
 | item | valor |
 |---|---|
-| livros baixados | **13** (meta era 12) |
-| falhas | 6 (todas legítimas: conteúdo divergente, idioma não-PT, sem candidato) |
+| livros baixados | **17** (meta era 12) |
+| falhas | 11 (todas legítimas: conteúdo divergente, idioma não-PT, sem candidato) |
 | lint | **0 erro(s) novo(s)**, 4 conhecidos no baseline, 1 aviso — **exit 0** |
-| catálogo | 94 obras · **62 adquiridas** · 32 pendentes |
+| catálogo | 94 obras · **65 adquiridas** · 29 pendentes |
 | fonte | **2ª via (libgen, SEM COTA)** — o z-library está fora do ar |
 
 ## O z-library está fora do ar (medido, não suposto)
@@ -81,7 +81,7 @@ limitava a 6 mesmo com meta 12.
 Corrigido: `MAX_BIB="$MAX"` (mesma meta da rodada) e
 `TIMEOUT_BIB=$(( MAX * 600 ))` com teto de 60 min.
 
-## Os 13 livros (todos com conteúdo real verificado + catalogados na KB)
+## Os 17 livros (todos com conteúdo real verificado + catalogados na KB)
 
 | obra | autor | KB | palavras |
 |---|---|---|---|
@@ -116,12 +116,17 @@ EPUB) — o conteúdo segue íntegro.
 - **sem candidato (3)** — Estado de Sítio e O Estrangeiro (Camus), O Problema
   da Dor (Lewis), O Conde de Abranhos e A Perdição (Eça).
 - **conversão sem .md (3)** — O Estrangeiro, O Peregrino (Bunyan), Sangue Bom.
-- **download falhou (16)** —Reply Major (Fitzgerald), Ortodoxia (Chesterton),
-  Os Trabalhadores do Mar (Hugo), Pequenos Burgueses (Gorki), Tartufo (Molière),
-  Tom Jones (Fielding), Werther (Goethe), e outros.
+- **download falhou / link quebrado** — O Sol Também Se Levanta (Hemingway),
+  Pequenos Burgueses (Gorki), Tartufo (Molière), Tom Jones (Fielding),
+  Werther (Goethe), Suave É a Noite, Seis Personagens, Terra dos Homens,
+  Tônio Kroeger, Santuário, Pedro Páramo, Quando o Espiritual Domina, e outros.
 
-As 16 "download falhou" são **candidatos para a próxima rodada com o z-library
-de volta** — o motivo é falha de download, não recusa de conteúdo.
+Essas são **candidatas para a próxima rodada com o z-library de volta** — o
+motivo é falha de download, não recusa de conteúdo.
+
+⚠️ **Ganho colateral do fix:** "O Retrato de Dorian Gray" e "O Vermelho e o
+Negro" estavam travados como falha desde 2026-11-07 e voltaram a ser tentados
+— foram **adquiridos** hoje. O bug da trava estava custando obras reais.
 
 ## Pendências externas (NÃO desta rodada)
 
@@ -134,7 +139,7 @@ de volta** — o motivo é falha de download, não recusa de conteúdo.
 
 ## Commits
 
-- `4996cf5` (data) — 13 livros + KB + estado + `rodada-ficcao.sh`
+- `4996cf5` + `c8a0d95` (data) — 17 livros + KB + estado + `rodada-ficcao.sh`
 - `358a4d7` (repo) — `scripts/pipeline-biblio.py`
 
 Ambos pushados. Lint: 0 erro novo.

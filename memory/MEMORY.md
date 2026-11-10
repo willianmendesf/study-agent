@@ -1171,7 +1171,10 @@ revisão: todo `if ... "falhou" ...: continue` num pipeline.
 fixo. Medido: a 2ª via leva **~2 min por livro** → 180 s cortava no 3º livro.
 Corrigido: `MAX_BIB="$MAX"` e `TIMEOUT_BIB=$(( MAX * 600 ))`, teto 60 min.
 
-**Resultado:** 13 livros baixados (meta 12) pela 2ª via (libgen), todos com
+**Resultado:** **17 livros** baixados (meta 12) pela 2ª via (libgen), todos com
 conteúdo real verificado e catalogados na KB. Lint: 0 erro novo.
+**Ganho colateral:** "O Retrato de Dorian Gray" e "O Vermelho e o Negro", travados
+como falha desde 2026-11-07, foram **adquiridos** — o bug da trava custava
+obras reais.
 Detalhes: `memory/202611/20261110-rodada-ficcao.md`.
 
