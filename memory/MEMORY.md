@@ -532,6 +532,35 @@ capítulo, versículos), (3) **link Memos**.
   (rodada 2026-11-05 — bugs P/Q/S/T: npx ausente, conta principal fora, path
   dobrado `data/data/`, ROOT por BASH_SOURCE relativo).
 
+## 🔧 "0 downloads" tem DUAS causas — sempre separar antes de reportar (2026-11-10)
+
+**Regra durável:** ao reportar uma rodada com 0 materiais baixados, NUNCA
+reportar só o número. As duas causas possíveis precisam ser **medidas**:
+
+1. **Saturação legítima** (a biblioteca está saudável) — medir com
+   `python3 data/perfil/bibliotecario/biblioteca-orbit/gaps-pendentes-rotina.py --json`
+   → `areas: {}` + `saturados: [...]`. É leitura local, **não gasta cota**.
+   **Prova de que é genuína** (e não lista de candidatos vazia): contar os
+   candidatos por área (`rod.CANDIDATOS`) — se as listas forem **não-vazias** e
+   `ja_no_acervo` acusar todos como presentes, a saturação é real.
+2. **Serviço fora do ar** (impediria qualquer download) — testar o **endpoint
+   real** `POST {dominio}/eapi/book/search` com `message=` + `limit=1` e ver se
+   devolve `"success":1`. É o mesmo critério que o `_search_ok()` do
+   `zlib-api.py` usa. `curl` na raiz do site **não** serve: `z-lib.sk` responde
+   307 (DiamWall) e `z-lib.gd` pode recusar TCP.
+
+**Armadilha medida (2026-11-10):** a descoberta de domínio do `zlib-api.py`
+**cai no fallback `DOMAINS[0]`** (= `z-lib.gd`) quando nenhum domínio responde.
+Aí `zlib-api.py limits` reporta "sem resposta (rede/timeout)" nas 8 contas —
+**o que parece cota esgotada é rede/serviço fora do ar**. Testar 5 domínios à mão
+foi o que revelou: `z-lib.gd` recusava conexão em 79.124.59.190.
+
+**Estado 2026-11-10 06:37 UTC:** 0 baixados, 0 gaps (13 áreas saturadas,
+50 candidatos todos no acervo, 1.357 materiais catalogados), lint **0 erros
+novos** (exit 0) → **nada a corrigir**. z-library fora do ar em todos os domínios;
+SearXNG (192.168.15.41) e BookOrbit (192.168.15.26) também sem rota.
+Detalhes: `memory/202611/20261110-rodada-bibliotecario.md`.
+
 ## 📚 Aquisição de ficção em ESCALA — pipeline data-driven (2026-11-05)
 
 - **Pergunta do William:** "ainda tenho milhares de outros livros para catalogar,
@@ -1120,4 +1149,29 @@ Solucao: **squash global** (so letras, sem acento, minuscula) + mapa char→linh
 **bytes nulos**; `Cervantes-Dom-Quixote.md` tem **104 tracebacks** (nao e o D.Q.).
 
 **Commits:** `1c6913c` (data) · `c52f169` (repo) — pushados. Lint: 0 erro novo.
+
+## 🔧 Rodada de ficção — 2ª via travava o catálogo inteiro (2026-11-10)
+
+**Sintoma:** a rodada de 2026-11-10 rodou e processou **ZERO itens**
+(`baixados: 0 · falhas: 0`). Não era cota, não era rede.
+
+**Causa raiz:** `scripts/pipeline-biblio.py` (2ª via, SEM COTA) **nunca recebeu**
+a correção de **2026-11-09** que o `pipeline-aquisicao.py` (via primária) ganhou.
+O `continue` sem comparar a DATA travava a obra **para sempre** — as 46 falhas
+do catálogo estavam bloqueadas desde 2026-11-06, e 41 obras nunca tinham sido
+tentadas (a rodada as ignorava em silêncio).
+
+**REGRA DURÁVEL:** *quando uma correção é aplicada num pipeline, replicar nos
+pipelines irmãos que compartilham o mesmo arquivo de estado.* O
+`pipeline-estado.json` é lido pelo principal e escrito pelos dois — a
+semântica do "já falhou" precisa ser **idêntica** nos dois lados. Gatilho de
+revisão: todo `if ... "falhou" ...: continue` num pipeline.
+
+**2º bug:** `rodada-ficcao.sh` rodava a 2ª via com `timeout 180` e `--max 6`
+fixo. Medido: a 2ª via leva **~2 min por livro** → 180 s cortava no 3º livro.
+Corrigido: `MAX_BIB="$MAX"` e `TIMEOUT_BIB=$(( MAX * 600 ))`, teto 60 min.
+
+**Resultado:** 13 livros baixados (meta 12) pela 2ª via (libgen), todos com
+conteúdo real verificado e catalogados na KB. Lint: 0 erro novo.
+Detalhes: `memory/202611/20261110-rodada-ficcao.md`.
 
