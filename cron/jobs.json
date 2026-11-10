@@ -16,35 +16,12 @@
         "to": "916214383"
       },
       "state": {
-        "nextRunAtMs": 1793426400000,
-        "lastRunAtMs": 1793340000154,
+        "nextRunAtMs": 1794376800000,
+        "lastRunAtMs": 1794290400047,
         "lastStatus": "ok"
       },
       "createdAtMs": 1792537777168,
-      "updatedAtMs": 1793340082913,
-      "deleteAfterRun": false
-    },
-    {
-      "id": "ff78ebb31148637c",
-      "name": "🕖 São 19:00 BRT (cron em UT...",
-      "enabled": true,
-      "schedule": {
-        "kind": "cron",
-        "expr": "0 22 * * *"
-      },
-      "payload": {
-        "kind": "agent_turn",
-        "message": "🕖 São 19:00 BRT (cron em UTC: 22:00). Disparar /home/study-agent/data/estudos/notas/portugues-aulas-diarias/enviar-aula.sh — a próxima aula pendente do curso de Português da Portuga. Mp3 deve chegar no chat em ~1 min.",
-        "channel": "telegram",
-        "to": "916214383"
-      },
-      "state": {
-        "nextRunAtMs": 1793484000000,
-        "lastRunAtMs": 1793397600194,
-        "lastStatus": "ok"
-      },
-      "createdAtMs": 1792594324125,
-      "updatedAtMs": 1793397813325,
+      "updatedAtMs": 1794290485866,
       "deleteAfterRun": false
     },
     {
@@ -62,12 +39,12 @@
         "to": "916214383"
       },
       "state": {
-        "nextRunAtMs": 1793428200000,
-        "lastRunAtMs": 1793341800131,
+        "nextRunAtMs": 1794378600000,
+        "lastRunAtMs": 1794292200011,
         "lastStatus": "ok"
       },
       "createdAtMs": 1792850852841,
-      "updatedAtMs": 1793347087639,
+      "updatedAtMs": 1794292903352,
       "deleteAfterRun": false
     },
     {
@@ -90,6 +67,73 @@
       },
       "createdAtMs": 1793244761586,
       "updatedAtMs": 1793317319870,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "28282e3435bb544f",
+      "name": "Rodada diaria de aquisicao ...",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "15 7 * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Rodada diaria de aquisicao de FICCAO (escala). Roda /home/willian/study-agent/data/perfil/bibliotecario/rodada-ficcao.sh --max 12 e me reporta: quantos livros foram baixados, quais, e o que ficou pendente. A cota do z-library reseta a meia-noide UTC (21h BRT), entao roda cedo. Se o lint acusar erro novo, corrige a causa antes de encerrar.",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "nextRunAtMs": 1794381300000,
+        "lastRunAtMs": 1794294900016,
+        "lastStatus": "ok"
+      },
+      "createdAtMs": 1793878129718,
+      "updatedAtMs": 1794296235035,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "a2d3266abfa5141d",
+      "name": "Reenvio automático dos eboo...",
+      "enabled": false,
+      "schedule": {
+        "kind": "cron",
+        "expr": "*/15 * * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "Reenvio automático dos ebooks de _incoming/ para o BookOrbit. Roda sozinho assim que a permissão library_upload for concedida no app.",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "nextRunAtMs": 1793890800000,
+        "lastRunAtMs": 1793889000014,
+        "lastStatus": "ok"
+      },
+      "createdAtMs": 1793888565003,
+      "updatedAtMs": 1793889967540,
+      "deleteAfterRun": false
+    },
+    {
+      "id": "32f8b231fc55fc05",
+      "name": "🕖 São 19:00 BRT (cron em UTC: 22:00)",
+      "enabled": true,
+      "schedule": {
+        "kind": "cron",
+        "expr": "0 22 * * *"
+      },
+      "payload": {
+        "kind": "agent_turn",
+        "message": "🕖 São 19:00 BRT (cron em UTC: 22:00). Disparar /home/willian/study-agent/data/estudos/notas/portugues-aulas-diarias/enviar-aula.sh — a próxima aula pendente do curso de Português da Portuga. Mp3 deve chegar no chat em ~1 min.",
+        "channel": "telegram",
+        "to": "916214383"
+      },
+      "state": {
+        "nextRunAtMs": 1794434400000
+      },
+      "createdAtMs": 1794348183664,
+      "updatedAtMs": 1794348183664,
       "deleteAfterRun": false
     }
   ]
