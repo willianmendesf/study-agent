@@ -652,7 +652,29 @@ def main():
         if st.get("status") == "adquirido":
             continue
         if st.get("tentado") and st.get("status") == "falhou" and not args.titulo:
-            continue
+            # ja falhou uma vez: nao repete no mesmo dia (cota e precious)
+            #
+            # BUG (2026-11-10): este bloco foi corrigido no pipeline PRINCIPAL
+            # em 2026-11-09, mas a correcao NUNCA foi replicada aqui. O
+            # `continue` sem comparar a DATA travava a obra PARA SEMPRE:
+            # as 46 falhas do catalogo estavam bloqueadas desde 2026-11-06 e
+            # nenhuma voltaria a ser tentada — nem pela 2a via (libgen), que
+            # nao gasta cota. Por isso a rodada de 2026-11-10 rodou e
+            # processou ZERO itens, apesar de 41 obras do catalogo estarem
+            # sem estado (nunca tentadas).
+            # Agora so' bloqueia se a tentativa for do MESMO DIA e nao for
+            # uma falha de REDE (rede nao e' culpa da obra).
+            hoje = time.strftime("%Y-%m-%d")
+            tentativa = st.get("tentado")
+            motivo = (st.get("motivo") or "")
+            falha_de_rede = ("download falhou: download falhou" in motivo
+                             or "z-library inacessivel" in motivo
+                             or "sem resposta" in motivo
+                             or "nenhum link direto baixou" in motivo)
+            if tentativa == hoje and not falha_de_rede:
+                continue
+            # se a tentativa e' de hoje mas foi FALHA DE REDE, nao bloqueia:
+            # a obra nao e' responsavel e o dia ainda comeca.
 
         queries = ["%s %s" % (it["titulo"], it["autor"])]
         if it["titulo_en"]:
