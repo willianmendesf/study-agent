@@ -1187,3 +1187,33 @@ como falha desde 2026-11-07, foram **adquiridos** — o bug da trava custava
 obras reais.
 Detalhes: `memory/202611/20261110-rodada-ficcao.md`.
 
+
+## 🔧 Rotada de aquisição — "gap zero" pode esconder 3 defeitos (2026-11-11)
+
+**Regra de ouro:** gap zero é sinal de **3** coisas, não uma — (a) sensor
+quebrado (BUG M), (b) **alvo fantasma** (obra que não existe), (c) **autor
+errado** no candidato. Audite os 3 antes de aceitar "saturado".
+
+**3 bugs corrigidos hoje (rodape-aquisicao.py, sub-repo `data/`):**
+1. **BUG V2** — o SENSOR (`ja_no_acervo`) casava título **sem corroborar autor**
+   (o picker foi corrigido no BUG N2/N3/N4/N5, o sensor não). Mascarava 2 gaps.
+   → helper `_autor_divergente()`: só declara divergência se o frontmatter
+   **tem** `autor:` e o sobrenome pedido não aparece.
+2. **BUG W** — a chave de "já coberto" era **só o título**. "Systematic Theology"
+   (Grudem) bloqueava "Systematic Theology" (Berkhof) — o rodapé pulava o
+   alvo em silêncio, sem nem buscar. → chave `titulo|sobrenome`.
+3. **BUG X** — 2 **alvos fantasma**: "The Art of Biblical Preaching (Lesslie)"
+   é de **Whitesell** (Lesslie = Lesslie *Newbigin*, confusão de nome);
+   "Theology of the Old Testament (Berding)" **não existe** (Berding é coeditor
+   de "Three Views on the **New** Testament…") → canônico real: **Eichrodt**.
+   Confirmado por `openlibrary.org/search.json` (fonte externa ao z-library).
+
+**Resultado:** 2 gaps fechados (Berkhof · Eichrodt), acervo 1.183 → 1.185 `.md`,
+lint 0 erro novo, 0 deleções. Commits `b6cfdb2`/`93ea03e` (data) + `b4b6a50` (repo).
+
+**Detalhes:** `data/perfil/memorias/rodada-aquisicao.md` → rodada 2026-11-11
+(regras 19–23). Nota diária: `memory/202611/20261111-rodada-bibliotecario.md`.
+
+**Armadilhas do dia:** SearXNG sem rota (caiu para web_fetch/web_search nativos) ·
+`gap-analysis.py` leva >60 s (fase 2 em background) · `--fase 1` da rotina usa
+gap **fixo**, não os medidos (chamar o `rodape-aquisicao.py` direto).
