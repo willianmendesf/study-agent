@@ -1391,3 +1391,36 @@ cota preservada (59/60) · commits `c414825` (repo), `cc89bf5` e `0356834`
 Sherlock Holmes* (1927) segue sem PT-BR.
 
 **Nota diária:** `memory/202611/20261113-rodada-ficcao.md`.
+
+## 📚 Maiêutica — 4 livros adquiridos (2026-11-13 19:30 BRT)
+
+- **Pedido:** "Depois busque livros sobre maieutica."
+- **Adquiridos** (todos PT-BR, em `data/biblioteca/filosofia/`, kb-filosofia 21→25,
+  BookOrbit 1.125→1.128, uploads bookId 1870/1872/1874/1876):
+  - **Kreeft, *O que Sócrates diria?*** (Vide Editorial 2026) — intro à filosofia em
+    diálogo socrático; o manual prático do método.
+  - **Kreeft, *Lógica socrática*** (Kírion 2024) — lógica formal em diálogo.
+  - **Xenofonte, *Ditos e feitos memoráveis de Sócrates*** (Edipro 2024) — fonte primária.
+  - **Kierkegaard, *O Conceito de Ironia*** — a análise da ironia socrática.
+- **Já existiam:** *Teeteto* (Platão, PT) e Thinknetic *The Socratic Way of Questioning* (EN).
+- **Nota de estudo:** `data/estudos/notas/hermeneutica/maieutica-e-estudo-biblico.md`
+  (memo `memos/dUqLEi2guyewAfGikyJrrE`).
+- **Armadilhas:** `memos-post.sh` falhou com "Could not resolve host" (MagicDNS off) —
+  `scripts/postar-fichas-memos.py` funcionou (tenta IPv6 → IPv4 → hostname).
+  `zlib-api.py` não aceita `--conta`: a conta é POSICIONAL depois da query.
+- **Cota z-library no dia:** 8 contas ativas (40+ downloads); sobrou folga.
+
+## 🔧 BookOrbit — upload com nome de arquivo é o que define título/autor (2026-11-13)
+
+- **Bug no `scripts/orbit-upload.py`:** `filename = autor or ebook.stem` → o app recebe
+  **só o nome do autor** como nome do arquivo. Consequência medida: PDFs diferentes
+  viram `_unorganized.pdf` e o 2º em diante dá **409 "A file named … already exists"**.
+- **Correção aplicada no lote de 2026-11-13 (18 livros):** upload direto na API com
+  `filename = "Autor - Título.ext"` — o BookOrbit monta autor e título a partir do nome.
+- **Regra:** ao subir livro pelo `orbit-upload.py` sem `--autor` completo, **conferir o
+  nome final**. E nunca "consertar" o 409 renomeando o arquivo local: 409 é sinal de
+  duplicata real ou de nome genérico repetido.
+- **Identificação antes de nomear (de novo):** 2 PDFs eram o MESMO arquivo corrompido
+  (md5 igual, `EOF marker not found`) de um livro cujo arquivo bom também veio no lote.
+  Não subir arquivo quebrado: `pdfinfo`/`pdftotext` vazio + pypdf `PdfStreamError` = fora.
+- **Estado:** BookOrbit **1.129 → 1.147** livros. Nota: `memory/202611/20261113-orbit-lote-livros.md`.
