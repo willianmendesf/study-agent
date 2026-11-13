@@ -1335,3 +1335,59 @@ já instalado.
   pastor segundo o coração de Deus*). **Regra: quando chegam vários arquivos do
   mesmo autor, comparar assinatura de texto (primeiras N palavras) + tamanho
   antes de extrair. Título diferente no metadata ≠ obra diferente.**
+
+## 🔧 Rodada de ficção 2026-11-13 — a 2ª via estava morta há 4 rodadas (e ninguém via)
+
+**Sintoma reportado:** "0 baixados". **Realidade:** o catálogo está **94/94
+adquirido** — não havia o que baixar. Mas a rodada revelou 2 bugs + 3 arquivos
+corrompidos.
+
+**Bug 1 (grave):** `scripts/pipeline-biblio.py` tem cópia própria de `toks()`
+que devolvia **lista**, enquanto o score faz `alv_a & a` (interseção de
+**conjuntos**, herdada do `pipeline-aquisicao.py` onde `toks()` devolve `set`).
+→ `TypeError: unsupported operand type(s) for &: 'list' and 'list'` em **toda**
+chamada de `candidatos_ordenados`, antes de avaliar o 1º candidato. A 2ª via
+(libgen, **SEM COTA**) morreu em 4 rodadas seguidas (10, 11, 12 e 13/11) com a
+mensagem "2b indisponível". O traceback estava no log de 2026-11-11 e passou
+despercebido porque a mensagem final era genérica.
+
+**REGRA DURÁVEL:** mensagem de erro genérica ("indisponível", "sem via
+alternativa") **engole bug de código**. Sempre traduzir o exit code:
+`0`=baixou · `1`=rodou OK sem nada a baixar · `124`=timeout · outro=erro real.
+Aplicado em `rodada-ficcao.sh` (antes um único `||` dizia a mesma coisa nos 4
+casos).
+
+**REGRA DURÁVEL 2:** ao copiar função entre pipelines irmãos, o **tipo de
+retorno** é parte do contrato. `toks()` no `pipeline-aquisicao.py` devolve `set`
+e filtra `STOP`; no `pipeline-biblio.py` devolvia `list`. Não são
+intercambiáveis.
+
+**Auditoria que vale repetir (não confiar no campo `md` do estado):**
+```python
+b = open(p,'rb').read()
+b.count(0) > 1000                                    # bytes nulos
+b.decode('utf-8','ignore').count('Traceback (most recent call last)') > 0
+```
+E o slug tem de vir do `pipeline-aquisicao.py` via `importlib` — reimplementar
+deu **94 "SEM-ESTADO" falsos** (o slug canônico é `Titulo-Autor` truncado em 70
+chars, sem acento).
+
+**3 arquivos corrompidos achados e resolvidos:**
+- `Cervantes-Dom-Quixote.md` — 18 KB com **104 tracebacks** (não era a obra).
+  **Re-adquirido** pela 2ª via recém-consertada: 2,2 MB, 14.617 linhas, PT-BR,
+  Orbit **bookId 1849**. Foi a prova de que o fix funciona.
+- `outros/anna-karenina-liev-tolstoi.md` e `outros/idiota-fiodor-dostoievski.md`
+  — 1,9 MB e 1,6 MB de **bytes nulos**. KB e estado **reapontados** para os
+  arquivos bons (`tolstoi/`, `dostoievski/`). Os nulos seguem no disco, órfãos
+  (apagar exige aprovação do William).
+
+**Estado:** catálogo 94/94 com arquivo real e íntegro · lint 0 erro novo (2x) ·
+cota preservada (59/60) · commits `c414825` (repo), `cc89bf5` e `0356834`
+(data), `5aa67cf` (memória).
+
+**Pendente:** (1) ampliar o catálogo para a rodada voltar a render
+(`estante-william.yaml` + `lista-aquisicao.md` → `gerar-catalogo-ficcao.py`);
+(2) apagar os 2 .md de bytes nulos (precisa ok do William); (3) *O Caso Final de
+Sherlock Holmes* (1927) segue sem PT-BR.
+
+**Nota diária:** `memory/202611/20261113-rodada-ficcao.md`.
