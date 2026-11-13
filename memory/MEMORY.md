@@ -1217,3 +1217,121 @@ lint 0 erro novo, 0 deleções. Commits `b6cfdb2`/`93ea03e` (data) + `b4b6a50` (
 **Armadilhas do dia:** SearXNG sem rota (caiu para web_fetch/web_search nativos) ·
 `gap-analysis.py` leva >60 s (fase 2 em background) · `--fase 1` da rotina usa
 gap **fixo**, não os medidos (chamar o `rodape-aquisicao.py` direto).
+
+## 📮 Memos — acesso por IP (MagicDNS desligado) e tag `#fichas-de-livros` (2026-11-11)
+
+- **Sintoma:** `memos.ison-duck.ts.net` → `Could not resolve host` nesta LXC.
+  `tailscale dns status` → **"Use Tailscale DNS: disabled"**. O **IPv4** do
+  tailnet (`100.103.64.20`) **não responde** (timeout em 80/443/5230), mas o
+  **IPv6 global** do host responde:
+  `http://[2804:7f0:6942:a634:e221:6309:fdc:f815]/api/v1/...` (usar `curl -g`).
+  `tailscale ping 100.103.64.20` funciona (pong) — o problema é só o data plane
+  do IPv4 para HTTP, não a máquina.
+- **Não confundir com "Memos fora do ar".** Antes de dizer que caiu, testar o
+  endpoint real com `pageSize=1` e ver se devolve `200`.
+- **Script:** `scripts/postar-fichas-memos.py` — posta ficha no Memos, remove
+  frontmatter, anexa tags e **grava `memo_id` no frontmatter**. Tenta IPv6 →
+  IPv4 → hostname e fixa o primeiro que responder.
+- **Armadilha:** `GET /api/v1/memos/<uid>` pode devolver **404** enquanto o memo
+  aparece na listagem como `NORMAL`. Não é apagado — buscar o uid pela
+  **listagem** (`pageSize=50`) e usar esse; o `PATCH` por uid funciona.
+- **Tag nova `#fichas-de-livros`** (pedido do William 2026-11-11): entra em toda
+  ficha de leitura de obra/conto, junto de `#study-agent`. Registrada na tabela
+  de trilhas de `.claude/skills/study-memos-sync/SKILL.md`.
+- **Estado:** 8 fichas publicadas com a tag (Vila Glicínia, Círculo Vermelho,
+  Bruce-Partington, Detetive Moribundo, Lady Frances Carfax, Pé do Diabo,
+  Último Adeus, A Capital).
+- **Detalhes:** `memory/202611/20261111-fichas-memos.md`.
+
+## 🔧 Rodada de aquisição 2026-11-12 — "saturado" confirmado por medição dupla
+
+- **Resultado:** 0 baixados, 0 gaps fechados, 0 pendentes (13 áreas saturadas),
+  lint **0 erro novo**. Nada a corrigir. Cota do z-library preservada.
+- **A prova de que a saturação é real (regra de 2026-11-10, repetida):**
+  1. `gaps-pendentes-rotina.py --json` → `areas: {}` + 13 `saturados`.
+  2. **Os 50 candidatos de `rodape.CANDIDATOS` testados um a um** com
+     `ja_no_acervo(titulo, autor, acervo_por_titulo(), acervo_por_sig())`
+     → **50/50 já no acervo**. Lista não-vazia + sensor confirma = saturação
+     legítima, não sensor quebrado (BUG V2 fechado em 2026-11-11).
+  3. **Serviço no ar:** `POST https://z-lib.gd/eapi/book/search` com
+     `message=...&limit=1` → `{"success":1}`. Portanto 0 downloads NÃO é
+     serviço fora do ar (diferente de 2026-11-10).
+- **Armadilha de assinatura:** `CANDIDATOS` é `{area: [tupla(titulo, autor,
+     categoria, tags, lista_tags)]}` — `ja_no_acervo` exige `(titulo, autor,
+     idx_titulos, idx_sigs)`; passar `c` inteiro dá `'tuple' has no attribute
+     'lower'`. Usar `c[0], c[1]`.
+- **Acervo:** 1198 `.md`, 1405 materiais catalogados, 0 órfão, 0 YAML inválido,
+  20 sem tag (1,6%).
+- **Commit:** `4b5e83c` (data, 85 arquivos — só `atualizado_em` das KBs +
+  gap-report.json) pushado.
+- **Nota diária:** `memory/202611/20261112-rodada-bibliotecario.md`.
+
+
+## 📚 Biblioteca pastoral — chamado, vocação e pastor × presbítero (2026-11-13)
+
+- **Pedido do William:** livros sobre (a) chamado pastoral, (b) como saber se é chamado
+  ao pastoreio, (c) diferença entre pastor e presbítero **na visão da IPB**.
+- **Entregue:** 13 obras em `data/biblioteca/pastoral/`, kb-pastoral 21 → 34 volumes,
+  BookOrbit 1.091 → 1.104 livros. Mapa de leitura em
+  `data/estudos/notas/vocacao-ministerial/11-biblioteca-pastoral-adquirida.md`.
+- **A resposta constitucional (é ela que manda, não o livro):** Constituição da IPB
+  Art. 25 (3 ofícios) · **Art. 30, parágrafo único** — bispo/pastor/presbítero/ancião
+  são o **mesmo ofício**, "funções diversas e não graus diferentes de dignidade" ·
+  Art. 50-52 — o presbítero tem **autoridade igual à dos ministros** no concílio ·
+  Art. 31 — privativo do ministro: sacramentos, bênção apostólica, casamento, liturgia ·
+  Art. 33 — 4 designações (efetivo, auxiliar, evangelista, missionário).
+- **Lacunas reais (não existem no z-library, 5 buscas):** Kléos César (*Vocação*,
+  Ultimato, leitura obrigatória do Anexo IV do Manual do Candidato) · W. H. Roberts
+  (*O Sistema Presbiteriano*) · Thiselton (*Called by God*) · Peace (*Vocation and the
+  Ministry*) · Allen (*Discerning Your Call*). As duas primeiras são **compra**, não
+  download — itens #130 e #131 da lista de aquisição.
+- **Dois EPUBs vieram do próprio William** pelo Telegram (Vanessa Calvi, *O preço do
+  chamado pastoral*; CNBB, *Vocação e Discernimento*). O da CNBB é católico-romano —
+  serve pelo **método** de discernimento, não pela teologia do ministério.
+- **🐛 5.213 arquivos de `data/` estavam root-owned** (índice de 2,4 GB criado como root
+  em 2026-11-12). Sintomas: `buscar.py` → "readonly database", lint com 8 erros novos,
+  KB não gravava. Correção: `sudo chown -R willian:willian data`. **Regra: Permission
+  denied em `data/` → checar `sudo find data -user root` antes de suspeitar do código.**
+- **🐛 `epub2md.py` devolve 0 chars em EPUB do Google Play** (spine fora de ordem no
+  `get_items_of_type`). Solução: ler `content.opf`, seguir `itemref idref` na ordem do
+  spine e mapear para href.
+- **Detalhes:** `memory/202611/20261113-biblioteca-pastoral.md`.
+
+### Lote 2 — mais 4 enviados pelo William (mesmo dia)
+- **Duarte, *A Vocação para o Serviço ou o Serviço dos Vocacionados?*** — artigo
+  da FIDES REFORMATA XVI/2 (2011): 95-117. Vocação ministerial em **Calvino e
+  Baxter**. Em `revistas-fides/`, kb-pastoral 35.
+- **Lidório, *Vocacionados*** (Betânia, 2014) — vocação em chave missionária;
+  autor presbiteriano. Em `pastoral/`, kb-pastoral 36.
+- **Lowe, *Construindo Pontes*** (aconselhamento bíblico de crianças e
+  adolescentes) — foi para `aconselhamento/`, kb-aconselhamento 40.
+- **Nicolosi & Nicolosi, *Homossexualidade: um guia de orientação aos pais***
+  (Shedd 2008) — foi para `sexual/`, kb-sexual.
+- BookOrbit: 1.104 → **1.108** livros. Lint 0 erro novo.
+
+**🚨 ARMADILHA GRAVE (nomear arquivo por presunção):** o PDF de 12 MB chegou
+junto com o EPUB do Lowe e eu ia gravá-lo como se fosse o mesmo livro. **Não
+era** — é o Nicolosi, PDF escaneado de 121 páginas. Descobri porque rodei OCR de
+2 páginas de amostra e li o título. **Regra: antes de nomear o arquivo de saída,
+extrair/OCR 1-2 páginas e LER o título.** É o mesmo tipo de erro do "A Revolução
+dos Animais com texto do 1984".
+
+**OCR nesta LXC (PDF sem camada de texto):** `pdftoppm -r 200 -gray -png` →
+`pytesseract ... lang="por"` → limpar (tirar linha só-dígito, desfazer
+hifenização de fim de linha, juntar quebras no meio da frase). **Rodar com
+`nohup`**: 121 páginas levam ~6 min e o `exec` corta em 300 s. Tesseract `por`
+já instalado.
+
+### Lote 3 — Peterson (mesmo dia, 4 arquivos = 2 obras)
+- **Peterson, *O Pastor que Deus Usa*** (Textus 2003; orig. *Five Smooth Stones
+  for Pastoral Work*) — PDF do Internet Archive com camada de texto. Os 5
+  Megillot como paradigma das 5 tarefas pastorais. `pastoral/`.
+- **Peterson, *O pastor segundo Deus*** (Cultura Cristã 2022; orig. *Working the
+  Angles*) — EPUB oficial, ISBN 978-65-5989-069-9. Os 3 ângulos: oração,
+  Escrituras, direção espiritual. `pastoral/`.
+- kb-pastoral 36 → **38**; BookOrbit 1.108 → **1.110**.
+- **🚨 4 arquivos ≠ 4 livros:** os dois PDFs de ~1 MB são digitalizações
+  **da mesma obra do EPUB** (a Textus publicou *Working the Angles* como *Um
+  pastor segundo o coração de Deus*). **Regra: quando chegam vários arquivos do
+  mesmo autor, comparar assinatura de texto (primeiras N palavras) + tamanho
+  antes de extrair. Título diferente no metadata ≠ obra diferente.**
