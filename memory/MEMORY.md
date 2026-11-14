@@ -1424,3 +1424,86 @@ Sherlock Holmes* (1927) segue sem PT-BR.
   (md5 igual, `EOF marker not found`) de um livro cujo arquivo bom também veio no lote.
   Não subir arquivo quebrado: `pdfinfo`/`pdftotext` vazio + pypdf `PdfStreamError` = fora.
 - **Estado:** BookOrbit **1.129 → 1.147** livros. Nota: `memory/202611/20261113-orbit-lote-livros.md`.
+
+## 📚 Biblioteca de oração — 18 obras (2026-11-14)
+
+- **Pedido:** "Busque livros de e sobre oração" → "Baixe o suba no orbit".
+- **Entregue:** 18 obras em PT-BR convertidas em `.md`, catalogadas e no BookOrbit.
+  Índice: `data/estudos/notas/biblioteca-oracao/01-obras-adquiridas.md` (memo `memos/2jHRTx9MvikddAtSwXtAYv`).
+- **Clássicos:** Bounds (*Poder Através da Oração*) · Murray (*Senhor, Ensina-me a Orar*) ·
+  Spurgeon (*A Oração de Paulo*) · Spurgeon/Bounds/Torrey (*Orando a Palavra*) ·
+  Owen (*A Mortificação do Pecado*) · Foster (*Celebração da Disciplina*) · Tozer (*Em Busca de Deus*) ·
+  Agostinho (*Confissões*) · Afonso de Ligório (*A Oração*).
+- **Teologia/prática:** Carson (*Um Chamado à Reforma Espiritual*) · Bloesch (*A Luta da Oração*) ·
+  Casimiro (*O Privilégio da Oração*, IPB) · Chavda (oração e jejum) · Josepetti · Alves ·
+  Elizabeth George (casamento) · Itioka (módulo) · Matthew Henry (Salmos a Malaquias).
+- **Descartados de propósito:** Packer *Puritan Portraits* (EN, não é sobre oração) · Whitney
+  *Disciplinas Espirituales* (ES) · Socorro Acioli *Oração para Desaparecer* (ficção, o título
+  engana a busca) · Joseph Murphy *O Poder da Oração* (Novo Pensamento).
+- **BookOrbit:** 1.147 → **1.172** livros.
+
+### 🐛 3 bugs reais corrigidos no caminho
+
+1. **`epub2md.py` devolvia 0 chars sem erro** em EPUBs cujo `spine` existe mas o
+   `ebooklib.get_items_of_type(ITEM_DOCUMENT)` devolve lista vazia (Tozer *Em Busca de Deus*,
+   Spurgeon *A Oração de Paulo*). O chamador reportava "saída curta demais — provavelmente PDF
+   escaneado" e o livro era perdido **em silêncio**. Correção: se `items` vier vazio → cai no
+   `_epub_zip_fallback`. **Geral: conversor que devolve string vazia SEM exceção é falha
+   invisível — sempre testar a lista de entrada.**
+2. **`_epub_zip_fallback` ordenava por nome alfabético** → `main-10` vinha antes de `main-2` e os
+   capítulos saíam embaralhados. Correção: chave natural pelos números do nome.
+3. **`orbit-upload.py` faz login POR ARQUIVO** → o throttler devolve **429 a partir do 4º** e a
+   fila inteira falha. Novo `scripts/orbit-upload-lote.py`: **1 login para a fila**, backoff em
+   429/401, e nome de arquivo `"Autor - Titulo.ext"` (é do NOME que o BookOrbit deriva título e
+   autor; mandar só o autor gera `_unorganized.pdf` e 409 no segundo).
+
+### 🚨 Armadilha operacional: o cron de reenvio "rouba" o `_incoming`
+
+O `reenvio-orbit-automatico.sh` roda a cada 15 min e **apaga o arquivo local depois do upload
+confirmado**. Ele subiu 21 ebooks (inclusive os recém-baixados) **antes** da minha conversão e
+os removeu → o finalizador viu 16 arquivos "ausentes". Solução: **baixar/converter para
+diretório próprio** (`/tmp/oracao-dl`), nunca trabalhar direto em `_incoming/` quando o cron
+de reenvio está ativo. Os 409-DUP do upload em lote são a prova de que o cron já os tinha subido.
+
+### 📎 Anexos do Telegram perdidos
+
+As 4 mensagens `[file]` desta conversa chegaram como `media://<uuid>` e o **media store já não
+os conhecia** (`unknown ref`, `media_cleanup` = 30 min / 5 min de intervalo). Não é possível
+recuperá-los pelo histórico: precisam ser reenviados.
+
+## 📚 Biblioteca de jejum — 10 obras (2026-11-14 21:00-21:50 BRT)
+
+- **Pedido:** "Busque livros de e sobre jejum. Baixe o suba no orbit."
+- **Entregue:** 10 obras (**8 em PT-BR + 2 em inglês**: Wallis e Towns),
+  todas em `data/biblioteca/vida-crista/`, kb-vida-crista **23 → 33**, BookOrbit
+  **1.172 → 1.181** livros (bookIds 1946–1960).
+- **Núcleo doutrinário:** Piper (*Fome por Deus* — o melhor ponto de partida) ·
+  Wallis (*God's Chosen Fast*, clássico protestante, EN) · Towns (*Fasting for
+  Spiritual Breakthrough* — os 9 jejuns bíblicos, EN).
+- **Prática:** JB Carvalho (*Manual Bíblico do Jejum*) · Vargas (*O Saltério*, 40 dias) ·
+  Abib (*Práticas de Jejum*, católico).
+- **Com discernimento (teologia diferente):** Subirá (*A cultura do jejum*,
+  assembleiano) · Eckhardt (*Jejum*, carismático/libertação).
+- **Não teológicos:** Balu (*Em Defesa do Jejum* = nutrição/fisiologia, não teologia) ·
+  Washer (*Disciplinas espirituais* — não trata de jejum, entra como complemento).
+- **Índice/ordem de leitura:** `data/estudos/notas/biblioteca-jejum/01-obras-adquiridas.md`
+  → Memos `memos/X7KXKasWbuAdS4QTfopw4i`.
+- **Cota z-library:** 10 downloads usados (80 disponíveis no dia, 8 contas).
+
+### 🐛 Bug do BookOrbit com PDF sem metadados (novo)
+
+- O PDF do Eckhardt (escaneado, `/Title: Untitled`) foi rejeitado com **409
+  "A file named 'Untitled.pdf' already exists"** — o BookOrbit **ignora o nome
+  do arquivo multipart e usa o `/Title` do PDF** quando ele existe.
+- **Correção:** reescrever o PDF com `pypdf` + `add_metadata({'/Title': ..., '/Author': ...})`
+  → subiu (bookId 1960).
+- **Regra:** antes de subir PDF, conferir `pdfinfo` → se `Title: Untitled`, reescrever
+  metadados. `gs`/`qpdf` NÃO existem nesta LXC; usar `pypdf` (6.21.4).
+
+### OCR nesta LXC (repetido, agora medido)
+
+- Eckhardt: 121 páginas → `pdftoppm -r 200 -gray -png` + `tesseract -l por --psm 6`
+  em **~9 min** (nohup obrigatório; `exec` corta em 300 s). Qualidade boa.
+- **Trabalhar em `/tmp/jejum-dl`, nunca em `_incoming/`** — o cron
+  `reenvio-orbit-automatico.sh` (15 min) apaga o arquivo depois de subir e
+  "rouba" o original antes da conversão.
