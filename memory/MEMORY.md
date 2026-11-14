@@ -1476,7 +1476,7 @@ recuperá-los pelo histórico: precisam ser reenviados.
 - **Pedido:** "Busque livros de e sobre jejum. Baixe o suba no orbit."
 - **Entregue:** 10 obras (**8 em PT-BR + 2 em inglês**: Wallis e Towns),
   todas em `data/biblioteca/vida-crista/`, kb-vida-crista **23 → 33**, BookOrbit
-  **1.172 → 1.181** livros (bookIds 1946–1960).
+  **1.172 → 1.182** livros (bookIds 1946–1960).
 - **Núcleo doutrinário:** Piper (*Fome por Deus* — o melhor ponto de partida) ·
   Wallis (*God's Chosen Fast*, clássico protestante, EN) · Towns (*Fasting for
   Spiritual Breakthrough* — os 9 jejuns bíblicos, EN).
