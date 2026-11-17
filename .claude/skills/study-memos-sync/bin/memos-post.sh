@@ -33,6 +33,26 @@ if [[ -z "${MEMOS_URL:-}" || -z "${MEMOS_PAT:-}" ]]; then
   exit 2
 fi
 
+# ── Resolve o endpoint do Memos (2026-11-17) ────────────────────────────────
+# O MagicDNS do Tailscale está DESLIGADO nesta LXC: `memos.ison-duck.ts.net`
+# não resolve e o IPv4 do tailnet dá timeout. O IPv6 do host responde.
+# Ordem: IPv6 → IPv4 → hostname. Fixa o primeiro que responder a listagem.
+# (Mesma lógica de scripts/postar-fichas-memos.py — antes cada script tinha
+#  a sua, e o memos-post.sh ficava preso no hostname morto → toda aula saía
+#  sem link do Memos.)
+MEMOS_URL_ORIG="$MEMOS_URL"
+for cand in "http://[2804:7f0:6942:a634:e221:6309:fdc:f815]" \
+            "http://100.103.64.20" \
+            "${MEMOS_URL_ORIG%/}"; do
+  code=$(curl -g -sS -o /dev/null -w "%{http_code}" --connect-timeout 5 --max-time 12 \
+    "${cand}/api/v1/memos?pageSize=1" \
+    -H "Authorization: Bearer ${MEMOS_PAT}" 2>/dev/null || echo "000")
+  if [[ "$code" == "200" ]]; then
+    MEMOS_URL="$cand"
+    break
+  fi
+done
+
 FILE=""
 CONTENT=""
 VIS="PRIVATE"
