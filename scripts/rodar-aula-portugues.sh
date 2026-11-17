@@ -29,6 +29,9 @@ mkdir -p "$LOG_DIR"
   bash "$ROOT/data/estudos/notas/portugues-aulas-diarias/enviar-aula.sh"
   rc=$?
   echo "────────────────────────────────────────────────────────"
+  echo "backlog Memos (aulas enviadas sem memo_id):"
+  python3 "$ROOT/scripts/backlog-memos-aulas-portugues.py" || true
+  echo "────────────────────────────────────────────────────────"
   echo "fim: $(date -Is) | exit=$rc"
   exit $rc
 } >> "$LOG" 2>&1
