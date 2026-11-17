@@ -133,7 +133,8 @@ def gravar_catalogo(numero: str, memo_id: str) -> bool:
         cols = [c.strip() for c in linha.strip().strip("|").split("|")]
         if len(cols) < 7:
             continue
-        if cols[5] not in ("-", ""):
+        atual = cols[5].strip().strip('"').strip("'")
+        if atual not in ("-", ""):
             continue
         cols[5] = memo_id
         linhas[i] = "| " + " | ".join(cols) + " |"
