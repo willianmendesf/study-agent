@@ -106,8 +106,17 @@ def memos_existentes(env: dict[str, str], base: str, limite: int = 500) -> dict[
         req = urllib.request.Request(
             url, headers={"Authorization": f"Bearer {pat}"} if pat else {}
         )
-        with urllib.request.urlopen(req, timeout=30) as r:
-            dados = json.loads(r.read().decode("utf-8", "replace"))
+        if pagina:
+            # páginas seguintes: falha de paginação NÃO deve impedir o trabalho,
+            # basta usar o que já foi lido (o índice é best-effort depois da 1ª).
+            try:
+                with urllib.request.urlopen(req, timeout=30) as r:
+                    dados = json.loads(r.read().decode("utf-8", "replace"))
+            except Exception:
+                break
+        else:
+            with urllib.request.urlopen(req, timeout=30) as r:
+                dados = json.loads(r.read().decode("utf-8", "replace"))
         lote = dados.get("memos") or []
         if not lote:
             break
