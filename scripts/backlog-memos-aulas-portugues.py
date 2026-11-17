@@ -81,6 +81,48 @@ def memos_online(env: dict[str, str]) -> str | None:
     return None
 
 
+def _primeira_linha(texto: str) -> str:
+    for linha in texto.splitlines():
+        if linha.strip():
+            return linha.strip()
+    return ""
+
+
+def memos_existentes(env: dict[str, str], base: str, limite: int = 500) -> dict[str, str]:
+    """Mapa {primeira linha do memo: uid}. Proteção contra duplicata.
+
+    Se a aula foi postada mas a resposta se perdeu (id não gravado), o memo já
+    existe no Memos — este mapa permite ADOTAR o uid em vez de postar de novo.
+    Falha de rede aqui NÃO deve liberar postagem cega: o chamador decide.
+    """
+    pat = env.get("MEMOS_PAT", "")
+    achados: dict[str, str] = {}
+    pagina = ""
+    lidos = 0
+    while lidos < limite:
+        url = f"{base}/api/v1/memos?pageSize=100"
+        if pagina:
+            url += f"&pageToken={pagina}"
+        req = urllib.request.Request(
+            url, headers={"Authorization": f"Bearer {pat}"} if pat else {}
+        )
+        with urllib.request.urlopen(req, timeout=30) as r:
+            dados = json.loads(r.read().decode("utf-8", "replace"))
+        lote = dados.get("memos") or []
+        if not lote:
+            break
+        for memo in lote:
+            chave = _primeira_linha(memo.get("content", ""))
+            nome = memo.get("name", "")
+            if chave and nome:
+                achados.setdefault(chave, nome.split("/")[-1])
+        lidos += len(lote)
+        pagina = dados.get("nextPageToken") or ""
+        if not pagina:
+            break
+    return achados
+
+
 def frontmatter(path: Path) -> dict[str, str]:
     campos: dict[str, str] = {}
     texto = path.read_text(encoding="utf-8", errors="replace")
@@ -167,11 +209,41 @@ def main() -> int:
         print("🔍 --dry-run: nada postado.")
         return 0
 
-    ok = falhou = 0
+    # Antes de postar, monta o índice do que JÁ existe no Memos. Se a aula foi
+    # postada e a resposta se perdeu, adota o uid em vez de duplicar.
+    try:
+        existentes = memos_existentes(env, base)
+        print(f"   {len(existentes)} memo(s) indexado(s) para checagem de duplicata")
+    except Exception as e:  # rede caiu no meio: NÃO postar cego
+        print(f"⚠️  não consegui listar os memos ({e}) — nada postado neste turno.")
+        return 0
+
+    ok = adotados = falhou = 0
     for arq, fm in alvos:
         numero = fm.get("numero") or arq.name.split("-")[1]
         numero = str(int(numero)) if numero.isdigit() else numero
+        titulo = fm.get("titulo", "")
         print(f"📤 aula {numero}: {arq.name}")
+
+        # já existe no Memos com o mesmo título de abertura?
+        # Exige o NÚMERO da aula na chave E o título: só o título casaria
+        # "Adjetivo: ..." entre aulas vizinhas. O regex com \b evita que
+        # "AULA 3" case com "AULA 32".
+        uid = None
+        padrao_num = re.compile(rf"AULA\s+0?{re.escape(str(numero))}\b", re.IGNORECASE)
+        for chave, valor in existentes.items():
+            if not padrao_num.search(chave):
+                continue
+            if titulo and titulo in chave:
+                uid = valor
+                break
+        if uid:
+            gravar_memo_id(arq, uid)
+            gravar_catalogo(numero.zfill(2), uid)
+            print(f"   ♻️  já estava no Memos — id adotado: {uid}")
+            adotados += 1
+            continue
+
         try:
             r = subprocess.run(
                 ["bash", str(MEMOS_POST), "--file", str(arq),
@@ -194,7 +266,7 @@ def main() -> int:
         print(f"   ✅ memo {memo_id}")
         ok += 1
 
-    print(f"\nResumo: {ok} publicado(s), {falhou} falha(s).")
+    print(f"\nResumo: {ok} publicado(s), {adotados} adotado(s), {falhou} falha(s).")
     return 0 if falhou == 0 else 1
 
 
