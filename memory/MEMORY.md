@@ -1581,3 +1581,103 @@ recuperá-los pelo histórico: precisam ser reenviados.
 - **Estado 2026-11-17 04:05 UTC:** Memos fora do ar nas 3 rotas (IPv6, IPv4, hostname;
   MagicDNS off, `tailscale ping` timeout) — backlog sai em 0 sem tocar em arquivo.
 - **Detalhes:** `memory/202611/20261117-aulas-portugues-capa-e-memos.md`.
+
+
+## 📚 BookOrbit — o nome do livro vem do METADADO INTERNO, não do nome do arquivo (2026-11-17)
+
+**Regra do William (literal):** "é pra subir no orbit, e nao com esse nome ai, os
+arquivos baixados precisam ser renomeado e ter o nome do livro."
+
+- **Como o BookOrbit nomeia:** ele lê o metadado EMBEDDED do arquivo (precedência
+  `['embedded', 'opfFile']` em `GET /api/v1/libraries/1`). Renomear o arquivo local
+  NÃO muda o que aparece no app. Um EPUB do z-library traz `dc:title` comprido
+  ("Didaqué: O catecismo dos primeiros cristãos para as comunidades de hoje") e
+  `dc:creator` = **editora** ("Paulus") → o livro entra em `/books/Paulus/`.
+- **Solução canônica (nova):** `scripts/renomear-metadata-ebook.py` (reescreve
+  `content.opf` do EPUB / `/Title`+`/Author` do PDF via pypdf) e
+  `scripts/orbit-subir-livro.py <arquivo> "<Titulo>" "<Autor>"`, que já
+  faz metadado → upload em lote → confere na API.
+- **Nome de arquivo = `Autor - Titulo.ext`** e o TÍTULO deve ser curto e canônico
+  ("Didaque", não a frase inteira da editora).
+- **Limitação da conta `study-agent`:** tem só `library_upload`. `PATCH
+  /api/v1/books/<id>/metadata` → 403 `library_edit_metadata`; `DELETE /api/v1/books`
+  → 403 `library_delete_books`. **Não dá para corrigir nem apagar um livro já
+  subido com metadado errado** — só o William, no app. Por isso: acertar o metadado
+  ANTES do upload, sempre.
+- **Duplicata (409):** o app responde 409 com o nome que ele derivou — serve de
+  diagnóstico de que aquele título/autor já existe.
+
+## 📚 Série "Questões Cruciais" do Sproul — 20 volumes PT-BR (2026-11-17 12:00-13:00 BRT)
+
+- **Pedido:** "Veja se acha tbm a Série de pequenos livros do Sproul, em PT, baixa e sobre no orbit tbm."
+- **Entregue:** os **20 volumes em português** (Editora Fiel, série "Crucial Questions" da
+  Reformation Trust). Todos em `data/biblioteca/teologia-sistematica/R-C-Sproul-Questoes-Cruciais-NN-*.md`,
+  catalogados em `kb-teologia-sistematica` (131 → 132 volumes) e no BookOrbit
+  (**1.204 → 1.224** livros, bookIds 1999–2020).
+- **Índice + ordem de leitura:** `data/estudos/notas/biblioteca-sproul/01-serie-questoes-cruciais.md`.
+- **Metadado do Orbit:** os 20 foram reescritos antes do upload (`dc:title` = título do livro,
+  `dc:creator` = "R. C. Sproul"), então aparecem no app como "Quem é Jesus?", "O que é a
+  Trindade?" etc., **não** como o nome do arquivo do z-library. Regra do William de 2026-11-17
+  aplicada.
+- **Volume 20 (Grande Comissão)** só existe como **PDF escaneado** → OCR (`pdftoppm` 200 dpi +
+  `tesseract -l por --psm 6`, 18 páginas, ~4 min) + limpeza de hifenização. Subido também como
+  PDF com metadado correto (bookId 2020).
+- **Volume 16 (O que é a Igreja?)** já existia em `igreja-discipulado/` (2 cópias); mantive a nova
+  na pasta da série e **não apaguei** as antigas.
+- **Volumes 21 (Posso Perder a Salvação?) e 22 (O que é o Batismo?)** não existem em PT no
+  z-library nas buscas de hoje — só em inglês.
+
+## 📕 "Autoridade Redimida" (Leeman) — só o original em inglês (2026-11-17)
+
+- **O livro existe em português:** *Autoridade Redimida: Liderança piedosa para o bem do próximo*
+  (Editora Fiel, ISBN 6557234374) — confirmado no site da Fiel, Amazon BR e 9Marks.
+- **NÃO existe no z-library em PT-BR.** Medido: 8 buscas (`Autoridade Redimida`, `Redimida
+  Lideranca piedosa`, `Leeman Redimida`, `Leeman 6557234374`, `Autoridade Redimida Plenitude`,
+  etc.) → **zero**. É lançamento recente (2024/2025), ainda não pirataado em português.
+- **O que foi baixado:** o original em inglês — *Authority: How Godly Rule Protects the
+  Vulnerable, Strengthens Communities, and Promotes Human Flourishing* (Crossway, 2023),
+  bookId **2019**, em `data/biblioteca/igreja/Jonathan-Leeman-Authority-EN.md`.
+- **Já no acervo dele em PT do mesmo autor:** *A Regra do Amor* (Fiel) e *Entendendo a
+  autoridade da congregação*.
+- **Regra:** antes de dizer "não achei", testar título PT + título EN + ISBN. Se só o EN
+  aparecer, **baixar o EN** e registrar que o PT é compra.
+
+## 📕 BookOrbit — EPUB não abre: OPF com namespace `dc` quebrado (2026-11-17)
+
+**Sintoma:** no app, "Falha ao carregar o livro — XML parsing error: ... Namespace
+prefix dc on title is not defined" (livro do Leeman, *Authority*).
+
+**Causa:** `scripts/renomear-metadata-ebook.py` reescrevia
+`<dc:title xmlns:dc="...">X</dc:title>` como `<dc:title>Y</dc:title>` e **descartava
+a declaração de namespace que estava no próprio elemento**. No EPUB do Sigil o
+`<package>` não declara `xmlns:dc` → XML inválido. Nos EPUBs do calibre (Sproul) o
+`xmlns:dc` está no `<metadata>`, por isso subiram bem.
+
+**Segundo bug, silencioso:** preservar os atributos fazia o livro subir com
+`authors: []` e cair em `/books/Unknown Author/`. O BookOrbit só reconhece
+`<dc:creator>` **limpo** (sem `id=`, sem `xmlns:dc=`).
+
+**Correção (as duas coisas juntas):**
+- `_garantir_ns_dc()` → `xmlns:dc` no `<package>` (raiz).
+- `_trocar_tag()` → emite `<dc:title>`/`<dc:creator>` **sem atributos**.
+- `_escapar()` para `&`, `<`, `>`.
+- **Validação obrigatória:** `ET.fromstring()` no OPF reescrito; se falhar, aborta em
+  vez de gravar EPUB quebrado. Testado em 19/19 EPUBs do Sproul → 0 ruins.
+
+**Limitação da conta `study-agent`:** `DELETE /api/v1/books/<id>` → **404** (rota não
+existe para este token) e `PATCH /books/<id>/metadata` → 403 `library_edit_metadata`.
+**Não dá para apagar nem corrigir livro já subido** — só o William, no app. Por isso:
+validar o arquivo ANTES do upload, sempre.
+
+**Pendente (2026-11-17):** bookIds **2019** (OPF inválido) e **2021** (`Unknown Author`)
+são lixo no BookOrbit → William precisa apagar no app. O bom é o **2022**.
+
+## 📚 Série "Questões Cruciais" do Sproul — 20 volumes no ar (confirmado 2026-11-17)
+
+- BookIds **1999–2018 + 2020** no BookOrbit, **todos com autor** (verificado um a um
+  pela API: 20/20). `.md` em `data/biblioteca/teologia-sistematica/` (prefixo
+  `R-C-Sproul-Questoes-Cruciais-NN-`), índice em
+  `data/estudos/notas/biblioteca-sproul/01-serie-questoes-cruciais.md`.
+- Volume 20 (*A Grande Comissão*) só existia em **PDF escaneado** → OCR.
+- Volumes 21 (*Posso Perder a Salvação?*) e 22 (*O que é o Batismo?*) **não existem em
+  PT-BR** no z-library (só inglês).
