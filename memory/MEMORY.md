@@ -1507,3 +1507,77 @@ recuperá-los pelo histórico: precisam ser reenviados.
 - **Trabalhar em `/tmp/jejum-dl`, nunca em `_incoming/`** — o cron
   `reenvio-orbit-automatico.sh` (15 min) apaga o arquivo depois de subir e
   "rouba" o original antes da conversão.
+
+## 🔧 Rodada de aquisição 2026-11-15 — 0 baixados por saturação dupla-provada
+
+- **Resultado:** 0 baixados, 0 gaps fechados, 0 pendentes (13 áreas saturadas),
+  lint **0 erro novo**. Nada a corrigir.
+- **Prova de saturação (regra de 2026-11-10 aplicada):** (1) os **50 candidatos**
+  de `rodape.CANDIDATOS` testados um a um com `ja_no_acervo(c[0], c[1], ...)`
+  → **50/50 já no acervo** (lista não-vazia + sensor OK); (2) `POST
+  https://z-lib.gd/eapi/book/search` → `{"success":1}` (serviço no ar).
+- **Acervo:** 1262 `.md` · 1471 materiais nas KBs · 0 órfão · 0 YAML inválido ·
+  19 sem tag inferível (estável desde 2026-11-12) · 0 livro bíblico sem comentário.
+- **Diff do dia = só carimbo de data** (`atualizado_em` em 84 KBs + `gerado_em`).
+  Commit `4695679` (data) pushado.
+- **Para a rodada voltar a render:** ampliar o catálogo de candidatos
+  (`LEVANTAMENTO-NECESSIDADES.md` / `rodape.CANDIDATOS` / `catalogo-ficcao.yaml`).
+- **Nota diária:** `memory/202611/20261115-rodada-bibliotecario.md`.
+
+## 📚 Biblioteca de governo da igreja — 19 obras (2026-11-16 00:40-01:00 BRT)
+
+- **Pedido:** "livros sobre liderança bíblica, sobre presbiterato e diaconato, o livro
+  *Como Jesus governa a igreja*, busque livros deste assunto de linha presbiteriana."
+- **Entregue:** 19 obras baixadas do z-library → `.md` em `data/biblioteca/igreja/` (18) e
+  `pastoral/` (1) → KB `kb-igreja` 16→34, `kb-pastoral` 38→39 → BookOrbit 1.182→**1.201**.
+- **Núcleo:** Waters *How Jesus Runs the Church* (EN, o pedido literal — só existe em
+  inglês) · Strauch *Biblical Eldership* (EN, referência mundial) · Rinne *Presbíteros*
+  (9Marcas) · Smethurst *Diáconos* (9Marcas) · Anyabwile *Encontrando presbíteros e
+  diáconos fiéis* · Coxe *Anciãos e Diáconos Bíblicos* + Coxe&Owen *Pastores e Diáconos
+  Bíblicos* (puritanos) · Bass *Presbiterianismo para leigos* · Dever *Entendendo a
+  liderança da igreja* + *Nove Marcas* + Alexander&Dever *Como edificar* · Newton
+  *Pastoreando a Igreja de Deus* · Campbell *A Igreja do Deus Vivo* · Granconato
+  *A Prática da Igreja de Deus* · Spurgeon *O Cabeça da Igreja* · Freitas *De Volta aos
+  Princípios* · Didaquê *Igreja Viva* · Anyabwile *Membro de Igreja Saudável* · Dodd
+  *Liderança de Poder na Igreja* (ler com discernimento).
+- **Já existia (não re-baixado):** Bannerman *A Igreja de Cristo* (2v) · Reed *Governo
+  Bíblico de Igreja* · Westminster *Governo Presbiteriano* · Miller *O Presbítero Regente*.
+- **Resposta normativa (vale mais que qualquer livro):** Constituição da IPB Art. 25
+  (3 ofícios) · Art. 30 § único (bispo=pastor=presbítero=ancião, mesmo ofício) ·
+  Art. 50-52 (presbítero tem autoridade igual no concílio) · Art. 31 (privativo do
+  ministro) · Art. 33 (4 designações).
+- **Lacunas (compra):** Witherow *O Governo da Igreja Apostólica* · Wayne Mack *A Liderança
+  da Igreja* · Strauch *O Ministério dos Diáconos* e *Liderança Bíblica* em PT · Waters
+  *Como Jesus Governa a Igreja* em PT.
+- **Índice/ordem de leitura:** `data/estudos/notas/biblioteca-governo-igreja/01-obras-adquiridas.md`
+  → Memos `memos/R5MNvDkWjoJiw9T33SUa2v`.
+- **🐛 Recorrência do bug 429:** o finalizador usa `orbit-upload.py` (login POR arquivo) →
+  14/19 falharam com `ThrottlerException`. Reenviados com `orbit-upload-lote.py` (1 login
+  para a fila): **14/14 OK**. **Regra: lote de Orbit SEMPRE por `orbit-upload-lote.py`.**
+- **Estado:** kb-igreja 34 volumes e kb-pastoral 39, 0 caminho_md quebrado, lint 0 erro
+  novo. Commit `34140a3` (data) pushado.
+
+## 🔧 Aulas de Português — capa + texto (corrigido 2026-11-17)
+
+- **Queixa:** "corrige ai as aulas de portuga, porque ta chegando só os audios jogados."
+- **3 causas, todas corrigidas:**
+  1. **Capa nunca saía** — o job era `agent_turn` (turno de LLM) e o agente só chamava
+     `send_file()`. Corrigido em `0e2cd36`: **o script entrega ele mesmo** (API HTTP do
+     Telegram: sendMessage → sleep 2 → sendAudio) e o disparo é do **crontab do sistema**
+     (`0 22 * * *` = 19:00 BRT), zero turno de LLM.
+  2. **Memos fora do ar = aula sem texto PARA SEMPRE.** `enviar-aula.sh` seguia e gravava
+     `status: enviado` + `memos_id: ""`; nada voltava depois (só olha a aula do dia).
+     Aulas **26, 31 e 32** estão nesse estado. → **`scripts/backlog-memos-aulas-portugues.py`**
+     (idempotente, cron `10 9,15,21 * * *` = 06:10/12:10/18:10 BRT; também chamado no fim de
+     `scripts/rodar-aula-portugues.sh`).
+  3. **Sem Memos o texto não existia em lugar nenhum.** Agora, se `MEMO_URL` vazio, o script
+     manda o roteiro `.md` como **sendDocument** depois do áudio e a capa avisa.
+- **Tags do Memos** corrigidas: `aulas-portugues` (solta) → `estudo/portugues,tipo/aula,serie/aulas-portugues`.
+- **REGRA DURÁVEL:** tarefa programada que depende de serviço externo precisa de
+  **(a)** entrega primária que não dependa dele e **(b)** fila de reprocessamento.
+  Sem (b), toda falha de rede vira perda permanente e silenciosa.
+- **Armadilha:** `edit_file` **derruba o bit de execução** do script (virou 644 e o cron
+  não rodaria). Sempre `chmod 755` depois e conferir `ls -l`. Mesmo efeito cria arquivos 600.
+- **Estado 2026-11-17 04:05 UTC:** Memos fora do ar nas 3 rotas (IPv6, IPv4, hostname;
+  MagicDNS off, `tailscale ping` timeout) — backlog sai em 0 sem tocar em arquivo.
+- **Detalhes:** `memory/202611/20261117-aulas-portugues-capa-e-memos.md`.
