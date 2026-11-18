@@ -1727,3 +1727,50 @@ são lixo no BookOrbit → William precisa apagar no app. O bom é o **2022**.
 - **Para voltar a render:** ampliar o catálogo (`LEVANTAMENTO-NECESSIDADES.md` /
   `rodape.CANDIDATOS` / `catalogo-ficcao.yaml`).
 - **Nota diária:** `memory/202611/20261118-rodada-bibliotecario.md`.
+
+## 📚 Ryken em PT — medido de novo (2026-11-18 18:00 BRT) + 4 obras literárias da Bíblia
+
+- **Pedido do William:** as 3 do Ryken da Cultura Cristã, **em português, prioridade**,
+  + "sempre amplie o catálogo".
+- **As 3 em PT NÃO EXISTEM no z-library** (8 contas, título/autor/ISBN/editora; Libgen e
+  Anna's Archive também zero). Só existem os **originais em inglês**, que já estão no
+  acervo (bookIds 2023/2025/2026). São **compra** — itens #187.1–#187.3.
+  **Armadilha:** "Ryken" em PT devolve 22 resultados e **todos** são *Santos no Mundo*
+  (Leland) ou obras do **Philip Graham Ryken** (irmão).
+- **Adquirido no lugar (PT-BR, mesmo método)** em `data/biblioteca/exegese-hermeneutica/`,
+  kb-exegese-hermeneutica 52 → **55**: Frye *O Código dos Códigos* (Boitempo 2004) ·
+  Gabel & Wheeler *A Bíblia como Literatura* (Loyola 2003) · Berger *As Formas Literárias
+  do Novo Testamento* (Loyola 1998). BookIds **2032/2034/2036**.
+- **Bônus:** *Santos no Mundo* (Ryken, Fiel 2016) — o único do autor em PT e o acervo não
+  tinha nenhuma das 7 edições. `data/biblioteca/teologia/Santos-no-Mundo-Ryken.md`,
+  kb-teologia 50 → **51**, bookId **2038**.
+- **Catálogo ampliado** (`rodape-aquisicao.py`): +8 alvos medidos com `ja_no_acervo` —
+  Hodge e Strong (Teologia Sistemática PT) · Ladd e Eichrodt (Teologia do NT/AT PT) ·
+  Lloyd-Jones *Pregação e Pregadores* (PT) · Lakatos *Metodologia* · Gabel/Berger/Frye.
+
+### 🐛 `orbit-upload.py` mandava só o AUTOR como nome do arquivo (corrigido)
+`nome = autor or ebook.stem` → bookIds **2030 "Gabel"** e **2031 "Berger"** subiram como
+livro **sem título e sem autor**. Agora `upload(..., autor, titulo)` monta
+`"Autor - Titulo.ext"` e o `pipeline-aquisicao.py` passa `titulo=it["titulo"]`.
+**Lixo no app (só o William apaga):** 2030 e 2031 — `study-agent` só tem `library_upload`
+(`DELETE /books/<id>` → 404, `PATCH /books/<id>/metadata` → 403).
+
+### 🐛 O catalogador decide a PASTA pela pasta do arquivo
+As 3 obras caíram em `literatura-mundial-classica/outros/` e na `kb-literatura` (ficção!)
+porque o pipeline baixa para lá. Movidas e re-catalogadas. **Ao adquirir obra de
+não-ficção pelo pipeline, conferir a pasta e a KB — e o YAML precisa ser escrito com
+`yaml.safe_dump(width=4096)`, senão `caminho_md` quebra em duas linhas.** Cuidado também
+para não criar uma chave `materiais` no TOPO do YAML (fora de `knowledge_base_*`): o lint
+não pega, mas a busca não acha.
+
+### Armadilhas medidas hoje
+- `zlib-api.py search "<q>" <conta> --limit N` — **conta é POSICIONAL depois da query**.
+- `zlib-api.py download <id> <hash> --dest DIR --ext pdf`.
+- `--lang portuguese` do z-library **é furado** (devolve ES/EN) — filtrar o campo `lang`.
+- BookOrbit devolve **429 no `/auth/login`** a partir do 3º/4º login em minutos: esperar
+  30–60 s entre lotes e usar 1 login para a fila.
+- `GET /api/v1/libraries/1` **não** lista livros (só metadados da biblioteca). Buscar com
+  `GET /api/v1/books/search?q=...`.
+
+**Estado:** lint 0 erro novo · commits `2828ffc` (data) e `3f8a538` (repo) pushados ·
+nota `memory/202611/20261118-ryken-litbib.md`.
