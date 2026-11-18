@@ -97,10 +97,20 @@ def login():
     return d["accessToken"], d.get("user", {})
 
 
-def upload(ebook: Path, token: str, folder_id=None, autor=""):
-    """Upload multipart/form-data SEM dependencia externa (stdlib only)."""
+def upload(ebook: Path, token: str, folder_id=None, autor="", titulo=""):
+    """Upload multipart/form-data SEM dependencia externa (stdlib only).
+
+    BUG (2026-11-18): o nome do arquivo era `autor or ebook.stem`. O BookOrbit
+    deriva TITULO e AUTOR do nome do arquivo quando o metadado embutido nao
+    serve — entao mandar so o autor vira um livro chamado "Gabel" sem autor
+    (medido: bookIds 2030 "Gabel" e 2031 "Berger"). Agora o nome e'
+    "Autor - Titulo.ext" quando os dois sao conhecidos.
+    """
     boundary = "----studyagent" + uuid.uuid4().hex
-    nome = autor or ebook.stem
+    if autor and titulo:
+        nome = f"{autor} - {titulo}"
+    else:
+        nome = autor or titulo or ebook.stem
     filename = f"{nome}{ebook.suffix}"
     body = bytearray()
     body += f"--{boundary}\r\n".encode()

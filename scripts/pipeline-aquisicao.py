@@ -133,6 +133,10 @@ def contas_ativas(envs):
 
 MIN_BYTES = 60_000
 MIN_LINHAS = 200
+# BUG (2026-11-11): ate 2 tentativas por obra por dia.
+MAX_TENTATIVAS_DIA = 2
+# BUG (2026-11-11): quantos candidatos tries por obra numa rodada.
+MAX_CANDIDATOS = 3
 
 # prioridade -> peso na ordem de processamento
 # "maxima" (2026-11-06): leituras OBRIGATORIAS da prova de Literatura da IPB
@@ -480,49 +484,48 @@ def variantes_autor(autor):
     return res
 
 
-def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None):
-    """Escolhe o melhor candidato. Pontua: cobertura do titulo, cobertura do
-    autor, bonus de titulo literal, bonus de formato, penalidade de coletanea
-    e de edicao degradada.
 
-    BUG (2026-11-05): a penalidade de "adapta[c][a]o" era -0.25 e o bonus de
-    "titulo literal contido" era +0.22 — a ADAPTACAO vencia a obra original.
-    Agora a degradada vale -0.55 (manda para o fim da lista) e a media -0.12.
+def _toks_fuzzy(a, b):
+    """Dois tokens sao o mesmo com variacao morfologica minima?
+    'kroger' ~ 'kroeger', 'dubliners' ~ 'dublineses'. Regra conservadora:
+    prefixo comum >= 4 chars, diferenca de tamanho <= 2, ambos >= 5 chars."""
+    if a == b:
+        return True
+    if len(a) < 5 or len(b) < 5 or abs(len(a) - len(b)) > 2:
+        return False
+    p = 0
+    for x, y in zip(a, b):
+        if x != y:
+            break
+        p += 1
+    return p >= 4
 
-    O score e' uma media ponderada, entao fica em [0, 1]; o limiar 0.55
-    significa "pelo menos metade do titulo e metade do autor casam".
 
-    BUG 2 (2026-11-05): a cobertura usava a UNIAO dos tokens do titulo PT e
-    do titulo EN. O resultado era que NENHUMA das duas formas casava: o
-    livro "Sangue Sabio" (traducao PT de "A Wise Blood") pontuava 0, e o
-    catalogo era marcado como "sem candidato". Agora a cobertura e' o MAXIMO
-    entre as variantes (PT, EN e titulos alternativos), nao a uniao. Com o
-    alias "Sangue Sabio", a cobertura PT = 2/2 = 1.0.
 
-    BUG 3 (2026-11-05): o bonus de "titulo literal contido" (+0.22) era
-    um bonus GLOBAL — valia para QUALQUER titulo, mesmo quando o titulo
-    procurado nao tinha nada a ver. Agora so conta se o titulo procurado
-    (ou um alias) estiver de fato contido no titulo do candidato.
-    """
+def candidatos_ordenados(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None,
+                         minimo=0.55):
+    """Todos os candidatos ACEITAVEIS, do melhor para o pior.
+
+    BUG (2026-11-11): o pipeline escolhia UM candidato; se a conversao
+    falhasse (idioma errado, exemplar corrompido), a obra ficava pendente e
+    a PROXIMA rodada gastava cota de novo no MESMO exemplar defeituoso.
+    Agora o pipeline tem uma lista e tenta o proximo quando a conversao falha."""
     variantes = [v for v in ([titulo_pt, titulo_en] + list(titulos_alt or []))
-                 if v and len(v.strip()) > 2]
+                 if v and len(str(v).strip()) > 2]
+    norm_pt = norm(titulo_pt)
+    norm_locais = {norm_pt} | {norm(v) for v in (titulos_alt or [])}
+    norm_todas = norm_locais | ({norm(titulo_en)} if titulo_en else set())
     alv_a = toks(autor_pt)
-    best, best_s = None, -99
+    scored = []
     for b in books:
         raw = b.get("title", "") or ""
         aut_raw = b.get("author", "") or ""
-        # P1 (2026-11-08): GATE DURO DE TITULO, antes de qualquer pontuacao.
-        # "Sangue Bom" (Good Country People) casava com "Sangue Sabio"
-        # (= A Wise Blood) por 1 token em comum — e o pipeline baixava a
-        # OUTRA obra. A cobertura por token nao prova identidade de obra.
         if not titulo_confere(raw, variantes):
             continue
         ext = (b.get("extension") or "").lower()
         lang = (b.get("language") or "").lower()
-        # formato aceito
         if ext not in EXT_OK:
             continue
-        # idioma: PT e o alvo; EN e aceitavel como ultimo recurso
         if lang and "portugu" not in lang and "english" not in lang:
             continue
         pen = 0.0
@@ -531,49 +534,38 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
         if DEGRADE.search(raw):
             pen += 0.55
         elif MEDIO.search(raw):
-            # edicao comentada/bilingue serve, mas a edicao LIMPA e' melhor:
-            # penalidade suficiente para ficar ATRAS da edicao simples, nao
-            # para eliminar (as vezes so existe a comentada).
             pen += 0.20
         t = toks(raw)
         a = toks(aut_raw)
-        # cobertura = MAXIMO entre as variantes do titulo (PT, EN, aliases)
         cov = 0.0
         contido = False
         for var in variantes:
             tv = toks(var)
-            if not tv:
-                continue
-            c = len(tv & t) / len(tv)
-            if c > cov:
-                cov = c
+            if tv:
+                c = 0.0
+                for tv1 in tv:
+                    if tv1 in t or any(_toks_fuzzy(tv1, t2) for t2 in t):
+                        c += 1
+                cov = max(cov, c / len(tv))
             nv = norm(var)
             if len(nv) > 6 and nv in norm(raw):
                 contido = True
+        nraw = norm(raw)
+        exacto = nraw in norm_todas
+        exacto_local = nraw in norm_locais
         cov_a = len(alv_a & a) / max(1, len(alv_a))
-        # score = media ponderada das partes, menos penalidade
         s = cov * 0.62 + cov_a * 0.28 - pen
-        # bonus de titulo literal: so se o titulo PROCURADO estiver contido
-        if contido:
+        if exacto:
+            s += 0.30 if exacto_local else 0.12
+        elif contido:
             s += 0.22
-        # bonus de formato: epub > pdf > mobi
         s += {"epub": 0.10, "pdf": 0.04, "azw3": 0.03, "mobi": 0.02}.get(ext, 0.0)
-        # bonus de idioma PT
         if "portugu" in lang:
-            s += 0.12
-        # titulo muito curto e generico demais -> nao confia
-        if len(t) < 2:
+            s += 0.20
+        else:
+            s -= 0.10
+        if len(t) < 2 and not exacto:
             s -= 0.35
-        # BUG (2026-11-06): HOMONIMO por sufixo editorial. "O Estrangeiro"
-        # (Camus) casava com "O Estrangeiro (Manga)" (Camoes) — score 0.62,
-        # PASSAVA o limiar e o pipeline baixaria a obra errada. Mesma classe
-        # do bug que trocou "A Revolucao dos Animais" pelo 1984.
-        # Regra: se o AUTOR procurado nao casa (cov_a baixa) e o titulo do
-        # candidato carrega um sufixo que indica outra obra (manga,HQ,
-        # ilustrado, adaptado, resumo, guia, iniciacao, volume), a obra
-        # errada nao pode passar.
-        # (normaliza o titulo ANTES do regex: "Manga" acento no fim quebrava
-        #  o padrao — bug do proprio regex, do tipo "casa mas nao deveria")
         raw_norm = "".join(
             c for c in unicodedata.normalize("NFD", raw)
             if unicodedata.category(c) != "Mn").lower()
@@ -581,36 +573,26 @@ def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None)
             r"\(\s*(manga|hq|graphic|ilustr\w*|adapt\w*|resum\w*|guia|inicia\w*|"
             r"coment\w*|ilustrado|colorido|adaptado|vers[aã]o|para o teatro)\s*\)",
             raw_norm, re.I)
-        if sufixo_outra_obra and cov_a < 0.5:
-            s -= 0.75
-        # bonus de titulo EXATO (sem sufixo de edicao): o texto integral
-        # da obra, sem comentario nem bilingue. Vale mais que o bonus de
-        # formato, porque o que o acervo quer e' o livro, nao a apparatus.
-        if norm(raw) in {norm(v) for v in variantes}:
-            s += 0.30
-        # BUG (2026-11-06): o bonus de "contido" (+0.22) dava o MESMO valor
-        # para "A Capital" (titulo EXATO) e para "Pena Capital" (que contem
-        # "capital" como substring). Resultado: a obra errada vencia, e o
-        # pipeline baixou "Pena Capital" (de Robert Wilson) em vez de
-        # "A Capital" (de Eça de Queiroz). Agora:
-        #   - contido por SUBSTRING so conta se o titulo procurado nao
-        #     existir como titulo exato entre os candidatos (ou seja, so
-        #     quando nao ha opcao melhor);
-        #   - o bonus de titulo EXATO (+0.30) ja cobre o caso correto.
-        if contido and norm(raw) not in {norm(v) for v in variantes}:
-            # so nao penaliza se o token extra do candidato nao forma
-            # uma palavra INTEIRA diferente no titulo procurado
-            s += 0.08
-        # BUG (2026-11-06): autor que nao casa e' sinal forte de obra errada.
-        # "Pena Capital" (Robert Wilson) tinha cov_a = 0.00 e mesmo assim
-        # passou pelo limiar. Agora, autor totalmente ausente derruba o score.
+        if sufixo_outra_obra:
+            s -= 0.75 if cov_a < 0.5 else 0.50
         if cov_a == 0.0 and len(alv_a) > 0:
             s -= 0.40
-        if s > best_s:
-            best, best_s = b, s
-    if best and best_s >= 0.55:
-        return best, round(best_s, 3)
-    return None, round(best_s, 3)
+        scored.append((s, b))
+    scored.sort(key=lambda x: -x[0])
+    return [(b, round(s, 3)) for s, b in scored if s >= minimo]
+
+
+def melhor_candidato(books, titulo_pt, autor_pt, titulo_en="", titulos_alt=None):
+    """Melhor candidato (o 1o da lista ordenada)."""
+    lst = candidatos_ordenados(books, titulo_pt, autor_pt, titulo_en, titulos_alt)
+    if lst:
+        return lst[0]
+    # devolve o melhor MESMO abaixo do limiar, para o log mostrar o score
+    todos = candidatos_ordenados(books, titulo_pt, autor_pt, titulo_en, titulos_alt,
+                                 minimo=-99)
+    if todos:
+        return None, todos[0][1]
+    return None, -99
 
 
 def baixa(book, acct, envs, destino):
@@ -639,20 +621,226 @@ def baixa(book, acct, envs, destino):
 # ---------------------------------------------------------------------------
 # conversao + catalogacao
 # ---------------------------------------------------------------------------
-def conteudo_confere(texto, titulo):
-    """Confere que o texto e' do livro certo. Busca no texto INTEIRO (bug de
-    2026-11-05: EPUBs sem folha de rosto so citam o titulo no fim)."""
-    t = norm(titulo)
-    corpo = norm(texto)
-    if t and t in corpo:
-        return True
-    partes = [p for p in t.split() if len(p) > 3 and p not in ("de", "da", "do", "e")]
-    if partes and all(p in corpo for p in partes[:3]):
-        return True
+
+
+def _sobrenomes(autor):
+    """Tokens do autor que provam autoria no texto. Ignora prenomes
+    curtos/common e as particulas (de, da, do)."""
+    stop = {"o", "a", "os", "as", "de", "do", "da", "dos", "das", "e",
+            "j", "w", "sir", "lady", "lord", "jean", "von", "van", "der"}
+    out = set()
+    for t in re.findall(r"[a-z0-9]+", sem_acento(autor or "").lower()):
+        if len(t) >= 4 and t not in stop:
+            out.add(t)
+    return out
+
+
+def _primeiras_linhas(texto, n=25):
+    linhas = [l.strip() for l in (texto or "").split("\n") if l.strip()]
+    return "\n".join(linhas[:n])
+
+
+def _tem_token(bloco, tokens):
+    b = sem_acento(bloco or "").lower()
+    return any(re.search(r"\b" + re.escape(sem_acento(t)) + r"\b", b) for t in tokens)
+
+
+def _titulo_exato(bloco, variante):
+    """O titulo pedido aparece como TITULO (linha propria ou cabecalho),
+    e nao como substring de outro titulo.
+
+    BUG GRAVE (2026-11-11): "A Perdição" casou com a linha "MINHA PERDIÇÃO
+    faz parte de uma serie de mafia..." — a palavra "perdição" esta dentro de
+    um titulo DIFERENTE. Por isso a comparacao e' por tokens + forma, e nao
+    por substring.
+
+    TOLERANCIA DE TRANSLITERACAO: "Kroeger" (catalogo) vs "Kröger" (no texto)
+    — o mesmo nome em grafias diferentes. Compara por tokens com matching
+    tolerante a 'oe'/'ö' e ao troca de vogais simples."""
+    if not variante:
+        return False
+    tv = [x for x in re.findall(r"[a-z0-9]+", sem_acento(variante).lower()) if len(x) >= 3]
+    if not tv:
+        return False
+
+    def variante_token(t):
+        return t.replace("oe", "o").replace("ae", "a").replace("ue", "u")
+
+    def casa(a, b):
+        if a == b:
+            return True
+        if variante_token(a) == variante_token(b):
+            return True
+        # kroeger vs kroger: remove a vogal intermediaria e compara
+        if len(a) >= 4 and len(b) >= 4 and a[0] == b[0] and a[-1] == b[-1]:
+            if a.replace("oe", "") == b.replace("oe", ""):
+                return True
+        return False
+
+    for ln in [l.strip() for l in (bloco or "").split("\n")][:30]:
+        lt = [x for x in re.findall(r"[a-z0-9]+", sem_acento(ln).lower()) if len(x) >= 3]
+        if not lt:
+            continue
+        # casa cada token do titulo com um token da linha (sem repetir)
+        usados = set()
+        ok = True
+        for t in tv:
+            achou = None
+            for i, x in enumerate(lt):
+                if i not in usados and casa(t, x):
+                    achou = i
+                    break
+            if achou is None:
+                ok = False
+                break
+            usados.add(achou)
+        if not ok:
+            continue
+        # a linha tem TODOS os tokens do titulo, e nao tem nenhum token
+        # a mais que "qualifica" outro titulo (ex.: "minha" antes de "perdição").
+        extras = [x for x in lt if x not in tv and
+                  not any(casa(x, t) for t in tv)]
+        # tolera qualificadores COMUNS de linha editorial
+        tolerados = {"minha", "meu", "um", "uma", "the", "a", "o", "de",
+                     "obra", "livro", "edicao", "volume", "parte", "colecao"}
+        if not [x for x in extras if x not in tolerados]:
+            return True
     return False
 
 
-def converte(ebook, titulo, autor, tags, ano, subpasta):
+def autor_confere(texto, autor, variantes=None):
+    """O texto prova que e' do AUTOR pedido?
+
+    BUG GRAVE (2026-11-11): "A Perdição" (Eça de Queiroz) foi gravada com o
+    texto de "Minha perdição" — um romance de outra autora (Sara Ester, Liam e
+    Aurora). O gate checava SO o titulo, e "perdição" aparece DENTRO do texto
+    errado.
+
+    REGRA (medida nas 11 obras da rodada):
+      1. o sobrenome do autor aparece no texto -> aceito;
+      2. nao aparece, mas ALGUM token do autor aparece (ex.: o prenome) ->
+         aceito (algumas edicoes so trazem o prenome);
+      3. NENHUM token do autor -> so aceito se o TITULO aparece na ficha
+         catalografica como titulo PROPRIO (nao como substring de outro).
+         Medido:
+           - "Tonio Kroeger" (Thomas Mann): o autor nao aparece no corpo, mas
+             a 1a linha do arquivo e' o titulo -> e' a obra certa;
+           - "A Perdição" trocada: a linha e' "MINHA PERDIÇÃO faz parte de uma
+             serie de mafia" -> o titulo pedido aparece como PARTE de outro
+             titulo -> rejeita.
+    """
+    sob = _sobrenomes(autor)
+    if not sob:
+        return True          # autor sem sobrenome utilizavel: nao bloqueia
+    corpo = sem_acento(texto or "").lower()
+    if any(re.search(r"\b" + re.escape(t) + r"\b", corpo) for t in sob):
+        return True
+    todos = {t for t in re.findall(r"[a-z0-9]+", sem_acento(autor or "").lower())
+             if len(t) >= 3}
+    if any(re.search(r"\b" + re.escape(t) + r"\b", corpo) for t in todos):
+        return True
+    # ultimo recurso: o titulo na ficha catalografica, como titulo PROPRIO
+    for v in (variantes or []):
+        if _titulo_exato(_primeiras_linhas(texto), v):
+            return True
+    return False
+
+
+def _titulo_dentro(corpo_norm, variante):
+    """O titulo aparece no texto — por igualdade, ou pelos tokens (com
+    tolerancia de transliteracao: 'Kroeger' vs 'Kröger').
+
+    BUG (2026-11-11): a busca por string exata ("tonio kroeger") falhava
+    quando o texto escreve "Tonio Kröger" -> "kroger". O texto esta CORRETO
+    (e' a obra do Thomas Mann), mas o gate dizia "conteudo divergente"."""
+    if not variante:
+        return False
+    v = norm(variante)
+    if v and v in corpo_norm:
+        return True
+    vt = [x for x in re.findall(r"[a-z0-9]+", sem_acento(variante).lower()) if len(x) >= 3]
+    ct = set(re.findall(r"[a-z0-9]+", corpo_norm))
+
+    def vt_norm(t):
+        return t.replace("oe", "o").replace("ae", "a").replace("ue", "u")
+
+    if not vt:
+        return False
+    for t in vt:
+        if not any(x == t or vt_norm(x) == vt_norm(t)
+                   or (len(x) >= 4 and len(t) >= 4 and x[0] == t[0]
+                       and x[-1] == t[-1] and x.replace("oe", "") == t.replace("oe", ""))
+                   for x in ct):
+            return False
+    return True
+
+
+def conteudo_confere(texto, titulo, variantes=None, autor=None):
+    """Confere que o texto e' do livro certo. Busca no texto INTEIRO (bug de
+    2026-11-05: EPUBs sem folha de rosto so citam o titulo no fim).
+
+    BUG (2026-11-11): aceitava SO o titulo PT literal. A obra pode estar no
+    acervo brasileiro com OUTRO titulo (alias) — "Retratos" (Joyce) e' "Dublineses",
+    "Uma História de Duas Cidades" e' "Um Conto de Duas Cidades". Agora aceita
+    qualquer variante (PT, EN, aliases).
+
+    BUG GRAVE (2026-11-11): o titulo sozinho nao prova a obra. "A Perdição" do
+    Eça casou com "Minha perdição" (outra autora). Agora checa o AUTOR tambem.
+
+    BUG GRAVE 2 (2026-11-11): o alias de ANTOLOGIA ("Coletânea de contos")
+    estava bastando para o gate passar — mas a antologia "Coletânea de
+    Contos de Eça de Queirós" NAO contem o conto "A Perdição" (contem "O
+    Defunto"). O acervo ficou com a obra errada de novo.
+    REGRA: quando o TITULO PEDIDO e' um CONTO dentro de uma antologia, o
+    titulo do conto tem que aparecer no texto — o alias da antologia
+    NAO substitui o titulo do conto. Implementado assim: se o titulo pedido
+    tem >= 2 tokens significativos, ele PRECISA estar no texto; os aliases
+    so Servem para localizar a obra quando o titulo pedido tem 1 token (ex.:
+    "Dublineses", "Retratos")."""
+    corpo = norm(texto)
+    alvos = [titulo] + list(variantes or [])
+    # tokens significativos do titulo PEDIDO
+    tt = [x for x in re.findall(r"[a-z0-9]+", sem_acento(titulo or "").lower())
+          if len(x) >= 3 and x not in ("de", "da", "do", "e", "o", "a")]
+    if len(tt) >= 2:
+        # Titulo multi-token: tem que estar no texto. Mas a obra pode estar
+        # dentro de uma ANTOLOGIA, onde o titulo do conto e' um CAPITULO
+        # (linha propria) e nao uma frase solta no corpo.
+        # Medido: "O Conde de Abranhos" (Eça) esta como linha de indice;
+        # "A Perdição" (Eça) NAO esta em nenhum lugar.
+        achou = _titulo_dentro(corpo, titulo)
+        if not achou:
+            partes = [p for p in norm(titulo).split()
+                      if len(p) > 3 and p not in ("de", "da", "do", "e")]
+            achou = bool(partes) and all(p in corpo for p in partes[:2])
+        if not achou:
+            # o titulo do conto como LINHA PROPRIA (indice/capitulo)
+            achou = _titulo_exato(_primeiras_linhas(texto, 120), titulo)
+        if not achou:
+            return False
+    else:
+        achou = False
+        for t in alvos:
+            if _titulo_dentro(corpo, t):
+                achou = True
+                break
+        if not achou:
+            for t in alvos:
+                n = norm(t)
+                partes = [p for p in n.split() if len(p) > 3
+                          and p not in ("de", "da", "do", "e")]
+                if partes and all(p in corpo for p in partes[:3]):
+                    achou = True
+                    break
+        if not achou:
+            return False
+    if autor and not autor_confere(texto, autor, alvos):
+        return False
+    return True
+
+
+def converte(ebook, titulo, autor, tags, ano, subpasta, variantes=None,
+              permitir_en=False):
     """Converte em tempdir ISOLADO e so aceita se produziu texto real e se o
     titulo aparece no texto (evita o .md com conteudo de outro livro)."""
     tmp = Path(tempfile.mkdtemp(prefix="pipe-conv-"))
@@ -668,7 +856,7 @@ def converte(ebook, titulo, autor, tags, ano, subpasta):
         if gerado.stat().st_size < MIN_BYTES or linhas < MIN_LINHAS:
             return None, (f"texto-curto ({gerado.stat().st_size//1024} KB, "
                           f"{linhas} lin) — extraicao provavelmente falhou")
-        if not conteudo_confere(txt, titulo):
+        if not conteudo_confere(txt, titulo, variantes, autor):
             return None, f"conteudo-divergente: titulo '{titulo}' nao aparece no texto"
         # P2 (2026-11-08): GATE DE IDIOMA no TEXTO. A rampa e' PT-BR; um
         # exemplar em espanhol/ingles NAO substitui o PT-BR. Foi exatamente
@@ -676,7 +864,17 @@ def converte(ebook, titulo, autor, tags, ano, subpasta):
         # ESPANOLA e ela foi gravada em .../portugues/.
         if _diag_idioma is not None:
             diag = _diag_idioma(txt)
-            if not diag.startswith("pt"):
+            # BUG (2026-11-11): para as obras marcadas "gap-idioma" (PT-BR
+            # inexistente no z-library), o exemplar em ingles E' aceitavel —
+            # e a KB registra o idioma REAL, entao o acervo nao mente. Sem
+            # isso, "A Utopia" gastava cota downloading a edicao inglesa e
+            # depois rejeitava o proprio download.
+            # REGRA (2026-11-11): so PT e EN. O ESPANHOL nunca entra
+            # (a rampa e' PT-BR) — e o gate de ES era contornado
+            # quando o METADADO do z-library dizia "Portuguese" para
+            # uma traducao espanhola (medido em "Dublineses", Joyce).
+            _ok = diag.startswith("pt") or (permitir_en and diag.startswith("en"))
+            if not _ok:
                 return None, f"idioma-nao-pt ({diag}) — a rampa e' PT-BR"
         dest_dir = BIB / "literatura-mundial-classica" / subpasta
         dest_dir.mkdir(parents=True, exist_ok=True)
@@ -931,8 +1129,15 @@ def main():
             falha_de_rede = ("download falhou: download falhou" in motivo
                              or "z-library inacessivel" in motivo
                              or "sem resposta" in motivo)
+            # BUG (2026-11-11): o bloqueio era "1 tentativa por dia, sem
+            # excecao". As 13 pendentes ja tinham falhado as 00:17 UTC e a
+            # rodada das 07:15 nao podia nem tentar de novo — sobrando 64 de
+            # cota. Agora: ate MAX_TENTATIVAS_DIA tentativas por obra por dia
+            # (a 1a falha pode ser de BUG, nao da obra) e falha de REDE nunca
+            # bloqueia.
             if tentativa == hoje and not falha_de_rede:
-                continue
+                if (st.get("n_tentativas") or 0) >= MAX_TENTATIVAS_DIA:
+                    continue
             # se a tentativa e' de hoje mas foi FALHA DE REDE, nao bloqueia:
             # a obra nao e' responsavel e o dia ainda comeca.
 
@@ -978,12 +1183,17 @@ def main():
                     queries.append(q)
         books = []
         for q in queries:
-            r = busca(q, busca_conta, envs, lang="portuguese")
-            if not r:
-                r = busca(q, busca_conta, envs, lang=None)
-            for b in r:
-                if b not in books:
-                    books.append(b)
+            # BUG (2026-11-11): so buscava SEM filtro quando a busca COM
+            # filtro nao devolvia nada. Mas "Dubliners James Joyce" devolve
+            # 30 resultados PT (livros SOBRE Joyce) — e o exemplar EN
+            # ("Dubliners") NUNCA aparecia, entao o fallback de candidatos nao
+            # tinha o que tentar. REGRA: acumular SEMPRE as duas buscas (a
+            # busca nao gasta cota; so o download).
+            for _lang in ("portuguese", None):
+                r = busca(q, busca_conta, envs, lang=_lang)
+                for b in r:
+                    if b not in books:
+                        books.append(b)
             # BUG (2026-11-06): parava na PRIMEIRA query que devolvia
             # resultado. A 1a query ("A Capital Eça de Queiroz") devolve 30
             # resultados RUINS (biografias, dicionarios, "Eça de Queiroz"
@@ -994,6 +1204,7 @@ def main():
             # sobre o conjunto completo.
         if not books:
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
+                         "n_tentativas": (st.get("n_tentativas") or 0) + 1,
                          "motivo": "sem resultado na busca"}
             salvar_estado(estado)
             print(f"[BUSCA-VAZIA] {it['titulo']} — {it['autor']}")
@@ -1005,6 +1216,7 @@ def main():
                                        it["titulo_en"], it.get("titulos_alt"))
         if not cand:
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
+                         "n_tentativas": (st.get("n_tentativas") or 0) + 1,
                          "motivo": f"nenhum candidato acima do limiar (melhor {score})",
                          "candidatos": [b.get("title") for b in books[:5]]}
             salvar_estado(estado)
@@ -1013,34 +1225,58 @@ def main():
             falhas += 1
             continue
 
-        print(f"[CANDIDATO] {it['titulo']} <- {cand.get('title')} "
-              f"({cand.get('extension')}, {cand.get('language')}, score {score})")
-
         if args.dry:
             continue
 
-        # ---- 2. download ----
-        ebook, info = baixa(cand, conta, envs, INCOMING / s)
-        if not ebook:
-            estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
-                         "motivo": f"download falhou: {info}"}
-            salvar_estado(estado)
-            print(f"[DOWNLOAD-FALHOU] {it['titulo']}: {info}")
-            log("download_falhou", titulo=it["titulo"], erro=info)
+        # ---- 2..3. download + conversao (com FALLBACK de candidatos) ----
+        # BUG (2026-11-11): o pipeline escolhia UM candidato; se a conversao
+        # falhasse (exemplar em outro idioma, arquivo corrompido), a obra
+        # ficava pendente e a proxima rodada gastava cota de novo no MESMO
+        # exemplar defeituoso. Agora: ate MAX_CANDIDATOS tentativas, cada uma
+        # com o proximo candidato da lista ordenada.
+        _vars = [v for v in ([it["titulo"], it.get("titulo_en")]
+                              + list(it.get("titulos_alt") or [])) if v]
+        _gap_en = any("gap-idioma" in (t or "").lower()
+                      for t in (it.get("tags") or []))
+        _cands = candidatos_ordenados(books, it["titulo"], it["autor"],
+                                       it["titulo_en"], it.get("titulos_alt"))
+        ebook = destino = None
+        _ultimo_motivo = "sem candidato"
+        _sc = 0
+        # BUG (2026-11-11): o fallback tentava o MESMO candidato 3x (a
+        # remocao do candidato da lista `books` nao afetava `_cands`, que ja
+        # estava materializada). Agora o candidato defeituoso e' pulado
+        # explicitamente por indice.
+        _tentados = set()
+        for _i, (_cand, _sc) in enumerate(_cands[:MAX_CANDIDATOS]):
+            _chave = (_cand.get("id"), _cand.get("title"))
+            if _chave in _tentados:
+                continue
+            _tentados.add(_chave)
+            print(f"[CANDIDATO] {it['titulo']} <- {_cand.get('title')} "
+                  f"({_cand.get('extension')}, {_cand.get('language')}, score {_sc})")
+            ebook, info = baixa(_cand, conta, envs, INCOMING / s)
+            if not ebook:
+                _ultimo_motivo = f"download falhou: {info}"
+                print(f"[DOWNLOAD-FALHOU] {it['titulo']}: {info}")
+                log("download_falhou", titulo=it["titulo"], erro=info)
+                cotas[conta] = max(0, cotas[conta] - 1)
+                continue
             cotas[conta] = max(0, cotas[conta] - 1)
-            falhas += 1
-            continue
-        cotas[conta] = max(0, cotas[conta] - 1)
-
-        # ---- 3. conversao ----
-        destino, msg = converte(ebook, it["titulo"], it["autor"], it["tags"],
-                                it["ano"], it["subpasta"])
+            destino, msg = converte(ebook, it["titulo"], it["autor"], it["tags"],
+                                    it["ano"], it["subpasta"], _vars, _gap_en)
+            if destino:
+                break
+            _ultimo_motivo = f"conversao: {msg}"
+            print(f"[CONVERSAO-FALHOU] {it['titulo']} (candidato "
+                  f"{_cand.get('title')}): {msg}")
+            log("conversao_falhou", titulo=it["titulo"], erro=msg)
+            ebook = None
         if not destino:
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
-                         "motivo": f"conversao: {msg}", "ebook": str(ebook.name)}
+                         "n_tentativas": (st.get("n_tentativas") or 0) + 1,
+                         "motivo": _ultimo_motivo}
             salvar_estado(estado)
-            print(f"[CONVERSAO-FALHOU] {it['titulo']}: {msg}")
-            log("conversao_falhou", titulo=it["titulo"], erro=msg)
             falhas += 1
             continue
 
@@ -1072,7 +1308,7 @@ def main():
         # esta no acervo; o Orbit e' apenas o destino de leitura no celular.
         estado[s] = {"status": "adquirido", "data": time.strftime("%Y-%m-%d"),
                      "ebook": ebook.name, "md": str(destino.relative_to(ROOT)),
-                     "kb": kb, "orbit": "pendente", "score": score}
+                     "kb": kb, "orbit": "pendente", "score": _sc}
         salvar_estado(estado)
 
         # ---- 5. Orbit (ebook original vai pro app de leitura; NAO fica no repo) ----
@@ -1106,15 +1342,18 @@ def main():
                 try:
                     tok = _token_sessao(up)
                     st_up, d_up = up.upload(ebook, tok, folder_id=1,
-                                           autor=it["autor"] or "")
+                                           autor=it["autor"] or "",
+                                           titulo=it["titulo"] or "")
                     if st_up == 401:
                         tok = _token_sessao(up, forcar=True)
                         st_up, d_up = up.upload(ebook, tok, folder_id=1,
-                                               autor=it["autor"] or "")
+                                               autor=it["autor"] or "",
+                                               titulo=it["titulo"] or "")
                     if st_up == 429:
                         time.sleep(10)
                         st_up, d_up = up.upload(ebook, tok, folder_id=1,
-                                               autor=it["autor"] or "")
+                                               autor=it["autor"] or "",
+                                               titulo=it["titulo"] or "")
                     if st_up in (200, 201):
                         orbit = "ok"
                     else:
