@@ -1681,3 +1681,49 @@ são lixo no BookOrbit → William precisa apagar no app. O bom é o **2022**.
 - Volume 20 (*A Grande Comissão*) só existia em **PDF escaneado** → OCR.
 - Volumes 21 (*Posso Perder a Salvação?*) e 22 (*O que é o Batismo?*) **não existem em
   PT-BR** no z-library (só inglês).
+
+## 📚 Leland Ryken — 3 obras literárias (2026-11-18 01:40 BRT)
+
+- **Pedido do William:** as 3 obras de Ryken da Cultura Cristã (*A Bíblia como você nunca leu*
+  2026, *Formas literárias da Bíblia* 2017, *Para ler a Bíblia como literatura* 2017).
+- **Achado:** as 3 **existem em inglês e são exatamente os originais** daquelas edições;
+  **em português não existem no z-library** (8 contas, título/autor/ISBN/editora → zero).
+  Vínculo PT↔EN confirmado na ficha da própria editora ("Título Original: …").
+- **Adquirido (EN)** em `data/biblioteca/exegese-hermeneutica/`, kb-exegese-hermeneutica
+  49 → **52 volumes**, BookOrbit **2023 / 2025 / 2026** (autor Leland Ryken, pasta própria):
+  *Literary Introductions to the Books of the Bible* (Crossway 2015) ·
+  *A Complete Handbook of Literary Forms in the Bible* (Crossway 2014) ·
+  *How to Read the Bible as Literature* (Zondervan 1984).
+- **PT vai para compra:** itens #187.1–#187.3 da `data/biblioteca/lista-aquisicao.md`.
+- **Armadilha de autoria:** "Ryken" no z-library devolve 22 em PT e todos são *Santos no
+  Mundo* (Leland) ou obras do **Philip Graham Ryken** (irmão). Filtrar por título também.
+- **Nota:** `data/estudos/notas/biblioteca-ryken/01-ryken-obras-pedidas.md`.
+
+### 🐛 Authority (Leeman) — o OPF do EPUB da Crossway é inválido na origem
+
+- A mensagem da imagem ("Namespace prefix dc on title is not defined") vem do bookId **2022**.
+- **Causa:** o OPF original declara `xmlns:dc` **em cada tag** e **não no `<package>`**; o
+  reescritor de metadado removia os atributos e deixava o prefixo sem declaração.
+- **Correção:** `xmlns:dc` vai para o `<package>` (raiz) + tags limpas `<dc:title>` /
+  `<dc:creator>` (é o formato que o BookOrbit lê como autor). Validado com `xml.etree` em
+  **45/45** arquivos XML. Reupload → bookId **2027**, `en-US`, autor correto.
+- **Lixo no app (só o William apaga):** 2021 (autor vazio, `/books/Unknown Author/`) e
+  2022 (OPF quebrado). A conta `study-agent` só tem `library_upload` — `DELETE
+  /api/v1/books/<id>` dá 404 e `PATCH /books/<id>/metadata` dá 403.
+- **Regra durável:** validar **todos** os XML do EPUB antes do upload, não só o OPF — e
+  nunca confiar que o OPF de origem é bem formado (o da Crossway não é).
+
+## 🔧 Rodada de aquisição 2026-11-18 — 0 baixados, saturação dupla-provada
+
+- **Resultado:** 0 baixados, 0 gaps fechados, 0 pendentes (13 áreas saturadas),
+  lint **0 erro novo**. Nada a corrigir.
+- **Prova (regra de 2026-11-10):** (1) os **50 candidatos** de `rodape.CANDIDATOS`
+  testados um a um com `ja_no_acervo(c[0], c[1], ...)` → **50/50 já no acervo**;
+  (2) `POST https://z-lib.gd/eapi/book/search` → `{"success":1}` (serviço no ar).
+- **Acervo:** 1306 `.md` · 1515 materiais nas KBs · 0 órfão · 0 YAML inválido ·
+  19 sem tag inferível (estável) · 0 livro bíblico sem comentário · 13/13 áreas OK.
+- **Diff do dia = só carimbo de data** (`atualizado_em` em 84 KBs + `gap-report.json`).
+  Commit `3497ab9` (data) pushado.
+- **Para voltar a render:** ampliar o catálogo (`LEVANTAMENTO-NECESSIDADES.md` /
+  `rodape.CANDIDATOS` / `catalogo-ficcao.yaml`).
+- **Nota diária:** `memory/202611/20261118-rodada-bibliotecario.md`.
