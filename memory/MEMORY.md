@@ -1774,3 +1774,45 @@ não pega, mas a busca não acha.
 
 **Estado:** lint 0 erro novo · commits `2828ffc` (data) e `3f8a538` (repo) pushados ·
 nota `memory/202611/20261118-ryken-litbib.md`.
+
+## 📚 Instrução permanente — ampliar o catálogo de aquisição (William, 2026-11-18 23:50 BRT)
+
+**Pedido literal:** "Sim, sempre amplie o catálogo, tinha uma rotina e já regras para isso."
+
+**O que já existe (não inventar de novo):**
+- `data/perfil/bibliotecario/biblioteca-orbit/rodape-aquisicao.py` → lista `CANDIDATOS` (13 áreas).
+- `data/perfil/bibliotecario/catalogo-ficcao.yaml` (94 obras) + `scripts/gerar-catalogo-ficcao.py`.
+- `data/biblioteca/LEVANTAMENTO-NECESSIDADES.md` (7 áreas de seminário + gaps).
+- Crons do sistema: rodada diária 03:30 BRT (`rodada-diaria.sh`) e rodada de ficção 21:15 BRT.
+
+**Regra durável:** a rodada que retorna "0 baixados / 13 áreas saturadas" **não é o fim** —
+é o sinal de que o catálogo precisa crescer. Ao fechar uma rodada com saturação, acrescentar
+alvos novos medidos (título + autor + KB de destino) e só então reportar. Sem isso a rotina
+vira carimbo de data.
+
+**Contexto de Números (2026-11-18 23:57 BRT):** pedido "só o contexto e informações
+necessários para interpretar o livro" → nota `data/estudos/notas/numeros/00-contexto-para-interpretar.md`
+(457 linhas, 12 seções), ancorada em Merrill/Grisanti cap. 12, DITAT vol. 4, Manual Bíblico
+Vida, MacArthur, Keener/Matthews e Halley. Memos fora do ar nas duas rotas (hostname e IPv6).
+
+## 🔧 Rodada de ficção 2026-11-19 — "0 baixados" virou 19 obras (catalogo 94→114)
+
+**Regra aplicada:** saturação do catálogo NÃO é fim de rodada — é ordem para ampliar
+(instrução permanente do William, 2026-11-18). Antes de reportar "0 baixados", medir o
+catálogo contra o acervo e acrescentar alvos novos.
+
+- **19 obras** baixadas, convertidas, catalogadas e subidas ao BookOrbit: cânone brasileiro
+  (Machado ×4, Alencar ×2, Graciliano ×2, Aluísio, Raul Pompeia, Clarice, Mário de Andrade,
+  Guimarães Rosa, Álvares de Azevedo), Eça ×2, Hemingway, Kafka, C. S. Lewis ×2.
+- **Cota preservada:** 72 downloads disponíveis na largada; ~13 consumidos.
+- **Bugs/armadilhas:** (1) falha de download em UMA conta não é falha da obra — `--titulo`
+  força nova tentativa com as outras contas (Sagarana baixou assim); (2) o catalogador
+  decide a PASTA pela pasta do arquivo (ad-hoc cai em `outros/`) → mover e corrigir
+  `caminho_md` na KB **e** `md`/`caminho_md` no `pipeline-estado.json`; (3) BookOrbit
+  429 a partir do 3º/4º login em minutos; (4) `GET /api/v1/libraries/1/books` → 404 — o
+  caminho é `GET /api/v1/books/search?q=` e `GET /api/v1/libraries` (traz `bookCount`).
+- **Pendente:** `São Bernardo` não aparece na busca do BookOrbit (estado diz `orbit: ok`)
+  → provável `dc:title` ausente no EPUB; corrigir metadado e reenviar. `_incoming/` com
+  20 arquivos antigos gerando 409 a cada 15 min no cron (limpeza precisa do ok do William).
+- **Detalhes:** `memory/202611/20261119-rodada-ficcao.md`.
+- **Commits:** data `21ae51a` + `7d59c12` · repo `306e9f2`.
