@@ -146,10 +146,44 @@ TITULOS_ALT = {
         ["The Sun Also Rises", "Também o Sol Se Levanta"],
     # Eça de Queiroz: o z-library publica com grafia variaca.
     ("a capital", "eça de queiroz"): ["A Capital", "A Capital (Eça de Queiroz)"],
-    ("o conde de abranhos", "eça de queiroz"): ["O Conde de Abranhos", "Conde de Abranhos"],
+    # BUG (2026-11-11): o z-library NAO tem "O Conde de Abranhos" isolado —
+    # so tem ANTOLOGIAS de contos que o contem. Sem estes aliases, a obra
+    # ficava "sem candidato" para sempre (o gate de titulo exige o nome
+    # exato). Medido: "Contos" (id 4950065), "Coletânea de contos de Eça de
+    # Queirós" (id 116638841), "7 melhores contos de Eça de Queirós".
+    ("o conde de abranhos", "eça de queiroz"): ["O Conde de Abranhos",
+                                                 "Conde de Abranhos",
+                                                 "Coletânea de contos",
+                                                 "7 melhores contos"],
     ("alves & c.ª", "eça de queiroz"): ["Alves & Cia", "Alves & C.ª", "Alves e Cia"],
     ("o mandarim", "eça de queiroz"): ["O Mandarim"],
-    ("a perdição", "eça de queiroz"): ["A Perdição", "A Perdição"],
+    # BUG (2026-11-11): "A Perdição" (conto do Eça) nao existe ISOLADO no
+    # z-library — so em antologias ("Contos", "Coletânea de contos",
+    # "Obras Completas IV: Contos Completos"). Sem estes aliases, a busca
+    # devolvia romances cujo titulo contem "perdição" ("Minha perdição",
+    # "Aposta na perdição") e o gate de conteudo rejeitava todos.
+    ("a perdição", "eça de queiroz"): ["A Perdição", "A Perdição",
+                                      "Coletânea de contos",
+                                      "7 melhores contos",
+                                      "Obras Completas de Eça de Queirós IV"],
+    # --- aliases medidos no z-library em 2026-11-11 (titulo REAL publicado) ---
+    # Dickens: o PT-BR e' "Um Conto de Duas Cidades" (nao "Uma Historia de").
+    ("uma história de duas cidades", "charles dickens"):
+        ["Um Conto de Duas Cidades", "A História de Duas Cidades"],
+    # Pirandello: o PT-BR e' "Seis personagens em busca de um autor".
+    ("seis personagens à procura de um autor", "luigi pirandello"):
+        ["Seis personagens em busca de um autor", "Sei personaggi in cerca d'autore"],
+    # Goethe: o PT-BR e' "Os sofrimentos do jovem Werther".
+    ("werther", "j. w. goethe"): ["Os Sofrimentos do Jovem Werther",
+                                 "Sofrimentos do Jovem Werther"],
+    ("tom jones", "henry fielding"): ["Tom Jones"],
+    ("o peregrino", "john bunyan"): ["O Caminho do Peregrino",
+                                     "O Peregrino (Clássicos MC)"],
+    ("tônio kroeger", "thomas mann"): ["Tonio Kroeger", "Tonio Kröger"],
+    # Flannery O'Connor: o PT-BR de "Good Country People" esta em
+    # "Um homem bom e dificil de encontrar e outras historias".
+    ("sangue bom", "flannery o'connor"): ["Um Homem Bom É Difícil de Encontrar "
+                                          "e Outras Histórias"],
 }
 
 
@@ -180,12 +214,23 @@ COMPLEMENTARES = [
     # --- degrau 5: romance experimental ---
     ("Cem Anos de Solidão", "Gabriel García Márquez", "alta", "mexicano",
      "Cien años de soledad", ["literatura", "romance", "mexicano", "canon-literario"], 1967),
+    # BUG (2026-11-11): "Sob o Olho do Ocidente" (o PT-BR de "Under Western
+    # Eyes") NAO existe no z-library (0 resultado medido). Sem a tag
+    # "gap-idioma", o pipeline gastava cota com a edicao inglesa e depois
+    # REJEITAVA o proprio download por "idioma-nao-pt" — a obra ficava
+    # pendente e a cota evaporava.
     ("A Utopia", "Joseph Conrad", "media", "anglo-saxoes",
-     "Under Western Eyes", ["literatura", "romance", "anglo-saxoes"], 1911),
+     "Under Western Eyes", ["literatura", "romance", "anglo-saxoes",
+                            "gap-idioma"], 1911),
     ("O Coração das Trevas", "Joseph Conrad", "media", "anglo-saxoes",
      "Heart of Darkness", ["literatura", "romance", "canon-literario", "ingles"], 1899),
+    # BUG (2026-11-11): o unico exemplar "portuguese" do z-library
+    # ("Dublineses", id 23905843) e' uma traducao ESPANHOLA com metadados
+    # em portugues — o gate de idioma pegou (es 41% vs pt 18%). Sem a tag
+    # "gap-idioma", a obra ficava pendente; o exemplar EN existe e serve.
     ("Retratos", "James Joyce", "media", "anglo-saxoes",
-     "Dubliners", ["literatura", "conto", "modernismo", "ingles"], 1914),
+     "Dubliners", ["literatura", "conto", "modernismo", "ingles",
+                   "gap-idioma"], 1914),
     ("Mrs Dalloway", "Virginia Woolf", "media", "anglo-saxoes",
      "Mrs Dalloway", ["literatura", "romance", "modernismo", "ingles"], 1925),
     # --- trilha crista (#143): zero ficcao crista na estante ---
@@ -254,7 +299,13 @@ COMPLEMENTARES = [
     ("Uma História de Duas Cidades", "Charles Dickens", "media", "anglo-saxoes",
      "A Tale of Two Cities", ["literatura", "romance", "canon-literario", "ingles"], 1859),
     # --- autores com ZERO na estante: buracos de intencao ---
-    ("A Casa dos Espelhos", "Virginia Woolf", "media", "anglo-saxoes",
+    # BUG (2026-11-11): o titulo PT estava ERRADO. "A Casa dos Espelhos" e'
+    # "The Glass Bell" (1926) — um OUTRO livro de Woolf. A obra pedida aqui
+    # (ano 1929) e' "A Room of One's Own", cujo titulo PT-BR e' "Um Teto Todo
+    # Seu". Com o titulo errado, a busca nao achava nada e o acervo do
+    # agente (que tem o "A Room of One's Own" com nome errado no _incoming)
+    # ficava orfao.
+    ("Um Teto Todo Seu", "Virginia Woolf", "media", "anglo-saxoes",
      "A Room of One's Own", ["literatura", "ensayo", "ingles", "feminismo"], 1929),
     ("Middlemarch", "George Eliot", "media", "anglo-saxoes",
      "Middlemarch", ["literatura", "romance", "canon-literario", "ingles"], 1871),
@@ -262,6 +313,55 @@ COMPLEMENTARES = [
      "Beloved", ["literatura", "romance", "ingles", "feminismo"], 1987),
     ("Se o Mundo Existisse", "Italo Calvino", "media", "italiano",
      "Se il mondo esistesse", ["literatura", "conto", "modernismo", "italiano"], 1983),
+    # --- AMPLIACAO 2026-11-19 (rodada saturada: catalogo 94/94) --------------
+    # Instrucao permanente do William (2026-11-18): "sempre amplie o catalogo".
+    # Alvos MEDIDOS contra o acervo (nenhum existe hoje em data/biblioteca/).
+    # Eixo 1: canon brasileiro (prova de Literatura IPB — a lista muda a cada
+    # ano; o Manual 2027 ainda nao existe, entao entram os autores/titulos que
+    # aparecem com mais frequencia nos Manuais 2023-2026).
+    ("Quincas Borba", "Machado de Assis", "alta", "brasileira",
+     "Quincas Borba", ["literatura", "romance", "brasileira", "prova-ipb"], 1891),
+    ("Helena", "Machado de Assis", "alta", "brasileira",
+     "Helena", ["literatura", "romance", "brasileira", "prova-ipb"], 1876),
+    ("Esaú e Jacó", "Machado de Assis", "media", "brasileira",
+     "Esau and Jacob", ["literatura", "romance", "brasileira", "prova-ipb"], 1904),
+    ("O Alienista", "Machado de Assis", "alta", "brasileira",
+     "O Alienista", ["literatura", "novela", "brasileira", "prova-ipb"], 1882),
+    ("Senhora", "José de Alencar", "alta", "brasileira",
+     "Senhora", ["literatura", "romance", "brasileira", "prova-ipb"], 1875),
+    ("O Guarani", "José de Alencar", "media", "brasileira",
+     "O Guarani", ["literatura", "romance", "brasileira", "prova-ipb"], 1857),
+    ("O Cortiço", "Aluísio Azevedo", "alta", "brasileira",
+     "O Cortico", ["literatura", "romance", "naturalismo", "brasileira", "prova-ipb"], 1890),
+    ("O Ateneu", "Raul Pompeia", "media", "brasileira",
+     "O Ateneu", ["literatura", "romance", "brasileira", "prova-ipb"], 1888),
+    ("São Bernardo", "Graciliano Ramos", "alta", "brasileira",
+     "Sao Bernardo", ["literatura", "romance", "brasileira", "prova-ipb"], 1934),
+    ("Angústia", "Graciliano Ramos", "media", "brasileira",
+     "Angustia", ["literatura", "romance", "brasileira"], 1936),
+    ("A Paixão segundo G.H.", "Clarice Lispector", "alta", "brasileira",
+     "A Paixao segundo G.H.", ["literatura", "romance", "brasileira", "prova-ipb"], 1964),
+    ("Macunaíma", "Mário de Andrade", "alta", "brasileira",
+     "Macunaima", ["literatura", "romance", "modernismo", "brasileira", "prova-ipb"], 1928),
+    ("Sagarana", "João Guimarães Rosa", "media", "brasileira",
+     "Sagarana", ["literatura", "conto", "brasileira", "prova-ipb"], 1946),
+    ("Noite na Taverna", "Álvares de Azevedo", "media", "brasileira",
+     "Noite na Taverna", ["literatura", "conto", "romantismo", "brasileira"], 1855),
+    # Eixo 2: lacunas do Eca e do realismo portugues/frances
+    ("O Primo Basílio", "Eça de Queiroz", "alta", "portugues",
+     "O Primo Basilio", ["literatura", "romance", "canon-literario", "portugues"], 1878),
+    ("Os Maias", "Eça de Queiroz", "alta", "portugues",
+     "Os Maias", ["literatura", "romance", "canon-literario", "portugues"], 1888),
+    # Eixo 3: classicos curtos que faltam (degraus baixos da rampa)
+    ("O Velho e o Mar", "Ernest Hemingway", "alta", "anglo-saxoes",
+     "The Old Man and the Sea", ["literatura", "novela", "canon-literario", "ingles"], 1952),
+    ("A Metamorfose", "Franz Kafka", "alta", "alemão",
+     "Die Verwandlung", ["literatura", "novela", "canon-literario", "alemao"], 1915),
+    # Eixo 4: trilha de ficcao crista (a estante do William tem ZERO)
+    ("O Grande Divórcio", "C. S. Lewis", "alta", "ingles",
+     "The Great Divorce", ["literatura", "ficcao-crista", "ingles", "teologia"], 1945),
+    ("Cartas de um Diabo a seu Aprendiz", "C. S. Lewis", "alta", "ingles",
+     "The Screwtape Letters", ["literatura", "ficcao-crista", "ingles", "teologia"], 1942),
 ]
 
 # ---------------------------------------------------------------------------
