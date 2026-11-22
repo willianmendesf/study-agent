@@ -131,7 +131,15 @@ RUIM = re.compile(
 DEGRADE = re.compile(
     r"(abreviat|resum[oa]\b|adapta|bolso|cl[aá]ssicos? de ouro|"
     r"vers[aã]o (simplificada|adaptada|abreviada)|"
-    r"como ler|em 15 minutos|leitura f[aá]cil)", re.I)
+    r"como ler|em 15 minutos|leitura f[aá]cil|"
+    # BUG (2026-11-21): "em quadrinhos"/HQ/manga e' ADAPTACAO, nao a obra —
+    # e o texto nao existe (o PDF e' scan de desenho, sem camada de texto).
+    # Foi o que aconteceu com "Otelo": o candidato escolhido foi
+    # "Otelo (Coleção Shakespeare em Quadrinhos)", 15 MB de scan, e a
+    # conversao morreu com "conversao-sem-md". A obra foi contada como falha
+    # embora exista a peca em texto no mesmo resultado de busca.
+    r"quadrinhos|\bhq\b|manga|mang[aá]|graphic novel|"
+    r"em (desenho|figuras|cordel))", re.I)
 
 # edicoes aceitaveis mas nao ideais: comentada, bilingue, ilustrada.
 MEDIO = re.compile(
@@ -255,7 +263,19 @@ def salvar_estado(est):
 
 
 def run_json(cmd, timeout=180):
-    r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    # BUG (2026-11-21): o TimeoutExpired NAO era tratado. Um unico download
+    # lento (libgen levou >320 s) derrubava o pipeline INTEIRO com traceback,
+    # abortando a rodada no 6o livro de 12 e sem imprimir o resumo
+    # "baixados: N · falhas: M". Pior: o traceback sai com rc=1 e o
+    # `rodada-ficcao.sh` traduzia rc=1 como "rodou OK — nada a baixar",
+    # escondendo o erro (mesma classe de bug do "2b indisponivel" de 11-13).
+    # Agora timeout vira FALHA DE REDE tratada: a obra nao e' culpada,
+    # o laco segue para a proxima e o estado nao bloqueia novas tentativas.
+    try:
+        r = subprocess.run(cmd, capture_output=True, text=True, timeout=timeout)
+    except subprocess.TimeoutExpired:
+        return None, "timeout de %ss (%s)" % (timeout, Path(cmd[1]).name
+                                              if len(cmd) > 1 else cmd[0])
     out = (r.stdout or "").strip()
     if not out:
         return None, (r.stderr or "")[-300:]
@@ -358,21 +378,41 @@ def cota_zlib():
         return 0, "z-library inacessivel (%s)" % e
     total = 0
     linhas = []
+    por_conta = {}
     for m in re.finditer(r"(\S+):\s*today=(\d+)\s+limit=(\d+)\s+remaining=(\d+)",
                          stdout):
         alias, _today, _limit, rem = m.groups()
         total += int(rem)
+        por_conta[alias] = int(rem)
         linhas.append("%s=%s" % (alias, rem))
+    # BUG (2026-11-22): a cota era somada (8 contas = 41 restantes) mas o
+    # download NUNCA recebia a conta — `zlib-api.py download` usa o default
+    # `zlib2`. No dia em que a `zlib2` zerou (10/10) e as outras 7 tinham
+    # cota, o pipeline acreditou ter 41 downloads e TODOS falharam com
+    # "download falhou" (114 DOWNLOAD-FALHOU na rodada, 49 obras marcadas
+    # como falha). O z-library responde "daily limit reached" — nao e' a
+    # obra, e' a conta. Agora a cota POR CONTA sobe para o baixa_zlib, que
+    # escolhe a conta com mais saldo (mesma politica do pipeline-aquisicao).
+    global COTAS_CONTA
+    COTAS_CONTA = por_conta
     return total, ", ".join(linhas)
+
+
+# saldo por conta (alias -> downloads restantes). Preenchido por cota_zlib().
+COTAS_CONTA = {}
 
 
 # ---------------------------------------------------------------------------
 # FONTE 2 — biblio-mcp (Libgen + Anna's + Sci-Hub) — SEM COTA
 # ---------------------------------------------------------------------------
 def busca_biblio(query, limit=25):
+    """Retorna (lista, erro). BUG (2026-11-21): o erro de REDE era engolido
+    aqui e virava lista vazia -> o chamador marcava a obra como
+    "sem candidato em zlib nem biblio" e ela ficava bloqueada por um
+    problema que nao e' dela. Agora o erro sobe e o chamador distingue."""
     d, err = run_json([sys.executable, str(BIBLIO_API), "search", query, "--limit", str(limit)])
     if not isinstance(d, list):
-        return []
+        return [], err or "busca vazia"
     out = []
     for b in d:
         out.append({
@@ -383,7 +423,7 @@ def busca_biblio(query, limit=25):
             "size": b.get("size"), "publisher": b.get("publisher"),
             "fonte": "biblio",
         })
-    return out
+    return out, None
 
 
 def baixa_biblio(cand, destino):
@@ -928,7 +968,9 @@ def main():
             falha_de_rede = ("download falhou: download falhou" in motivo
                              or "z-library inacessivel" in motivo
                              or "sem resposta" in motivo
-                             or "nenhum link direto baixou" in motivo)
+                             or "nenhum link direto baixou" in motivo
+                             or "timeout" in motivo
+                             or motivo.startswith("rede:"))
             # BUG (2026-11-11): o bloqueio era "1 tentativa por dia, sem
             # excecao". As 13 pendentes ja tinham falhado as 00:17 UTC e a
             # rodada das 07:15 nao podia nem tentar de novo — sobrando 64 de
@@ -962,6 +1004,8 @@ def main():
         cand = None
         score = 0.0
         fonte = "zlib"
+        b2 = []
+        erro_b2 = None
         if books:
             cand, score = melhor_candidato(books, it["titulo"], it["autor"],
                                            it["titulo_en"], it["titulos_alt"])
@@ -971,8 +1015,12 @@ def main():
             print("[biblio] z-library nao serviu p/ %s (score %s) — tentando libgen"
                   % (it["titulo"], score))
             b2 = []
+            erro_b2 = None
             for q in queries:
-                b2 += busca_biblio(q)
+                _r, _e = busca_biblio(q)
+                b2 += _r
+                if _e:
+                    erro_b2 = _e
                 if b2:
                     break
             if b2:
@@ -984,6 +1032,19 @@ def main():
                           % (len(b2), score2))
 
         if not cand:
+            # BUG (2026-11-21): falha de REDE nao e' falha da OBRA. Antes, o
+            # timeout da busca virava "sem candidato" e a obra era contada
+            # como tentativa do dia. Agora e' marcada como rede: nao bloqueia
+            # e nao consome tentativa.
+            if erro_b2 and not books:
+                estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
+                             "n_tentativas": (st.get("n_tentativas") or 0),
+                             "motivo": "rede: %s" % erro_b2[:120]}
+                salvar_estado(estado)
+                print("[REDE-FALHOU] %s — %s (nao conta como tentativa)"
+                      % (it["titulo"], erro_b2[:80]))
+                falhas += 1
+                continue
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
                          "n_tentativas": (st.get("n_tentativas") or 0) + 1,
                          "motivo": "sem candidato em zlib nem biblio"}
@@ -1000,63 +1061,88 @@ def main():
         if args.dry:
             continue
 
-        # ---- download ----
-        if fonte == "biblio":
-            ebook, info = baixa_biblio(cand, INCOMING / s)
-        else:
-            ebook, info = baixa_zlib(cand, INCOMING / s)
-        if not ebook:
-            # BUG (2026-11-07): quando o z-library tem COTA mas o DOWNLOAD
-            # falha (cota real esgotada na conta, downloadLink expirado,
-            # link quebrado), a 2a via NAO caia para o libgen — que e' justamente
-            # a fonte SEM COTA. A obra era marcada "falhou" e a cota do dia
-            # se perdia. Agora: se o download do z-library falhar, tenta o
-            # libgen ANTES de desistir.
-            if fonte == "zlib" and not args.dry:
-                print("[zlib] download falhou p/ %s (%s) — tentando libgen "
-                      "(fonte sem cota)" % (it["titulo"], info))
-                b3 = []
-                for q in queries:
-                    b3 += busca_biblio(q)
-                    if b3:
-                        break
-                if b3:
-                    cand3, score3 = melhor_candidato(
-                        b3, it["titulo"], it["autor"],
-                        it["titulo_en"], it.get("titulos_alt"))
-                    if cand3 and score3 >= 0.55:
-                        ebook3, info3 = baixa_biblio(cand3, INCOMING / s)
-                        if ebook3:
-                            ebook, info, fonte = ebook3, info3, "biblio"
-                            cand = cand3
-                            print("[biblio] recuperado via libgen: %s (%s)"
-                                  % (it["titulo"], info3))
-            if not ebook:
-                estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
-                         "n_tentativas": (st.get("n_tentativas") or 0) + 1,
-                             "motivo": "download falhou: %s" % info}
-                salvar_estado(estado)
-                print("[DOWNLOAD-FALHOU] %s: %s" % (it["titulo"], info))
-                log("download_falhou_biblio", titulo=it["titulo"], erro=info)
-                falhas += 1
-                continue
-        if fonte == "zlib":
-            cota = max(0, cota - 1)
-
-        # ---- conversao ----
+        # ---- download + conversao, tentando os candidatos EM ORDEM ----
+        # BUG (2026-11-21): o pipeline escolhia UM candidato (o de maior
+        # score) e, se a CONVERSAO falhasse, marcava a obra como "falhou" e
+        # seguia adiante — sem tentar o 2o melhor, que podia ser o bom.
+        # Caso medido hoje: "Otelo" -> o escolhido foi
+        # "Otelo (Coleção Shakespeare em Quadrinhos)" (15 MB de scan sem
+        # camada de texto) -> "conversao-sem-md". A peca em texto estava no
+        # MESMO resultado de busca (EPUB 175 kB). Agora a obra so' falha
+        # quando TODOS os candidatos aceitaveis falharem.
         _vars = [v for v in ([it["titulo"], it.get("titulo_en")]
                               + list(it.get("titulos_alt") or [])) if v]
         _gap_en = any("gap-idioma" in (t or "").lower()
                       for t in (it.get("tags") or []))
-        destino, msg = converte(ebook, it["titulo"], it["autor"], it["tags"],
-                                it["ano"], it["subpasta"], _vars, _gap_en)
+        _pool = list(books) + list(b2)
+        _ordenados = [c for c, _s in candidatos_ordenados(
+            _pool, it["titulo"], it["autor"], it["titulo_en"],
+            it.get("titulos_alt"))] if _pool else []
+        if cand and all(c is not cand for c in _ordenados):
+            _ordenados.insert(0, cand)
+        # so vale tentar candidatos de fonte conhecida
+        ebook = info = None
+        destino = msg = None
+        tentados_cand = 0
+        for _c in _ordenados:
+            if baixados >= args.max:
+                break
+            if tentados_cand >= MAX_CANDIDATOS:
+                msg = ("%d candidatos tentados, nenhum converteu" % tentados_cand)
+                break
+            tentados_cand += 1
+            _fonte_c = _c.get("fonte") or "zlib"
+            if _fonte_c == "zlib" and cota <= 0 and not args.dry:
+                continue
+            print("[TENTATIVA %d] %s <- %s (%s, %s)"
+                  % (tentados_cand, it["titulo"],
+                     (_c.get("title") or "")[:50], _c.get("extension"),
+                     _c.get("lang")))
+            if _fonte_c == "biblio":
+                ebook, info = baixa_biblio(_c, INCOMING / s)
+            else:
+                ebook, info = baixa_zlib(_c, INCOMING / s)
+            if not ebook:
+                print("[DOWNLOAD-FALHOU] %s: %s" % (_c.get("title"), info))
+                continue
+            if _fonte_c == "zlib":
+                cota = max(0, cota - 1)
+            try:
+                destino, msg = converte(ebook, it["titulo"], it["autor"], it["tags"],
+                                        it["ano"], it["subpasta"], _vars, _gap_en)
+            except subprocess.TimeoutExpired:
+                destino, msg = None, "conversao estourou o tempo"
+            except Exception as _e:
+                destino, msg = None, "erro na conversao: %s" % _e
+            if destino:
+                cand, fonte = _c, _fonte_c
+                break
+            print("[CONVERSAO-FALHOU] %s: %s — tentando o proximo candidato"
+                  % (_c.get("title"), msg))
+            # o ebook que nao converteu nao serve para nada: nao deixa lixo
+            try:
+                if ebook.exists() and "_incoming" in str(ebook):
+                    ebook.unlink()
+            except OSError:
+                pass
+            ebook = None
+
         if not destino:
+            # msg carrega o motivo da CONVERSAO (quando houve download) ou
+            # info o motivo do DOWNLOAD (quando nenhum baixou).
+            if tentados_cand and msg and not str(msg).startswith("None"):
+                _motivo = "conversao: %s" % msg
+            else:
+                _motivo = "download falhou: %s" % info
+            _rede = ("timeout" in str(info or "").lower()
+                     or "sem resposta" in str(info or "").lower())
             estado[s] = {"status": "falhou", "tentado": time.strftime("%Y-%m-%d"),
-                         "n_tentativas": (st.get("n_tentativas") or 0) + 1,
-                         "motivo": "conversao: %s" % msg}
+                         "n_tentativas": (st.get("n_tentativas") or 0)
+                                         + (0 if _rede else 1),
+                         "motivo": ("rede: " if _rede else "") + _motivo}
             salvar_estado(estado)
-            print("[CONVERSAO-FALHOU] %s: %s" % (it["titulo"], msg))
-            log("conversao_falhou_biblio", titulo=it["titulo"], erro=msg)
+            print("[FALHOU] %s: %s" % (it["titulo"], _motivo))
+            log("falhou_biblio", titulo=it["titulo"], erro=_motivo)
             falhas += 1
             continue
 
@@ -1101,10 +1187,26 @@ def main():
 
 
 def baixa_zlib(cand, destino):
-    """Baixa no z-library. Retorna (caminho, info) ou (None, erro)."""
+    """Baixa no z-library. Retorna (caminho, info) ou (None, erro).
+
+    BUG (2026-11-22): esta funcao NAO passava a conta, entao o `zlib-api.py`
+    usava o default `zlib2`. Quando a `zlib2` zerou a cota do dia, TODOS os
+    downloads falharam ("daily limit reached") mesmo com 41 downloads
+    sobrando nas outras 7 contas — 49 obras marcadas como falha por um bug
+    de selecao de conta, nao por falta de material. Agora escolhe a conta
+    com MAIS saldo (empate -> ordem de prioridade) e desconta o saldo local
+    para nao repetir a mesma conta no mesmo lote.
+    """
+    contas = [a for a, r in COTAS_CONTA.items() if r > 0]
+    if contas:
+        conta = max(contas, key=lambda a: COTAS_CONTA.get(a, 0))
+        COTAS_CONTA[conta] = max(0, COTAS_CONTA.get(conta, 0) - 1)
+        extra = [conta]
+    else:
+        extra = []
     d, err = run_json([sys.executable, str(ZLIB_API), "download",
-                        str(cand.get("id")), str(cand.get("hash")),
-                        "--dest", str(destino.parent)], timeout=320)
+                        str(cand.get("id")), str(cand.get("hash"))] + extra +
+                       ["--dest", str(destino.parent)], timeout=320)
     if not isinstance(d, dict) or not d.get("ok"):
         return None, (d.get("erro") if isinstance(d, dict) else None) or "download falhou"
     p = Path(d["path"])
@@ -1121,4 +1223,23 @@ def baixa_zlib(cand, destino):
 
 
 if __name__ == "__main__":
-    sys.exit(main())
+    # BUG (2026-11-21): uma excecao nao tratada sai com rc=1 — o MESMO codigo
+    # que `main()` usa para "rodou OK, nada a baixar". O `rodada-ficcao.sh`
+    # entao reportava "2b: rodou OK — nada a baixar" enquanto o log tinha um
+    # traceback e a rodada tinha morrido no 6o livro de 12. Foi assim que o
+    # bug do TimeoutExpired passou despercebido.
+    # Agora crash interno sai com 3 (distinto de 0=baixou, 1=nada a baixar,
+    # 124=timeout) e o wrapper reporta "ERRO real".
+    try:
+        sys.exit(main())
+    except KeyboardInterrupt:
+        sys.exit(130)
+    except SystemExit:
+        # sys.exit(N) de dentro de main() NAO e' crash: preserva o codigo.
+        raise
+    except BaseException:
+        import traceback
+        traceback.print_exc()
+        print("\n[ERRO-INTERNO] a rodada abortou por excecao nao tratada "
+              "(ver traceback acima)", file=sys.stderr)
+        sys.exit(3)
