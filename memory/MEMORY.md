@@ -1816,3 +1816,18 @@ catálogo contra o acervo e acrescentar alvos novos.
   20 arquivos antigos gerando 409 a cada 15 min no cron (limpeza precisa do ok do William).
 - **Detalhes:** `memory/202611/20261119-rodada-ficcao.md`.
 - **Commits:** data `21ae51a` + `7d59c12` · repo `306e9f2`.
+
+## 🔧 Rodada de aquisição 2026-11-22 — 0 baixados, saturação dupla-provada (59/59)
+
+- **Resultado:** 0 baixados · 0 gaps fechados · 0 pendentes (13 áreas saturadas) ·
+  lint **0 erro novo** (4 conhecidos, 1 aviso `esp:mnemos:tags-sem-kb`).
+- **Prova (regra de 2026-11-10):** (1) **59/59 candidatos** de `rodape.CANDIDATOS`
+  testados com `ja_no_acervo(c[0], c[1], ...)` → todos já no acervo (lista não-vazia,
+  sensor OK); (2) `POST https://z-lib.gd/eapi/book/search` → `{"success":1}` (no ar).
+- **Acervo:** 1.410 `.md` · **1.619** materiais nas KBs · 0 órfão · 0 YAML inválido ·
+  19 sem tag inferível (estável) · 13/13 áreas OK · 0 livro bíblico sem comentário.
+- **Diff do dia = só carimbo de data** (85 arquivos). Commits `1ff9fba` (data) e
+  `9081221` (memória), ambos pushados.
+- **Para voltar a render:** ampliar `rodape.CANDIDATOS` / `catalogo-ficcao.yaml` /
+  `LEVANTAMENTO-NECESSIDADES.md` (instrução permanente de 2026-11-18).
+- **Nota diária:** `memory/202611/20261122-rodada-bibliotecario.md`.
