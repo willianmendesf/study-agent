@@ -1880,3 +1880,35 @@ catálogo contra o acervo e acrescentar alvos novos.
   → corpo vazio). Tem de ser **POST** `-d "message=...&limit=N"`.
 - **Commits:** data `c7bb04e` · repo `a94e0a3` — ambos pushados.
 - **Nota diária:** `memory/202611/20261123-rodada-bibliotecario.md`.
+
+## 🔧 Rodada de ficção 2026-11-23 — 24 obras (12 z-library + 12 libgen)
+
+- **Resultado:** via primária **12 adquiridos / 6 falhas**; 2ª via (libgen, sem cota)
+  **12 adquiridos / 1 falha** → **24 `.md` novos**, todos na KB, índice 1.818 docs.
+- **A 2ª via voltou a render de verdade** (depois de 4 rodadas mortas em nov/13 e do
+  bug de `toks()` de 2026-11-13): 12 obras de uma vez, incluindo Saramago ×2,
+  Eco, Grass, Ovídio, Eurípides, Guimarães Rosa, Zola, Manzoni, Mia Couto.
+- **BookOrbit fora do ar o dia inteiro** (`URLError 113` em todos os uploads; cron de
+  reenvio também falha). Fila em `_incoming/` = 52 arquivos, sobe sozinha quando voltar.
+- **Cota:** 5/10 em cada uma das 8 contas (40 disponíveis). Catálogo 212/236.
+
+### 🐛 Gate "texto-curto" rejeita obra boa — 3 casos medidos
+
+`MIN_BYTES=60_000` / `MIN_LINHAS=200` (pipeline-aquisicao) são proxies ruins:
+
+| obra | realidade medida | gate que barrou |
+|---|---|---|
+| Budapeste | 40.463 palavras, `conteudo_confere=True`, `autor_confere=True` | `MIN_LINHAS` (EPUB com parágrafos gigantes → 147 linhas) |
+| Mensagem (Pessoa) | 3.748 palavras, obra completa (poesia) | `MIN_BYTES` |
+| O Barão nas Árvores | 71.138 palavras, título na linha 2398 | `autor_confere` (ebook não cita "Calvino") |
+
+**Custo:** cota paga em 3 downloads descartados. **Correção proposta (não aplicada):**
+gate por palavras (≥2.500) + `conteudo_confere`, e aceitar "título presente + >20k
+palavras" quando a ficha não cita autor. Testar contra os corrompidos conhecidos
+(Dom Quixote com 104 tracebacks, arquivos de bytes nulos) antes de aplicar.
+
+**Regra durável:** ao auditar rodada, `find data/biblioteca -name '*.md' -newermt ...`
+conta o que **entrou**; o "12 adquirido(s)" do log conta **só a via primária** — a 2ª
+via imprime `baixados: N` em separado. Somar as duas ou o relatório mente para baixo.
+
+**Nota:** `memory/202611/20261123-rodada-ficcao.md`. Lint 0 erro novo.
