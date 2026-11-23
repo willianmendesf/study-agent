@@ -1831,3 +1831,52 @@ catálogo contra o acervo e acrescentar alvos novos.
 - **Para voltar a render:** ampliar `rodape.CANDIDATOS` / `catalogo-ficcao.yaml` /
   `LEVANTAMENTO-NECESSIDADES.md` (instrução permanente de 2026-11-18).
 - **Nota diária:** `memory/202611/20261122-rodada-bibliotecario.md`.
+
+## 📕 Ausência sexual por parte da esposa — levantamento (2026-11-23)
+
+- **Pergunta do William:** "tem algum livro que trata sobre como o homem lidar com a ausência
+  sexual por parte da esposa?"
+- **Achado:** o acervo **não tem obra dedicada** ao tema. O que existe é capítulo/seção:
+  - **Manual Bíblico de Perguntas Difíceis e Polêmicas da Bíblia** — o único que pega o caso
+    exato ("Minha esposa está doente e eu não consigo ficar sem sexo"): aliança incondicional,
+    1Co 13.4-7, Ef 5.25 sem condição, diagnóstico "o sexo está sendo o centro do casamento".
+    `data/biblioteca/manuais-biblicos/06-Manual-biblico-perguntas-dificeis-polemicas.md:2028-2080`
+  - **Carson, Um Chamado à Reforma Espiritual** — as 3 únicas condições de 1Co 7.5
+    (mútuo consentimento · propósito de oração · prazo definido). `:3962-3998`
+  - **Fitzpatrick, Aconselhamento a partir da cruz** — a leitura do coração do marido:
+    "se ela não parece querer sexo tanto quanto o marido, este começará a fantasiar…".
+    Idolatria do cônjuge. `:1653`
+  - **Challies, Desintoxicação Sexual** — "mesmo que nenhum dos cônjuges queira, o casal deve
+    manter as relações por obediência a Deus" + "(precisa tratar por que o desejo desapareceu)".
+    `:1598-1619`
+  - **LaHaye, O Ato Conjugal** — "por que as mulheres usam o sexo como arma" (`:12416`),
+    recusa e reasseguramento (`:12456`), frigidez vs. subestimulação (`:4683`).
+  - **Casamento, Sexo, Divórcio à Luz da Bíblia** — Pv 27.7 aplicado ao cônjuge faminto (`:2312`).
+- **LACUNA DE AQUISIÇÃO (registrada):** faltam as obras dedicadas — *The Sex-Starved Marriage*
+  (Weiner-Davis) · *Sexual Intimacy in Marriage* (Cutrer & Glahn) · *Intimacy Ignited*
+  (Dillow & Pintus) · *When Two Become One* (McCluskey) · *Restoring the Pleasure* (Penner).
+  **Quase todo o acervo de sexualidade é escrito para o homem que busca pureza, não para o
+  casado que não é correspondido.**
+- **Nota gerada:** `data/estudos/notas/vida-crista/ausencia-sexual-na-esposa-levantamento-bibliografico.md`
+- **Bug do ambiente (recorrente):** `data/` com arquivos root-owned → `buscar.py` falha com
+  "readonly database" e `Permission denied`. Corrigido com `sudo chown -R willian:willian data`.
+
+## 🔧 Rodada de aquisição 2026-11-23 — 0 baixados, saturação dupla-provada (59/59) + catálogo ampliado
+
+- **Resultado:** 0 baixados · 0 gaps fechados · 0 pendentes (13 áreas saturadas) ·
+  lint **0 erro novo** (4 conhecidos, 1 aviso `esp:mnemos:tags-sem-kb`).
+- **Prova (regra de 2026-11-10):** (1) **59/59 candidatos** de `rodape.CANDIDATOS`
+  testados com `ja_no_acervo(c[0], c[1], ...)` → todos já no acervo; (2) `POST
+  https://z-lib.gd/eapi/book/search` → `{"success":1}` (no ar).
+- **Acervo:** 1.426 `.md` · **1.635** materiais nas KBs · 0 órfão · 0 YAML inválido ·
+  19 sem tag inferível (estável) · 13/13 áreas OK · 0 livro bíblico sem comentário ·
+  acervo 100% catalogado (0 `.md` fora de KB).
+- **Catálogo ampliado (instrução permanente 2026-11-18):** 59 → **76 candidatos**,
+  **17 alvos novos medidos** e verificados no eAPI (não são fantasma):
+  Schreiner · House · Vos · Goldsworthy · Metzger · Tov · Malina · Ferguson ·
+  Chapell · Bridges · Tan · Koukl · Craig · Cegalla · Neves · Pestana · Minayo.
+  Descartado "Teologia Sistemática" (Strong) — **já está no acervo**.
+- **Armadilha:** o eAPI do z-library **não responde a GET** (`/eapi/book/search?message=`
+  → corpo vazio). Tem de ser **POST** `-d "message=...&limit=N"`.
+- **Commits:** data `c7bb04e` · repo `a94e0a3` — ambos pushados.
+- **Nota diária:** `memory/202611/20261123-rodada-bibliotecario.md`.
