@@ -1932,3 +1932,36 @@ conta o que **entrou**; o "12 adquirido(s)" do log conta **só a via primária**
 via imprime `baixados: N` em separado. Somar as duas ou o relatório mente para baixo.
 
 **Nota:** `memory/202611/20261123-rodada-ficcao.md`. Lint 0 erro novo.
+
+## 🔧 Rodada de aquisição 2026-11-24 — 0 baixados, mas NÃO era saturação
+
+- **Resultado:** 0 baixados · 0 gaps fechados · **15 títulos pendentes em 8 áreas** ·
+  lint **0 erro novo** (4 conhecidos + 1 aviso `esp:mnemos:tags-sem-kb`).
+- **A causa NÃO foi saturação.** O eAPI do z-library respondeu
+  `{"success":0,"error":"Access denied"}` (HTTP 400) em `z-lib.gd`, `z-lib.sk`
+  (307 → DiamWall) e `z-lib.su`; os outros 11 domínios sem resposta. `zlib-api.py limits`
+  ainda devolvia **10/10 nas 8 contas** — **cota OK não prova busca OK** (repetição da
+  lição de 2026-11-23).
+- **Prova de que os 15 alvos existem:** teste por fora do z-library (MCP `biblio`/libgen)
+  em 3 amostras — Goldsworthy ✓ EPUB · Vos ✓ PDF 12 MB · Chapell ✓ EPUB. Portanto
+  "sem resultados" = "o z-library negou acesso", não "o livro não existe".
+- **🐛 BUG CORRIGIDO (a causa de o relatório ter mentido):** `zlib_search()` em
+  `data/perfil/bibliotecario/biblioteca-orbit/rodape-aquisicao.py` devolvia `[]` tanto
+  para busca vazia quanto para acesso negado → o log imprimia `(sem resultados)` e a
+  rodada anunciava 0 baixados como se o acervo estivesse saturado.
+  Agora devolve **`None`** em falha (`returncode != 0` ou `success == 0`) e `[]` só em
+  busca vazia real; o chamador loga `(z-library NEGOU/nao respondeu a busca — servico
+  fora do ar)`, grava `{"tipo":"servico_indisponivel"}` e o `main()` imprime no fim
+  `AVISO: N busca(s) falharam por SERVICO FORA DO AR / ACESSO NEGADO — os alvos NAO
+  foram verificados. Isto NAO e saturacao do acervo.`
+  Validado com `--gap hermeneutica --dry`.
+- **REGRA DURÁVEL (3ª ocorrência do mesmo padrão):** função que devolve `[]`/`""` para
+  "vazio" **e** para "falhou" mente no relatório. Sempre separar `None` (falha) de `[]`
+  (vazio) — mesmo erro do `epub2md.py` devolvendo 0 chars e do exit code genérico (2026-11-13).
+- **Fase 0:** 1.468 `.md` · 1.677 materiais · 0 YAML inválido · 0 path quebrado ·
+  4 tagueados (categoria `sexual`) · 19 sem tag inferível (estável).
+- **Fase 2:** 0 `.md` fora de KB · 13/13 áreas OK · 0 livro bíblico sem comentário.
+- **Pendente:** rodar a **2ª via (libgen, sem cota)** para os 15 pendentes — é o caminho
+  que funciona enquanto o z-library nega acesso. A `rodada-diaria.sh` só usa o caminho z-library.
+- **Commits:** data `e651f19` (carimbos) + `0762a5a` (fix) · repo `b47f653` (memória).
+- **Nota diária:** `memory/202611/20261124-rodada-bibliotecario.md`.
