@@ -1965,3 +1965,56 @@ via imprime `baixados: N` em separado. Somar as duas ou o relatório mente para 
   que funciona enquanto o z-library nega acesso. A `rodada-diaria.sh` só usa o caminho z-library.
 - **Commits:** data `e651f19` (carimbos) + `0762a5a` (fix) · repo `b47f653` (memória).
 - **Nota diária:** `memory/202611/20261124-rodada-bibliotecario.md`.
+
+## 🔧 BookOrbit — 409 não é falha; estado `orbit` mentia (2026-11-24)
+
+**Queixa do William:** "Está toda noite rodando rotina e tentando baixar livro que já
+baixou? Precisa revisar isso aí, não está marcando o que já foi baixado?"
+
+**Os 3 problemas eram reais:**
+
+1. **Fila infinita de 409.** `reenviar-incoming-orbit.py` tratava **HTTP 409**
+   ("file already exists") como FALHA e preservava o local → o cron de 15 min
+   retentava os mesmos 23 arquivos **para sempre**. Medido: **17.999 linhas de 409**,
+   8,5 MB de log, desde 2026-11-06, zero progresso.
+   **Correção:** 409 sai da fila → `_incoming/_revisar-409/` (preservado, **não
+   apagado** — 409 é colisão de NOME, não prova de mesmo livro). 400 "contents do not
+   match" → `_rejeitados/`. Sem autor/título no metadado → `_revisar-nome/`
+   (nunca tenta subir como `_unorganized`: o app aceita UM e os outros dão 409).
+   **Resultado:** `_incoming/` 23 → **0**.
+
+2. **Estado `orbit` defasado em 95 itens.** Amostra: **9 de 10 estavam no app**.
+   Novo `scripts/sincronizar-orbit-estado.py` (só leitura na API, idempotente) +
+   **Fase 4.5** em `rodada-bibliotecario.sh`. **228/245** agora com `orbit: ok`
+   (antes 168).
+
+3. **Notificação contava só o campo `data`** — mas o `pipeline-biblio.py` (2ª via,
+   a que mais baixa) grava **`quando`**. A rodada que baixou 12 obras anunciava
+   "sem mudança (0 == 0) — sem notificação". Corrigido: aceita os dois campos.
+
+**Regra durável:** código que distingue "vazio" de "falhou" e código que lê
+"data" precisa checar **todos** os produtores daquele campo. O `data` × `quando`
+é a mesma classe de bug do `[]` × `None` (2026-11-24, zlib_search).
+
+**EN agora é aceito:** `permitir_en=True` + `_gap_en=True` nos dois pipelines
+(William: "baixe os livros em inglês, eu uso um tradutor"). ES continua bloqueado.
+
+**Detalhes:** `memory/202611/20261124-fila-orbit-409-e-estado.md`.
+
+## 📚 Dois manuais clínicos de sexualidade conjugal (2026-11-24)
+
+- **McCluskey, *When Two Become One*** (2004, bookId 2299) — o livro do caso "nunca
+  funcionou desde o início". Caso de abertura idêntico (`:414`). Origem do roteiro
+  errado na igreja (`:513`: "we have often preached what we are not to do sexually but
+  have seldom affirmed what we are to do"). Expectativa irreal (`:337-338`).
+  Ciclo do amor em 4 quadrantes, circular não linear (`:791`).
+- **Penner, *Restoring the Pleasure*** (3ª ed. 2016, bookId 2301) — o manual mais
+  protocolado do acervo: programa em STEPs numerados (`:1660`), sensate focus com
+  "remove all demands" (`:1542`), e o mecanismo mais provável do caso
+  (`:2345-2346`): **desejo inibido secundário a excitação inibida** — "the graph of
+  her sexual response... gradually declining until it was a flat line".
+  A instrução literal (`:2481`): *"Start from the beginning and learn to touch."*
+- **kb-sexual 10 → 12 volumes.** Nota `nunca-houve-bons-momentos-desde-o-casamento.md`
+  ganhou a **seção 5.7** (18 citações verificadas por linha).
+- **Ainda falta (compra):** *Sexual Intimacy in Marriage* (Cutrer & Glahn) — 0 em
+  todas as fontes. *Sheet Music* (Leman) — não apareceu.
