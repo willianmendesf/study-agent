@@ -73,6 +73,11 @@ def autor_por_nome(p: Path) -> str:
 
 def autor_do_ebook(p: Path) -> str:
     """Extrai o autor dos metadados (EPUB -> OPF dc:creator; PDF -> pdfinfo)."""
+    return _meta_do_ebook(p)[1]
+
+
+def _meta_do_ebook(p: Path):
+    """(titulo, autor) dos metadados internos. Vazio quando nao ha."""
     ext = p.suffix.lower()
     if ext == ".epub":
         try:
@@ -80,9 +85,10 @@ def autor_do_ebook(p: Path) -> str:
                 for name in z.namelist():
                     if name.endswith(".opf"):
                         data = z.read(name).decode("utf-8", errors="ignore")
-                        m = re.search(r"<dc:creator[^>]*>([^<]+)</dc:creator>", data)
-                        if m:
-                            return m.group(1).strip()
+                        t = re.search(r"<dc:title[^>]*>([^<]+)</dc:title>", data)
+                        a = re.search(r"<dc:creator[^>]*>([^<]+)</dc:creator>", data)
+                        return ((t.group(1).strip() if t else ""),
+                                (a.group(1).strip() if a else ""))
         except Exception:
             pass
     elif ext == ".pdf":
@@ -92,15 +98,11 @@ def autor_do_ebook(p: Path) -> str:
             import pypdf
             r = pypdf.PdfReader(str(p))
             meta = r.metadata or {}
-            autor = str(meta.get("/Author") or "").strip()
-            if autor:
-                return autor
-            titulo = str(meta.get("/Title") or "").strip()
-            if titulo:
-                return titulo
+            return (str(meta.get("/Title") or "").strip(),
+                    str(meta.get("/Author") or "").strip())
         except Exception:
             pass
-    return ""
+    return "", ""
 
 
 def log(ev, **kw):
@@ -201,27 +203,49 @@ def main():
 
     ok = falhou = 0
     for p in arquivos:
-        autor = autor_do_ebook(p) or autor_por_nome(p) or "_unorganized"
+        titulo_md, autor_md = _meta_do_ebook(p)
+        autor = autor_md or autor_por_nome(p)
+        # BUG (2026-11-24): PDF/ebook SEM metadado e com nome de arquivo
+        # generico (`zlib-1021315.pdf`, `fausto-goethe.pdf`) subia como
+        # "_unorganized" -> o BookOrbit aceita UM "_unorganized.pdf" e todos
+        # os outros dao 409 e nunca entram no app. Medido hoje: 5 PDFs
+        # (Fausto, Eichrodt, 1919, Tucídides, A Vida é Sonho) colidiram.
+        # REGRA: nao adianta tentar sem nome. Sai da fila, preservado, para
+        # _revisar-nome/ — o ebook e' re-subido com `orbit-subir-livro.py`
+        # (metadado reescrito + nome "Autor - Titulo").
+        sem_nome = not autor or not re.match(r"^[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ .'-]{3,}$", autor)
+        if sem_nome and not titulo_md:
+            quarentena = INCOMING / "_revisar-nome"
+            quarentena.mkdir(parents=True, exist_ok=True)
+            try:
+                p.replace(quarentena / p.name)
+                print(f"[SEM-NOME] {p.name}: sem autor/titulo no metadado e "
+                      f"nome generico — movido para _revisar-nome/ (preservado)")
+                log("sem_nome", arquivo=p.name)
+            except OSError as e:
+                print(f"[SEM-NOME] {p.name}: nao foi possivel mover ({e})")
+            continue
         if args.dry:
-            print(f"[dry] {p.name} ({p.stat().st_size//1024} KB) autor={autor}")
+            print(f"[dry] {p.name} ({p.stat().st_size//1024} KB) "
+                  f"autor={autor!r} titulo={titulo_md!r}")
             continue
 
         if token is None:
             token = obter_token()
 
-        st, d = ou.upload(p, token, folder_id=1, autor=autor)
+        st, d = ou.upload(p, token, folder_id=1, autor=autor, titulo=titulo_md)
         # 401 = token expirou (15 min) -> re-login e tenta uma vez mais.
         if st == 401:
             print(f"[sessao] token expirou em {p.name}; renovando...")
             token = None
             token = obter_token()
-            st, d = ou.upload(p, token, folder_id=1, autor=autor)
+            st, d = ou.upload(p, token, folder_id=1, autor=autor, titulo=titulo_md)
         # 429 no upload -> backoff e um retry.
         if st == 429:
             espera = 10
             print(f"[upload] 429 em {p.name}; aguardando {espera}s")
             time.sleep(espera)
-            st, d = ou.upload(p, token, folder_id=1, autor=autor)
+            st, d = ou.upload(p, token, folder_id=1, autor=autor, titulo=titulo_md)
 
         if st in (200, 201):
             ok += 1
@@ -241,6 +265,47 @@ def main():
                         log("dedup_removido", arquivo=dup.name, original=p.name)
                     except OSError:
                         pass
+        elif st == 409:
+            # BUG (2026-11-24): o 409 ("A file named X already exists") era
+            # tratado como FALHA e o arquivo local era PRESERVADO -> o cron de
+            # 15 min retentava os MESMOS 23 arquivos para sempre (17.999 linhas
+            # de 409 no log, 8,5 MB, zero progresso).
+            #
+            # NAO se apaga o local: o 409 e' colisao de NOME, nao prova de que
+            # e' o mesmo livro. Medido: "A-Perdicao-Eca-de-Queiroz.epub"
+            # colide com "Coletânea de Contos de Eça de Queirós" — obras
+            # diferentes. Entao: sai da fila (para de retentar) e vai para
+            # _revisar-409/, preservado, com o nome que o Orbit ja tem.
+            quarentena = INCOMING / "_revisar-409"
+            quarentena.mkdir(parents=True, exist_ok=True)
+            ja = ""
+            try:
+                ja = (d.get("message") or "").split('"')[1]
+            except Exception:
+                pass
+            alvo = quarentena / p.name
+            try:
+                p.replace(alvo)
+                print(f"[409] {p.name}: o Orbit ja tem '{ja}' — movido para "
+                      f"_revisar-409/ (preservado, fora da fila)")
+                log("colisao_409", arquivo=p.name, no_orbit=ja,
+                    movido_para=str(alvo))
+            except OSError as e:
+                print(f"[409] {p.name}: nao foi possivel mover ({e})")
+        elif st == 400 and "do not match" in json.dumps(d, ensure_ascii=False):
+            # Arquivo com extensao mentirosa (ex.: `biblio-xxxx.epub` que na
+            # verdade e' PDF). Nao adianta reenviar: vai falhar sempre. Sai da
+            # fila para um canto, preservado, e o cron para de tentar.
+            quarentena = INCOMING / "_rejeitados"
+            quarentena.mkdir(parents=True, exist_ok=True)
+            alvo = quarentena / p.name
+            try:
+                p.replace(alvo)
+                print(f"[REJEITADO] {p.name}: conteudo nao e' o formato da "
+                      f"extensao — movido para _rejeitados/")
+                log("rejeitado_formato", arquivo=p.name, movido_para=str(alvo))
+            except OSError as e:
+                print(f"[REJEITADO] {p.name}: nao foi possivel mover ({e})")
         else:
             falhou += 1
             msg = json.dumps(d, ensure_ascii=False)[:220]

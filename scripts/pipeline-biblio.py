@@ -751,7 +751,7 @@ def conteudo_confere(texto, titulo, variantes=None, autor=None):
 
 
 def converte(ebook, titulo, autor, tags, ano, subpasta, variantes=None,
-             permitir_en=False):
+             permitir_en=True):   # 2026-11-24: William traduz — EN e aceitavel
     tmp = Path(tempfile.mkdtemp(prefix="biblio-conv-"))
     try:
         r = subprocess.run([sys.executable, str(EPUB2MD), "--dest", str(tmp), str(ebook)],
@@ -1072,8 +1072,10 @@ def main():
         # quando TODOS os candidatos aceitaveis falharem.
         _vars = [v for v in ([it["titulo"], it.get("titulo_en")]
                               + list(it.get("titulos_alt") or [])) if v]
-        _gap_en = any("gap-idioma" in (t or "").lower()
-                      for t in (it.get("tags") or []))
+        # 2026-11-24 (William): "baixe os livros em ingles, eu uso um tradutor".
+        # A edicao em INGLES passou a ser SEMPRE aceitavel quando nao existe
+        # PT-BR. O gate de ES continua valendo (o espanhol nao serve).
+        _gap_en = True
         _pool = list(books) + list(b2)
         _ordenados = [c for c, _s in candidatos_ordenados(
             _pool, it["titulo"], it["autor"], it["titulo_en"],

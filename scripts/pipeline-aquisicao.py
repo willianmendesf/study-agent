@@ -840,7 +840,7 @@ def conteudo_confere(texto, titulo, variantes=None, autor=None):
 
 
 def converte(ebook, titulo, autor, tags, ano, subpasta, variantes=None,
-              permitir_en=False):
+              permitir_en=True):   # 2026-11-24: William traduz — EN e aceitavel
     """Converte em tempdir ISOLADO e so aceita se produziu texto real e se o
     titulo aparece no texto (evita o .md com conteudo de outro livro)."""
     tmp = Path(tempfile.mkdtemp(prefix="pipe-conv-"))
@@ -1236,8 +1236,10 @@ def main():
         # com o proximo candidato da lista ordenada.
         _vars = [v for v in ([it["titulo"], it.get("titulo_en")]
                               + list(it.get("titulos_alt") or [])) if v]
-        _gap_en = any("gap-idioma" in (t or "").lower()
-                      for t in (it.get("tags") or []))
+        # 2026-11-24 (William): "baixe os livros em ingles, eu uso um tradutor".
+        # A edicao em INGLES passou a ser SEMPRE aceitavel quando nao existe
+        # PT-BR. O gate de ES continua valendo (o espanhol nao serve).
+        _gap_en = True
         _cands = candidatos_ordenados(books, it["titulo"], it["autor"],
                                        it["titulo_en"], it.get("titulos_alt"))
         ebook = destino = None
