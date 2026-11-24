@@ -21,15 +21,29 @@ PIPELINE_ESTADO = ROOT / "data" / "perfil" / "bibliotecario" / "pipeline-estado.
 
 
 def adquiridos_hoje():
-    """Obras marcadas como 'adquirido' com data de hoje no estado do pipeline."""
+    """Obras marcadas como 'adquirido' com data de hoje no estado do pipeline.
+
+    BUG (2026-11-24): lia SO o campo `data`. O `pipeline-biblio.py` (a 2a via
+    SEM COTA, que e' a que mais baixa hoje) grava `quando`, e o
+    `pipeline-aquisicao.py` grava `data`. Resultado: os livros baixados pela
+    2a via NAO eram contados -> a rodada que baixou 12 obras anunciava
+    "sem mudanca (0 == 0) — sem notificacao" e o William nunca era avisado.
+    E' a mesma classe de bug do "nao esta marcando o que ja foi baixado".
+    Agora aceita os dois campos, e `quando` no formato "YYYY-MM-DD HH:MM".
+    """
     try:
         d = json.loads(PIPELINE_ESTADO.read_text(encoding="utf-8"))
     except Exception:
         return 0
     hoje = time.strftime("%Y-%m-%d")
-    return sum(1 for v in d.values()
-               if isinstance(v, dict) and v.get("status") == "adquirido"
-               and str(v.get("data") or "") == hoje)
+    n = 0
+    for v in d.values():
+        if not isinstance(v, dict) or v.get("status") != "adquirido":
+            continue
+        marca = str(v.get("data") or v.get("quando") or "")
+        if marca[:10] == hoje:
+            n += 1
+    return n
 
 
 def notificar(mensagem, status):

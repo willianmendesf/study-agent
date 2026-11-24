@@ -123,6 +123,20 @@ else
   log "reenvio-orbit-automatico.sh ausente — fase pulada"
 fi
 
+# --- FASE 4.5: sincroniza o campo `orbit` com o que existe no app ----------
+# POR QUE (2026-11-24, queixa do William "nao esta marcando o que ja foi baixado"):
+# o `orbit` ficou defasado em 95 itens — o ebook subiu pelo cron de `_incoming/`
+# depois de um upload que falhou, e ninguem voltou ao estado. Resultado: o
+# relatorio dizia "falhou" para livro que ESTAVA no app (medido: 9 de 10 na
+# amostra). Este passo e' idempotente e so faz leitura na API.
+log "--- FASE 4.5: sincronizar orbit no pipeline-estado ---"
+if [[ -f "$ROOT/scripts/sincronizar-orbit-estado.py" ]]; then
+  python3 "$ROOT/scripts/sincronizar-orbit-estado.py" 2>&1 \
+    | tail -4 | tee -a "$LOG"
+else
+  log "sincronizar-orbit-estado.py ausente — fase pulada"
+fi
+
 # --- FASE 5: notificacao (so quando o total muda) ---------------------------
 log "--- FASE 5: notificacao ---"
 python3 "$ROOT/scripts/rodada-ficcao-notificar.py" --falhas "$FAL" 2>&1 \
