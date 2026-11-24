@@ -1858,6 +1858,26 @@ catálogo contra o acervo e acrescentar alvos novos.
   **Quase todo o acervo de sexualidade é escrito para o homem que busca pureza, não para o
   casado que não é correspondido.**
 - **Nota gerada:** `data/estudos/notas/vida-crista/ausencia-sexual-na-esposa-levantamento-bibliografico.md`
+- **Postada no Memos 2026-11-23 19:5x BRT** (William autorizou na mesma conversa):
+  `memos/ehAkzzHEbnPvNjB2omeHRB`, tags `#study-agent #estudo/teologia #tipo/guia #aconselhamento`.
+  O `memos-post.sh` resolve o endpoint sozinho (IPv6 → IPv4 → hostname): o IPv6 estava
+  em timeout e o hostname sem DNS; **o IPv4 `100.103.64.20` respondeu 200**.
+- **As 7 obras citadas estão TODAS no acervo** (verificado por `stat`/`wc -l` em 2026-11-23):
+  Manual Perguntas Difíceis (1,0 MB/19.303 l.) · Carson (535 KB/8.378) · Casamento Sexo
+  Divórcio (144 KB/3.720) · Fitzpatrick (465 KB/2.647) · Coletâneas Vol VIII (454 KB/11.999) ·
+  Challies (167 KB/2.833) · LaHaye Ato Conjugal (634 KB/12.505). Nada foi baixado agora —
+  já estavam lá; o levantamento foi por busca de texto completo.
+- **As obras dedicadas que faltam existem em INGLÊS no libgen** (medido 2026-11-23):
+  *The Sex-Starved Marriage* (Weiner-Davis) · *Intimacy Ignited* (Dillow/Pintus) ·
+  *When Two Become One* (McCluskey) · *Restoring the Pleasure* (Penner) ·
+  *The Great Sex Rescue* (Gregoire). *Sexual Intimacy in Marriage* (Cutrer/Glahn) e
+  *Come as You Are* (Nagoski) **não apareceram**. Nenhuma em PT-BR.
+- **z-library fora do ar em 2026-11-23 19:40 BRT:** eAPI devolve
+  `{"success":0,"error":"Access denied"}` (HTTP 400) em `z-lib.gd` mesmo com cookies
+  válidos; `domains` mostra `z-lib.gd` 400 e `z-lib.su` 400, todos os outros sem resposta;
+  o MCP `biblio` reporta `z-lib.gd -> HTTP 503`. `limits` ainda responde (5/10 nas 8 contas)
+  porque usa `/eapi/user/profile` — **cota OK não prova busca OK**. Caminho que funciona:
+  MCP `biblio` (libgen/Anna's).
 - **Bug do ambiente (recorrente):** `data/` com arquivos root-owned → `buscar.py` falha com
   "readonly database" e `Permission denied`. Corrigido com `sudo chown -R willian:willian data`.
 
