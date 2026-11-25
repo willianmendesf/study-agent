@@ -2018,3 +2018,45 @@ baixou? Precisa revisar isso aí, não está marcando o que já foi baixado?"
   ganhou a **seção 5.7** (18 citações verificadas por linha).
 - **Ainda falta (compra):** *Sexual Intimacy in Marriage* (Cutrer & Glahn) — 0 em
   todas as fontes. *Sheet Music* (Leman) — não apareceu.
+
+## 🚨 REGRA DURÁVEL — citar livro só se estiver no BookOrbit (2026-11-25)
+
+**Queixa do William:** "você está toda hora referenciando livros que não existem pra mim no
+bookorbit, ex: Aconselhamento Bíblico vol. 8, não existe no bookorbit" + "ou mesmo com outro
+nome: Aconselhamento Bíblico vol. VIII".
+
+**Ele estava certo.** O acervo local tem **1.601 títulos nas KBs**; o app tem **1.404 livros**;
+**653 títulos das KBs não existem no app**. Eu citava a KB, não o app. `Aconselhamento Bíblico
+Vol VIII` / `Coletâneas Vol VIII` **não está no app** (só II, III, IV, V, VI).
+
+**Regra:** antes de citar qualquer livro como leitura disponível, **conferir o bookId no app**.
+A KB diz o que o acervo *tem*; o BookOrbit diz o que ele *pode ler no celular*.
+
+**Ferramenta:** `scripts/auditar-orbit.py` — cruza as KBs com o catálogo do app, grava
+`data/perfil/bibliotecario/auditoria-orbit.json`. `--validar` roda 10 casos de controle
+(10/10 OK, inclui o Vol VIII).
+
+**Como levantar o catálogo do app (o único jeito):** `GET /api/v1/books/<id>` de 1 a 2600.
+`/books/search?q=` **limita a 20 e não pagina**; `GET /books` → 404; `GET /libraries/1/books`
+→ 404. Varredura leva ~11 min com 0,22 s de pausa.
+
+**4 bugs de casamento de título (medidos, todos corrigidos no auditor):**
+1. `minimo=4` de letra + alvo mínimo 2 → título de 1 token ("Coletâneas Vol III") **nunca** casava.
+2. Sem trava de volume, **Vol VIII casava com Vol VI** — exatamente o erro apontado.
+3. Número de série do app ("Série Aconselhamento Livro 16") não existe na KB → falso negativo
+   em toda a série. A trava de volume só vale quando a **KB** declara volume.
+4. Prefixo de 5 letras: "familia"×"familias", "biblico"×"biblica".
+
+**Pendente (precisa do ok do William):** converter `Coletâneas Vol VIII` (454 KB de .md, o melhor
+capítulo de luto do acervo — "A Dor da Perda", Paul Randolph) e o `Manual Bíblico de Perguntas
+Difíceis` em EPUB e subir ao app. Os PDFs originais estão em `/media/willianmendesf/...` (HD não
+montado nesta máquina).
+
+**Luto — o que existe DE FATO no app:** [152] Sofrendo com a perda de um filho (Showalter — o
+único com tema inteiro) · [144] Enfrentando a morte com esperança (Powlison) · [115]/[408]
+Aconselhamento Bíblico Vol 6, cap. "Como Ajudar uma Criança Enlutada" (Judy Blore, p.51) ·
+[130]/[420] Coletâneas Vol VI (mesmo capítulo) · [145] Eu quero morrer · [146] Lutando contra o
+câncer · [150] Doença de Alzheimer · [1764] O problema da dor (Lewis) · [1548] Confissões
+(Livro IV e IX) · [320] Envelhecendo com Graça · [421] O Pastor e o Aconselhamento.
+Nota: `data/estudos/notas/vida-crista/luto-o-que-existe-no-bookorbit.md` → Memos
+`memos/7LC2PbsocbMgrB5akLf9ie`.
