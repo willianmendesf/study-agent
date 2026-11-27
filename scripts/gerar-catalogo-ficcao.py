@@ -157,6 +157,24 @@ TITULOS_ALT = {
                                                  "7 melhores contos"],
     ("alves & c.ª", "eça de queiroz"): ["Alves & Cia", "Alves & C.ª", "Alves e Cia"],
     ("o mandarim", "eça de queiroz"): ["O Mandarim"],
+    # BUG (2026-11-26): "Eugênio Oneguin" ficou "sem candidato" para sempre.
+    # O catalogo so' buscava pelo titulo PT e pelo CIRILICO (Евгений Онегин),
+    # e o z-library nao indexa o cirilico. A traducao PT-BR existe (Amora,
+    # 2022) sob o titulo "Eugene Onegin" — grafia EN, edicao brasileira.
+    # Medido: 50 resultados, 2 em Portuguese ("Eugene Onegin", ids 26591910
+    # e 26769203).
+    ("eugenio oneguin", "aleksandr puchkin"): ["Eugene Onegin", "Evgeny Onegin",
+                                               "Eugenio Oneguin",
+                                               # BUG (2026-11-26): a traducao
+                                               # BRASILEIRA usa outra
+                                               # transliteracao — "Evguiêni
+                                               # Oniéguin". Medido: 3 edicoes
+                                               # PT-BR (ids 119195136,
+                                               # 24018157, 24308128). Sem este
+                                               # alias o pipeline baixava a
+                                               # edicao inglesa.
+                                               "Evguiêni Oniéguin",
+                                               "Evgueni Onieguin"],
     # BUG (2026-11-11): "A Perdição" (conto do Eça) nao existe ISOLADO no
     # z-library — so em antologias ("Contos", "Coletânea de contos",
     # "Obras Completas IV: Contos Completos"). Sem estes aliases, a busca
@@ -624,6 +642,61 @@ COMPLEMENTARES = [
      "Nesnesitelná lehkost bytí", ["literatura", "romance", "tcheco"], 1984),
     ("A Vida é Sonho", "Calderón de la Barca", "media", "mexicano",
      "La vida es sueño", ["literatura", "teatro", "espanhol"], 1635),
+
+    # ===================================================================
+    # AMPLIACAO 2026-11-27 — catalogo estava 236/236 adquirido (saturado),
+    # o que travava a rodada em "0 baixados". Instrucao permanente do
+    # William (2026-11-18): rodada saturada NAO encerra o dia — amplia.
+    #
+    # Cada alvo abaixo foi MEDIDO em 2026-11-27 de DUAS formas:
+    #   (1) ausente do acervo: nenhum .md em data/biblioteca/ e nenhum
+    #       `titulo` nas 1.742 entradas das KBs;
+    #   (2) EXISTE em PT-BR: busca real no libgen (json.php) devolveu
+    #       edicao "Portuguese" com EPUB/MOBI — nao e' alvo fantasma.
+    # O z-library estava negando acesso ("Access denied") hoje; a 2a via
+    # (libgen, sem cota) e' o caminho que funciona.
+    # ===================================================================
+    # --- eixo brasileira (canone + prova de Literatura IPB) ---
+    ("Memorial de Maria Moura", "Rachel de Queiroz", "alta", "brasileira",
+     "Memorial de Maria Moura", ["literatura", "romance", "brasileira"], 1992),
+    ("A Escrava Isaura", "Bernardo Guimarães", "alta", "brasileira",
+     "A Escrava Isaura", ["literatura", "romance", "brasileira", "prova-ipb"], 1875),
+    ("Memórias de um Sargento de Milícias", "Manuel Antônio de Almeida", "alta",
+     "brasileira", "Memórias de um Sargento de Milícias",
+     ["literatura", "romance", "brasileira", "prova-ipb"], 1854),
+    ("Recordações do Escrivão Isaías Caminha", "Lima Barreto", "alta", "brasileira",
+     "Recordações do Escrivão Isaías Caminha",
+     ["literatura", "romance", "brasileira", "prova-ipb"], 1909),
+    ("Clara dos Anjos", "Lima Barreto", "media", "brasileira",
+     "Clara dos Anjos", ["literatura", "romance", "brasileira"], 1948),
+    ("O Tronco", "Bernardo Élis", "media", "brasileira",
+     "O Tronco", ["literatura", "romance", "brasileira", "regionalismo"], 1956),
+    # --- eixo seculo XX (narrativa moderna, alta rotacao na rampa) ---
+    ("Enquanto Agonizo", "William Faulkner", "alta", "anglo-saxoes",
+     "As I Lay Dying", ["literatura", "romance", "modernismo", "ingles"], 1930),
+    ("O Som e a Fúria", "William Faulkner", "alta", "anglo-saxoes",
+     "The Sound and the Fury", ["literatura", "romance", "modernismo", "ingles"], 1929),
+    ("A Montanha Mágica", "Thomas Mann", "alta", "alemão",
+     "Der Zauberberg", ["literatura", "romance", "canon-literario", "alemao"], 1924),
+    ("Esperando Godot", "Samuel Beckett", "alta", "ingles",
+     "En attendant Godot", ["literatura", "teatro", "modernismo"], 1953),
+    ("Laranja Mecânica", "Anthony Burgess", "alta", "anglo-saxoes",
+     "A Clockwork Orange", ["literatura", "romance", "distopia", "ingles"], 1962),
+    ("O Conto da Aia", "Margaret Atwood", "alta", "anglo-saxoes",
+     "The Handmaid's Tale", ["literatura", "romance", "distopia", "ingles"], 1985),
+    ("Matadouro Cinco", "Kurt Vonnegut", "alta", "anglo-saxoes",
+     "Slaughterhouse-Five", ["literatura", "romance", "ingles"], 1969),
+    ("Fahrenheit 451", "Ray Bradbury", "alta", "anglo-saxoes",
+     "Fahrenheit 451", ["literatura", "romance", "distopia", "ingles"], 1953),
+    # --- eixo latino-americano (realismo magico) ---
+    ("O Amor nos Tempos do Cólera", "Gabriel García Márquez", "alta", "mexicano",
+     "El amor en los tiempos del cólera",
+     ["literatura", "romance", "mexicano", "canon-literario"], 1985),
+    ("Crônica de uma Morte Anunciada", "Gabriel García Márquez", "alta", "mexicano",
+     "Crónica de una muerte anunciada",
+     ["literatura", "romance", "mexicano"], 1981),
+    ("A Casa dos Espíritos", "Isabel Allende", "media", "mexicano",
+     "La casa de los espíritus", ["literatura", "romance", "chileno"], 1982),
 ]
 
 # ---------------------------------------------------------------------------
