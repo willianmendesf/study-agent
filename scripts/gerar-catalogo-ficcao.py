@@ -56,6 +56,8 @@ COMPOSTOS = {
 }
 
 # nao-ficcao / digitalizacao: fora do catalogo de download
+# 2026-11-28: "A Casa Assombrada" (Dickens) saiu do catalogo — o unico
+# EPUB PT do z-library e a antologia inglesa The Haunted House.
 EXCLUIR = {3, 56, 57, 58}
 
 # subpasta por eixo da estante -> destino no acervo
@@ -697,6 +699,120 @@ COMPLEMENTARES = [
      ["literatura", "romance", "mexicano"], 1981),
     ("A Casa dos Espíritos", "Isabel Allende", "media", "mexicano",
      "La casa de los espíritus", ["literatura", "romance", "chileno"], 1982),
+    # ===================================================================
+    # AMPLIACAO 2026-11-28 — rodada saturada (253/253). Instrucao permanente
+    # do William (2026-11-18): catalogo saturado NAO encerra a rodada.
+    # 43 alvos NOVOS, cada um com exemplar PT-BR confirmado por busca no
+    # eAPI (busca nao gasta cota). Nenhum existe em data/biblioteca/.
+    # ===================================================================
+    # --- Clarice / Graciliano / Lima Barreto: lacunas do canone brasileiro ---
+    ("Água Viva", "Clarice Lispector", "alta", "brasileira",
+     "Agua Viva", ["literatura", "romance", "brasileira"], 1973),
+    ("A Maçã no Escuro", "Clarice Lispector", "alta", "brasileira",
+     "The Apple in the Dark", ["literatura", "romance", "brasileira"], 1961),
+    ("Caetés", "Graciliano Ramos", "media", "brasileira",
+     "Caetes", ["literatura", "romance", "brasileira"], 1933),
+    ("O Cemitério dos Vivos", "Lima Barreto", "media", "brasileira",
+     "Cemiterio dos Vivos", ["literatura", "romance", "brasileira"], 1953),
+    ("Iaiá Garcia", "Machado de Assis", "alta", "brasileira",
+     "Iaia Garcia", ["literatura", "romance", "brasileira", "prova-ipb"], 1878),
+    ("A Carne", "Júlio Ribeiro", "baixa", "brasileira",
+     "A Carne", ["literatura", "romance", "brasileira", "naturalismo"], 1888),
+    # --- Eca: as 3 obras que faltavam do ciclo realista ---
+    ("O Crime do Padre Amaro", "Eça de Queiroz", "alta", "portugues",
+     "O Crime do Padre Amaro",
+     ["literatura", "romance", "canon-literario", "portugues", "prova-ipb"], 1875),
+    ("A Cidade e as Serras", "Eça de Queiroz", "alta", "portugues",
+     "A Cidade e as Serras",
+     ["literatura", "romance", "canon-literario", "portugues"], 1901),
+    ("A Ilustre Casa de Ramires", "Eça de Queiroz", "media", "portugues",
+     "A Ilustre Casa de Ramires",
+     ["literatura", "romance", "canon-literario", "portugues"], 1900),
+    # --- portugues/romantico: o unico Herculano que falta ---
+    ("Eurico, o Presbítero", "Alexandre Herculano", "media", "portugues",
+     "Eurico o Presbitero",
+     ["literatura", "romance", "romantismo", "portugues"], 1844),
+    # --- russos: as obras curtas que faltam ---
+    ("O Adolescente", "Fiódor Dostoiévski", "alta", "russo",
+     "The Adolescent", ["literatura", "romance", "canon-literario", "russo"], 1875),
+    ("Memórias do Subsolo", "Fiódor Dostoiévski", "alta", "russo",
+     "Notes from Underground",
+     ["literatura", "novela", "canon-literario", "russo"], 1864),
+    ("A Morte de Ivan Ilitch", "Liev Tolstói", "alta", "russo",
+     "The Death of Ivan Ilyich",
+     ["literatura", "novela", "canon-literario", "russo"], 1886),
+    # --- franceses do seculo XIX ---
+    ("Thérèse Raquin", "Émile Zola", "media", "frances",
+     "Therese Raquin", ["literatura", "romance", "naturalismo", "frances"], 1867),
+    ("O Pai Goriot", "Honoré de Balzac", "alta", "frances",
+     "Father Goriot", ["literatura", "romance", "canon-literario", "frances"], 1835),
+    ("Eugénie Grandet", "Honoré de Balzac", "alta", "frances",
+     "Eugenie Grandet",
+     ["literatura", "romance", "canon-literario", "frances"], 1833),
+    # --- ingleses: buracos grandes do canon anglo-saxao ---
+    ("Robinson Crusoé", "Daniel Defoe", "alta", "anglo-saxoes",
+     "Robinson Crusoe", ["literatura", "romance", "canon-literario", "ingles"], 1719),
+    ("Mansfield Park", "Jane Austen", "alta", "anglo-saxoes",
+     "Mansfield Park", ["literatura", "romance", "canon-literario", "ingles"], 1814),
+    ("Razão e Sensibilidade", "Jane Austen", "alta", "anglo-saxoes",
+     "Sense and Sensibility",
+     ["literatura", "romance", "canon-literario", "ingles"], 1811),
+    ("Villette", "Charlotte Brontë", "media", "anglo-saxoes",
+     "Villette", ["literatura", "romance", "canon-literario", "ingles"], 1853),
+    ("Tempos Difíceis", "Charles Dickens", "alta", "anglo-saxoes",
+     "Hard Times", ["literatura", "romance", "canon-literario", "ingles"], 1854),
+    ("Silas Marner", "George Eliot", "alta", "anglo-saxoes",
+     "Silas Marner", ["literatura", "romance", "canon-literario", "ingles"], 1861),
+    ("O Moinho à Beira do Floss", "George Eliot", "media", "anglo-saxoes",
+     "The Mill on the Floss",
+     ["literatura", "romance", "canon-literario", "ingles"], 1860),
+    ("Adam Bede", "George Eliot", "media", "anglo-saxoes",
+     "Adam Bede", ["literatura", "romance", "canon-literario", "ingles"], 1859),
+    ("Daniel Deronda", "George Eliot", "media", "anglo-saxoes",
+     "Daniel Deronda", ["literatura", "romance", "canon-literario", "ingles"], 1876),
+    ("Ao Farol", "Virginia Woolf", "alta", "modernismo",
+     "To the Lighthouse", ["literatura", "romance", "modernismo", "ingles"], 1927),
+    ("As Ondas", "Virginia Woolf", "alta", "modernismo",
+     "The Waves", ["literatura", "romance", "modernismo", "ingles"], 1931),
+    ("Ulisses", "James Joyce", "alta", "modernismo",
+     "Ulysses", ["literatura", "romance", "modernismo", "ingles"], 1922),
+    ("Por Quem os Sinos Dobram", "Ernest Hemingway", "alta", "anglo-saxoes",
+     "For Whom the Bell Tolls",
+     ["literatura", "romance", "canon-literario", "ingles"], 1940),
+    ("Adeus às Armas", "Ernest Hemingway", "media", "anglo-saxoes",
+     "A Farewell to Arms", ["literatura", "romance", "ingles"], 1929),
+    ("As Aventuras de Augie March", "Saul Bellow", "media", "anglo-saxoes",
+     "The Adventures of Augie March",
+     ["literatura", "romance", "canon-literario", "ingles"], 1953),
+    ("Lolita", "Vladimir Nabokov", "alta", "anglo-saxoes",
+     "Lolita", ["literatura", "romance", "canon-literario", "ingles"], 1955),
+    ("O Apanhador no Campo de Centeio", "J. D. Salinger", "alta", "anglo-saxoes",
+     "The Catcher in the Rye",
+     ["literatura", "romance", "canon-literario", "ingles"], 1951),
+    # --- gotico / aventura / fantastico (degraus baixos da rampa) ---
+    ("Drácula", "Bram Stoker", "alta", "anglo-saxoes",
+     "Dracula", ["literatura", "romance", "gotico", "ingles"], 1897),
+    ("O Médico e o Monstro", "Robert Louis Stevenson", "alta", "anglo-saxoes",
+     "Strange Case of Dr Jekyll and Mr Hyde",
+     ["literatura", "novela", "gotico", "ingles"], 1886),
+    ("A Ilha do Tesouro", "Robert Louis Stevenson", "alta", "anglo-saxoes",
+     "Treasure Island",
+     ["literatura", "romance", "aventura", "ingles"], 1883),
+    ("O Homem Invisível", "H. G. Wells", "alta", "anglo-saxoes",
+     "The Invisible Man",
+     ["literatura", "romance", "ficcao-cientifica", "ingles"], 1897),
+    ("A Guerra dos Mundos", "H. G. Wells", "alta", "anglo-saxoes",
+     "The War of the Worlds",
+     ["literatura", "romance", "ficcao-cientifica", "ingles"], 1898),
+    ("O Fantasma de Canterville", "Oscar Wilde", "alta", "anglo-saxoes",
+     "The Canterville Ghost",
+     ["literatura", "conto", "ingles"], 1887),
+    # CORRIGIDO 2026-11-28: o EPUB do z-library rotulado "Contos de Fadas /
+    # Fairy Tales" e a antologia "Os melhores Contos de Fadas Celtas" (Editora
+    # Wish, varios autores) — ZERO Wilde. A edicao real em PT-BR e a bilingue
+    # "O Principe Feliz e outros contos" (Landmark), que ja esta no acervo.
+    ("O Príncipe Feliz e outros contos", "Oscar Wilde", "media", "anglo-saxoes",
+     "The Happy Prince and Other Tales", ["literatura", "conto", "ingles"], 1888),
 ]
 
 # ---------------------------------------------------------------------------
