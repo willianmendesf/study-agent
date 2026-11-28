@@ -2060,3 +2060,58 @@ câncer · [150] Doença de Alzheimer · [1764] O problema da dor (Lewis) · [15
 (Livro IV e IX) · [320] Envelhecendo com Graça · [421] O Pastor e o Aconselhamento.
 Nota: `data/estudos/notas/vida-crista/luto-o-que-existe-no-bookorbit.md` → Memos
 `memos/7LC2PbsocbMgrB5akLf9ie`.
+
+---
+
+## 📚 Dois volumes só em .md agora em EPUB no BookOrbit (2026-11-25 11:50 BRT)
+
+**Pedido do William:** "se os arquivos existem e estão localmente, sobe no bookorbit, se não
+existe baixa e sobe." (Depois de eu dizer que Coletâneas Vol VIII e o Manual de Perguntas
+Difíceis não estavam no app.)
+
+**Descoberta:** os dois **existiam localmente como `.md`** (extraídos de PDF em set/out). Não
+havia nada a baixar — faltava converter em EPUB (o BookOrbit não lê `.md`).
+
+| livro | `.md` de origem | bookId |
+|---|---|---|
+| Coletâneas de Aconselhamento Bíblico — Vol. 8 (CCEF/SBPV, 13 artigos) | `data/biblioteca/aconselhamento/Coletanias_de_Aconselhamento_Biblico-Volume_VIII.md` | **2309** |
+| Manual Bíblico das Questões Difíceis e Polêmicas — André Sanchez (245 perguntas) | `data/biblioteca/manuais-biblicos/06-Manual-biblico-perguntas-dificeis-polemicas.md` | **2308** |
+
+Ambos com título e autor corretos no app (`/books/André Sanchez/...` e
+`/books/Vários autores (CCEF)/...`). EPUBs guardados em `~/ebooks-gerados/` (fora do repo).
+
+**Ferramenta nova:** `scripts/md2epub.py` (+ spec JSON). Dois modos: `capitulos_por_linha`
+(lista explícita — Vol. 8, cujo sumário em small-caps vem quebrado) e `capitulos_por_titulo`
+(casa o sumário pontilhado com o corpo por squash — Manual, 245/259 casados).
+Limpa `(cid:138)`, texto vertical de capa, cabeçalho corrido, número de página, hifenização.
+
+**🐛 Bug corrigido:** fatiar a lista de linhas para pular capa/frontmatter **desloca todos os
+índices** → cada capítulo começava no meio do anterior. Agora linha descartada vira `""`
+(índices preservados). **Regra: spec que referencia número de linha do arquivo original exige
+que a limpeza preserve os índices.**
+
+**Conteúdo que interessa ao caso do luto:** Vol. 8 cap. 7 = "A Dor da Perda" (Paul Randolph,
+4.431 palavras — desmonta Kübler-Ross); Manual cap. 16 = "Minha esposa está doente e eu não
+consigo ficar sem sexo".
+
+**Limite da conta `study-agent`:** só `library_upload` — não apaga nem corrige metadado.
+Nota: `data/estudos/notas/vida-crista/dois-volumes-agora-no-bookorbit.md`. Lint: 0 erro novo.
+Commits `3f9e99d` (data) e `4bbaf8b` (repo), pushados.
+
+## 📚 Alfred Edersheim — acervo completo (2026-11-28 03:50 BRT)
+
+- **Pedido:** "ache livros em PT ou Espanhol deste autor: Alfred Edersheim … sim, e em ingles tbm, se é o que tem."
+- **PT-BR: ZERO.** Nunca foi traduzido de forma sistemática. Busquei por autor, por título de cada obra e por editora (Vida Nova, Cultura Cristã, Fiel, CPAD, Shedd) nas 8 contas. É **compra impossível** (não há edição).
+- **ES: 12 obras** (Editorial CLIE é quem traduziu o corpo principal):
+  - *La vida y los tiempos de Jesús el Mesías* (CLIE 1988, 856 p., 2,6 MB de .md)
+  - *Historia de la Biblia AT* vols. I, II, IV, V, VII (faltam III e VI — não existem no z-library)
+  - *Comentario Bíblico Histórico Ilustrado* livros 01 (Gênesis), 02 (Êxodo–Deuteronômio), 03 (Josué–Juízes–Rute) — é a edição ilustrada/reorganizada da MESMA História; o vol. III que falta na série simples é o Livro 03 aqui
+  - *El Templo* (já estava; edição CLIE 2015 é o mesmo texto da Portavoz)
+  - *Esbozos de la vida social judía* (Barret Press 2016)
+- **EN: 6 obras** — *The Life and Times of Jesus the Messiah* (1883) + Vol. 2 · *Messianic Passages in the OT as Cited in Rabbinic Literature* (com R. C. Newman) · *The Temple* · *Sketches of Jewish Social Life* · *Bible History OT* (os 7 vol. numa edição).
+- **Total: 15 .md novos** (12 ES + 6 EN, com o Templo ES já existente) em `messias/`, `historia-biblica/`, `cultura-textos-biblicos/`, `comentarios-biblicos/`. KBs: kb-messias 8 · kb-historia-biblica 25 · kb-cultura-textos-biblicos 6 · kb-comentarios-biblicos 102.
+- **Índice/ordem de leitura:** `data/estudos/notas/biblioteca-edersheim/01-edersheim-acervo-completo.md`.
+- **Ressalva registrada na nota:** insubstituível no background judaico (Talmude, Mishná, costumes), mas **tipologia generosa demais** para a lente reformada — usar como contexto/cultura, não como doutrina.
+- **🐛 2 bugs de EPUB corrigidos:** (1) o catalogador automático jogou 6 entradas em `kb-fragmentos-livros` (o balde de "não sei onde") — movidas para as KBs certas com tags; (2) 2 EPUBs da z-library tinham entidades HTML nomeadas (`&nbsp;`, `&pound;`) que o `xml.etree` rejeita — convertidas para numéricas antes do upload (validação XML obrigatória pegou).
+- **BookOrbit e Memos OFFLINE** (tailnet: `ebooks` e `memos` "offline, last seen 1h ago"). Os 15 arquivos estão prontos em `/tmp/edersheim/upload/` com metadado `Alfred Edersheim - <Título>.<ext>`; sobem quando o app voltar.
+- **Cota z-library usada:** 17 dos 80 downloads do dia.
