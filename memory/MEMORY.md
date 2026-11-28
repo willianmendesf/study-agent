@@ -2115,3 +2115,21 @@ Commits `3f9e99d` (data) e `4bbaf8b` (repo), pushados.
 - **🐛 2 bugs de EPUB corrigidos:** (1) o catalogador automático jogou 6 entradas em `kb-fragmentos-livros` (o balde de "não sei onde") — movidas para as KBs certas com tags; (2) 2 EPUBs da z-library tinham entidades HTML nomeadas (`&nbsp;`, `&pound;`) que o `xml.etree` rejeita — convertidas para numéricas antes do upload (validação XML obrigatória pegou).
 - **BookOrbit e Memos OFFLINE** (tailnet: `ebooks` e `memos` "offline, last seen 1h ago"). Os 15 arquivos estão prontos em `/tmp/edersheim/upload/` com metadado `Alfred Edersheim - <Título>.<ext>`; sobem quando o app voltar.
 - **Cota z-library usada:** 17 dos 80 downloads do dia.
+
+---
+
+## ⏰ Janela do BookOrbit e do Memos — 05:00–23:00 BRT (William, 2026-11-28 03:57)
+
+**Pedido literal:** "O Book Orbit inicia as 5am e desliga as 23pm, tanto ele como o memos."
+
+**Regra durável:** os dois serviços só existem entre **05:00 e 23:00 BRT** (= 08:00–02:00 UTC).
+Fora dessa janela qualquer chamada gasta timeout e falha — não é "serviço caído", é o app dormindo.
+Ao reportar indisponibilidade, checar a hora primeiro.
+
+**Aplicado:**
+- `reenvio-orbit-automatico.sh` (cron do sistema): `*/15 * * * *` → `*/15 8-23,0-2 * * *`.
+- Novo `scripts/subir-edersheim.sh` com o mesmo horário (fila própria em
+  `~/ebooks-gerados/edersheim-pendente/`, checa `/api/v1/health` e sai em 0 se dormindo).
+- Rotina do bibliotecário roda 21:15 BRT — dentro da janela, então a fase de upload funciona.
+
+**Detalhes:** `memory/202611/20261128-edersheim-janela-orbit.md`.
